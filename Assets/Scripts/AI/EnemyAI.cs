@@ -69,7 +69,7 @@ public class EnemyAI : MonoBehaviour
 
     private bool TryTakeEnemyActionAI(Action onActionComplete)
     {
-        var enemyUnitList = UnitManager.Instance.GetEnemyUnitList();
+        var enemyUnitList = UnitManager.Instance.EnemyUnitList;
         foreach (var enemyUnit in enemyUnitList)
         {
             if (TryTakeEnemyActionAI(enemyUnit, onActionComplete)) return true;

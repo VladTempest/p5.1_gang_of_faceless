@@ -116,7 +116,7 @@ public class MoveAction : BaseAction
 
     private static int GetActionValueForMovingToNearest(GridPosition gridPosition)
     {
-        var friendlyUnitList = UnitManager.Instance.GetFriendlyUnitList();
+        var friendlyUnitList = UnitManager.Instance.FriendlyUnitList;
 
         var nearestFriendlyUnitDistance = float.MaxValue;
         var currentDistanceFromEnemyToFriendlyUnit = int.MaxValue;

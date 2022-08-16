@@ -6,7 +6,12 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance { get; private set; }
-    
+
+    public List<Unit> UnitList => _unitList;
+    public List<Unit> FriendlyUnitList => _friendlyUnitList;
+    public List<Unit> EnemyUnitList => _enemyUnitList;
+   
+
     private List<Unit> _unitList;
     private List<Unit> _friendlyUnitList;
     private List<Unit> _enemyUnitList;
@@ -60,20 +65,5 @@ public class UnitManager : MonoBehaviour
         {
             _friendlyUnitList.Remove(unit);
         }
-    }
-
-    public List<Unit> GetUnitList()
-    {
-        return _unitList;
-    }
-    
-    public List<Unit> GetFriendlyUnitList()
-    {
-        return _friendlyUnitList;
-    }
-    
-    public List<Unit> GetEnemyUnitList()
-    {
-        return _enemyUnitList;
     }
 }
