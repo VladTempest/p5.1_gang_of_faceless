@@ -8,10 +8,15 @@ namespace GridSystems
 {
     public class GridSystem<TGridObject>
     {
+        public int Width =>_width;
+
+        public int Height => _height;
+        
         private int _width;
         private int _height;
         private readonly float _cellSize;
         private TGridObject[,] _gridObjectArray;
+
 
         public GridSystem(int width, int height, float cellSize, Func<GridSystem<TGridObject>, GridPosition, TGridObject> createGridObject)
         {
@@ -68,16 +73,5 @@ namespace GridSystems
                    gridPosition.x < _width && 
                    gridPosition.z < _height;
         }
-
-        public int GetWidth()
-        {
-            return _width;
-        }
-
-        public int GetHeight()
-        {
-            return _height;
-        }
-
     }
 }

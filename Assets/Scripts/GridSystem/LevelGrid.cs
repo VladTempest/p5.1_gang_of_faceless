@@ -49,7 +49,7 @@ namespace GridSystems
         public List<Unit> GetUnitListAtGriPosition(GridPosition gridPosition)
         {
             GridObject gridObject = _gridSystem.GetGridObject(gridPosition);
-            return gridObject.GetUnitList();
+            return gridObject.UnitList;
         }
 
         public void RemoveUnitAtGridPosition(GridPosition gridPosition, Unit unit)
@@ -73,19 +73,19 @@ namespace GridSystems
 
         public bool IsValidGridPosition(GridPosition gridPosition) => _gridSystem.IsValidGridPosition(gridPosition);
 
-        public int GetWidth() => _gridSystem.GetWidth();
-        public int GetHeight() => _gridSystem.GetHeight();
+        public int GetWidth() => _gridSystem.Width;
+        public int GetHeight() => _gridSystem.Height;
 
         public bool HasAnyUnitOnGridPosition(GridPosition gridPosition)
         {
             GridObject gridObject = _gridSystem.GetGridObject(gridPosition);
-            return gridObject.HasAnyUnit();
+            return gridObject.HasAnyUnit;
         }
         
         public Unit GetUnitAtGridPosition(GridPosition gridPosition)
         {
             GridObject gridObject = _gridSystem.GetGridObject(gridPosition);
-            return gridObject.GetUnit();
+            return gridObject.Unit;
         }
 
         public IInteractable GetInteractableAtGridPosition(GridPosition gridPosition)

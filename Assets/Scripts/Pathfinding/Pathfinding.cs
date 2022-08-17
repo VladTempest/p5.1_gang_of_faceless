@@ -67,9 +67,9 @@ public class Pathfinding : MonoBehaviour
         PathNode endNode = _gridSystem.GetGridObject(endGridPosition);
         openList.Add(startNode);
 
-        for (int x = 0; x < _gridSystem.GetWidth(); x++)
+        for (int x = 0; x < _gridSystem.Width; x++)
         {
-            for (int z = 0; z < _gridSystem.GetHeight(); z++)
+            for (int z = 0; z < _gridSystem.Height; z++)
             {
                 GridPosition gridPosition = new GridPosition(x, z);
                 PathNode pathNode = _gridSystem.GetGridObject(gridPosition);
@@ -239,6 +239,6 @@ public class Pathfinding : MonoBehaviour
 
     private bool IsPositionValid(int gridPositionX, int gridPositionZ)
     {
-        return gridPositionX >= 0 && gridPositionX < _gridSystem.GetWidth() && gridPositionZ >= 0 && gridPositionZ < _gridSystem.GetHeight();
+        return gridPositionX >= 0 && gridPositionX < _gridSystem.Width && gridPositionZ >= 0 && gridPositionZ < _gridSystem.Height;
     }
 }
