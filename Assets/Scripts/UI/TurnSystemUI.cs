@@ -31,16 +31,16 @@ public class TurnSystemUI : MonoBehaviour
 
     private void UpdateTurnText()
     {
-        _turnNumberText.text = $"TURN {TurnSystem.Instance.GetCurrentTurnNumber()}";
+        _turnNumberText.text = $"TURN {TurnSystem.Instance.CurrentTurnNumber}";
     }
 
     private void UpdateEnemyTurnVisual()
     {
-        _enemyTurnVisualGameObject.SetActive(!TurnSystem.Instance.IsPlayerTurn());
+        _enemyTurnVisualGameObject.SetActive(!TurnSystem.Instance.IsPlayerTurn);
     }
 
     private void UpdateEndTurnButtonVisibility()
     {
-        _endTurnButton.gameObject.SetActive(TurnSystem.Instance.IsPlayerTurn());
+        _endTurnButton.gameObject.SetActive(TurnSystem.Instance.IsPlayerTurn);
     }
 }

@@ -28,7 +28,7 @@ public class EnemyAI : MonoBehaviour
 
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
-        if (!TurnSystem.Instance.IsPlayerTurn())
+        if (!TurnSystem.Instance.IsPlayerTurn)
         {
             _state = State.TakingTurn;
             _timer = 2f;
@@ -37,7 +37,7 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if (TurnSystem.Instance.IsPlayerTurn())
+        if (TurnSystem.Instance.IsPlayerTurn)
         {
             return;
         }

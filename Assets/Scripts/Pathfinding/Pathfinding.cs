@@ -74,15 +74,15 @@ public class Pathfinding : MonoBehaviour
                 GridPosition gridPosition = new GridPosition(x, z);
                 PathNode pathNode = _gridSystem.GetGridObject(gridPosition);
                 
-                pathNode.SetGCost(int.MaxValue);
-                pathNode.SetHCost(0);
+                pathNode.GCost= int.MaxValue;
+                pathNode.HCost = 0;
                 pathNode.CalculateFCost();
                 pathNode.ResetCameFromPathNode();
             }   
         }
         
-        startNode.SetGCost(0);
-        startNode.SetHCost(CalculateDistance(startGridPosition, endGridPosition));
+        startNode.GCost = 0;
+        startNode.HCost = CalculateDistance(startGridPosition, endGridPosition);
         startNode.CalculateFCost();
 
         while (openList.Count > 0)
@@ -91,7 +91,7 @@ public class Pathfinding : MonoBehaviour
 
             if (currentNode == endNode)
             {
-                pathLength = endNode.GetFCost();
+                pathLength = endNode.FCost;
                 return CalculatePath(endNode);
             }
 
@@ -111,14 +111,14 @@ public class Pathfinding : MonoBehaviour
                     continue;
                 }
                 
-                int tentativeGCost = currentNode.GetGCost() +
-                                     CalculateDistance(currentNode.GetGridPosition(), neighbourNode.GetGridPosition());
+                int tentativeGCost = currentNode.GCost +
+                                     CalculateDistance(currentNode.GridPosition, neighbourNode.GridPosition);
 
-                if (tentativeGCost < neighbourNode.GetGCost())
+                if (tentativeGCost < neighbourNode.GCost)
                 {
-                    neighbourNode.SetCameFromPathNode(currentNode);
-                    neighbourNode.SetGCost(tentativeGCost);
-                    neighbourNode.SetHCost(CalculateDistance(neighbourNode.GetGridPosition(), endGridPosition));
+                    neighbourNode.CameFromPathNode = currentNode;
+                    neighbourNode.GCost = tentativeGCost;
+                    neighbourNode.HCost = CalculateDistance(neighbourNode.GridPosition, endGridPosition);
                     neighbourNode.CalculateFCost();
 
                     if (!openList.Contains(neighbourNode))
@@ -171,17 +171,17 @@ public class Pathfinding : MonoBehaviour
         List<PathNode> pathNodeList = new List<PathNode>();
         pathNodeList.Add(endNode);
         PathNode currentNode = endNode;
-        while (currentNode.GetCameFromPathNode() != null)
+        while (currentNode.CameFromPathNode != null)
         {
-            pathNodeList.Add(currentNode.GetCameFromPathNode());
-            currentNode = currentNode.GetCameFromPathNode();
+            pathNodeList.Add(currentNode.CameFromPathNode);
+            currentNode = currentNode.CameFromPathNode;
         }
         pathNodeList.Reverse();
 
         List<GridPosition> gridPositionList = new List<GridPosition>();
         foreach (var pathNode in pathNodeList)
         {
-            gridPositionList.Add(pathNode.GetGridPosition());
+            gridPositionList.Add(pathNode.GridPosition);
         }
         
         return gridPositionList;
@@ -192,7 +192,7 @@ public class Pathfinding : MonoBehaviour
         PathNode lowestFCostPathNode = pathNodeList[0];
         for (int i = 0; i < pathNodeList.Count; i++)
         {
-            if (pathNodeList[i].GetFCost() < lowestFCostPathNode.GetFCost())
+            if (pathNodeList[i].FCost < lowestFCostPathNode.FCost)
             {
                 lowestFCostPathNode = pathNodeList[i];
             }
@@ -205,7 +205,7 @@ public class Pathfinding : MonoBehaviour
     {
         List<PathNode> neighbors = new List<PathNode>();
 
-        GridPosition gridPosition = currenNode.GetGridPosition();
+        GridPosition gridPosition = currenNode.GridPosition;
         
         TryAddToNeighboursList(neighbors, gridPosition.x-1, gridPosition.z);
         TryAddToNeighboursList(neighbors, gridPosition.x-1, gridPosition.z-1);
