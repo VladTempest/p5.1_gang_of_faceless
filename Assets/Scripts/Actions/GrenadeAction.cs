@@ -24,7 +24,7 @@ public class GrenadeAction : BaseAction
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         Transform grenadeProjectileTransform = Instantiate(_grenadeProjectilePrefab, _unit
-            .GetWorldPosition(), Quaternion.identity);
+            .WorldPosition, Quaternion.identity);
         GrenadeProjectile grenadeProjectile = grenadeProjectileTransform.GetComponent<GrenadeProjectile>();
         grenadeProjectile.Setup(gridPosition, OnGrenadeBehaviourComplete);
         

@@ -11,6 +11,11 @@ public class Unit : MonoBehaviour
     public static event EventHandler OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
 
+    public int ActionPoints => _actionPoint;
+    public bool IsUnitAnEnemy => _isEnemy;
+    public Vector3 WorldPosition => transform.position;
+    public float HealthNormalised => _healthSystem.GetNormalisedValueOfHealth();
+    
     [SerializeField] private int ACTION_POINT_MAX = 2;
     [SerializeField] private bool _isEnemy;
 
@@ -18,7 +23,7 @@ public class Unit : MonoBehaviour
     private GridPosition _currentGridPosition;
     private BaseAction[] _baseActionArray;
     private int _actionPoint = 2;
-    
+
 
     private void Awake()
     {
@@ -48,7 +53,7 @@ public class Unit : MonoBehaviour
             LevelGrid.Instance.UnitMovedGriPosition(this, oldGridPosition, newGridPosition);
         } 
     }
-    
+
     public GridPosition GetGridPosition()
     {
         return _currentGridPosition;
@@ -82,11 +87,6 @@ public class Unit : MonoBehaviour
         OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public int GetActionPoints()
-    {
-        return _actionPoint;
-    }
-
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
         if ((_isEnemy && !TurnSystem.Instance.IsPlayerTurn) || (!_isEnemy && TurnSystem.Instance.IsPlayerTurn))
@@ -95,11 +95,6 @@ public class Unit : MonoBehaviour
 
             OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
         }
-    }
-
-    public bool IsUnitAnEnemy()
-    {
-        return _isEnemy;
     }
 
     public void Damage(int damageAmount, Vector3 damageSourcePosition)
@@ -116,15 +111,6 @@ public class Unit : MonoBehaviour
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
     }
 
-    public Vector3 GetWorldPosition()
-    {
-        return transform.position;
-    }
-
-    public float GetHealthNormalised()
-    {
-        return _healthSystem.GetNormalisedValueOfHealth();
-    }
 
     public T GetAction<T>() where T : BaseAction
     {

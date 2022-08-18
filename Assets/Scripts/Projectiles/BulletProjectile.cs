@@ -12,11 +12,13 @@ public class BulletProjectile : MonoBehaviour
 
     private void Update()
     {
-        Vector3 moveDirection = (_targetPosition - transform.position).normalized;
+        var position = transform.position;
+        Vector3 moveDirection = (_targetPosition - position).normalized;
 
-        float distanceBeforeMoving = Vector3.Distance(transform.position, _targetPosition);
-        transform.position += moveDirection * _moveSpeed * Time.deltaTime;
-        float distanceAfterMoving = Vector3.Distance(transform.position, _targetPosition);
+        float distanceBeforeMoving = Vector3.Distance(position, _targetPosition);
+        position += moveDirection * _moveSpeed * Time.deltaTime;
+        transform.position = position;
+        float distanceAfterMoving = Vector3.Distance(position, _targetPosition);
         if (distanceAfterMoving > distanceBeforeMoving)
         {
             transform.position = _targetPosition;

@@ -42,7 +42,7 @@ public class UnitManager : MonoBehaviour
         Unit unit = sender as Unit;
         _unitList.Add(unit);
         
-        if (unit.IsUnitAnEnemy())
+        if (unit.IsUnitAnEnemy)
         {
             _enemyUnitList.Add(unit);
         }
@@ -57,7 +57,7 @@ public class UnitManager : MonoBehaviour
         Unit unit = sender as Unit;
         _unitList.Remove(unit);
         
-        if (unit.IsUnitAnEnemy())
+        if (unit.IsUnitAnEnemy)
         {
             _enemyUnitList.Remove(unit);
         }

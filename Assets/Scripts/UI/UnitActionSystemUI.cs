@@ -86,6 +86,6 @@ public class UnitActionSystemUI : MonoBehaviour
    private void UpdateActionPoint()
    {
       Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
-      _actionPointsText.text = $"Action points: {selectedUnit.GetActionPoints()}";
+      _actionPointsText.text = $"Action points: {selectedUnit.ActionPoints}";
    }
 }

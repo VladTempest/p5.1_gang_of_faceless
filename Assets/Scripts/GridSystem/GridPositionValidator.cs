@@ -20,7 +20,7 @@ namespace DefaultNamespace
         public static bool IsGridPositionWithEnemy(GridPosition testGridPosition, Unit sourceUnit)
         {
             var targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
-            return targetUnit.IsUnitAnEnemy() != sourceUnit.IsUnitAnEnemy();
+            return targetUnit.IsUnitAnEnemy != sourceUnit.IsUnitAnEnemy;
         }
 
         public static bool IsPositionInsideActionRange(int actionRange, GridPosition testGridPosition, GridPosition unitGridPosition)

@@ -45,7 +45,7 @@ public class ShootAction : BaseAction
         switch (_state)
         {
          case State.Aiming:
-             Vector3 aimDirection = (_targetUnit.GetWorldPosition() - _unit.GetWorldPosition()).normalized;
+             Vector3 aimDirection = (_targetUnit.WorldPosition - _unit.WorldPosition).normalized;
              transform.forward = Vector3.Lerp(transform.forward,aimDirection, Time.deltaTime*_rotateSpeed);
              break;
          case State.Shooting:
@@ -173,7 +173,7 @@ public class ShootAction : BaseAction
         return new EnemyAIAction
         {
             gridPosition = gridPosition,
-            actionValue = 10000 + Mathf.RoundToInt((1 - targetUnit.GetHealthNormalised())*100f)
+            actionValue = 10000 + Mathf.RoundToInt((1 - targetUnit.HealthNormalised)*100f)
         };
     }
 

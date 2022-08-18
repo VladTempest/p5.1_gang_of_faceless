@@ -56,7 +56,7 @@ public class UnitAnimator : MonoBehaviour
         _unitAnimator.SetTrigger(Shoot);
 
         Transform _bulletProjectiile = Instantiate(_bulletProjectiilePrefab, _shootPoint.position, Quaternion.identity).transform;
-        var targetWorldPosition = e.targetUnit.GetWorldPosition();
+        var targetWorldPosition = e.targetUnit.WorldPosition;
 
         targetWorldPosition.y = _shootPoint.position.y;
         _bulletProjectiile.GetComponent<BulletProjectile>().Setup(targetWorldPosition);
