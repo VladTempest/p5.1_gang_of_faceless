@@ -39,7 +39,7 @@ public class GrenadeAction : BaseAction
             return false;
         }
         
-        if (!GridPositionValidator.IsPositionInsideActionRange(_actionRange, testGridPosition, unitGridPosition)) return false;;
+        if (!GridPositionValidator.IsPositionInsideActionRange(ActionRange, testGridPosition, unitGridPosition)) return false;;
 
         if (!GridPositionValidator.IsGridPositionOnLineOfSight(testGridPosition, unitGridPosition,
                 _obstaclesLayerMask))

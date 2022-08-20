@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using GridSystems;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class BaseAction : MonoBehaviour
 {
     public static event EventHandler OnAnyActionStarted;
     public static event EventHandler OnAnyActionCompleted;
 
-    [SerializeField] public int _actionRange = 0;
+    public int ActionRange = 0;
     
     protected Unit _unit;
     protected bool _isActive;
@@ -43,9 +44,9 @@ public abstract class BaseAction : MonoBehaviour
         List<GridPosition> validGridPositionList = new List<GridPosition>();
         GridPosition unitGridPosition = _unit.GetGridPosition();
         
-        for (int x = -_actionRange; x <= _actionRange; x++)
+        for (int x = -ActionRange; x <= ActionRange; x++)
         {
-            for (int z = -_actionRange; z <= _actionRange; z++)
+            for (int z = -ActionRange; z <= ActionRange; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;

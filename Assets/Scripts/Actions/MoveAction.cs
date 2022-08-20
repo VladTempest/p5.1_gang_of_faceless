@@ -10,6 +10,10 @@ public class MoveAction : BaseAction
 {
     public event EventHandler OnStartMoving;
     public event EventHandler OnStopMoving;
+
+    private int ONE_GRID_MOVEMENT_COST = 2;
+    private int PATH_TO_POINT_MULTIPLIER = 10;
+    
     
     private static readonly int IsWalking = Animator.StringToHash("IsWalking");
 
@@ -18,6 +22,7 @@ public class MoveAction : BaseAction
     private float _stoppingDistance = 0.1f;
     private float _rotateSpeed = 30f;
     
+
 
     private void Update()
     {
@@ -79,7 +84,7 @@ public class MoveAction : BaseAction
             return false;
         }
 
-        if (!GridPositionValidator.IsGridPositionReachable(testGridPosition, unitGridPosition, _actionRange))
+        if (!GridPositionValidator.IsGridPositionReachable(testGridPosition, unitGridPosition, Mathf.FloorToInt(_unit.ActionPoints/2)))
         {
             return false;
         }
@@ -132,5 +137,13 @@ public class MoveAction : BaseAction
 
         var actionValueForMovingToNearest = Mathf.RoundToInt(1000 - currentDistanceFromEnemyToFriendlyUnit);
         return actionValueForMovingToNearest;
+    }
+    public override int GetActionPointCost()
+    {
+        var mousePosition = MouseWorld.GetPointerInWorldPosition();
+        var targetGridPosition = LevelGrid.Instance.GetGridPosition(mousePosition);
+        var currentPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        var pathLength = Pathfinding.Instance.GetPathLength(currentPosition, targetGridPosition);
+        return pathLength * ONE_GRID_MOVEMENT_COST / PATH_TO_POINT_MULTIPLIER;
     }
 }

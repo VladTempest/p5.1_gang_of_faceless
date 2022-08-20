@@ -18,7 +18,7 @@ public class Pathfinding : MonoBehaviour
     private GridSystem<PathNode> _gridSystem;
 
     private const int MOVE_STRAIGHT_COST = 10;
-    private const int MOVE_DIAGONAL_COST = 14;
+    private const int MOVE_DIAGONAL_COST = 20;
 
 
     private void Awake()

@@ -111,7 +111,7 @@ public class ShootAction : BaseAction
         _targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
         _state = State.Aiming;
-        float aimingStateTime = 1f;
+        float aimingStateTime = 2f;
         _stateTimer = aimingStateTime;
 
         _canShootBullet = true;
@@ -126,7 +126,7 @@ public class ShootAction : BaseAction
             return false;
         }
 
-        if (!GridPositionValidator.IsPositionInsideActionRange(_actionRange, testGridPosition, unitGridPosition))
+        if (!GridPositionValidator.IsPositionInsideActionRange(ActionRange, testGridPosition, unitGridPosition))
         {
             return false;
         }
@@ -164,7 +164,7 @@ public class ShootAction : BaseAction
 
     public int GetMaxShootDistance()
     {
-        return _actionRange;
+        return ActionRange;
     }
     
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)

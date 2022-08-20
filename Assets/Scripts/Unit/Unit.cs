@@ -16,13 +16,13 @@ public class Unit : MonoBehaviour
     public Vector3 WorldPosition => transform.position;
     public float HealthNormalised => _healthSystem.GetNormalisedValueOfHealth();
     
-    [SerializeField] private int ACTION_POINT_MAX = 2;
+    [SerializeField] private int ACTION_POINT_MAX = 10;
     [SerializeField] private bool _isEnemy;
 
     private HealthSystem _healthSystem;
     private GridPosition _currentGridPosition;
     private BaseAction[] _baseActionArray;
-    private int _actionPoint = 2;
+    private int _actionPoint = 10;
 
 
     private void Awake()
