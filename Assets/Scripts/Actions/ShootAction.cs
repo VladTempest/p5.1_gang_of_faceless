@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using DefaultNamespace;
 using GridSystems;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ShootAction : BaseAction
 {
     public static event EventHandler<OnShootEventArgs> OnAnyShoot;
     public event EventHandler<OnShootEventArgs> OnShoot;
+    public event EventHandler OnAiming;
 
     public class OnShootEventArgs : EventArgs
     {
@@ -18,9 +20,10 @@ public class ShootAction : BaseAction
     
     private enum State
     {
-        Aiming = 0,
-        Shooting = 1,
-        Cooloff = 2
+        Idle = 0,
+        Aiming = 1,
+        Shooting = 2,
+        Cooloff = 3
     }
 
     [SerializeField]
@@ -32,8 +35,14 @@ public class ShootAction : BaseAction
     private float _stateTimer;
     private Unit _targetUnit;
     private bool _canShootBullet;
+    private bool _alreadyAimed;
     private float _rotateSpeed = 10f;
-    float _unitShoulderHeight = 1.7f;
+    private float _unitShoulderHeight = 1.7f;
+    
+    [SerializeField] private float _shootingStateTime = 5f;
+    [SerializeField] private float _coolStateTime = 0.5f;
+    [SerializeField] private float _aimingStateTime = 2f;
+    [SerializeField] private float _idleStateTime = 2f;
     
 
     private void Update()
@@ -44,10 +53,17 @@ public class ShootAction : BaseAction
         
         switch (_state)
         {
-         case State.Aiming:
+         case State.Idle:
              Vector3 aimDirection = (_targetUnit.WorldPosition - _unit.WorldPosition).normalized;
              transform.forward = Vector3.Lerp(transform.forward,aimDirection, Time.deltaTime*_rotateSpeed);
              break;
+         case State.Aiming:
+             if (!_alreadyAimed)
+             {
+                 OnAiming?.Invoke(this, EventArgs.Empty);
+                 _alreadyAimed = true;
+             }
+                break;
          case State.Shooting:
              if (_canShootBullet)
              {
@@ -85,15 +101,17 @@ public class ShootAction : BaseAction
     {
         switch (_state)
         {
+            case State.Idle:
+                _state = State.Aiming;
+                _stateTimer = _shootingStateTime;
+                break;
             case State.Aiming:
                 _state = State.Shooting;
-                float shootingStateTime = 0.1f;
-                _stateTimer = shootingStateTime;
+                _stateTimer = _aimingStateTime;
                 break;
             case State.Shooting:
                 _state = State.Cooloff;
-                float coolOffStateTime = 0.5f;
-                _stateTimer = coolOffStateTime;
+                _stateTimer = _coolStateTime;
                 break;
             case State.Cooloff:
                 ActionComplete();
@@ -110,10 +128,10 @@ public class ShootAction : BaseAction
     {
         _targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
-        _state = State.Aiming;
-        float aimingStateTime = 2f;
-        _stateTimer = aimingStateTime;
+        _state = State.Idle;
+        _stateTimer = _idleStateTime;
 
+        _alreadyAimed = false;
         _canShootBullet = true;
         
         ActionStart(onActionComplete);

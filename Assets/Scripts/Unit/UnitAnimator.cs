@@ -7,6 +7,7 @@ public class UnitAnimator : MonoBehaviour
 {
     [SerializeField] private Animator _unitAnimator;
     [SerializeField] private GameObject _bulletProjectiilePrefab;
+    [SerializeField] private GameObject _arrowInHandPrefab;
     [SerializeField] private Transform _shootPoint;
 
     [SerializeField] private Transform _rifle;
@@ -26,13 +27,37 @@ public class UnitAnimator : MonoBehaviour
         if (TryGetComponent(out ShootAction shootAction))
         {
             shootAction.OnShoot += ShootAction_OnShoot;
+            shootAction.OnAiming += ShootAction_OnOnAiming;
         }
         if (TryGetComponent(out SwordAction swordAction))
         {
             swordAction.OnSwordActionCompleted += SwordActionOn_OnSwordActionCompleted;
             swordAction.OnSwordActionStarted += SwordActionOn_OnSwordActionStarted;
         }
+
+        if (TryGetComponent(out ArcherAnimationsEvents archerAnimationsEvents))
+        {
+            archerAnimationsEvents.OnGettingArrow += ArcherAnimationsEvents_OnOnGettingArrow;
+            archerAnimationsEvents.OnReleaseArrow += ArcherAnimationsEvents_OnOnReleaseArrow;
+        }
         
+        
+        
+    }
+
+    private void ArcherAnimationsEvents_OnOnReleaseArrow()
+    {
+        _arrowInHandPrefab.SetActive(false);
+    }
+
+    private void ArcherAnimationsEvents_OnOnGettingArrow()
+    {
+        _arrowInHandPrefab.SetActive(true);
+    }
+
+    private void ShootAction_OnOnAiming(object sender, EventArgs e)
+    {
+        _unitAnimator.SetTrigger(Shoot);
     }
 
     private void Start()
@@ -53,8 +78,6 @@ public class UnitAnimator : MonoBehaviour
 
     private void ShootAction_OnShoot(object sender, ShootAction.OnShootEventArgs e)
     {
-        _unitAnimator.SetTrigger(Shoot);
-
         Transform _bulletProjectiile = Instantiate(_bulletProjectiilePrefab, _shootPoint.position, Quaternion.identity).transform;
         var targetWorldPosition = e.targetUnit.WorldPosition;
 
