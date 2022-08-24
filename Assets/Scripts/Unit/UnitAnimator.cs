@@ -79,7 +79,7 @@ public class UnitAnimator : MonoBehaviour
 
     private void ShootAction_OnShoot(object sender, ShootAction.OnShootEventArgs e)
     {
-        Transform _bulletProjectiile = Instantiate(_bulletProjectiilePrefab, _shootPoint.position, Quaternion.identity).transform;
+        Transform _bulletProjectiile = Instantiate(_bulletProjectiilePrefab, _shootPoint.position, transform.rotation).transform;
         var targetWorldPosition = e.TargetUnit.WorldPosition;
 
         targetWorldPosition.y = _shootPoint.position.y;

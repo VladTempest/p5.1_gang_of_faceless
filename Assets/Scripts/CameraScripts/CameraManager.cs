@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CameraManager : MonoBehaviour
 {
@@ -38,6 +39,7 @@ public class CameraManager : MonoBehaviour
         switch (sender)
         {
             case ShootAction shootAction:
+                if (!IfWillTurnOnByRandom()) break;
                 Unit shooterUnit = shootAction.ActiveUnit;
                 Unit targetUnit = shootAction.TargetUnit;
                 Vector3 cameraCharacterHeight = Vector3.up * 1.7f;
@@ -52,5 +54,10 @@ public class CameraManager : MonoBehaviour
                 ShowActionCamera();
                 break;
         }
+    }
+
+    private static bool IfWillTurnOnByRandom()
+    {
+        return Random.Range(0, 10) < 3;
     }
 }
