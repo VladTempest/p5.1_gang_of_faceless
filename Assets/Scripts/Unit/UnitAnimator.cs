@@ -27,7 +27,7 @@ public class UnitAnimator : MonoBehaviour
         if (TryGetComponent(out ShootAction shootAction))
         {
             shootAction.OnShoot += ShootAction_OnShoot;
-            shootAction.OnAiming += ShootAction_OnOnAiming;
+            shootAction.OnActionStart += ShootActionOnOnActionStart;
         }
         if (TryGetComponent(out SwordAction swordAction))
         {
@@ -35,7 +35,8 @@ public class UnitAnimator : MonoBehaviour
             swordAction.OnSwordActionStarted += SwordActionOn_OnSwordActionStarted;
         }
 
-        if (TryGetComponent(out ArcherAnimationsEvents archerAnimationsEvents))
+        var archerAnimationsEvents = GetComponentInChildren<ArcherAnimationsEvents>();
+        if (archerAnimationsEvents != null)
         {
             archerAnimationsEvents.OnGettingArrow += ArcherAnimationsEvents_OnOnGettingArrow;
             archerAnimationsEvents.OnReleaseArrow += ArcherAnimationsEvents_OnOnReleaseArrow;
@@ -55,7 +56,7 @@ public class UnitAnimator : MonoBehaviour
         _arrowInHandPrefab.SetActive(true);
     }
 
-    private void ShootAction_OnOnAiming(object sender, EventArgs e)
+    private void ShootActionOnOnActionStart(object sender, EventArgs e)
     {
         _unitAnimator.SetTrigger(Shoot);
     }
@@ -79,10 +80,10 @@ public class UnitAnimator : MonoBehaviour
     private void ShootAction_OnShoot(object sender, ShootAction.OnShootEventArgs e)
     {
         Transform _bulletProjectiile = Instantiate(_bulletProjectiilePrefab, _shootPoint.position, Quaternion.identity).transform;
-        var targetWorldPosition = e.targetUnit.WorldPosition;
+        var targetWorldPosition = e.TargetUnit.WorldPosition;
 
         targetWorldPosition.y = _shootPoint.position.y;
-        _bulletProjectiile.GetComponent<BulletProjectile>().Setup(targetWorldPosition);
+        _bulletProjectiile.GetComponent<ArrowProjectile>().Setup(targetWorldPosition, e.HitCallback);
         
         
     }

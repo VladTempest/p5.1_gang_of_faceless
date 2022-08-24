@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ArcherAnimationsEvents : MonoBehaviour
+public class ArcherAnimationsEvents : ActionAnimationEventInvoker
 {
     public event Action OnGettingArrow;
     public event Action OnReleaseArrow;

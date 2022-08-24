@@ -38,8 +38,8 @@ public class CameraManager : MonoBehaviour
         switch (sender)
         {
             case ShootAction shootAction:
-                Unit shooterUnit = shootAction.GetActiveUnit();
-                Unit targetUnit = shootAction.GetTargetUnit();
+                Unit shooterUnit = shootAction.ActiveUnit;
+                Unit targetUnit = shootAction.TargetUnit;
                 Vector3 cameraCharacterHeight = Vector3.up * 1.7f;
                 Vector3 shootDirection = (targetUnit.WorldPosition - shooterUnit.WorldPosition).normalized;
                 float shoulderOffsetAmount = 0.5f;

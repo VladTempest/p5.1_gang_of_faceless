@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletProjectile : MonoBehaviour
+public class ArrowProjectile : MonoBehaviour
 {
     [SerializeField] private TrailRenderer _trailRenderer;
-    [SerializeField] private Transform _bulletHitVfxPrefab;
+    [SerializeField] private Transform _arrowHitVfxPrefab;
+    private Action _onArrowHit;
     private Vector3 _targetPosition;
-    private float _moveSpeed = 200f;
+    private float _moveSpeed = 50f;
 
     private void Update()
     {
@@ -24,18 +25,20 @@ public class BulletProjectile : MonoBehaviour
             transform.position = _targetPosition;
             Destroy(gameObject);
 
-            Instantiate(_bulletHitVfxPrefab, _targetPosition, Quaternion.identity);
+            Instantiate(_arrowHitVfxPrefab, _targetPosition, Quaternion.identity);
         }
 
     }
 
-    public void Setup(Vector3 targetPosition)
+    public void Setup(Vector3 targetPosition, Action ArrowHitCallback)
     {
+        _onArrowHit = ArrowHitCallback;
         _targetPosition = targetPosition;
     }
 
     private void OnDestroy()
     {
+        _onArrowHit?.Invoke();
         _trailRenderer.transform.parent = null;
     }
 }

@@ -173,7 +173,7 @@ public class GridSystemVisual : MonoBehaviour
                  break;
             case ShootAction shootAction:
                 gridVisualType = GridVisualType.Red;
-                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), shootAction.GetMaxShootDistance(), GridVisualType.RedSoft);
+                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), shootAction.ActionRange, GridVisualType.RedSoft);
                 break;
         }
         

@@ -3,121 +3,96 @@ using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using GridSystems;
+using Scripts.Unit;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class ShootAction : BaseAction
+
 {
     public static event EventHandler<OnShootEventArgs> OnAnyShoot;
     public event EventHandler<OnShootEventArgs> OnShoot;
-    public event EventHandler OnAiming;
+    
 
     public class OnShootEventArgs : EventArgs
     {
-        public Unit targetUnit;
-        public Unit shootUnit;
+        public Unit TargetUnit;
+        public Action HitCallback;
     }
+
+    public Unit ActiveUnit => _unit;
+    public Unit TargetUnit => _targetUnit;
     
     private enum State
     {
-        Idle = 0,
-        Aiming = 1,
-        Shooting = 2,
-        Cooloff = 3
+        Aiming = 0,
+        Shooting = 1,
+        Idle = 2
     }
 
     [SerializeField]
     private LayerMask _obstaclesLayerMask;
 
-    private State _state;
-    private float _totalSpinAmount;
-   
-    private float _stateTimer;
+    private State _currentState;
+    
     private Unit _targetUnit;
-    private bool _canShootBullet;
-    private bool _alreadyAimed;
-    private float _rotateSpeed = 10f;
     private float _unitShoulderHeight = 1.7f;
     
-    [SerializeField] private float _shootingStateTime = 5f;
-    [SerializeField] private float _coolStateTime = 0.5f;
-    [SerializeField] private float _aimingStateTime = 2f;
-    [SerializeField] private float _idleStateTime = 2f;
+    [SerializeField] private ArcherAnimationsEvents _archerAnimationEvents;
     
+    [SerializeField] private float _rotationTime = 0.5f;
 
-    private void Update()
+    private void Start()
     {
-        if (!_isActive) return;
-
-        _stateTimer -= Time.deltaTime;
-        
-        switch (_state)
-        {
-         case State.Idle:
-             Vector3 aimDirection = (_targetUnit.WorldPosition - _unit.WorldPosition).normalized;
-             transform.forward = Vector3.Lerp(transform.forward,aimDirection, Time.deltaTime*_rotateSpeed);
-             break;
-         case State.Aiming:
-             if (!_alreadyAimed)
-             {
-                 OnAiming?.Invoke(this, EventArgs.Empty);
-                 _alreadyAimed = true;
-             }
-                break;
-         case State.Shooting:
-             if (_canShootBullet)
-             {
-                 Shoot();
-                 _canShootBullet = false;
-             }
-             break;
-         case State.Cooloff:
-             break;
-        }
-        
-        if (_stateTimer <= 0f)
-        {
-            NextState();
-        }
+        _archerAnimationEvents.ActionEffectCallback = () => TryToChangeState(State.Shooting);
+        _archerAnimationEvents.ActionFinishCallback = () => TryToChangeState(State.Idle);
     }
-
+    
     private void Shoot()
     {
         OnShoot?.Invoke(this, new OnShootEventArgs
         {
-            targetUnit = _targetUnit,
-            shootUnit = _unit
+            TargetUnit = _targetUnit,
+            HitCallback = () => Hit()
+            
         });
         
         OnAnyShoot?.Invoke(this, new OnShootEventArgs
         {
-            targetUnit = _targetUnit,
-            shootUnit = _unit
+            TargetUnit = _targetUnit
         });
+        
+    }
+
+    private void Hit()
+    {
         _targetUnit.Damage(40, transform.position + Vector3.up * _unitShoulderHeight);
     }
 
-    private void NextState()
+    private void TryToChangeState(State state)
     {
-        switch (_state)
+        
+        switch (state)
         {
-            case State.Idle:
-                _state = State.Aiming;
-                _stateTimer = _shootingStateTime;
-                break;
             case State.Aiming:
-                _state = State.Shooting;
-                _stateTimer = _aimingStateTime;
+                if (_currentState != State.Idle) break;
+                _currentState = state;
+                StartCoroutine(UnitRotator.RotateToDirection(transform, _targetUnit.WorldPosition, _rotationTime));
+                InvokeOnActionStart(this, EventArgs.Empty);
                 break;
             case State.Shooting:
-                _state = State.Cooloff;
-                _stateTimer = _coolStateTime;
+                if (_currentState != State.Aiming) break;
+                _currentState = state;
+                Shoot();
                 break;
-            case State.Cooloff:
+            case State.Idle:
+                if (_currentState != State.Shooting) break;
+                _currentState = state;
                 ActionComplete();
                 break;
         }
     }
+    
     
     public override string GetActionName()
     {
@@ -128,13 +103,10 @@ public class ShootAction : BaseAction
     {
         _targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
 
-        _state = State.Idle;
-        _stateTimer = _idleStateTime;
-
-        _alreadyAimed = false;
-        _canShootBullet = true;
+        _currentState = State.Idle;
         
         ActionStart(onActionComplete);
+        TryToChangeState(State.Aiming);
     }
 
     protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
@@ -168,22 +140,7 @@ public class ShootAction : BaseAction
 
         return true;
     }
-
-
-    public Unit GetTargetUnit()
-    {
-        return _targetUnit;
-    }
-
-    public Unit GetActiveUnit()
-    {
-        return _unit;
-    }
-
-    public int GetMaxShootDistance()
-    {
-        return ActionRange;
-    }
+    
     
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
@@ -199,4 +156,5 @@ public class ShootAction : BaseAction
     {
         return GetValidGridPositions().Count;
     }
+    
 }

@@ -9,6 +9,8 @@ public abstract class BaseAction : MonoBehaviour
 {
     public static event EventHandler OnAnyActionStarted;
     public static event EventHandler OnAnyActionCompleted;
+    
+    public event EventHandler OnActionStart;
 
     public int ActionRange = 0;
     
@@ -100,4 +102,9 @@ public abstract class BaseAction : MonoBehaviour
     }
 
     public abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPosition);
+
+    protected void InvokeOnActionStart(object sender, EventArgs eventArgs)
+    {
+        OnActionStart?.Invoke(sender, eventArgs);
+    }
 }

@@ -302,7 +302,7 @@ Transform:
   - {fileID: 5654171127140727602}
   - {fileID: 85899657852078356}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3237063788311959990
 MonoBehaviour:
@@ -373,10 +373,8 @@ MonoBehaviour:
   _obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  _shootingStateTime: 2
-  _coolStateTime: 0.1
-  _aimingStateTime: 1
-  _idleStateTime: 0.5
+  _archerAnimationEvents: {fileID: 4003583415535839392}
+  _rotationTime: 1
 --- !u!114 &-2730335575051894864
 MonoBehaviour:
   m_ObjectHideFlags: 0
