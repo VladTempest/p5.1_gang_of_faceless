@@ -24,7 +24,7 @@ public class UnitAnimator : MonoBehaviour
             moveAction.OnStartMoving += MoveAction_OnStartMoving;
             moveAction.OnStopMoving += MoveAction_OnStopMoving;
         }
-        if (TryGetComponent(out ShootAction shootAction))
+        if (TryGetComponent(out DefaultShootAction shootAction))
         {
             shootAction.OnShoot += ShootAction_OnShoot;
             shootAction.OnActionStart += ShootActionOnOnActionStart;
@@ -77,7 +77,7 @@ public class UnitAnimator : MonoBehaviour
         EquipRifle();
     }
 
-    private void ShootAction_OnShoot(object sender, ShootAction.OnShootEventArgs e)
+    private void ShootAction_OnShoot(object sender, DefaultShootAction.OnShootEventArgs e)
     {
         Transform _bulletProjectiile = Instantiate(_bulletProjectiilePrefab, _shootPoint.position, transform.rotation).transform;
         var targetWorldPosition = e.TargetUnit.WorldPosition;

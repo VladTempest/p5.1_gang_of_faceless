@@ -7,7 +7,7 @@ using Scripts.Unit;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class ShootAction : BaseAction
+public class DefaultShootAction : BaseAction
 
 {
     public static event EventHandler<OnShootEventArgs> OnAnyShoot;

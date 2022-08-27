@@ -10,7 +10,7 @@ public class ScreenShakeActions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ShootAction.OnAnyShoot += ShootAction_OnAnyShoot;
+        DefaultShootAction.OnAnyShoot += ShootAction_OnAnyShoot;
         GrenadeProjectile.OnAnyGrenadeExploded += GrenadeProjectile_OnOnAnyGrenadeExploded;
         SwordAction.OnAnySwordHit += SwordAction_OnAnySwordHit;
     }
@@ -25,7 +25,7 @@ public class ScreenShakeActions : MonoBehaviour
         ScreenShake.Instance.Shake(_explosionIntensity);
     }
 
-    private static void ShootAction_OnAnyShoot(object sender, ShootAction.OnShootEventArgs e)
+    private static void ShootAction_OnAnyShoot(object sender, DefaultShootAction.OnShootEventArgs e)
     {
         ScreenShake.Instance.Shake();
     }

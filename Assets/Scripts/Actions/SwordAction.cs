@@ -19,6 +19,8 @@ public class SwordAction : BaseAction
     public event EventHandler OnSwordActionStarted;
     public event EventHandler OnSwordActionCompleted;
 
+
+    [SerializeField] private WarriorAnimationEvents _warriorAnimationEvents;
     [SerializeField] private Transform _swordDamageSource;
 
     private State _state;

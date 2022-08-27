@@ -28,7 +28,7 @@ public class CameraManager : MonoBehaviour
     {
         switch (sender)
         {
-            case ShootAction shootAction:
+            case DefaultShootAction shootAction:
                 HideActionCamera();
                 break;
         }
@@ -38,7 +38,7 @@ public class CameraManager : MonoBehaviour
     {
         switch (sender)
         {
-            case ShootAction shootAction:
+            case DefaultShootAction shootAction:
                 if (!IfWillTurnOnByRandom()) break;
                 Unit shooterUnit = shootAction.ActiveUnit;
                 Unit targetUnit = shootAction.TargetUnit;

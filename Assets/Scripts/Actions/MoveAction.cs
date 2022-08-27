@@ -113,7 +113,7 @@ public class MoveAction : BaseAction
 
     private int GetActionValueForMovingToMostTargets(GridPosition gridPosition)
     {
-        var shootAction = _unit.GetAction<ShootAction>();
+        var shootAction = _unit.GetAction<DefaultShootAction>();
         var targetCountAtGridPosition = shootAction.GetTargetCountAtPosition(gridPosition);
         var actionValueForMovingToMostTarget = targetCountAtGridPosition * 1000;
         return actionValueForMovingToMostTarget;
