@@ -54,6 +54,7 @@ public class GridSystemVisual : MonoBehaviour
                 GridPosition gridPosition = new GridPosition(x, z);
                 Transform gridSystemVisualSingleTransform = Instantiate(_gridSystemVisualSinglePrefab, LevelGrid.Instance.GetWorldPosition(gridPosition),
                     Quaternion.identity);
+                gridSystemVisualSingleTransform.parent = transform;
 
                 _gridSystemVisualSingleArray[x, z] =
                     gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
@@ -63,6 +64,13 @@ public class GridSystemVisual : MonoBehaviour
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
         LevelGrid.Instance.OnAnyUnitChangedGridPosition += LevelGrid_OnAnyUnitChangedGridPosition;
         Unit.OnAnyUnitDead += Unit_OnUnitDied;
+    }
+
+    private void OnDestroy()
+    {
+        UnitActionSystem.Instance.OnSelectedActionChanged -= UnitActionSystem_OnSelectedActionChanged;
+        LevelGrid.Instance.OnAnyUnitChangedGridPosition -= LevelGrid_OnAnyUnitChangedGridPosition;
+        Unit.OnAnyUnitDead -= Unit_OnUnitDied;
     }
 
     private void LevelGrid_OnAnyUnitChangedGridPosition(object sender, EventArgs e)
@@ -171,7 +179,7 @@ public class GridSystemVisual : MonoBehaviour
                  gridVisualType = GridVisualType.Red;
                  ShowGridPositionRangeSquare(selectedUnit.GetGridPosition(), swordAction.ActionRange, GridVisualType.RedSoft);
                  break;
-            case DefaultShootAction shootAction:
+            case BaseShootAction shootAction:
                 gridVisualType = GridVisualType.Red;
                 ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), shootAction.ActionRange, GridVisualType.RedSoft);
                 break;

@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class CameraManager : MonoBehaviour
 {
     [SerializeField] private GameObject _actionCameraGameObject;
-
+    
     private void ShowActionCamera()
     {
         _actionCameraGameObject.SetActive(true);
@@ -21,14 +21,20 @@ public class CameraManager : MonoBehaviour
     private void Start()
     {
         BaseAction.OnAnyActionStarted += BaseAction_OnAnyActionStarted;
-        BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCpmpleted;
+        BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;
     }
 
-    private void BaseAction_OnAnyActionCpmpleted(object sender, EventArgs e)
+    private void OnDestroy()
+    {
+        BaseAction.OnAnyActionStarted -= BaseAction_OnAnyActionStarted;
+        BaseAction.OnAnyActionCompleted -= BaseAction_OnAnyActionCompleted;
+    }
+
+    private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e)
     {
         switch (sender)
         {
-            case DefaultShootAction shootAction:
+            case BaseShootAction shootAction:
                 HideActionCamera();
                 break;
         }
@@ -38,7 +44,7 @@ public class CameraManager : MonoBehaviour
     {
         switch (sender)
         {
-            case DefaultShootAction shootAction:
+            case BaseShootAction shootAction:
                 if (!IfWillTurnOnByRandom()) break;
                 Unit shooterUnit = shootAction.ActiveUnit;
                 Unit targetUnit = shootAction.TargetUnit;

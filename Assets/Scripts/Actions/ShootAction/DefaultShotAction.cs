@@ -1,0 +1,65 @@
+﻿using System;
+using DefaultNamespace;
+using GridSystems;
+
+namespace Actions
+{
+    public class DefaultShotAction : BaseShootAction
+    {
+        public event EventHandler<OnShootEventArgs> OnDefaultShot;
+
+        public override string GetActionName()
+        {
+            return "Default Shot";
+        }
+
+        private void Start()
+        {
+            _archerAnimationEvents.DefaultShotCallback = () => TryToChangeState(State.Shooting);
+            //_archerAnimationEvents.EndDefaultShotCallback = () => TryToChangeState(State.Idle);
+        }
+
+        protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+        {
+            if (!GridPositionValidator.IsPositionInsideBoundaries(testGridPosition))
+            {
+                return false;
+            }
+
+            if (!GridPositionValidator.IsPositionInsideActionRange(ActionRange, testGridPosition, unitGridPosition))
+            {
+                return false;
+            }
+
+            if (!GridPositionValidator.HasAnyUnitOnGridPosition(testGridPosition))
+            {
+                return false;
+            }
+
+
+            if (!GridPositionValidator.IsGridPositionWithEnemy(testGridPosition, _unit))
+            {
+                return false;
+            }
+
+            if (!GridPositionValidator.IsGridPositionOnLineOfSight(testGridPosition, unitGridPosition,
+                    _obstaclesLayerMask))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        protected override void Shoot()
+        {
+            OnDefaultShot?.Invoke(this, new OnShootEventArgs
+            {
+                TargetUnit = _targetUnit,
+                HitCallback = () => Hit()
+
+            });
+            base.Shoot();
+        }
+    }
+}

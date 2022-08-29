@@ -1,20 +1,20 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using Actions;
+using Actions.MoveAction;
 using UnityEngine;
 
 public class UnitAnimator : MonoBehaviour
 {
     [SerializeField] private Animator _unitAnimator;
-    [SerializeField] private GameObject _bulletProjectiilePrefab;
     [SerializeField] private GameObject _arrowInHandPrefab;
-    [SerializeField] private Transform _shootPoint;
 
-    [SerializeField] private Transform _rifle;
+    [SerializeField] private Transform _bow;
     [SerializeField]  private Transform _sword;
     
     private static readonly int IsWalking = Animator.StringToHash("IsWalking");
+    private static readonly int IsShortMovement = Animator.StringToHash("IsShortMovement");
     private static readonly int Shoot = Animator.StringToHash("Shoot");
+    private static readonly int LongShot = Animator.StringToHash("LongShot");
     private static readonly int SwordSlash = Animator.StringToHash("SwordSlash");
 
     private void Awake()
@@ -24,11 +24,17 @@ public class UnitAnimator : MonoBehaviour
             moveAction.OnStartMoving += MoveAction_OnStartMoving;
             moveAction.OnStopMoving += MoveAction_OnStopMoving;
         }
-        if (TryGetComponent(out DefaultShootAction shootAction))
+        if (TryGetComponent(out DefaultShotAction defaultShootAction))
         {
-            shootAction.OnShoot += ShootAction_OnShoot;
-            shootAction.OnActionStart += ShootActionOnOnActionStart;
+            defaultShootAction.OnActionStart += DefaultShootAction_OnActionStart;
         }
+        
+        if (TryGetComponent(out LongShotAction longShotAction))
+        {
+            longShotAction.OnActionStart += LongShotAction_OnActionStart;
+        }
+        
+            
         if (TryGetComponent(out SwordAction swordAction))
         {
             swordAction.OnSwordActionCompleted += SwordActionOn_OnSwordActionCompleted;
@@ -41,9 +47,38 @@ public class UnitAnimator : MonoBehaviour
             archerAnimationsEvents.OnGettingArrow += ArcherAnimationsEvents_OnOnGettingArrow;
             archerAnimationsEvents.OnReleaseArrow += ArcherAnimationsEvents_OnOnReleaseArrow;
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (TryGetComponent(out MoveAction moveAction))
+        {
+            moveAction.OnStartMoving -= MoveAction_OnStartMoving;
+            moveAction.OnStopMoving -= MoveAction_OnStopMoving;
+        }
+        if (TryGetComponent(out DefaultShotAction defaultShootAction))
+        {
+            defaultShootAction.OnActionStart -= DefaultShootAction_OnActionStart;
+        }
         
+        if (TryGetComponent(out LongShotAction longShotAction))
+        {
+            longShotAction.OnActionStart -= LongShotAction_OnActionStart;
+        }
         
-        
+            
+        if (TryGetComponent(out SwordAction swordAction))
+        {
+            swordAction.OnSwordActionCompleted -= SwordActionOn_OnSwordActionCompleted;
+            swordAction.OnSwordActionStarted -= SwordActionOn_OnSwordActionStarted;
+        }
+
+        var archerAnimationsEvents = GetComponentInChildren<ArcherAnimationsEvents>();
+        if (archerAnimationsEvents != null)
+        {
+            archerAnimationsEvents.OnGettingArrow -= ArcherAnimationsEvents_OnOnGettingArrow;
+            archerAnimationsEvents.OnReleaseArrow -= ArcherAnimationsEvents_OnOnReleaseArrow;
+        }
     }
 
     private void ArcherAnimationsEvents_OnOnReleaseArrow()
@@ -56,14 +91,19 @@ public class UnitAnimator : MonoBehaviour
         _arrowInHandPrefab.SetActive(true);
     }
 
-    private void ShootActionOnOnActionStart(object sender, EventArgs e)
+    private void DefaultShootAction_OnActionStart(object sender, EventArgs e)
     {
         _unitAnimator.SetTrigger(Shoot);
     }
+    private void LongShotAction_OnActionStart(object sender, EventArgs e)
+    {
+        _unitAnimator.SetTrigger(LongShot);
+    }
+    
 
     private void Start()
     {
-        EquipRifle();
+        EquipBow();
     }
 
     private void SwordActionOn_OnSwordActionStarted(object sender, EventArgs e)
@@ -74,23 +114,14 @@ public class UnitAnimator : MonoBehaviour
 
     private void SwordActionOn_OnSwordActionCompleted(object sender, EventArgs e)
     {
-        EquipRifle();
+        EquipBow();
     }
-
-    private void ShootAction_OnShoot(object sender, DefaultShootAction.OnShootEventArgs e)
-    {
-        Transform _bulletProjectiile = Instantiate(_bulletProjectiilePrefab, _shootPoint.position, transform.rotation).transform;
-        var targetWorldPosition = e.TargetUnit.WorldPosition;
-
-        targetWorldPosition.y = _shootPoint.position.y;
-        _bulletProjectiile.GetComponent<ArrowProjectile>().Setup(targetWorldPosition, e.HitCallback);
-        
-        
-    }
-
-    private void MoveAction_OnStartMoving(object sender, EventArgs e)
+    
+    private void MoveAction_OnStartMoving(object sender, OnStartMovingEventArgs e)
     {
         _unitAnimator.SetBool(IsWalking, true);
+        _unitAnimator.SetBool(IsShortMovement, e.isMovementShort);
+
     }
     
     private void MoveAction_OnStopMoving(object sender, EventArgs e)
@@ -101,13 +132,13 @@ public class UnitAnimator : MonoBehaviour
     private void EquipSword()
     {
         _sword.gameObject.SetActive(true);
-        _rifle.gameObject.SetActive(false);
+        _bow.gameObject.SetActive(false);
     }
 
-    private void EquipRifle()
+    private void EquipBow()
     {
         _sword.gameObject.SetActive(false);
-        _rifle.gameObject.SetActive(true);
+        _bow.gameObject.SetActive(true);
     }
         
 }

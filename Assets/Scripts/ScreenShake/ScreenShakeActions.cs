@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Actions;
 using UnityEngine;
 
 public class ScreenShakeActions : MonoBehaviour
@@ -10,7 +11,7 @@ public class ScreenShakeActions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DefaultShootAction.OnAnyShoot += ShootAction_OnAnyShoot;
+        DefaultShotAction.OnAnyShoot += ShootAction_OnAnyShoot;
         GrenadeProjectile.OnAnyGrenadeExploded += GrenadeProjectile_OnOnAnyGrenadeExploded;
         SwordAction.OnAnySwordHit += SwordAction_OnAnySwordHit;
     }
@@ -25,7 +26,7 @@ public class ScreenShakeActions : MonoBehaviour
         ScreenShake.Instance.Shake(_explosionIntensity);
     }
 
-    private static void ShootAction_OnAnyShoot(object sender, DefaultShootAction.OnShootEventArgs e)
+    private static void ShootAction_OnAnyShoot(object sender, OnShootEventArgs e)
     {
         ScreenShake.Instance.Shake();
     }

@@ -6,8 +6,14 @@ using UnityEngine;
 
 public class ArcherAnimationsEvents : ActionAnimationEventInvoker
 {
+    
+    internal Action DefaultShotCallback;
+    internal Action LongShotCallback;
+    internal Action EndDefaultShotCallback;
+    internal Action EndLongShotCallback;
     public event Action OnGettingArrow;
     public event Action OnReleaseArrow;
+    
    
     public void GetArrow()
     {
@@ -18,4 +24,26 @@ public class ArcherAnimationsEvents : ActionAnimationEventInvoker
     {
         OnReleaseArrow?.Invoke();
     }
+
+    public void MakeDefaultShot()
+    {
+        DefaultShotCallback?.Invoke();
+    }
+    
+    public void MakeLongtShot()
+    {
+        LongShotCallback?.Invoke();
+    }
+    
+    public void EndDefaultShot()
+    {
+        EndDefaultShotCallback?.Invoke();
+    }
+    
+    public void EndLongtShot()
+    {
+        EndLongShotCallback?.Invoke();
+    }
+    
+    
 }

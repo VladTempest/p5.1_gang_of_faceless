@@ -1,0 +1,59 @@
+﻿using System;
+using DefaultNamespace;
+using GridSystems;
+
+namespace Actions
+{
+    public class LongShotAction : BaseShootAction
+    {
+        public event EventHandler<OnShootEventArgs> OnLongShot;
+        
+        private void Start()
+        {
+            _archerAnimationEvents.LongShotCallback = () => TryToChangeState(State.Shooting);
+            //_archerAnimationEvents.EndLongShotCallback = () => TryToChangeState(State.Idle);
+        }
+        
+        public override string GetActionName()
+        {
+            return "Long Shot";
+        }
+        
+        protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+        {
+            if (!GridPositionValidator.IsPositionInsideBoundaries(testGridPosition))
+            {
+                return false;
+            }
+
+            if (!GridPositionValidator.IsPositionInsideActionRange(ActionRange, testGridPosition, unitGridPosition))
+            {
+                return false;
+            }
+
+            if (!GridPositionValidator.HasAnyUnitOnGridPosition(testGridPosition))
+            {
+                return false;
+            }
+
+
+            if (!GridPositionValidator.IsGridPositionWithEnemy(testGridPosition, _unit))
+            {
+                return false;
+            }
+
+            return true;
+        }
+        
+        protected override void Shoot()
+        {
+            OnLongShot?.Invoke(this, new OnShootEventArgs
+            {
+                TargetUnit = _targetUnit,
+                HitCallback = () => Hit()
+
+            });
+            base.Shoot();
+        }
+    }
+}
