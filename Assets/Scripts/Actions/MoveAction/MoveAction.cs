@@ -13,6 +13,7 @@ public class MoveAction : BaseAction
     public event EventHandler OnStopMoving;
     
     [SerializeField] private float _moveSpeed = 4f;
+    [SerializeField] private AnimationCurve _speedAnimationCurve;
 
     private int ONE_GRID_MOVEMENT_COST = 2;
     private int PATH_TO_POINT_MULTIPLIER = 10;
@@ -21,6 +22,9 @@ public class MoveAction : BaseAction
     private static readonly int IsWalking = Animator.StringToHash("IsWalking");
 
     private List<Vector3> _positionList;
+    private float _currentPathLength;
+    private float _alreadyWalkedPathLength;
+    float _passedDistanceFromLastPosition = 0f;
     private int _currentPositionIndex;
     private float _stoppingDistance = 0.1f;
     private float _rotateSpeed = 30f;
@@ -37,19 +41,42 @@ public class MoveAction : BaseAction
         
         if (Vector3.Distance(targetPosition, transform.position) >= _stoppingDistance)
         {
-            transform.position += moveDirection * _moveSpeed * Time.deltaTime;
+            var currentSpeedMultiplier = GetCurrentSpeedMultiplier();
+
+            Debug.Log($"_alreadyWalkedPathLength {_alreadyWalkedPathLength} + {_passedDistanceFromLastPosition}, currentSpeedMultiplier {currentSpeedMultiplier},  _currentPathLength {_currentPathLength}");
+            transform.position += moveDirection * _moveSpeed * currentSpeedMultiplier * Time.deltaTime;
         }
         else
         {
             _currentPositionIndex++;
+            _alreadyWalkedPathLength += _passedDistanceFromLastPosition;
             if (_currentPositionIndex >= _positionList.Count)
             {
+                _alreadyWalkedPathLength = 0;
                 OnStopMoving?.Invoke(this, EventArgs.Empty);
                 
                 ActionComplete(); 
             }
             
         }
+    }
+
+    private float GetCurrentSpeedMultiplier()
+    {
+        if (_currentPositionIndex == 0)
+        {
+            _passedDistanceFromLastPosition = Vector3.Distance(_positionList[0],
+                transform.position);
+        }
+        else
+        {
+            _passedDistanceFromLastPosition = Vector3.Distance(_positionList[_currentPositionIndex - 1],
+                transform.position);
+        }
+
+        var walkedPathNormalized = (_alreadyWalkedPathLength + _passedDistanceFromLastPosition) / _currentPathLength;
+        var currentSpeedMultiplier = _speedAnimationCurve.Evaluate(walkedPathNormalized);
+        return currentSpeedMultiplier;
     }
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
@@ -59,9 +86,12 @@ public class MoveAction : BaseAction
         _currentPositionIndex = 0;
         _positionList = new List<Vector3>();
 
-        foreach (var pathGridPosition in pathGridPositions)
+        _currentPathLength = 0;
+        for (int i = 0; i < pathGridPositions.Count; i++)
         {
-            _positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
+            _positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPositions[i]));
+            if (i==0) continue;
+            _currentPathLength += Vector3.Distance(_positionList[i], _positionList[i - 1]);
         }
 
         var onStartMovingArgs = new OnStartMovingEventArgs() {isMovementShort = _positionList.Count <= 2};
