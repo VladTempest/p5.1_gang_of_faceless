@@ -79,9 +79,9 @@ public abstract class BaseAction : MonoBehaviour
 
     protected void ActionComplete()
     {
-        OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
         IsActive = false;
         _onActionComplete?.Invoke();
+        OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
     }
 
     public EnemyAIAction GetBestEnemyAIAction()

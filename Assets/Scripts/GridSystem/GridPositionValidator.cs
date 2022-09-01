@@ -23,12 +23,12 @@ namespace DefaultNamespace
             return targetUnit.IsUnitAnEnemy != sourceUnit.IsUnitAnEnemy;
         }
 
-        public static bool IsPositionInsideActionCircleRange(int actionRange, GridPosition testGridPosition, GridPosition unitGridPosition)
+        public static bool IsPositionInsideActionCircleRange(int actionMaxRange, GridPosition testGridPosition, GridPosition unitGridPosition, int actionMinRange = 0)
         {
             int x = testGridPosition.x - unitGridPosition.x;
             int z = testGridPosition.z - unitGridPosition.z;
             int testDistance = Mathf.RoundToInt(Mathf.Abs(x) + Mathf.Abs(z));
-            return (testDistance <= actionRange);
+            return (testDistance <= actionMaxRange && testDistance >= actionMinRange);
         }
         
         public static bool IsGridPositionOnLineOfSight(GridPosition testGridPosition, GridPosition sourceGridPosition, LayerMask obstaclesLayerMask)

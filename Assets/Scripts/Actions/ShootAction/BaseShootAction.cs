@@ -16,7 +16,9 @@ public class BaseShootAction : BaseAction
 
     public Unit ActiveUnit => _unit;
     public Unit TargetUnit => _targetUnit;
-    
+
+    [SerializeField] public int MinActionRange = 2;
+
     protected enum State
     {
         Aiming = 0,
@@ -28,14 +30,14 @@ public class BaseShootAction : BaseAction
     protected LayerMask _obstaclesLayerMask;
 
     private State _currentState;
-    
+
     protected Unit _targetUnit;
     private float _unitShoulderHeight = 1.7f;
-    
+
     [SerializeField] protected ArcherAnimationsEvents _archerAnimationEvents;
-    
+
     [SerializeField] private float _rotationTime = 0.5f;
-    
+
 
     protected virtual void Shoot()
     {

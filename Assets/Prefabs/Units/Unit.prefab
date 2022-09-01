@@ -416,6 +416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActionRange: 5
+  MinActionRange: 2
   _obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 256
@@ -434,6 +435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActionRange: 10
+  MinActionRange: 5
   _obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 0

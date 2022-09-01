@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Actions;
 using GridSystems;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GridSystemVisual : MonoBehaviour
@@ -60,14 +62,20 @@ public class GridSystemVisual : MonoBehaviour
                     gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
             }
         }
-        
+        BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
         LevelGrid.Instance.OnAnyUnitChangedGridPosition += LevelGrid_OnAnyUnitChangedGridPosition;
         Unit.OnAnyUnitDead += Unit_OnUnitDied;
     }
 
+    private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e)
+    {
+        UpdateGridVisual();;
+    }
+
     private void OnDestroy()
     {
+        BaseAction.OnAnyActionCompleted -= BaseAction_OnAnyActionCompleted;
         UnitActionSystem.Instance.OnSelectedActionChanged -= UnitActionSystem_OnSelectedActionChanged;
         LevelGrid.Instance.OnAnyUnitChangedGridPosition -= LevelGrid_OnAnyUnitChangedGridPosition;
         Unit.OnAnyUnitDead -= Unit_OnUnitDied;
@@ -96,13 +104,13 @@ public class GridSystemVisual : MonoBehaviour
         }
     }
 
-    public void ShowGridPositionRangeCircle(GridPosition gridPosition, int range, GridVisualType gridVisualType)
+    public void ShowGridPositionRangeCircle(GridPosition gridPosition, int maxRange, GridVisualType gridVisualType, int minRange = 0)
     {
         List<GridPosition> gridPositionList = new List<GridPosition>();
 
-        for (int x = -range; x <= range; x++)
+        for (int x = -maxRange; x <= maxRange; x++)
         {
-            for (int z = -range; z <= range; z++)
+            for (int z = -maxRange; z <= maxRange; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = gridPosition + offsetGridPosition;
@@ -113,7 +121,7 @@ public class GridSystemVisual : MonoBehaviour
                 }
 
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if (testDistance > range) continue;
+                if (testDistance > maxRange || testDistance < minRange) continue;
 
                 gridPositionList.Add(testGridPosition);
             }
@@ -181,7 +189,11 @@ public class GridSystemVisual : MonoBehaviour
                  break;
             case BaseShootAction shootAction:
                 gridVisualType = GridVisualType.Red;
-                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), shootAction.ActionRange, GridVisualType.RedSoft);
+                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), shootAction.ActionRange, GridVisualType.RedSoft, shootAction.MinActionRange);
+                break;
+            case PushAction pushAction:
+                gridVisualType = GridVisualType.Red;
+                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), pushAction.ActionRange, GridVisualType.RedSoft);
                 break;
         }
         

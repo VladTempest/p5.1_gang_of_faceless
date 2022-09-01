@@ -10,6 +10,8 @@ namespace Actions
 {
     public class PushAction : BaseAction
     {
+        public static event EventHandler<OnPushActionEventArgs> OnAnyUnitPushed;
+        
         private PushActionState _currentState = PushActionState.Idle;
         private float _moveSpeed = 10f;
 
@@ -90,8 +92,8 @@ namespace Actions
 
         private IEnumerator MoveUnit(Unit pushedUnit, GridPosition sourceOfPush)
         {
-            var enemyPosition = LevelGrid.Instance.GetWorldPosition(pushedUnit.GetGridPosition());
-            var pushDirection = enemyPosition - transform.position;
+            var pushedFromPosition = pushedUnit.WorldPosition;
+            var pushDirection = pushedFromPosition - transform.position;
             Vector3 targetPosition = pushedUnit.transform.position + pushDirection;
             if (GridPositionValidator.IsGridPositionOpenToPush(LevelGrid.Instance.GetGridPosition(targetPosition),
                     pushedUnit.GetGridPosition()))
@@ -102,10 +104,9 @@ namespace Actions
                         _moveSpeed * Time.deltaTime);
                     yield return 0;
                 }
-
+                OnAnyUnitPushed?.Invoke(this, new OnPushActionEventArgs(){ pushedFromGridPosition = LevelGrid.Instance.GetGridPosition(pushedFromPosition)});
                 pushedUnit.transform.position = targetPosition;
             }
-
             TryToChangeState(PushActionState.Idle);
             ActionComplete();
         }
