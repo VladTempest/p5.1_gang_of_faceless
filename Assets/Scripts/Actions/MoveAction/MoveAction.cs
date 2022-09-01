@@ -27,40 +27,37 @@ public class MoveAction : BaseAction
     float _passedDistanceFromLastPosition = 0f;
     private int _currentPositionIndex;
     private float _stoppingDistance = 0.1f;
-    private float _rotateSpeed = 30f;
+    private float _rotateSpeed = 100f;
 
-
-
-    private void Update()
+    private IEnumerator MoveUnit()
     {
-        if (!_isActive) return;
-
-        Vector3 targetPosition = _positionList[_currentPositionIndex];
-        Vector3 moveDirection = (targetPosition - transform.position).normalized;
-        transform.forward = Vector3.Lerp(transform.forward,moveDirection, Time.deltaTime*_rotateSpeed);
-        
-        if (Vector3.Distance(targetPosition, transform.position) >= _stoppingDistance)
+        while (_currentPositionIndex != _positionList.Count)
         {
-            var currentSpeedMultiplier = GetCurrentSpeedMultiplier();
+            Vector3 targetPosition = _positionList[_currentPositionIndex];
+            Vector3 moveDirection = (targetPosition - transform.position).normalized;
+            if (moveDirection != Vector3.zero) transform.forward = Vector3.Lerp(transform.forward,moveDirection, Time.deltaTime*_rotateSpeed);
+            while (Vector3.Distance(targetPosition, transform.position) >= _moveSpeed * Time.deltaTime)
+            {
+                var currentSpeedMultiplier = GetCurrentSpeedMultiplier();
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, _moveSpeed * currentSpeedMultiplier * Time.deltaTime);
+                yield return 0;
+            }
 
-            Debug.Log($"_alreadyWalkedPathLength {_alreadyWalkedPathLength} + {_passedDistanceFromLastPosition}, currentSpeedMultiplier {currentSpeedMultiplier},  _currentPathLength {_currentPathLength}");
-            transform.position += moveDirection * _moveSpeed * currentSpeedMultiplier * Time.deltaTime;
-        }
-        else
-        {
+            transform.position = targetPosition;
+
             _currentPositionIndex++;
             _alreadyWalkedPathLength += _passedDistanceFromLastPosition;
             if (_currentPositionIndex >= _positionList.Count)
             {
                 _alreadyWalkedPathLength = 0;
                 OnStopMoving?.Invoke(this, EventArgs.Empty);
-                
-                ActionComplete(); 
+
+                ActionComplete();
+                yield return null;
             }
-            
         }
     }
-
+    
     private float GetCurrentSpeedMultiplier()
     {
         if (_currentPositionIndex == 0)
@@ -97,8 +94,8 @@ public class MoveAction : BaseAction
         var onStartMovingArgs = new OnStartMovingEventArgs() {isMovementShort = _positionList.Count <= 2};
         OnStartMoving?.Invoke(this, onStartMovingArgs);
         ActionStart(onActionComplete);
+        StartCoroutine(nameof(MoveUnit));
     }
-
 
     protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
     {

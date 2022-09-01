@@ -274,6 +274,7 @@ GameObject:
   - component: {fileID: 7061480203815458606}
   - component: {fileID: 7340662836777019536}
   - component: {fileID: -2730335575051894864}
+  - component: {fileID: -4126613748944046514}
   - component: {fileID: 2104948790074147176}
   - component: {fileID: 8496798667586030098}
   - component: {fileID: 6456212231567743547}
@@ -351,64 +352,37 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.00434494
-      value: 0.400177
-      inSlope: 2
-      outSlope: 2
+      time: 0.008056641
+      value: 0.50753784
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.046233397
-      value: 0.66377103
-      inSlope: 1.3982649
-      outSlope: 1.3982649
+      time: 0.24082991
+      value: 0.9472792
+      inSlope: 0.7743249
+      outSlope: 0.7743249
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.16343269
-      value: 0.9787009
-      inSlope: 0.6796617
-      outSlope: 0.6796617
+      time: 0.91645026
+      value: 0.9933936
+      inSlope: -0.047748145
+      outSlope: -0.047748145
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.38799363
-      value: 0.8218077
-      inSlope: 0.46633336
-      outSlope: 0.46633336
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.51391226
-      value: 1.0003519
-      inSlope: -0.10458562
-      outSlope: -0.10458562
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9312237
-      value: 1.007358
-      inSlope: 0.04170046
-      outSlope: 0.04170046
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1.0043335
-      value: 0.79499817
-      inSlope: 0
-      outSlope: 0
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -483,6 +457,19 @@ MonoBehaviour:
   _obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &-4126613748944046514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3237063788311959988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bcbdf0a9bb64141b4dc2439d80f512c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionRange: 1
 --- !u!114 &2104948790074147176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -930,7 +917,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1326218988840458, guid: cc64a580633f7bc48ad844b2335c0555, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4698645134446012, guid: cc64a580633f7bc48ad844b2335c0555, type: 3}
       propertyPath: m_RootOrder

@@ -32,7 +32,7 @@ public class SwordAction : BaseAction
 
     private void Update()
     {
-        if (!_isActive) return;
+        if (!IsActive) return;
         
         _stateTimer -= Time.deltaTime;
         

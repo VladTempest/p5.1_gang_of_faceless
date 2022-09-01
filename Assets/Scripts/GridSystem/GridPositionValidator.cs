@@ -23,14 +23,14 @@ namespace DefaultNamespace
             return targetUnit.IsUnitAnEnemy != sourceUnit.IsUnitAnEnemy;
         }
 
-        public static bool IsPositionInsideActionRange(int actionRange, GridPosition testGridPosition, GridPosition unitGridPosition)
+        public static bool IsPositionInsideActionCircleRange(int actionRange, GridPosition testGridPosition, GridPosition unitGridPosition)
         {
             int x = testGridPosition.x - unitGridPosition.x;
             int z = testGridPosition.z - unitGridPosition.z;
             int testDistance = Mathf.RoundToInt(Mathf.Abs(x) + Mathf.Abs(z));
             return (testDistance <= actionRange);
         }
-
+        
         public static bool IsGridPositionOnLineOfSight(GridPosition testGridPosition, GridPosition sourceGridPosition, LayerMask obstaclesLayerMask)
         {
             Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(sourceGridPosition);
@@ -82,6 +82,12 @@ namespace DefaultNamespace
             }
 
             return true;
+        }
+
+        public static bool IsGridPositionOpenToPush(GridPosition testGridPosition, GridPosition sourceGridPosition)
+        {
+            return IsGridPositionReachable(testGridPosition, sourceGridPosition, 1) &&
+                   !HasAnyUnitOnGridPosition(testGridPosition);
         }
         
     }

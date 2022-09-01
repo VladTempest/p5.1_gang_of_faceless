@@ -13,7 +13,7 @@ public class GrenadeAction : BaseAction
 
     private void Update()
     {
-        if (!_isActive) return;
+        if (!IsActive) return;
     }
 
     public override string GetActionName()
@@ -39,7 +39,7 @@ public class GrenadeAction : BaseAction
             return false;
         }
         
-        if (!GridPositionValidator.IsPositionInsideActionRange(ActionRange, testGridPosition, unitGridPosition)) return false;;
+        if (!GridPositionValidator.IsPositionInsideActionCircleRange(ActionRange, testGridPosition, unitGridPosition)) return false;;
 
         if (!GridPositionValidator.IsGridPositionOnLineOfSight(testGridPosition, unitGridPosition,
                 _obstaclesLayerMask))

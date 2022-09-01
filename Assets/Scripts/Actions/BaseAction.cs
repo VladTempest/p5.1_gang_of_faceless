@@ -15,7 +15,13 @@ public abstract class BaseAction : MonoBehaviour
     public int ActionRange = 0;
     
     protected Unit _unit;
-    protected bool _isActive;
+    private bool _isActive;
+
+    protected bool IsActive
+    {
+        get => _isActive;
+        private set => _isActive = value;
+    }
 
     protected Action _onActionComplete;
 
@@ -43,6 +49,7 @@ public abstract class BaseAction : MonoBehaviour
 
     public List<GridPosition> GetValidGridPositions()
     {
+        if (IsActive) return new List<GridPosition>();
         List<GridPosition> validGridPositionList = new List<GridPosition>();
         GridPosition unitGridPosition = _unit.GetGridPosition();
         
@@ -66,14 +73,14 @@ public abstract class BaseAction : MonoBehaviour
     protected void ActionStart(Action onActionComplete)
     {
         OnAnyActionStarted?.Invoke(this, EventArgs.Empty);
-        _isActive = true;
+        IsActive = true;
         _onActionComplete = onActionComplete;
     }
 
     protected void ActionComplete()
     {
         OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
-        _isActive = false;
+        IsActive = false;
         _onActionComplete?.Invoke();
     }
 

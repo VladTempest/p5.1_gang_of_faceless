@@ -26,7 +26,7 @@ namespace Actions
                 return false;
             }
 
-            if (!GridPositionValidator.IsPositionInsideActionRange(ActionRange, testGridPosition, unitGridPosition))
+            if (!GridPositionValidator.IsPositionInsideActionCircleRange(ActionRange, testGridPosition, unitGridPosition))
             {
                 return false;
             }
