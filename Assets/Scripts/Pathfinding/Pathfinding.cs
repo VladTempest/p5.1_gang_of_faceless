@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using GridSystems;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -50,6 +51,11 @@ public class Pathfinding : MonoBehaviour
             {
                 GridPosition gridPosition = new GridPosition(x, z);
                 Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+                if (GridPositionValidator.HasAnyUnitOnGridPosition(gridPosition))
+                {
+                    if (TryGetNode(x,z, out var node)) node.IsWalkable = false;
+                    continue;
+                }
                 if (Physics.Raycast(worldPosition+Vector3.down, Vector3.up, 10,  _obstaclesLayerMask))
                 {
                     if (TryGetNode(x,z, out var node)) node.IsWalkable = false;
@@ -136,7 +142,7 @@ public class Pathfinding : MonoBehaviour
 
     public bool IsWalkableGridPosition(GridPosition gridPosition)
     {
-        return _gridSystem.GetGridObject(gridPosition).IsWalkable;
+        return _gridSystem.GetGridObject(gridPosition).IsWalkable && !GridPositionValidator.HasAnyUnitOnGridPosition(gridPosition);
     }
     
     public void SetIsWalkableGridPosition(GridPosition gridPosition, bool IsWalkable)

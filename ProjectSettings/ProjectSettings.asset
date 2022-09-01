@@ -12,8 +12,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: Turn Based Strategy
+  companyName: MNU interactive
+  productName: Gang of Faceless
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.08235294, g: 0.06666667, b: 0.08235294, a: 1}
