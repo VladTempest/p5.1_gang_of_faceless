@@ -10,6 +10,12 @@ public class PathFindingUpdater : MonoBehaviour
     {
         DestructibleCrate.OnAnyCrateDestroyed += DestructibleCrate_OnOnAnyCrateDestroyed;
         PushAction.OnAnyUnitPushed += PushAction_OnAnyUnitPushed;
+        Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
+    }
+
+    private void Unit_OnAnyUnitDead(object sender, Unit.OnAnyUnitDiedEventArgs onAnyUnitDiedEventArgs)
+    {
+        Pathfinding.Instance.SetIsWalkableGridPosition(onAnyUnitDiedEventArgs.deadUnitGridPosition, true);
     }
 
     private void PushAction_OnAnyUnitPushed(object sender, OnPushActionEventArgs e)

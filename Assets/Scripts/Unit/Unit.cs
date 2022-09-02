@@ -7,9 +7,14 @@ using UnityEngine.Analytics;
 
 public class Unit : MonoBehaviour
 {
+    public class OnAnyUnitDiedEventArgs
+    {
+        public GridPosition deadUnitGridPosition;
+    }
+    
     public static event EventHandler OnAnyActionPointsChanged;
     public static event EventHandler OnAnyUnitSpawned;
-    public static event EventHandler OnAnyUnitDead;
+    public static event EventHandler<OnAnyUnitDiedEventArgs> OnAnyUnitDead;
 
     public int ActionPoints => _actionPoint;
     public bool IsUnitAnEnemy => _isEnemy;
@@ -108,7 +113,7 @@ public class Unit : MonoBehaviour
         
         Destroy(gameObject);
         
-        OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
+        OnAnyUnitDead?.Invoke(this, new OnAnyUnitDiedEventArgs(){deadUnitGridPosition = _currentGridPosition});
     }
 
 

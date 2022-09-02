@@ -91,7 +91,7 @@ public class GridSystemVisual : MonoBehaviour
         UpdateGridVisual();
     }
     
-    private void Unit_OnUnitDied(object sender, EventArgs e)
+    private void Unit_OnUnitDied(object sender, Unit.OnAnyUnitDiedEventArgs onAnyUnitDiedEventArgs)
     {
         UpdateGridVisual();
     }
