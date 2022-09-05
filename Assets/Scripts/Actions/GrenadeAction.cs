@@ -8,7 +8,7 @@ using UnityEngine;
 public class GrenadeAction : BaseAction
 {
     [SerializeField] private Transform _grenadeProjectilePrefab;
-    [SerializeField] private LayerMask _obstaclesLayerMask;
+    [SerializeField] private LayerMask[] _obstaclesLayerMask;
     
 
     private void Update()

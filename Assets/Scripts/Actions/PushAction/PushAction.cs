@@ -17,15 +17,8 @@ namespace Actions
 
         public PushActionState CurrentState
         {
-            get
-            {
-                return _currentState;
-            }
-            set
-            {
-                Debug.Log($"{nameof(_currentState)} set from {_currentState} to {value}");
-                _currentState = value;
-            }
+            get => _currentState;
+            set => _currentState = value;
         }
 
         public override string GetActionName()
@@ -48,8 +41,8 @@ namespace Actions
             var coroutine = MoveUnit(unit, sourceOfPushGridPosition);
             StartCoroutine(coroutine);
         }
-        
-        protected void TryToChangeState(PushActionState state)
+
+        private void TryToChangeState(PushActionState state)
         {
         
             switch (state)
@@ -95,7 +88,7 @@ namespace Actions
             var pushedFromPosition = pushedUnit.WorldPosition;
             var pushDirection = pushedFromPosition - transform.position;
             Vector3 targetPosition = pushedUnit.transform.position + pushDirection;
-            if (GridPositionValidator.IsGridPositionOpenToPush(LevelGrid.Instance.GetGridPosition(targetPosition),
+            if (GridPositionValidator.IsGridPositionOpenToMoveTo(LevelGrid.Instance.GetGridPosition(targetPosition),
                     pushedUnit.GetGridPosition()))
             {
                 while (Vector3.Distance(targetPosition, pushedUnit.transform.position) >= _moveSpeed * Time.deltaTime)

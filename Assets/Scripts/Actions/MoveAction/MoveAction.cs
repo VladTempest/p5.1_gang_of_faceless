@@ -26,7 +26,6 @@ public class MoveAction : BaseAction
     private float _alreadyWalkedPathLength;
     float _passedDistanceFromLastPosition = 0f;
     private int _currentPositionIndex;
-    private float _stoppingDistance = 0.1f;
     private float _rotateSpeed = 100f;
 
     private IEnumerator MoveUnit()

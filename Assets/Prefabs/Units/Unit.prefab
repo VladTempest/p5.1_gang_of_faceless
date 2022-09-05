@@ -270,10 +270,10 @@ GameObject:
   - component: {fileID: 3237063788311959990}
   - component: {fileID: 6135944960488015658}
   - component: {fileID: 6511915750059178299}
-  - component: {fileID: 6957964213410447763}
   - component: {fileID: 7061480203815458606}
   - component: {fileID: 7340662836777019536}
   - component: {fileID: -2730335575051894864}
+  - component: {fileID: 8406230969961827847}
   - component: {fileID: -4126613748944046514}
   - component: {fileID: 2104948790074147176}
   - component: {fileID: 8496798667586030098}
@@ -281,6 +281,7 @@ GameObject:
   - component: {fileID: 3376614277108165775}
   - component: {fileID: 5327539066858463754}
   - component: {fileID: 1493523556375220270}
+  - component: {fileID: -6478949446067805892}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -305,7 +306,7 @@ Transform:
   - {fileID: 5654171127140727602}
   - {fileID: 85899657852078356}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3237063788311959990
 MonoBehaviour:
@@ -332,8 +333,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.28936005, y: 1.7359079, z: 0.39433813}
-  m_Center: {x: -0.06914997, y: 0.8244942, z: -0.05694461}
+  m_Size: {x: 0.7769966, y: 1.8320601, z: 0.5789876}
+  m_Center: {x: 0.01854229, y: 0.8725703, z: 0.035380125}
 --- !u!114 &6511915750059178299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,19 +391,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6957964213410447763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3237063788311959988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 917d0d6b2b53c1942bbbf1a59c7a5cd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ActionRange: 0
 --- !u!114 &7061480203815458606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,7 +406,7 @@ MonoBehaviour:
   ActionRange: 5
   MinActionRange: 2
   _obstaclesLayerMask:
-    serializedVersion: 2
+  - serializedVersion: 2
     m_Bits: 256
   _archerAnimationEvents: {fileID: 4003583415535839392}
   _rotationTime: 0.25
@@ -436,9 +424,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActionRange: 10
   MinActionRange: 5
-  _obstaclesLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
+  _obstaclesLayerMask: []
   _archerAnimationEvents: {fileID: 4003583415535839392}
   _rotationTime: 0.25
 --- !u!114 &-2730335575051894864
@@ -457,8 +443,22 @@ MonoBehaviour:
   _grenadeProjectilePrefab: {fileID: 6687859904654384484, guid: 7f382f4aa51b52a418459543f697891c,
     type: 3}
   _obstaclesLayerMask:
-    serializedVersion: 2
+  - serializedVersion: 2
     m_Bits: 256
+--- !u!114 &8406230969961827847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3237063788311959988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b677cdc349443cba97de06b8371dbdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionRange: 10
+  _attackDamage: 100
 --- !u!114 &-4126613748944046514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,6 +559,20 @@ MonoBehaviour:
   _arrowProjectiilePrefab: {fileID: 6420494448419346459, guid: fddfd865322cd004dbb9aed4fbe61e20,
     type: 3}
   _shootPoint: {fileID: 9078911697110441271}
+--- !u!114 &-6478949446067805892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3237063788311959988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d920a049c38c4c2da400917bfd10e301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentEffectsAndDurationLeftDict:
+    valueData: 
 --- !u!1 &6027021452995310800
 GameObject:
   m_ObjectHideFlags: 0

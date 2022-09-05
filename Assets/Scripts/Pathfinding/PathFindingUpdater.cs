@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Actions;
+using GridSystems;
 using UnityEngine;
 
 public class PathFindingUpdater : MonoBehaviour
@@ -11,6 +12,13 @@ public class PathFindingUpdater : MonoBehaviour
         DestructibleCrate.OnAnyCrateDestroyed += DestructibleCrate_OnOnAnyCrateDestroyed;
         PushAction.OnAnyUnitPushed += PushAction_OnAnyUnitPushed;
         Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
+        LevelGrid.Instance.OnAnyUnitChangedGridPosition += LevelGrid_OnAnyUnitChangedGridPosition;
+    }
+
+    private void LevelGrid_OnAnyUnitChangedGridPosition(object sender, OnAnyUnitChangedArgs onAnyUnitChangedArgs)
+    {
+        Pathfinding.Instance.SetIsWalkableGridPosition(onAnyUnitChangedArgs.gridPositionMovedFrom, true);
+        Pathfinding.Instance.SetIsWalkableGridPosition(onAnyUnitChangedArgs.gridPositionMovedTo, false);
     }
 
     private void Unit_OnAnyUnitDead(object sender, Unit.OnAnyUnitDiedEventArgs onAnyUnitDiedEventArgs)

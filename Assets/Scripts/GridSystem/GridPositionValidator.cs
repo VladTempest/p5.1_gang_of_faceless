@@ -1,4 +1,5 @@
-﻿using GridSystems;
+﻿using System.Collections.Generic;
+using GridSystems;
 using UnityEngine;
 
 namespace DefaultNamespace
@@ -31,17 +32,21 @@ namespace DefaultNamespace
             return (testDistance <= actionMaxRange && testDistance >= actionMinRange);
         }
         
-        public static bool IsGridPositionOnLineOfSight(GridPosition testGridPosition, GridPosition sourceGridPosition, LayerMask obstaclesLayerMask)
+        public static bool IsGridPositionOnLineOfSight(GridPosition testGridPosition, GridPosition sourceGridPosition, LayerMask[] obstaclesLayerMask)
         {
             Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(sourceGridPosition);
             Vector3 targetWorldPosition = LevelGrid.Instance.GetWorldPosition(testGridPosition);
             Vector3 lineOfSightDirection = (targetWorldPosition - unitWorldPosition).normalized;
 
-            if (Physics.Raycast(unitWorldPosition + Vector3.up * _unitShoulderHeight, lineOfSightDirection,
-                    Vector3.Distance(unitWorldPosition, targetWorldPosition), obstaclesLayerMask))
+            foreach (var layerMask in obstaclesLayerMask)
             {
-                return false;
+                if (Physics.Raycast(unitWorldPosition + Vector3.up * _unitShoulderHeight, lineOfSightDirection,
+                        Vector3.Distance(unitWorldPosition, targetWorldPosition), layerMask))
+                {
+                    return false;
+                }
             }
+            
 
             return true;
 
@@ -84,11 +89,43 @@ namespace DefaultNamespace
             return true;
         }
 
-        public static bool IsGridPositionOpenToPush(GridPosition testGridPosition, GridPosition sourceGridPosition)
+        public static bool IsGridPositionOpenToMoveTo(GridPosition testGridPosition, GridPosition sourceGridPosition)
         {
             return IsGridPositionReachable(testGridPosition, sourceGridPosition, 1) &&
                    !HasAnyUnitOnGridPosition(testGridPosition);
         }
-        
+
+        public static bool HasTestGridPositionAvailableNeighbours(GridPosition testGridPosition, Dictionary<GridPosition, GridPosition> firstValidGridPositionsAndSourcePositions)
+        {
+            var unit = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
+            const int  GridSize = 2;
+            var offsetPosition = unit.transform.forward * GridSize;
+            if (CheckIfOffsetIsReachable(testGridPosition, unit, offsetPosition, firstValidGridPositionsAndSourcePositions)) return true;
+            offsetPosition = unit.transform.right * GridSize;
+            if (CheckIfOffsetIsReachable(testGridPosition, unit, offsetPosition, firstValidGridPositionsAndSourcePositions)) return true;
+            offsetPosition = -unit.transform.right * GridSize;
+            if (CheckIfOffsetIsReachable(testGridPosition, unit, offsetPosition, firstValidGridPositionsAndSourcePositions)) return true;
+            offsetPosition = -unit.transform.forward * GridSize;
+            if (CheckIfOffsetIsReachable(testGridPosition, unit, offsetPosition, firstValidGridPositionsAndSourcePositions)) return true;
+            
+            return false;
+        }
+
+        private static bool CheckIfOffsetIsReachable(GridPosition testGridPosition, Unit unit, Vector3 offset, Dictionary<GridPosition, GridPosition> firstValidGridPositionsAndSourcePositions)
+        {
+            var worldPositionWithOffset = unit.transform.position - offset;
+            var gridPositionWithOffset = LevelGrid.Instance.GetGridPosition(worldPositionWithOffset);
+            if (IsGridPositionOpenToMoveTo(gridPositionWithOffset,testGridPosition ))
+            {
+                if (!firstValidGridPositionsAndSourcePositions.TryAdd(testGridPosition, gridPositionWithOffset))
+                {
+                    firstValidGridPositionsAndSourcePositions.Remove(testGridPosition);
+                    firstValidGridPositionsAndSourcePositions.TryAdd(testGridPosition, gridPositionWithOffset);
+                }
+                return true;
+            }
+            
+            return false;
+        }
     }
 }

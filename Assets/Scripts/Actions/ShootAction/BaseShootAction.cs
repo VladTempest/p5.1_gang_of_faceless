@@ -12,7 +12,7 @@ public class BaseShootAction : BaseAction
 
 {
     public static event EventHandler<OnShootEventArgs> OnAnyShoot;
-    public event EventHandler<OnShootEventArgs> OnShoot;
+    //public event EventHandler<OnShootEventArgs> OnShoot;
 
     public Unit ActiveUnit => _unit;
     public Unit TargetUnit => _targetUnit;
@@ -27,7 +27,7 @@ public class BaseShootAction : BaseAction
     }
 
     [SerializeField]
-    protected LayerMask _obstaclesLayerMask;
+    protected LayerMask[] _obstaclesLayerMask;
 
     private State _currentState;
 

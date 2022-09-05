@@ -10,7 +10,7 @@ namespace GridSystems
     public class LevelGrid : MonoBehaviour
     {
         public static LevelGrid Instance { get; private set; }
-        public event EventHandler OnAnyUnitChangedGridPosition;
+        public event EventHandler<OnAnyUnitChangedArgs> OnAnyUnitChangedGridPosition;
         
         private GridSystem<GridObject> _gridSystem;
         
@@ -64,7 +64,7 @@ namespace GridSystems
             
             AddUnitAtGridPosition(toGridPosition, unit);
             
-            OnAnyUnitChangedGridPosition?.Invoke(this,EventArgs.Empty);
+            OnAnyUnitChangedGridPosition?.Invoke(this, new OnAnyUnitChangedArgs(fromGridPosition, toGridPosition));
         }
 
         public Vector3 GetWorldPosition(GridPosition gridPosition) => _gridSystem.GetWorldPosition(gridPosition);

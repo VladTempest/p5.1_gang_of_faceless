@@ -81,7 +81,7 @@ public class GridSystemVisual : MonoBehaviour
         Unit.OnAnyUnitDead -= Unit_OnUnitDied;
     }
 
-    private void LevelGrid_OnAnyUnitChangedGridPosition(object sender, EventArgs e)
+    private void LevelGrid_OnAnyUnitChangedGridPosition(object sender, OnAnyUnitChangedArgs onAnyUnitChangedArgs)
     {
         UpdateGridVisual();
     }
@@ -181,6 +181,7 @@ public class GridSystemVisual : MonoBehaviour
                 gridVisualType = GridVisualType.Blue;
                 break;
              case GrenadeAction grenadeAction:
+             case BackStabAction backstab:
                  gridVisualType = GridVisualType.Red;
                  break;
              case SwordAction swordAction:
