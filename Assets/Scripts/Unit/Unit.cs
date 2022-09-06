@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using GridSystems;
+using Systems.HealthStatus;
 using UnityEngine;
 using UnityEngine.Analytics;
 
@@ -16,6 +17,7 @@ public class Unit : MonoBehaviour
     public static event EventHandler OnAnyUnitSpawned;
     public static event EventHandler<OnAnyUnitDiedEventArgs> OnAnyUnitDead;
 
+    public EffectSystem EffectSystem => _effectSystem;
     public int ActionPoints => _actionPoint;
     public bool IsUnitAnEnemy => _isEnemy;
     public Vector3 WorldPosition => transform.position;
@@ -25,6 +27,7 @@ public class Unit : MonoBehaviour
     [SerializeField] private bool _isEnemy;
 
     private HealthSystem _healthSystem;
+    private EffectSystem _effectSystem;
     private GridPosition _currentGridPosition;
     private BaseAction[] _baseActionArray;
     private int _actionPoint = 10;
@@ -33,6 +36,7 @@ public class Unit : MonoBehaviour
     private void Awake()
     {
         _healthSystem = GetComponent<HealthSystem>();
+        _effectSystem = GetComponent<EffectSystem>();
         _baseActionArray = GetComponents<BaseAction>();
     }
 
@@ -106,7 +110,7 @@ public class Unit : MonoBehaviour
     {
         _healthSystem.Damage(damageAmount, damageSourcePosition);
     }
-
+    
     private void HealthSystem_OnDead(object sender, EventArgs e)
     {
         LevelGrid.Instance.RemoveUnitAtGridPosition(_currentGridPosition, this);

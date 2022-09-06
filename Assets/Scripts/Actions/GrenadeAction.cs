@@ -34,6 +34,10 @@ public class GrenadeAction : BaseAction
 
     protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
     {
+        if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
+        {
+            return false;
+        }
         if (!GridPositionValidator.IsPositionInsideBoundaries(testGridPosition))
         {
             return false;

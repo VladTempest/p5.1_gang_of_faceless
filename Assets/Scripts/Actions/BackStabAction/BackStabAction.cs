@@ -49,6 +49,10 @@ namespace Actions
 
         protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
         {
+            if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
+            {
+                return false;
+            }
             if (!GridPositionValidator.IsPositionInsideBoundaries(testGridPosition))
             {
                 return false;
@@ -75,7 +79,7 @@ namespace Actions
 
         public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
         {
-            throw new NotImplementedException();
+            return new EnemyAIAction(){actionValue = 0, gridPosition = new GridPosition()};
         }
         
         protected void TryToChangeState(BackStabActionState state)

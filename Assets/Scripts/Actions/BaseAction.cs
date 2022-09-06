@@ -39,8 +39,16 @@ public abstract class BaseAction : MonoBehaviour
         var validGridPositions = GetValidGridPositions();
         return validGridPositions.Contains(gridPosition);
     }
-    
-    protected abstract bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition);
+
+    protected virtual bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+    {
+        if (_unit.EffectSystem.IsKnockedDown(out int durationLeft))
+        {
+            return false;
+        }
+
+        return true;
+    }
 
     public virtual int GetActionPointCost()
     {

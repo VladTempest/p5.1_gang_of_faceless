@@ -98,6 +98,15 @@ public class MoveAction : BaseAction
 
     protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
     {
+        if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
+        {
+            return false;
+        }
+        if (_unit.EffectSystem.IsParalyzed(out var durationLeft))
+        {
+            return false;
+        }
+        
         if (!GridPositionValidator.IsPositionInsideBoundaries(testGridPosition))
         {
             return false;

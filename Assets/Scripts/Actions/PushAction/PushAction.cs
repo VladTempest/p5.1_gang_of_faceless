@@ -39,6 +39,7 @@ namespace Actions
         private void PushEnemyAway(Unit unit, GridPosition sourceOfPushGridPosition)
         {
             var coroutine = MoveUnit(unit, sourceOfPushGridPosition);
+            unit.EffectSystem.KnockDownUnit();
             StartCoroutine(coroutine);
         }
 
@@ -58,6 +59,11 @@ namespace Actions
         
         protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
         {
+            if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
+            {
+                return false;
+            }
+            
             if (!GridPositionValidator.IsPositionInsideBoundaries(testGridPosition))
             {
                 return false;
@@ -80,7 +86,7 @@ namespace Actions
 
         public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
         {
-            throw new NotImplementedException();
+            return new EnemyAIAction(){actionValue = 0, gridPosition = new GridPosition()};
         }
 
         private IEnumerator MoveUnit(Unit pushedUnit, GridPosition sourceOfPush)

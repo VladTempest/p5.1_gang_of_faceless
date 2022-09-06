@@ -98,7 +98,12 @@ public class BaseShootAction : BaseAction
 
     protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
     {
-        throw new NotImplementedException();
+        if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
