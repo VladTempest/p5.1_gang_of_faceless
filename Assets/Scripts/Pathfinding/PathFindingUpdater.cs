@@ -26,7 +26,7 @@ public class PathFindingUpdater : MonoBehaviour
         Pathfinding.Instance.SetIsWalkableGridPosition(onAnyUnitDiedEventArgs.deadUnitGridPosition, true);
     }
 
-    private void PushAction_OnAnyUnitPushed(object sender, OnPushActionEventArgs e)
+    private void PushAction_OnAnyUnitPushed(object sender, OnAnyPushActionEventArgs e)
     {
         PushAction pushAction = sender as PushAction;
         if (pushAction != null) 

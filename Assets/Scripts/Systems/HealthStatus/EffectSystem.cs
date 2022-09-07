@@ -14,6 +14,9 @@ namespace Systems.HealthStatus
 
     public class EffectSystem : MonoBehaviour
     {
+        public event EventHandler OnKnockDownStart;
+        public event EventHandler OnKnockDownOver;
+        
         [SerializeField] private EffectsAndDurationLeftDictionary _currentEffectsAndDurationLeftDict;
         [SerializeField] private int _knockDownDuration = 2;
         [SerializeField] private int _paralyzeDuration = 2;
@@ -31,6 +34,7 @@ namespace Systems.HealthStatus
         public void KnockDownUnit()
         {
             _currentEffectsAndDurationLeftDict.TryAdd(EffectStatus.KnockedDown, _knockDownDuration);
+            OnKnockDownStart?.Invoke(this, EventArgs.Empty);
         }
         
         public void ParalyzeUnit()
@@ -55,6 +59,20 @@ namespace Systems.HealthStatus
             {
                 if (_currentEffectsAndDurationLeftDict[effect] - 1 == 0)
                 {
+                    switch (effect)
+                    {
+                        case EffectStatus.None:
+                            break;
+                        case EffectStatus.NotHostile:
+                            break;
+                        case EffectStatus.KnockedDown:
+                            OnKnockDownOver?.Invoke(this, EventArgs.Empty);
+                            break;
+                        case EffectStatus.Paralyzed:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                     _currentEffectsAndDurationLeftDict.Remove(effect);
                     continue;
                 }

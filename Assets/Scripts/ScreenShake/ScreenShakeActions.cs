@@ -6,17 +6,18 @@ using UnityEngine;
 
 public class ScreenShakeActions : MonoBehaviour
 {
-    private float _explosionIntensity = 5f;
-    private float _swordHitIntensity = 2f;
+    private float _explosionIntensity = 3f;
+    private float _swordHitIntensity = 1f;
     // Start is called before the first frame update
     void Start()
     {
-        DefaultShotAction.OnAnyShoot += ShootAction_OnAnyShoot;
+        DefaultShotAction.OnShootHit += ShootHitActionOnAnyShootHit;
         GrenadeProjectile.OnAnyGrenadeExploded += GrenadeProjectile_OnOnAnyGrenadeExploded;
-        SwordAction.OnAnySwordHit += SwordAction_OnAnySwordHit;
+        MeleeAttackAction.OnAnyMeleeHit += MeleeActionOnAnyMeleeHit;
+        KnockDownAction.OnAnyKnockDownHappened += MeleeActionOnAnyMeleeHit;
     }
 
-    private void SwordAction_OnAnySwordHit(object sender, EventArgs e)
+    private void MeleeActionOnAnyMeleeHit(object sender, EventArgs e)
     {
         ScreenShake.Instance.Shake(_swordHitIntensity);
     }
@@ -26,7 +27,7 @@ public class ScreenShakeActions : MonoBehaviour
         ScreenShake.Instance.Shake(_explosionIntensity);
     }
 
-    private static void ShootAction_OnAnyShoot(object sender, OnShootEventArgs e)
+    private static void ShootHitActionOnAnyShootHit(object sender,  EventArgs e)
     {
         ScreenShake.Instance.Shake();
     }

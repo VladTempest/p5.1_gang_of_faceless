@@ -4,17 +4,18 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ArcherAnimationsEvents : ActionAnimationEventInvoker
+public class ArcherAnimationsEvents  : MonoBehaviour
 {
-    
+    internal Action ActionStartCallback;
+
     internal Action DefaultShotCallback;
     internal Action LongShotCallback;
     internal Action EndDefaultShotCallback;
     internal Action EndLongShotCallback;
     public event Action OnGettingArrow;
     public event Action OnReleaseArrow;
-    
-   
+
+
     public void GetArrow()
     {
         OnGettingArrow?.Invoke();
@@ -29,21 +30,26 @@ public class ArcherAnimationsEvents : ActionAnimationEventInvoker
     {
         DefaultShotCallback?.Invoke();
     }
-    
+
     public void MakeLongtShot()
     {
         LongShotCallback?.Invoke();
     }
-    
+
     public void EndDefaultShot()
     {
         EndDefaultShotCallback?.Invoke();
     }
-    
+
     public void EndLongtShot()
     {
         EndLongShotCallback?.Invoke();
     }
-    
-    
+
+
+    private void StartAction()
+    {
+        ActionStartCallback?.Invoke();
+    }
+
 }

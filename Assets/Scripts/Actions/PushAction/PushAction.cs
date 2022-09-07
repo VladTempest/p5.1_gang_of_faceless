@@ -3,6 +3,7 @@ using System.Collections;
 using System.Numerics;
 using DefaultNamespace;
 using GridSystems;
+using Scripts.Unit;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
@@ -10,7 +11,8 @@ namespace Actions
 {
     public class PushAction : BaseAction
     {
-        public static event EventHandler<OnPushActionEventArgs> OnAnyUnitPushed;
+        public static event EventHandler<OnAnyPushActionEventArgs> OnAnyUnitPushed;
+        public event EventHandler<OnPushActionEventArgs> OnUnitPushed;
         
         private PushActionState _currentState = PushActionState.Idle;
         private float _moveSpeed = 10f;
@@ -20,6 +22,28 @@ namespace Actions
             get => _currentState;
             set => _currentState = value;
         }
+        
+        [SerializeField] private WarriorAnimationEvents _warriorAnimationEvents;
+        private Unit _enemyUnit;
+        private GridPosition _sourceOfPushGridPosition;
+        private float _timeToRotateToEnemy = 0.3f;
+        private float _timeForEnemyToRotate = 0.3f;
+
+        private void Start()
+        {
+            _warriorAnimationEvents.PushingCallback += PushingCallback;
+            _warriorAnimationEvents.ActionFinishCallback += ActionFinishCallback;
+        }
+
+        private void ActionFinishCallback()
+        {
+            TryToChangeState(PushActionState.Idle);
+        }
+
+        private void PushingCallback()
+        {
+            TryToChangeState(PushActionState.Pushing);
+        }
 
         public override string GetActionName()
         {
@@ -28,18 +52,16 @@ namespace Actions
 
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
-            TryToChangeState(PushActionState.Pushing);
-            var enemyUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
-            var sourceOfPushGridPosition = _unit.GetGridPosition();
+            _currentState = PushActionState.Idle;
+            _enemyUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+            _sourceOfPushGridPosition = _unit.GetGridPosition();
+            TryToChangeState(PushActionState.GettingReady);
             ActionStart(onActionComplete);
-            PushEnemyAway(enemyUnit, sourceOfPushGridPosition);
-            
         }
 
         private void PushEnemyAway(Unit unit, GridPosition sourceOfPushGridPosition)
         {
             var coroutine = MoveUnit(unit, sourceOfPushGridPosition);
-            unit.EffectSystem.KnockDownUnit();
             StartCoroutine(coroutine);
         }
 
@@ -49,10 +71,27 @@ namespace Actions
             switch (state)
             {
                 case PushActionState.Idle:
-                    if (CurrentState == PushActionState.Pushing) CurrentState = state;
+                    if (CurrentState == PushActionState.Pushing)
+                    {
+                        CurrentState = state;
+                    }
                     break;
                 case PushActionState.Pushing:
-                    if (CurrentState == PushActionState.Idle) CurrentState = state;
+                    if (CurrentState == PushActionState.GettingReady)
+                    {
+                        CurrentState = state;
+                        OnUnitPushed?.Invoke(this, new OnPushActionEventArgs(){pushedUnitAnimator = _enemyUnit.GetComponentInChildren<Animator>()});
+                        PushEnemyAway(_enemyUnit, _sourceOfPushGridPosition);
+                        StartCoroutine(UnitRotator.RotateToDirection(_enemyUnit.transform, _unit.WorldPosition, _timeForEnemyToRotate));
+                    }
+                    break;
+                case PushActionState.GettingReady:
+                    if (CurrentState == PushActionState.Idle)
+                    {
+                        CurrentState = state;
+                        InvokeOnActionStart(this, EventArgs.Empty);
+                        StartCoroutine(UnitRotator.RotateToDirection(_unit.transform, _enemyUnit.WorldPosition, _timeToRotateToEnemy));
+                    }
                     break;
             }
         }
@@ -79,7 +118,7 @@ namespace Actions
                 return false;
             }
             
-            if (!GridPositionValidator.IsPositionInsideActionCircleRange(ActionRange, testGridPosition, unitGridPosition)) return false;;
+            if (!GridPositionValidator.IsPositionInsideActionCircleRange(ActionRange, testGridPosition, unitGridPosition)) return false;
 
             return true;
         }
@@ -103,7 +142,7 @@ namespace Actions
                         _moveSpeed * Time.deltaTime);
                     yield return 0;
                 }
-                OnAnyUnitPushed?.Invoke(this, new OnPushActionEventArgs(){ pushedFromGridPosition = LevelGrid.Instance.GetGridPosition(pushedFromPosition)});
+                OnAnyUnitPushed?.Invoke(this, new OnAnyPushActionEventArgs(){ pushedFromGridPosition = LevelGrid.Instance.GetGridPosition(pushedFromPosition)});
                 pushedUnit.transform.position = targetPosition;
             }
             TryToChangeState(PushActionState.Idle);

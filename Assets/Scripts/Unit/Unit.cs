@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using GridSystems;
+using Scripts.Unit;
 using Systems.HealthStatus;
 using UnityEngine;
 using UnityEngine.Analytics;
@@ -17,12 +18,13 @@ public class Unit : MonoBehaviour
     public static event EventHandler OnAnyUnitSpawned;
     public static event EventHandler<OnAnyUnitDiedEventArgs> OnAnyUnitDead;
 
+    public UnitType UnitType = UnitType.None;
     public EffectSystem EffectSystem => _effectSystem;
     public int ActionPoints => _actionPoint;
     public bool IsUnitAnEnemy => _isEnemy;
     public Vector3 WorldPosition => transform.position;
     public float HealthNormalised => _healthSystem.GetNormalisedValueOfHealth();
-    
+
     [SerializeField] private int ACTION_POINT_MAX = 10;
     [SerializeField] private bool _isEnemy;
 

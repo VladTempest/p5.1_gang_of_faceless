@@ -275,7 +275,8 @@ GameObject:
   - component: {fileID: -2730335575051894864}
   - component: {fileID: 8406230969961827847}
   - component: {fileID: -4126613748944046514}
-  - component: {fileID: 2104948790074147176}
+  - component: {fileID: 8829374000318235079}
+  - component: {fileID: 1971420035106117558}
   - component: {fileID: 8496798667586030098}
   - component: {fileID: 6456212231567743547}
   - component: {fileID: 3376614277108165775}
@@ -320,6 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bc55cbf7b76594095fe514e62fe856, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UnitType: 1
   ACTION_POINT_MAX: 10
   _isEnemy: 0
 --- !u!65 &6135944960488015658
@@ -472,7 +474,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActionRange: 1
---- !u!114 &2104948790074147176
+  _warriorAnimationEvents: {fileID: 2951876737081624225}
+--- !u!114 &8829374000318235079
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -481,7 +484,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 3237063788311959988}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcff75d182276954fb36d516bc4bd5d3, type: 3}
+  m_Script: {fileID: 11500000, guid: 4bc9ddee24b7409c98a0a215ba3938ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionRange: 1
+  _warriorAnimationEvents: {fileID: 2951876737081624225}
+  _swordDamageSource: {fileID: 85899657852078356}
+--- !u!114 &1971420035106117558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3237063788311959988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0941aa577da4301ac59d445538e72dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ActionRange: 1
@@ -572,7 +590,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentEffectsAndDurationLeftDict:
+    keyData: 
     valueData: 
+  _knockDownDuration: 2
+  _paralyzeDuration: 2
 --- !u!1 &6027021452995310800
 GameObject:
   m_ObjectHideFlags: 0

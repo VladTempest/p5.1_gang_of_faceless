@@ -10,9 +10,8 @@ using UnityEngine.Serialization;
 
 public class BaseShootAction : BaseAction
 
-{
-    public static event EventHandler<OnShootEventArgs> OnAnyShoot;
-    //public event EventHandler<OnShootEventArgs> OnShoot;
+{ 
+    public static event EventHandler OnShootHit;
 
     public Unit ActiveUnit => _unit;
     public Unit TargetUnit => _targetUnit;
@@ -41,17 +40,12 @@ public class BaseShootAction : BaseAction
 
     protected virtual void Shoot()
     {
-       
-        
-        OnAnyShoot?.Invoke(this, new OnShootEventArgs
-        {
-            TargetUnit = _targetUnit
-        });
     }
 
     protected void Hit()
     {
         _targetUnit.Damage(40, transform.position + Vector3.up * _unitShoulderHeight);
+        OnShootHit?.Invoke(this, EventArgs.Empty);
         TryToChangeState(State.Idle);
         
     }

@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using Actions.MoveAction;
 using DefaultNamespace;
 using GridSystems;
+using Scripts.Unit;
 using UnityEngine;
-using UnityEngine.Serialization;
+
 
 public class MoveAction : BaseAction
 {
@@ -17,24 +18,21 @@ public class MoveAction : BaseAction
 
     private int ONE_GRID_MOVEMENT_COST = 2;
     private int PATH_TO_POINT_MULTIPLIER = 10;
-
-
-    private static readonly int IsWalking = Animator.StringToHash("IsWalking");
-
+    
     private List<Vector3> _positionList;
     private float _currentPathLength;
     private float _alreadyWalkedPathLength;
     float _passedDistanceFromLastPosition = 0f;
     private int _currentPositionIndex;
-    private float _rotateSpeed = 100f;
-
+    private readonly float _rotateTime = 0.3f;
+    
     private IEnumerator MoveUnit()
     {
         while (_currentPositionIndex != _positionList.Count)
         {
             Vector3 targetPosition = _positionList[_currentPositionIndex];
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
-            if (moveDirection != Vector3.zero) transform.forward = Vector3.Lerp(transform.forward,moveDirection, Time.deltaTime*_rotateSpeed);
+            StartCoroutine(UnitRotator.RotateToDirection(transform,targetPosition, _rotateTime));
             while (Vector3.Distance(targetPosition, transform.position) >= _moveSpeed * Time.deltaTime)
             {
                 var currentSpeedMultiplier = GetCurrentSpeedMultiplier();
