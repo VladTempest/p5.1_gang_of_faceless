@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DefaultNamespace;
+using Editor.Scripts.Animation;
 using GridSystems;
 using UnityEngine;
 
@@ -8,10 +9,39 @@ namespace Actions
 {
     public class BackStabAction: BaseAction
     {
+        public event EventHandler OnStartTeleporting;
+        
+        [SerializeField] private LightWarriorAnimationEvents _lightWarriorAnimationEvents;
         [SerializeField] private int _attackDamage = 100;
+        [SerializeField] private Transform _swordDamageSource;
         private Dictionary<GridPosition, GridPosition> _firstValidTeleportGridPositionsAndEnemyGridPositions = new Dictionary<GridPosition, GridPosition>();
+        private GridPosition _taragetPosition;
 
         private BackStabActionState CurrentState { get; set; } = BackStabActionState.Idle;
+
+        
+        private void Start()
+        {
+            _lightWarriorAnimationEvents.ActionTeleportCallback += ActionTeleportCallback;
+            _lightWarriorAnimationEvents.ActionEffectCallback += ActionEffectCallback;
+            _lightWarriorAnimationEvents.ActionFinishCallback += ActionFinishCallback;
+        }
+
+        private void ActionFinishCallback()
+        {
+            TryToChangeState(BackStabActionState.Idle);
+            ActionComplete();
+        }
+
+        private void ActionEffectCallback()
+        {
+            TryToChangeState(BackStabActionState.Stabbing);
+        }
+
+        private void ActionTeleportCallback()
+        {
+            TryToChangeState(BackStabActionState.Teleporting);
+        }
 
         public override string GetActionName()
         {
@@ -20,28 +50,21 @@ namespace Actions
 
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
+            _taragetPosition = gridPosition;
+            CurrentState = BackStabActionState.Idle;
             ActionStart(onActionComplete);
-            BackStab(gridPosition);
-        }
-
-        private void BackStab(GridPosition gridPosition)
-        {
-            TeleportWithRotate(gridPosition);
-            Attack(gridPosition);
+            OnStartTeleporting?.Invoke(this, EventArgs.Empty);
+            
         }
 
         private void Attack(GridPosition gridPosition)
         {
-            TryToChangeState(BackStabActionState.Stabbing);
-            TryToChangeState(BackStabActionState.Idle);
             var targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
-            targetUnit.Damage(_attackDamage, _unit.WorldPosition);
-            ActionComplete();
+            targetUnit.Damage(_attackDamage, _swordDamageSource.position);
         }
 
         private void TeleportWithRotate(GridPosition gridPosition)
         {
-            TryToChangeState(BackStabActionState.Teleporting);
             gameObject.transform.position = LevelGrid.Instance.GetWorldPosition(_firstValidTeleportGridPositionsAndEnemyGridPositions[gridPosition]);
             gameObject.transform.LookAt(LevelGrid.Instance.GetWorldPosition(gridPosition));
             _firstValidTeleportGridPositionsAndEnemyGridPositions.Clear();
@@ -92,9 +115,11 @@ namespace Actions
                     break;
                 case BackStabActionState.Teleporting:
                     if (CurrentState == BackStabActionState.Idle) CurrentState = state;
+                    TeleportWithRotate(_taragetPosition);
                     break;
                 case BackStabActionState.Stabbing:
                     if (CurrentState == BackStabActionState.Teleporting) CurrentState = state;
+                    Attack(_taragetPosition);
                     break;
             }
         }

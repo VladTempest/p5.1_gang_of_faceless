@@ -27,12 +27,12 @@ public class Unit : MonoBehaviour
 
     [SerializeField] private int ACTION_POINT_MAX = 10;
     [SerializeField] private bool _isEnemy;
+    [SerializeField] private int _actionPoint = 10;
 
     private HealthSystem _healthSystem;
     private EffectSystem _effectSystem;
     private GridPosition _currentGridPosition;
     private BaseAction[] _baseActionArray;
-    private int _actionPoint = 10;
 
 
     private void Awake()
@@ -44,6 +44,7 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
+        _actionPoint = ACTION_POINT_MAX;
         GridPosition gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
         
@@ -132,5 +133,4 @@ public class Unit : MonoBehaviour
 
         return null;
     }
-    
 }

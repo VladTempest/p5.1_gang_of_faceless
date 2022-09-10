@@ -11,9 +11,6 @@ public class UnitAnimator : MonoBehaviour
     [SerializeField] private Animator _unitAnimator;
     [SerializeField] private GameObject _arrowInHandPrefab;
 
-    [SerializeField] private Transform _bow;
-    [SerializeField]  private Transform _sword;
-
     private Unit _unit;
     
     private static readonly int IsWalking = Animator.StringToHash("IsWalking");
@@ -28,6 +25,7 @@ public class UnitAnimator : MonoBehaviour
     private static readonly int Archer = Animator.StringToHash("Archer");
     private static readonly int Pushed = Animator.StringToHash("Pushed");
     private static readonly int KnockedDown = Animator.StringToHash("KnockedDown");
+    private static readonly int BackStab = Animator.StringToHash("BackStab");
 
     private void Awake()
     {
@@ -72,6 +70,11 @@ public class UnitAnimator : MonoBehaviour
             effectSystem.OnKnockDownOver += EffectSystem_OnKnockDownOver;
             effectSystem.OnKnockDownStart += EffectSystem_OnKnockDownStart;
         }
+        
+        if (TryGetComponent(out BackStabAction backStabAction))
+        {
+            backStabAction.OnStartTeleporting += BackStabAction_OnActionStart;
+        }
 
         var archerAnimationsEvents = GetComponentInChildren<ArcherAnimationsEvents>();
         if (archerAnimationsEvents != null)
@@ -79,6 +82,11 @@ public class UnitAnimator : MonoBehaviour
             archerAnimationsEvents.OnGettingArrow += ArcherAnimationsEvents_OnOnGettingArrow;
             archerAnimationsEvents.OnReleaseArrow += ArcherAnimationsEvents_OnOnReleaseArrow;
         }
+    }
+
+    private void BackStabAction_OnActionStart(object sender, EventArgs e)
+    {
+        _unitAnimator.SetTrigger(BackStab);
     }
 
     private void KnockDownAction_OnActionStart(object sender, EventArgs e)
@@ -105,6 +113,8 @@ public class UnitAnimator : MonoBehaviour
     {
         _unitAnimator.SetTrigger(PushSlash);
     }
+    
+    
 
 
     private void OnDestroy()
@@ -144,6 +154,11 @@ public class UnitAnimator : MonoBehaviour
             knockDownAction.OnActionStart -= KnockDownAction_OnActionStart;
         }
         
+        if (TryGetComponent(out BackStabAction backStabAction))
+        {
+            backStabAction.OnActionStart -= BackStabAction_OnActionStart;
+        }
+        
 
         var archerAnimationsEvents = GetComponentInChildren<ArcherAnimationsEvents>();
         if (archerAnimationsEvents != null)
@@ -175,16 +190,19 @@ public class UnitAnimator : MonoBehaviour
 
     private void Start()
     {
+        SetAnimationCoreAccordingToClass();
+    }
+
+    private void SetAnimationCoreAccordingToClass()
+    {
         switch (_unit.UnitType)
         {
             case UnitType.None:
                 break;
             case UnitType.Archer:
                 _unitAnimator.SetBool(Archer, true);
-                EquipBow();
                 break;
             case UnitType.HeavyWarrior:
-                EquipSword();
                 _unitAnimator.SetBool(HeavyWarrior, true);
                 break;
             case UnitType.LightWarrior:
@@ -197,7 +215,6 @@ public class UnitAnimator : MonoBehaviour
 
     private void MeleeActionOnOnMeleeActionStarted(object sender, EventArgs e)
     {
-        EquipSword();
         _unitAnimator.SetTrigger(SwordSlash);
     }
 
@@ -212,17 +229,4 @@ public class UnitAnimator : MonoBehaviour
     {
         _unitAnimator.SetBool(IsWalking, false);
     }
-
-    private void EquipSword()
-    {
-        _sword.gameObject.SetActive(true);
-        _bow.gameObject.SetActive(false);
-    }
-
-    private void EquipBow()
-    {
-        _sword.gameObject.SetActive(false);
-        _bow.gameObject.SetActive(true);
-    }
-        
 }
