@@ -8,6 +8,7 @@ namespace Scripts.Unit
         internal static IEnumerator RotateToDirection(Transform transform, Vector3 positionToLook, float timeToRotate)
         {
             if (transform == null) yield break;
+            
             var startRotation = transform.rotation;
             var direction = positionToLook - transform.position;
             if (direction == Vector3.zero) yield break;
@@ -23,6 +24,12 @@ namespace Scripts.Unit
             }
 
             transform.rotation = finalRotation;
+        }
+        
+        internal static IEnumerator RotateUnitToDirection(global::Unit unit, Vector3 positionToLook, float timeToRotate)
+        {
+            if (unit.EffectSystem.IsKnockedDown()) yield break;
+            yield return RotateToDirection(unit.transform, positionToLook, timeToRotate);
         }
     }
 }

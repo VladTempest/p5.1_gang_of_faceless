@@ -131,7 +131,7 @@ namespace Actions
                     if (CurrentState == BackStabActionState.Teleporting) CurrentState = state;
                     _trailRenderer.emitting = false;
                     Attack(_taragetPosition);
-                    StartCoroutine(UnitRotator.RotateToDirection(_targetUnit.transform, _unit.WorldPosition, _timeForEnemyToRotate));
+                    StartCoroutine(UnitRotator.RotateUnitToDirection(_targetUnit, _unit.WorldPosition, _timeForEnemyToRotate));
                     break;
             }
         }

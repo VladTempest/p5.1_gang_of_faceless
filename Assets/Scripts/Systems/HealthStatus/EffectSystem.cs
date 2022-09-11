@@ -46,6 +46,10 @@ namespace Systems.HealthStatus
         {
             return _currentEffectsAndDurationLeftDict.TryGetValue(EffectStatus.KnockedDown, out duration);
         }
+        public bool IsKnockedDown()
+        {
+            return _currentEffectsAndDurationLeftDict.TryGetValue(EffectStatus.KnockedDown, out var duration);
+        }
         
         public bool IsParalyzed(out int duration)
         {
