@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Actions;
 using DefaultNamespace;
+using Editor.Scripts.Utils;
 using GridSystems;
 using Scripts.Unit;
 using UnityEngine;
@@ -31,11 +32,11 @@ public class BaseShootAction : BaseAction
     private State _currentState;
 
     protected Unit _targetUnit;
-    private float _unitShoulderHeight = 1.7f;
 
     [SerializeField] protected ArcherAnimationsEvents _archerAnimationEvents;
 
     [SerializeField] private float _rotationTime = 0.5f;
+    [SerializeField] private int _hitAmount = 50;
 
 
     protected virtual void Shoot()
@@ -44,7 +45,7 @@ public class BaseShootAction : BaseAction
 
     protected void Hit()
     {
-        _targetUnit.Damage(40, transform.position + Vector3.up * _unitShoulderHeight);
+        _targetUnit.Damage(_hitAmount, transform.position + Vector3.up * GameGlobalConstants.UNIT_SHOULDER_HEIGHT);
         OnShootHit?.Invoke(this, EventArgs.Empty);
         TryToChangeState(State.Idle);
         

@@ -6,7 +6,6 @@ using UnityEngine;
 public class ArrowProjectile : MonoBehaviour
 {
     [SerializeField] private TrailRenderer _trailRenderer;
-    [SerializeField] private Transform _arrowHitVfxPrefab;
     private Action _onArrowHit;
     private Vector3 _targetPosition;
     private float _moveSpeed = 50f;
@@ -24,8 +23,6 @@ public class ArrowProjectile : MonoBehaviour
         {
             transform.position = _targetPosition;
             Destroy(gameObject);
-
-            Instantiate(_arrowHitVfxPrefab, _targetPosition, Quaternion.identity);
         }
 
     }

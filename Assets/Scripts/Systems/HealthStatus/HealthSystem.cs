@@ -7,6 +7,7 @@ public class HealthSystem : MonoBehaviour
 {
     public event EventHandler<OnDeadEventArgs> OnDead;
     public event EventHandler OnDamaged;
+    public static event EventHandler OnAnyUnitDamaged;
     
     [SerializeField] private int _health = 100;
     private int _healthMax = 100;
@@ -43,6 +44,7 @@ public class HealthSystem : MonoBehaviour
         }
         
         OnDamaged?.Invoke(this, EventArgs.Empty);
+        OnAnyUnitDamaged?.Invoke(this, EventArgs.Empty);
 
         if (_health == 0)
         {

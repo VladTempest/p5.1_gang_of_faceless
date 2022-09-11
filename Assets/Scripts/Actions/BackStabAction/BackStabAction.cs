@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using DefaultNamespace;
+using Editor.Scripts;
 using Editor.Scripts.Animation;
 using GridSystems;
+using Scripts.Unit;
 using UnityEngine;
 
 namespace Actions
@@ -14,8 +16,12 @@ namespace Actions
         [SerializeField] private LightWarriorAnimationEvents _lightWarriorAnimationEvents;
         [SerializeField] private int _attackDamage = 100;
         [SerializeField] private Transform _swordDamageSource;
+        [SerializeField] private TrailRenderer _trailRenderer;
         private Dictionary<GridPosition, GridPosition> _firstValidTeleportGridPositionsAndEnemyGridPositions = new Dictionary<GridPosition, GridPosition>();
         private GridPosition _taragetPosition;
+        private Unit _targetUnit;
+        private float _timeForEnemyToRotate = 0.3f;
+        private float _heightOfFog = 0.1f;
 
         private BackStabActionState CurrentState { get; set; } = BackStabActionState.Idle;
 
@@ -54,13 +60,14 @@ namespace Actions
             CurrentState = BackStabActionState.Idle;
             ActionStart(onActionComplete);
             OnStartTeleporting?.Invoke(this, EventArgs.Empty);
+            FXSpawner.Instance.InstantiateFog(transform.position);
             
         }
 
         private void Attack(GridPosition gridPosition)
         {
-            var targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
-            targetUnit.Damage(_attackDamage, _swordDamageSource.position);
+            _targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+            _targetUnit.Damage(_attackDamage, _swordDamageSource.position);
         }
 
         private void TeleportWithRotate(GridPosition gridPosition)
@@ -115,11 +122,16 @@ namespace Actions
                     break;
                 case BackStabActionState.Teleporting:
                     if (CurrentState == BackStabActionState.Idle) CurrentState = state;
+                    FXSpawner.Instance.InstantiateFog(transform.position + new Vector3(0, _heightOfFog,0));
+                    _trailRenderer.emitting = true;
                     TeleportWithRotate(_taragetPosition);
+                    FXSpawner.Instance.InstantiateFog(transform.position + new Vector3(0, _heightOfFog,0));
                     break;
                 case BackStabActionState.Stabbing:
                     if (CurrentState == BackStabActionState.Teleporting) CurrentState = state;
+                    _trailRenderer.emitting = false;
                     Attack(_taragetPosition);
+                    StartCoroutine(UnitRotator.RotateToDirection(_targetUnit.transform, _unit.WorldPosition, _timeForEnemyToRotate));
                     break;
             }
         }

@@ -403,6 +403,7 @@ MonoBehaviour:
     m_Bits: 256
   _archerAnimationEvents: {fileID: 5364160928189757119}
   _rotationTime: 0.25
+  _hitAmount: 50
 --- !u!114 &7340662836777019536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,6 +421,7 @@ MonoBehaviour:
   _obstaclesLayerMask: []
   _archerAnimationEvents: {fileID: 5364160928189757119}
   _rotationTime: 0.25
+  _hitAmount: 50
 --- !u!114 &-2730335575051894864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,8 +454,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActionRange: 10
   _lightWarriorAnimationEvents: {fileID: 8601540634580136297}
-  _attackDamage: 100
+  _attackDamage: 50
   _swordDamageSource: {fileID: 7368226612755129201}
+  _trailRenderer: {fileID: 436859824795894663}
 --- !u!114 &-4126613748944046514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,6 +486,7 @@ MonoBehaviour:
   ActionRange: 1
   _warriorAnimationEvents: {fileID: 6127686426106681534}
   _swordDamageSource: {fileID: 7368226612755129201}
+  _hitAmount: 50
 --- !u!114 &1971420035106117558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,6 +502,7 @@ MonoBehaviour:
   ActionRange: 1
   _warriorAnimationEvents: {fileID: 6127686426106681534}
   _swordDamageSource: {fileID: 0}
+  _hitAmount: 0
 --- !u!114 &8496798667586030098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,7 +542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa6a94d6dc5258040826470c63f7dab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 10
+  _health: 100
 --- !u!114 &5327539066858463754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1042,6 +1047,12 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 534b7b0f42c1d304299f3f3762536fb4, type: 3}
+--- !u!96 &436859824795894663 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 8930303415158201752, guid: 534b7b0f42c1d304299f3f3762536fb4,
+    type: 3}
+  m_PrefabInstance: {fileID: 9078911697110900255}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2816317469453523255 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6551426596105750312, guid: 534b7b0f42c1d304299f3f3762536fb4,

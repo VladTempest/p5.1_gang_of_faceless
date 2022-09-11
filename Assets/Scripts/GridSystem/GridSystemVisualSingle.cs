@@ -17,7 +17,7 @@ public class GridSystemVisualSingle : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log(transform.position + " " + gameObject);
+            Debug.Log(transform.position + " " + gameObject + e.Message, this);
         }
     }
     

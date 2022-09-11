@@ -26,6 +26,7 @@ public class UnitAnimator : MonoBehaviour
     private static readonly int Pushed = Animator.StringToHash("Pushed");
     private static readonly int KnockedDown = Animator.StringToHash("KnockedDown");
     private static readonly int BackStab = Animator.StringToHash("BackStab");
+    private static readonly int GettingHit = Animator.StringToHash("GettingHit");
 
     private void Awake()
     {
@@ -71,6 +72,11 @@ public class UnitAnimator : MonoBehaviour
             effectSystem.OnKnockDownStart += EffectSystem_OnKnockDownStart;
         }
         
+        if (TryGetComponent(out HealthSystem healthSystem))
+        {
+            healthSystem.OnDamaged += HealthSystem_OnDamaged;
+        }
+        
         if (TryGetComponent(out BackStabAction backStabAction))
         {
             backStabAction.OnStartTeleporting += BackStabAction_OnActionStart;
@@ -82,6 +88,11 @@ public class UnitAnimator : MonoBehaviour
             archerAnimationsEvents.OnGettingArrow += ArcherAnimationsEvents_OnOnGettingArrow;
             archerAnimationsEvents.OnReleaseArrow += ArcherAnimationsEvents_OnOnReleaseArrow;
         }
+    }
+
+    private void HealthSystem_OnDamaged(object sender, EventArgs e)
+    {
+        _unitAnimator.SetTrigger(GettingHit);
     }
 
     private void BackStabAction_OnActionStart(object sender, EventArgs e)

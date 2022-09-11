@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Editor.Scripts.Utils;
 using GridSystems;
 using UnityEngine;
 
@@ -6,7 +7,6 @@ namespace DefaultNamespace
 {
     public static class GridPositionValidator
     {
-        private static float _unitShoulderHeight = 1.7f;
 
         public static bool IsPositionInsideBoundaries(GridPosition testGridPosition)
         {
@@ -40,7 +40,7 @@ namespace DefaultNamespace
 
             foreach (var layerMask in obstaclesLayerMask)
             {
-                if (Physics.Raycast(unitWorldPosition + Vector3.up * _unitShoulderHeight, lineOfSightDirection,
+                if (Physics.Raycast(unitWorldPosition + Vector3.up * GameGlobalConstants.UNIT_SHOULDER_HEIGHT, lineOfSightDirection,
                         Vector3.Distance(unitWorldPosition, targetWorldPosition), layerMask))
                 {
                     return false;

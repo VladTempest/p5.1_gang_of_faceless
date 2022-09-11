@@ -19,6 +19,7 @@ public class MeleeAttackAction : BaseAction
     protected Unit _targetUnit;
     protected float _timeToRotateToEnemy = 0.5f;
     protected float _timeForEnemyToRotate = 0.3f;
+    [SerializeField] private int _hitAmount = 50;
 
     private void Start()
     {
@@ -51,7 +52,7 @@ public class MeleeAttackAction : BaseAction
                 if (_currentState != MeleeAttackState.Swinging) break;
                 _currentState = state;
                 StartCoroutine(UnitRotator.RotateToDirection(_targetUnit.transform, _unit.WorldPosition, _timeForEnemyToRotate));
-                _targetUnit.Damage(100, _swordDamageSource.position);
+                _targetUnit.Damage(_hitAmount, _swordDamageSource.position);
                 OnAnyMeleeHit?.Invoke(this, EventArgs.Empty);
                 break;
             case MeleeAttackState.Idle:
