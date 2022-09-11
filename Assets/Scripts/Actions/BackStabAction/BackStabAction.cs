@@ -31,6 +31,12 @@ namespace Actions
             _lightWarriorAnimationEvents.ActionTeleportCallback += ActionTeleportCallback;
             _lightWarriorAnimationEvents.ActionEffectCallback += ActionEffectCallback;
             _lightWarriorAnimationEvents.ActionFinishCallback += ActionFinishCallback;
+            _lightWarriorAnimationEvents.BackStepCutWasMadeCallback += CutWasMadeCallback; 
+        }
+
+        private void CutWasMadeCallback()
+        {
+            _targetUnit.Damage(0, _swordDamageSource.position);
         }
 
         private void ActionFinishCallback()
@@ -57,6 +63,7 @@ namespace Actions
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
             _taragetPosition = gridPosition;
+            _targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(_taragetPosition);
             CurrentState = BackStabActionState.Idle;
             ActionStart(onActionComplete);
             OnStartTeleporting?.Invoke(this, EventArgs.Empty);
@@ -66,7 +73,6 @@ namespace Actions
 
         private void Attack(GridPosition gridPosition)
         {
-            _targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
             _targetUnit.Damage(_attackDamage, _swordDamageSource.position);
         }
 

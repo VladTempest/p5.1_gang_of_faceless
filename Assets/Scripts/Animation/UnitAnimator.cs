@@ -5,6 +5,7 @@ using Editor.Scripts.Actions;
 using Scripts.Unit;
 using Systems.HealthStatus;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class UnitAnimator : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class UnitAnimator : MonoBehaviour
     private static readonly int KnockedDown = Animator.StringToHash("KnockedDown");
     private static readonly int BackStab = Animator.StringToHash("BackStab");
     private static readonly int GettingHit = Animator.StringToHash("GettingHit");
+    private static readonly int RandomHitIndex = Animator.StringToHash("RandomHitIndex");
 
     private void Awake()
     {
@@ -92,6 +94,7 @@ public class UnitAnimator : MonoBehaviour
 
     private void HealthSystem_OnDamaged(object sender, EventArgs e)
     {
+        _unitAnimator.SetInteger(RandomHitIndex, Random.Range(0,3));
         _unitAnimator.SetTrigger(GettingHit);
     }
 

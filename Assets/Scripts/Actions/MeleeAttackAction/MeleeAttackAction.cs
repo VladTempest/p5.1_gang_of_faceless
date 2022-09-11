@@ -14,17 +14,23 @@ public class MeleeAttackAction : BaseAction
 
     [SerializeField] private WarriorAnimationEvents _warriorAnimationEvents;
     [SerializeField] private Transform _swordDamageSource;
+    [SerializeField] private int _hitAmount = 50;
 
     protected MeleeAttackState _currentState;
     protected Unit _targetUnit;
     protected float _timeToRotateToEnemy = 0.5f;
     protected float _timeForEnemyToRotate = 0.3f;
-    [SerializeField] private int _hitAmount = 50;
 
     private void Start()
     {
         _warriorAnimationEvents.ActionEffectCallback += ActionEffectCallback;
         _warriorAnimationEvents.ActionFinishCallback += ActionFinishCallback;
+        _warriorAnimationEvents.DualSwordCutWasMadeCallback += DualSwordCutWasMadeCallback;
+    }
+
+    private void DualSwordCutWasMadeCallback()
+    {
+        _targetUnit.Damage(0, _swordDamageSource.position);
     }
 
     private void ActionFinishCallback()

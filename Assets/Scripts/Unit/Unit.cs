@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using GridSystems;
 using Scripts.Unit;
 using Systems.HealthStatus;
@@ -40,6 +41,8 @@ public class Unit : MonoBehaviour
         _healthSystem = GetComponent<HealthSystem>();
         _effectSystem = GetComponent<EffectSystem>();
         _baseActionArray = GetComponents<BaseAction>();
+        
+        SetGameObjectName();
     }
 
     private void Start()
@@ -112,6 +115,14 @@ public class Unit : MonoBehaviour
     public void Damage(int damageAmount, Vector3 damageSourcePosition)
     {
         _healthSystem.Damage(damageAmount, damageSourcePosition);
+    }
+    
+    private void SetGameObjectName()
+    {
+        StringBuilder objectName = new StringBuilder();
+        objectName.Append(UnitType.ToString());
+        objectName.Append(IsUnitAnEnemy ? "Enemy" : "Player");
+        gameObject.name = objectName.ToString();
     }
     
     private void HealthSystem_OnDead(object sender, EventArgs e)
