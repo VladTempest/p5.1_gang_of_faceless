@@ -19,15 +19,23 @@ namespace Projectiles
                 defaultShotAction.OnDefaultShot += ShootAction_OnDefaultShot;
             }
             
+            if (TryGetComponent(out ParalyzeShotAction paralyzeShotAction))
+            {
+                paralyzeShotAction.OnParalyzeShot += ShootAction_OnParalyzeShot;
+            }
+            
             if (TryGetComponent(out LongShotAction longShootAction))
             {
                 longShootAction.OnLongShot += ShootAction_OnLongShot;
             }
         }
-        
-        
-        
-        
+
+        private void ShootAction_OnParalyzeShot(object sender, OnShootEventArgs e)
+        {
+            ShootAction_OnDefaultShot(sender, e);
+        }
+
+
         private void ShootAction_OnDefaultShot(object sender, OnShootEventArgs e)
         {
             var position = _shootPoint.position;

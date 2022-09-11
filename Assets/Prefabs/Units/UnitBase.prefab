@@ -242,6 +242,7 @@ GameObject:
   - component: {fileID: 6511915750059178299}
   - component: {fileID: 7061480203815458606}
   - component: {fileID: 7340662836777019536}
+  - component: {fileID: 7493238401456063891}
   - component: {fileID: -2730335575051894864}
   - component: {fileID: 8406230969961827847}
   - component: {fileID: -4126613748944046514}
@@ -422,6 +423,26 @@ MonoBehaviour:
   _archerAnimationEvents: {fileID: 5364160928189757119}
   _rotationTime: 0.25
   _hitAmount: 50
+--- !u!114 &7493238401456063891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3237063788311959988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d385d935fcae4d5ca299c7e0e69199df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionRange: 10
+  MinActionRange: 2
+  _obstaclesLayerMask:
+  - serializedVersion: 2
+    m_Bits: 256
+  _archerAnimationEvents: {fileID: 5364160928189757119}
+  _rotationTime: 0.5
+  _hitAmount: 0
 --- !u!114 &-2730335575051894864
 MonoBehaviour:
   m_ObjectHideFlags: 0

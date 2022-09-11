@@ -37,6 +37,7 @@ public class BaseShootAction : BaseAction
 
     [SerializeField] private float _rotationTime = 0.5f;
     [SerializeField] private int _hitAmount = 50;
+    private float _timeForEnemyToRotate = 0.3f;
 
 
     protected virtual void Shoot()
@@ -46,6 +47,7 @@ public class BaseShootAction : BaseAction
     protected void Hit()
     {
         _targetUnit.Damage(_hitAmount, transform.position + Vector3.up * GameGlobalConstants.UNIT_SHOULDER_HEIGHT);
+        StartCoroutine(UnitRotator.RotateUnitToDirection(_targetUnit, _unit.WorldPosition, _timeForEnemyToRotate));
         OnShootHit?.Invoke(this, EventArgs.Empty);
         TryToChangeState(State.Idle);
         

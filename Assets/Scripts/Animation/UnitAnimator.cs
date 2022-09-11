@@ -29,6 +29,7 @@ public class UnitAnimator : MonoBehaviour
     private static readonly int BackStab = Animator.StringToHash("BackStab");
     private static readonly int GettingHit = Animator.StringToHash("GettingHit");
     private static readonly int RandomHitIndex = Animator.StringToHash("RandomHitIndex");
+    private static readonly int ParalyzeShot = Animator.StringToHash("ParalyzeShot");
 
     private void Awake()
     {
@@ -44,6 +45,11 @@ public class UnitAnimator : MonoBehaviour
         if (TryGetComponent(out DefaultShotAction defaultShootAction))
         {
             defaultShootAction.OnActionStart += DefaultShootAction_OnActionStart;
+        }
+        
+        if (TryGetComponent(out ParalyzeShotAction paralyzeShootAction))
+        {
+            paralyzeShootAction.OnActionStart += ParalyzeShotAction_OnActionStart;
         }
         
         if (TryGetComponent(out LongShotAction longShotAction))
@@ -72,6 +78,9 @@ public class UnitAnimator : MonoBehaviour
         {
             effectSystem.OnKnockDownOver += EffectSystem_OnKnockDownOver;
             effectSystem.OnKnockDownStart += EffectSystem_OnKnockDownStart;
+            
+            effectSystem.OnParalyzeOver += EffectSystem_OnParalyzeOver;
+            effectSystem.OnParalyzeStart += EffectSystem_OnKParalyzeStart;
         }
         
         if (TryGetComponent(out HealthSystem healthSystem))
@@ -90,6 +99,21 @@ public class UnitAnimator : MonoBehaviour
             archerAnimationsEvents.OnGettingArrow += ArcherAnimationsEvents_OnOnGettingArrow;
             archerAnimationsEvents.OnReleaseArrow += ArcherAnimationsEvents_OnOnReleaseArrow;
         }
+    }
+
+    private void ParalyzeShotAction_OnActionStart(object sender, EventArgs e)
+    {
+        _unitAnimator.SetTrigger(ParalyzeShot);
+    }
+
+    private void EffectSystem_OnKParalyzeStart(object sender, EventArgs e)
+    {
+        _unitAnimator.SetBool("IsParalyzed", true);
+    }
+
+    private void EffectSystem_OnParalyzeOver(object sender, EventArgs e)
+    {
+        _unitAnimator.SetBool("IsParalyzed", false);
     }
 
     private void HealthSystem_OnDamaged(object sender, EventArgs e)

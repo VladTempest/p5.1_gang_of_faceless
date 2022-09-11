@@ -9,6 +9,7 @@ public class ArcherAnimationsEvents  : MonoBehaviour
     internal Action ActionStartCallback;
 
     internal Action DefaultShotCallback;
+    internal Action ParalyzeShotCallback;
     internal Action LongShotCallback;
     internal Action EndDefaultShotCallback;
     internal Action EndLongShotCallback;
@@ -29,6 +30,11 @@ public class ArcherAnimationsEvents  : MonoBehaviour
     public void MakeDefaultShot()
     {
         DefaultShotCallback?.Invoke();
+    }
+    
+    public void MakeParalyzeShot()
+    {
+       ParalyzeShotCallback?.Invoke();
     }
 
     public void MakeLongtShot()

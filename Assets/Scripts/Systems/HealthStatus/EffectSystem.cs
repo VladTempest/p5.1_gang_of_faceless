@@ -17,6 +17,9 @@ namespace Systems.HealthStatus
         public event EventHandler OnKnockDownStart;
         public event EventHandler OnKnockDownOver;
         
+        public event EventHandler OnParalyzeStart;
+        public event EventHandler OnParalyzeOver;
+        
         [SerializeField] private EffectsAndDurationLeftDictionary _currentEffectsAndDurationLeftDict;
         [SerializeField] private int _knockDownDuration = 2;
         [SerializeField] private int _paralyzeDuration = 2;
@@ -40,6 +43,7 @@ namespace Systems.HealthStatus
         public void ParalyzeUnit()
         {
             _currentEffectsAndDurationLeftDict.TryAdd(EffectStatus.Paralyzed, _paralyzeDuration);
+            OnParalyzeStart?.Invoke(this, EventArgs.Empty);
         }
 
         public bool IsKnockedDown(out int duration)
@@ -73,6 +77,7 @@ namespace Systems.HealthStatus
                             OnKnockDownOver?.Invoke(this, EventArgs.Empty);
                             break;
                         case EffectStatus.Paralyzed:
+                            OnParalyzeOver?.Invoke(this, EventArgs.Empty);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

@@ -1,6 +1,7 @@
 ﻿using System;
 using DefaultNamespace;
 using GridSystems;
+using Scripts.Unit;
 
 namespace Actions
 {
@@ -60,8 +61,10 @@ namespace Actions
             OnDefaultShot?.Invoke(this, new OnShootEventArgs
             {
                 TargetUnit = _targetUnit,
-                HitCallback = () => Hit()
-
+                HitCallback = () =>
+                {
+                    Hit();
+                }
             });
             base.Shoot();
         }
