@@ -11,6 +11,7 @@ public class GrenadeProjectile : MonoBehaviour
     [SerializeField] private Transform _explodeVfxPrefab;
     [SerializeField] private TrailRenderer _trailRenderer;
     [SerializeField] private AnimationCurve _arcYAnimationCurve;
+    [SerializeField] private AnimationCurve _arcYAnimationDistanceCorrectionCurve;
     [SerializeField] private AnimationCurve _speedAnimationCurve;
 
     [SerializeField] private int _damageAmount = 80;
@@ -20,6 +21,7 @@ public class GrenadeProjectile : MonoBehaviour
     private Action _OnGrenadeBehaviourComplete;
     private float _totalDistance;
     private Vector3 _positionXZ;
+    private float _startHeight;
 
     private void Update()
     {
@@ -31,7 +33,7 @@ public class GrenadeProjectile : MonoBehaviour
 
         var distanceNormalizedAfter = GetDistanceNormalized(_positionXZ, _targetPosition, _totalDistance);
         float maxHeight = _totalDistance / 3f;
-        float positionY = _arcYAnimationCurve.Evaluate(distanceNormalizedAfter) * maxHeight;
+        float positionY = _arcYAnimationCurve.Evaluate(distanceNormalizedAfter) * _startHeight + _arcYAnimationDistanceCorrectionCurve.Evaluate(distanceNormalizedAfter) * maxHeight;
         transform.position = new Vector3(_positionXZ.x, positionY, _positionXZ.z);
         
         float reachedTargetDistance = .2f;
@@ -70,13 +72,13 @@ public class GrenadeProjectile : MonoBehaviour
         return distanceNormalized;
     }
 
-    public void Setup(GridPosition targetGridPosition, Action OnGrenadeBehaviourComplete)
+    public void Setup(Transform throwStartPoint, GridPosition targetGridPosition, Action OnGrenadeBehaviourComplete)
     {
+        _startHeight = throwStartPoint.position.y;
         _OnGrenadeBehaviourComplete = OnGrenadeBehaviourComplete;
         _targetPosition = LevelGrid.Instance.GetWorldPosition(targetGridPosition);
 
-        _positionXZ = transform.position;
-        _positionXZ.y = 0;
+        _positionXZ = throwStartPoint.position;
         _totalDistance = Vector3.Distance(_targetPosition, transform.position);
     }
 }

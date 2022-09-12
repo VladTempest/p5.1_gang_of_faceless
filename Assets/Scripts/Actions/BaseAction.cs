@@ -3,16 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using GridSystems;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class BaseAction : MonoBehaviour
 {
     public static event EventHandler OnAnyActionStarted;
     public static event EventHandler OnAnyActionCompleted;
+    
+    public event EventHandler OnActionStart;
 
-    [SerializeField] public int _actionRange = 0;
+    public int ActionRange = 0;
     
     protected Unit _unit;
-    protected bool _isActive;
+    private bool _isActive;
+
+    protected bool IsActive
+    {
+        get => _isActive;
+        private set => _isActive = value;
+    }
 
     protected Action _onActionComplete;
 
@@ -30,8 +39,16 @@ public abstract class BaseAction : MonoBehaviour
         var validGridPositions = GetValidGridPositions();
         return validGridPositions.Contains(gridPosition);
     }
-    
-    protected abstract bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition);
+
+    protected virtual bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+    {
+        if (_unit.EffectSystem.IsKnockedDown(out int durationLeft))
+        {
+            return false;
+        }
+
+        return true;
+    }
 
     public virtual int GetActionPointCost()
     {
@@ -40,12 +57,13 @@ public abstract class BaseAction : MonoBehaviour
 
     public List<GridPosition> GetValidGridPositions()
     {
+        if (IsActive) return new List<GridPosition>();
         List<GridPosition> validGridPositionList = new List<GridPosition>();
         GridPosition unitGridPosition = _unit.GetGridPosition();
         
-        for (int x = -_actionRange; x <= _actionRange; x++)
+        for (int x = -ActionRange; x <= ActionRange; x++)
         {
-            for (int z = -_actionRange; z <= _actionRange; z++)
+            for (int z = -ActionRange; z <= ActionRange; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
@@ -63,15 +81,15 @@ public abstract class BaseAction : MonoBehaviour
     protected void ActionStart(Action onActionComplete)
     {
         OnAnyActionStarted?.Invoke(this, EventArgs.Empty);
-        _isActive = true;
+        IsActive = true;
         _onActionComplete = onActionComplete;
     }
 
     protected void ActionComplete()
     {
-        OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
-        _isActive = false;
+        IsActive = false;
         _onActionComplete?.Invoke();
+        OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
     }
 
     public EnemyAIAction GetBestEnemyAIAction()
@@ -99,4 +117,9 @@ public abstract class BaseAction : MonoBehaviour
     }
 
     public abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPosition);
+
+    protected void InvokeOnActionStart(object sender, EventArgs eventArgs)
+    {
+        OnActionStart?.Invoke(sender, eventArgs);
+    }
 }

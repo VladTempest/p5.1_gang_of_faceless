@@ -32,7 +32,7 @@ public class CameraController : MonoBehaviour
 
     private void HandleTheZoom()
     {
-        float zoomSpeed = 5f;
+        float zoomSpeed = 7f;
 
         _targetFollowOffset.y += InputManager.Instance.GetCameraZoomAmount();
 
@@ -46,7 +46,7 @@ public class CameraController : MonoBehaviour
     {
         Vector2 inputMoveDir = InputManager.Instance.GetCameraMoveVector();
        
-        float moveSpeed = 10f;
+        float moveSpeed = 12f;
 
         Vector3 moveVector = transform.forward * inputMoveDir.y + transform.right * inputMoveDir.x;
         transform.position += moveVector * moveSpeed * Time.deltaTime;
@@ -54,7 +54,7 @@ public class CameraController : MonoBehaviour
 
     private void HandleTheRotation()
     {
-        float rotationSpeed = 100f;
+        float rotationSpeed = 120f;
         var rotateAmount = InputManager.Instance.GetCameraRotateAmount();
         var rotationVector = new Vector3(0,rotateAmount,0); 
         transform.eulerAngles += rotationVector * rotationSpeed * Time.deltaTime;

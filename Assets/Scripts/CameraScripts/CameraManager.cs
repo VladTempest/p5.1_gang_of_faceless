@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CameraManager : MonoBehaviour
 {
     [SerializeField] private GameObject _actionCameraGameObject;
-
+    
     private void ShowActionCamera()
     {
         _actionCameraGameObject.SetActive(true);
@@ -20,14 +21,20 @@ public class CameraManager : MonoBehaviour
     private void Start()
     {
         BaseAction.OnAnyActionStarted += BaseAction_OnAnyActionStarted;
-        BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCpmpleted;
+        BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;
     }
 
-    private void BaseAction_OnAnyActionCpmpleted(object sender, EventArgs e)
+    private void OnDestroy()
+    {
+        BaseAction.OnAnyActionStarted -= BaseAction_OnAnyActionStarted;
+        BaseAction.OnAnyActionCompleted -= BaseAction_OnAnyActionCompleted;
+    }
+
+    private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e)
     {
         switch (sender)
         {
-            case ShootAction shootAction:
+            case BaseShootAction shootAction:
                 HideActionCamera();
                 break;
         }
@@ -37,9 +44,10 @@ public class CameraManager : MonoBehaviour
     {
         switch (sender)
         {
-            case ShootAction shootAction:
-                Unit shooterUnit = shootAction.GetActiveUnit();
-                Unit targetUnit = shootAction.GetTargetUnit();
+            case BaseShootAction shootAction:
+                if (!IfWillTurnOnByRandom()) break;
+                Unit shooterUnit = shootAction.ActiveUnit;
+                Unit targetUnit = shootAction.TargetUnit;
                 Vector3 cameraCharacterHeight = Vector3.up * 1.7f;
                 Vector3 shootDirection = (targetUnit.WorldPosition - shooterUnit.WorldPosition).normalized;
                 float shoulderOffsetAmount = 0.5f;
@@ -52,5 +60,10 @@ public class CameraManager : MonoBehaviour
                 ShowActionCamera();
                 break;
         }
+    }
+
+    private static bool IfWillTurnOnByRandom()
+    {
+        return Random.Range(0, 10) < 3;
     }
 }

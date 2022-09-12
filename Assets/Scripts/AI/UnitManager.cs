@@ -52,7 +52,7 @@ public class UnitManager : MonoBehaviour
         }
     }
 
-    private void Unit_OnAnyUnitDead(object sender, EventArgs e)
+    private void Unit_OnAnyUnitDead(object sender, Unit.OnAnyUnitDiedEventArgs onAnyUnitDiedEventArgs)
     {
         Unit unit = sender as Unit;
         _unitList.Remove(unit);

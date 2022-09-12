@@ -48,11 +48,10 @@ public class UnitActionSystem : MonoBehaviour
     {
         SetSelectedUnit(_selectedUnit);
     }
-
+    
     private void Update()
     {
         if (_isBusy) return;
-        
         if (!TurnSystem.Instance.IsPlayerTurn) return;
         
         if (EventSystem.current.IsPointerOverGameObject()) return;

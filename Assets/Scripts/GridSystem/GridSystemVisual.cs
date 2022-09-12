@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Actions;
 using GridSystems;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GridSystemVisual : MonoBehaviour
@@ -54,18 +56,32 @@ public class GridSystemVisual : MonoBehaviour
                 GridPosition gridPosition = new GridPosition(x, z);
                 Transform gridSystemVisualSingleTransform = Instantiate(_gridSystemVisualSinglePrefab, LevelGrid.Instance.GetWorldPosition(gridPosition),
                     Quaternion.identity);
+                gridSystemVisualSingleTransform.parent = transform;
 
                 _gridSystemVisualSingleArray[x, z] =
                     gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
             }
         }
-        
+        BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
         LevelGrid.Instance.OnAnyUnitChangedGridPosition += LevelGrid_OnAnyUnitChangedGridPosition;
         Unit.OnAnyUnitDead += Unit_OnUnitDied;
     }
 
-    private void LevelGrid_OnAnyUnitChangedGridPosition(object sender, EventArgs e)
+    private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e)
+    {
+        UpdateGridVisual();;
+    }
+
+    private void OnDestroy()
+    {
+        BaseAction.OnAnyActionCompleted -= BaseAction_OnAnyActionCompleted;
+        UnitActionSystem.Instance.OnSelectedActionChanged -= UnitActionSystem_OnSelectedActionChanged;
+        LevelGrid.Instance.OnAnyUnitChangedGridPosition -= LevelGrid_OnAnyUnitChangedGridPosition;
+        Unit.OnAnyUnitDead -= Unit_OnUnitDied;
+    }
+
+    private void LevelGrid_OnAnyUnitChangedGridPosition(object sender, OnAnyUnitChangedArgs onAnyUnitChangedArgs)
     {
         UpdateGridVisual();
     }
@@ -75,7 +91,7 @@ public class GridSystemVisual : MonoBehaviour
         UpdateGridVisual();
     }
     
-    private void Unit_OnUnitDied(object sender, EventArgs e)
+    private void Unit_OnUnitDied(object sender, Unit.OnAnyUnitDiedEventArgs onAnyUnitDiedEventArgs)
     {
         UpdateGridVisual();
     }
@@ -88,13 +104,13 @@ public class GridSystemVisual : MonoBehaviour
         }
     }
 
-    public void ShowGridPositionRangeCircle(GridPosition gridPosition, int range, GridVisualType gridVisualType)
+    public void ShowGridPositionRangeCircle(GridPosition gridPosition, int maxRange, GridVisualType gridVisualType, int minRange = 0)
     {
         List<GridPosition> gridPositionList = new List<GridPosition>();
 
-        for (int x = -range; x <= range; x++)
+        for (int x = -maxRange; x <= maxRange; x++)
         {
-            for (int z = -range; z <= range; z++)
+            for (int z = -maxRange; z <= maxRange; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = gridPosition + offsetGridPosition;
@@ -105,7 +121,7 @@ public class GridSystemVisual : MonoBehaviour
                 }
 
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if (testDistance > range) continue;
+                if (testDistance > maxRange || testDistance < minRange) continue;
 
                 gridPositionList.Add(testGridPosition);
             }
@@ -167,13 +183,21 @@ public class GridSystemVisual : MonoBehaviour
              case GrenadeAction grenadeAction:
                  gridVisualType = GridVisualType.Red;
                  break;
-             case SwordAction swordAction:
+             case BackStabAction backstab:
                  gridVisualType = GridVisualType.Red;
-                 ShowGridPositionRangeSquare(selectedUnit.GetGridPosition(), swordAction._actionRange, GridVisualType.RedSoft);
+                 ShowGridPositionRangeSquare(selectedUnit.GetGridPosition(), backstab.ActionRange, GridVisualType.RedSoft);
                  break;
-            case ShootAction shootAction:
+             case MeleeAttackAction swordAction:
+                 gridVisualType = GridVisualType.Red;
+                 ShowGridPositionRangeSquare(selectedUnit.GetGridPosition(), swordAction.ActionRange, GridVisualType.RedSoft);
+                 break;
+            case BaseShootAction shootAction:
                 gridVisualType = GridVisualType.Red;
-                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), shootAction.GetMaxShootDistance(), GridVisualType.RedSoft);
+                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), shootAction.ActionRange, GridVisualType.RedSoft, shootAction.MinActionRange);
+                break;
+            case PushAction pushAction:
+                gridVisualType = GridVisualType.Red;
+                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), pushAction.ActionRange, GridVisualType.RedSoft);
                 break;
         }
         

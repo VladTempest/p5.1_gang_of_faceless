@@ -2,10 +2,10 @@
 
 namespace GridSystems
 {
-    public readonly struct GridPosition : IEquatable<GridPosition>
+    public struct GridPosition : IEquatable<GridPosition>
     {
-        public readonly int x;
-        public readonly int z;
+        public int x;
+        public int z;
         
         public bool Equals(GridPosition other)
         {

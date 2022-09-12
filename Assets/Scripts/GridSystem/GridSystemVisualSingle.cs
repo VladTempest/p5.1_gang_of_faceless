@@ -10,8 +10,15 @@ public class GridSystemVisualSingle : MonoBehaviour
     
     public void Show(Material material)
     {
-        _meshRenderer.material = material;
-        _meshRenderer.enabled = true;
+        try
+        {
+            _meshRenderer.material = material;
+            _meshRenderer.enabled = true;
+        }
+        catch (Exception e)
+        {
+            Debug.Log(transform.position + " " + gameObject + e.Message, this);
+        }
     }
     
     public void Hide()

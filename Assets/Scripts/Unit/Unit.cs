@@ -1,38 +1,53 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using GridSystems;
+using Scripts.Unit;
+using Systems.HealthStatus;
 using UnityEngine;
 using UnityEngine.Analytics;
 
 public class Unit : MonoBehaviour
 {
+    public class OnAnyUnitDiedEventArgs
+    {
+        public GridPosition deadUnitGridPosition;
+    }
+    
     public static event EventHandler OnAnyActionPointsChanged;
     public static event EventHandler OnAnyUnitSpawned;
-    public static event EventHandler OnAnyUnitDead;
+    public static event EventHandler<OnAnyUnitDiedEventArgs> OnAnyUnitDead;
 
+    public UnitType UnitType = UnitType.None;
+    public EffectSystem EffectSystem => _effectSystem;
     public int ActionPoints => _actionPoint;
     public bool IsUnitAnEnemy => _isEnemy;
     public Vector3 WorldPosition => transform.position;
     public float HealthNormalised => _healthSystem.GetNormalisedValueOfHealth();
-    
-    [SerializeField] private int ACTION_POINT_MAX = 2;
+
+    [SerializeField] private int ACTION_POINT_MAX = 10;
     [SerializeField] private bool _isEnemy;
+    [SerializeField] private int _actionPoint = 10;
 
     private HealthSystem _healthSystem;
+    private EffectSystem _effectSystem;
     private GridPosition _currentGridPosition;
     private BaseAction[] _baseActionArray;
-    private int _actionPoint = 2;
 
 
     private void Awake()
     {
         _healthSystem = GetComponent<HealthSystem>();
+        _effectSystem = GetComponent<EffectSystem>();
         _baseActionArray = GetComponents<BaseAction>();
+        
+        SetGameObjectName();
     }
 
     private void Start()
     {
+        _actionPoint = ACTION_POINT_MAX;
         GridPosition gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
         
@@ -101,14 +116,22 @@ public class Unit : MonoBehaviour
     {
         _healthSystem.Damage(damageAmount, damageSourcePosition);
     }
-
+    
+    private void SetGameObjectName()
+    {
+        StringBuilder objectName = new StringBuilder();
+        objectName.Append(UnitType.ToString());
+        objectName.Append(IsUnitAnEnemy ? "Enemy" : "Player");
+        gameObject.name = objectName.ToString();
+    }
+    
     private void HealthSystem_OnDead(object sender, EventArgs e)
     {
         LevelGrid.Instance.RemoveUnitAtGridPosition(_currentGridPosition, this);
         
         Destroy(gameObject);
         
-        OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
+        OnAnyUnitDead?.Invoke(this, new OnAnyUnitDiedEventArgs(){deadUnitGridPosition = _currentGridPosition});
     }
 
 
@@ -121,5 +144,4 @@ public class Unit : MonoBehaviour
 
         return null;
     }
-    
 }

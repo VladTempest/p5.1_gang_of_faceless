@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,8 +15,9 @@ public class UnitRagdoll : MonoBehaviour
         MatchAllChildTransform(originalRootBone, _unitRootBone);
         
         var influenceDirection = (transform.position - positionOfInfluencerBody).normalized;
-        var explosionPosition = transform.position - influenceDirection;
+        var explosionPosition = influenceDirection;
         
+
         ApplyExplosionToRagdoll(_unitRootBone, _explosionBaseValue * damageAmountNormalized, explosionPosition, _explosionBaseRange);
     }
 
@@ -38,11 +40,13 @@ public class UnitRagdoll : MonoBehaviour
     {
         foreach (Transform child in root)
         {
-            if (child.TryGetComponent<Rigidbody>(out Rigidbody childRigidBody))
+            if (child.TryGetComponent(out Rigidbody childRigidBody))
             {
-                childRigidBody.AddExplosionForce(explosionForce, explosionPosition,explosionRange);
+                Debug.DrawLine( childRigidBody.worldCenterOfMass-explosionPosition, childRigidBody.worldCenterOfMass, Color.red, 100f);
+                childRigidBody.AddExplosionForce(explosionForce, childRigidBody.worldCenterOfMass-explosionPosition,explosionRange);
             }
             ApplyExplosionToRagdoll(child, explosionForce, explosionPosition,explosionRange);
         }
     }
 }
+

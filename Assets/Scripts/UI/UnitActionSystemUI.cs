@@ -64,6 +64,7 @@ public class UnitActionSystemUI : MonoBehaviour
       Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
       foreach (BaseAction baseAction in selectedUnit.GetBaseActionArray())
       {
+         if (!baseAction.enabled) continue;
          Transform actionButtonTransform = Instantiate(_actionBittonPrefab, _actionButtonContainerTransform);
          var actionButtonUI = actionButtonTransform.GetComponent<ActionButtonUI>();
          actionButtonUI.SetBaseAction(baseAction);
