@@ -85,6 +85,11 @@ namespace Actions
 
         protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
         {
+            if (_unit.EffectSystem.IsParalyzed(out var durationLeft))
+            {
+                return false;
+            }
+            
             if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
             {
                 return false;

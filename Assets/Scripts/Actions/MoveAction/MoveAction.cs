@@ -96,20 +96,20 @@ public class MoveAction : BaseAction
 
     protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
     {
-        if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
-        {
-            return false;
-        }
         if (_unit.EffectSystem.IsParalyzed(out var durationLeft))
         {
             return false;
         }
-        
+
+        if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
+        {
+            return false;
+        }
+
         if (!GridPositionValidator.IsPositionInsideBoundaries(testGridPosition))
         {
             return false;
         }
-        
         if (GridPositionValidator.IsTargetGridPositionSameAsSourceGridPosition(unitGridPosition, testGridPosition))
         {
             return false;
@@ -124,7 +124,7 @@ public class MoveAction : BaseAction
         {
             return false;
         }
-                
+
         return true;
     }
 
