@@ -115,6 +115,7 @@ namespace DefaultNamespace
         {
             var worldPositionWithOffset = unit.transform.position - offset;
             var gridPositionWithOffset = LevelGrid.Instance.GetGridPosition(worldPositionWithOffset);
+            gridPositionWithOffset = unit.GetGridPosition() + GetValidOffset(testGridPosition, gridPositionWithOffset);
             if (IsGridPositionOpenToMoveTo(gridPositionWithOffset,testGridPosition ))
             {
                 if (!firstValidGridPositionsAndSourcePositions.TryAdd(testGridPosition, gridPositionWithOffset))
@@ -126,6 +127,13 @@ namespace DefaultNamespace
             }
             
             return false;
+        }
+        
+        private static GridPosition GetValidOffset(GridPosition startPosition, GridPosition finalGridPosition)
+        {
+            GridPosition offset = finalGridPosition - startPosition;
+            if (offset.x != 0 && offset.z != 0) offset.x = 0;
+            return offset;
         }
     }
 }

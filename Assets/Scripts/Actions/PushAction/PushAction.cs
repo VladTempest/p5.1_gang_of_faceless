@@ -82,6 +82,7 @@ namespace Actions
                         CurrentState = state;
                         OnUnitPushed?.Invoke(this, new OnPushActionEventArgs(){pushedUnitAnimator = _enemyUnit.GetComponentInChildren<Animator>()});
                         PushEnemyAway(_enemyUnit, _sourceOfPushGridPosition);
+                        _enemyUnit.Damage(0, transform.position);
                         StartCoroutine(UnitRotator.RotateUnitToDirection(_enemyUnit, _unit.WorldPosition, _timeForEnemyToRotate));
                     }
                     break;

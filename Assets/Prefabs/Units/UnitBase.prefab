@@ -461,6 +461,8 @@ MonoBehaviour:
   _obstaclesLayerMask:
   - serializedVersion: 2
     m_Bits: 256
+  _lightWarriorAnimationEvents: {fileID: 8601540634580136297}
+  _throwStartPoint: {fileID: 2871606946703666893}
 --- !u!114 &8406230969961827847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,7 +524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActionRange: 1
   _warriorAnimationEvents: {fileID: 6127686426106681534}
-  _swordDamageSource: {fileID: 0}
+  _swordDamageSource: {fileID: 7368226612755129201}
   _hitAmount: 0
 --- !u!114 &8496798667586030098
 MonoBehaviour:
@@ -550,7 +552,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unitAnimator: {fileID: 9078911697120297667}
-  _arrowInHandPrefab: {fileID: 2816317469453523255}
+  _arrowInHand: {fileID: 2816317469453523255}
+  _bombInHand: {fileID: 2867956999340281507}
+  _rightDaggerInHand: {fileID: 8200609650201546283}
 --- !u!114 &3376614277108165775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1080,6 +1084,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 9078911697110900255}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2867956999340281507 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6499751598379159740, guid: 534b7b0f42c1d304299f3f3762536fb4,
+    type: 3}
+  m_PrefabInstance: {fileID: 9078911697110900255}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2871606946703666893 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6496224053290856658, guid: 534b7b0f42c1d304299f3f3762536fb4,
+    type: 3}
+  m_PrefabInstance: {fileID: 9078911697110900255}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3303649475043714280 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5775353770436066039, guid: 534b7b0f42c1d304299f3f3762536fb4,
@@ -1131,6 +1147,12 @@ Transform:
 --- !u!4 &7596540758324414249 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1482409423859816758, guid: 534b7b0f42c1d304299f3f3762536fb4,
+    type: 3}
+  m_PrefabInstance: {fileID: 9078911697110900255}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8200609650201546283 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 878392216543318068, guid: 534b7b0f42c1d304299f3f3762536fb4,
     type: 3}
   m_PrefabInstance: {fileID: 9078911697110900255}
   m_PrefabAsset: {fileID: 0}

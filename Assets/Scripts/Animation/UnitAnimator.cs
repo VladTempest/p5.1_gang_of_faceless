@@ -2,6 +2,7 @@ using System;
 using Actions;
 using Actions.MoveAction;
 using Editor.Scripts.Actions;
+using Editor.Scripts.Animation;
 using Scripts.Unit;
 using Systems.HealthStatus;
 using UnityEngine;
@@ -10,7 +11,9 @@ using Random = UnityEngine.Random;
 public class UnitAnimator : MonoBehaviour
 {
     [SerializeField] private Animator _unitAnimator;
-    [SerializeField] private GameObject _arrowInHandPrefab;
+    [SerializeField] private GameObject _arrowInHand;
+    [SerializeField] private GameObject _bombInHand;
+    [SerializeField] private GameObject _rightDaggerInHand;
 
     private Unit _unit;
     
@@ -30,6 +33,7 @@ public class UnitAnimator : MonoBehaviour
     private static readonly int GettingHit = Animator.StringToHash("GettingHit");
     private static readonly int RandomHitIndex = Animator.StringToHash("RandomHitIndex");
     private static readonly int ParalyzeShot = Animator.StringToHash("ParalyzeShot");
+    private static readonly int GrenadeThrow = Animator.StringToHash("GrenadeThrow");
 
     private void Awake()
     {
@@ -92,13 +96,47 @@ public class UnitAnimator : MonoBehaviour
         {
             backStabAction.OnStartTeleporting += BackStabAction_OnActionStart;
         }
-
+        
+        if (TryGetComponent(out GrenadeAction grenadeAction))
+        {
+            grenadeAction.OnActionStart += GrenadeAction_OnActionStart;
+        }
+        
         var archerAnimationsEvents = GetComponentInChildren<ArcherAnimationsEvents>();
         if (archerAnimationsEvents != null)
         {
-            archerAnimationsEvents.OnGettingArrow += ArcherAnimationsEvents_OnOnGettingArrow;
-            archerAnimationsEvents.OnReleaseArrow += ArcherAnimationsEvents_OnOnReleaseArrow;
+            archerAnimationsEvents.OnGettingArrow += ArcherAnimationsEvents_OnGettingArrow;
+            archerAnimationsEvents.OnReleaseArrow += ArcherAnimationsEvents_OnReleaseArrow;
         }
+        var lightWarriorAnimationsEvents = GetComponentInChildren<LightWarriorAnimationEvents>();
+        if (archerAnimationsEvents != null)
+        {
+            lightWarriorAnimationsEvents.OnGettingBomb += LightWarriorAnimationsEvents_OnGettingBomb;
+            lightWarriorAnimationsEvents.OnReleaseBomb += LightWarriorAnimationsEvents_OnReleaseBomb;
+            lightWarriorAnimationsEvents.OnEquipDagger += LightWarriorAnimationsEvents_OnEquipDagger;
+        }
+        
+    }
+
+    private void GrenadeAction_OnActionStart(object sender, EventArgs e)
+    {
+        _unitAnimator.SetTrigger(GrenadeThrow);
+    }
+
+    private void LightWarriorAnimationsEvents_OnEquipDagger()
+    {
+        _rightDaggerInHand.SetActive(true);
+    }
+
+    private void LightWarriorAnimationsEvents_OnReleaseBomb()
+    {
+        _bombInHand.SetActive(false);
+    }
+
+    private void LightWarriorAnimationsEvents_OnGettingBomb()
+    {
+        _bombInHand.SetActive(true);
+        _rightDaggerInHand.SetActive(false);
     }
 
     private void ParalyzeShotAction_OnActionStart(object sender, EventArgs e)
@@ -201,19 +239,19 @@ public class UnitAnimator : MonoBehaviour
         var archerAnimationsEvents = GetComponentInChildren<ArcherAnimationsEvents>();
         if (archerAnimationsEvents != null)
         {
-            archerAnimationsEvents.OnGettingArrow -= ArcherAnimationsEvents_OnOnGettingArrow;
-            archerAnimationsEvents.OnReleaseArrow -= ArcherAnimationsEvents_OnOnReleaseArrow;
+            archerAnimationsEvents.OnGettingArrow -= ArcherAnimationsEvents_OnGettingArrow;
+            archerAnimationsEvents.OnReleaseArrow -= ArcherAnimationsEvents_OnReleaseArrow;
         }
     }
 
-    private void ArcherAnimationsEvents_OnOnReleaseArrow()
+    private void ArcherAnimationsEvents_OnReleaseArrow()
     {
-        _arrowInHandPrefab.SetActive(false);
+        _arrowInHand.SetActive(false);
     }
 
-    private void ArcherAnimationsEvents_OnOnGettingArrow()
+    private void ArcherAnimationsEvents_OnGettingArrow()
     {
-        _arrowInHandPrefab.SetActive(true);
+        _arrowInHand.SetActive(true);
     }
 
     private void DefaultShootAction_OnActionStart(object sender, EventArgs e)
