@@ -163,8 +163,8 @@ public class GridSystemVisual : MonoBehaviour
 
     private void UpdateGridVisual()
     {
-        GridSystemVisual.Instance.HideAllGridPosition();
-
+        if (UnitActionSystem.Instance.IsBusy) return;
+        HideAllGridPosition();
         Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
         BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
 

@@ -110,7 +110,7 @@ public abstract class BaseAction : MonoBehaviour
 
     public List<GridPosition> GetValidGridPositions()
     {
-        if (IsActive) return new List<GridPosition>();
+        //if (IsActive) return new List<GridPosition>();
         List<GridPosition> validGridPositionList = new List<GridPosition>();
         GridPosition unitGridPosition = _unit.GetGridPosition();
         
@@ -164,7 +164,7 @@ public abstract class BaseAction : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No EnemyActions");
+            Debug.Log($"[Enemy AI] There is no valid actions for {this}");
             return null;
         }
 

@@ -22,6 +22,7 @@ public class UnitActionSystem : MonoBehaviour
     private Unit _selectedUnit;
     private BaseAction _selectedAction;
 
+    public bool IsBusy => _isBusy;
     private bool _isBusy;
 
     public Unit GetSelectedUnit()
@@ -35,6 +36,8 @@ public class UnitActionSystem : MonoBehaviour
             }
             
             _selectedUnit = UnitManager.Instance.FriendlyUnitList[0];
+            OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
+            //ToDo: Удалить стопяцот инвоков ивента
         }
         return _selectedUnit;
     }
@@ -75,7 +78,13 @@ public class UnitActionSystem : MonoBehaviour
     private void Start()
     {
         SetUpSelectedUnit();
+        TurnSystem.Instance.OnTurnChanged += ChangeSelectedPlayer;
         OnBusyChanged += ChangeSelectedActionToMoveAction;
+    }
+
+    private void ChangeSelectedPlayer(object sender, EventArgs e)
+    {
+        SetUpSelectedUnit();
     }
 
     private void ChangeSelectedActionToMoveAction(object sender, bool isBusy)
@@ -85,6 +94,11 @@ public class UnitActionSystem : MonoBehaviour
 
     private void SetUpSelectedUnit()
     {
+        if (_selectedUnit != null)
+        {
+            SetSelectedAction(GetMoveAction());
+            return;
+        }
         _selectedUnit = GetSelectedUnit();
         SetSelectedAction(GetMoveAction());
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);

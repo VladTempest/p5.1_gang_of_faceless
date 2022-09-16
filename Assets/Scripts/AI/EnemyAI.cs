@@ -84,6 +84,7 @@ public class EnemyAI : MonoBehaviour
         BaseAction bestBaseAction = null;
         foreach (var baseAction in enemyUnit.GetBaseActionArray())
         {
+            if (!baseAction.enabled) continue;
             if (!enemyUnit.CanSpendActionPointToTakeAction(baseAction))
             {
                 continue;
