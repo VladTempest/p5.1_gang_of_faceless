@@ -12,7 +12,6 @@ namespace Actions
         {
             base.Start();
             _archerAnimationEvents.LongShotCallback = () => TryToChangeState(State.Shooting);
-            //_archerAnimationEvents.EndLongShotCallback = () => TryToChangeState(State.Idle);
         }
         
         public override string GetActionName()

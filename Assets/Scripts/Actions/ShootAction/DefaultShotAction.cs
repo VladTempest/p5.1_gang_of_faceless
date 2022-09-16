@@ -18,7 +18,6 @@ namespace Actions
         {
             base.Start();
             _archerAnimationEvents.DefaultShotCallback = () => TryToChangeState(State.Shooting);
-            //_archerAnimationEvents.EndDefaultShotCallback = () => TryToChangeState(State.Idle);
         }
 
         protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
@@ -62,10 +61,7 @@ namespace Actions
             OnDefaultShot?.Invoke(this, new OnShootEventArgs
             {
                 TargetUnit = _targetUnit,
-                HitCallback = () =>
-                {
-                    Hit();
-                }
+                HitCallback = Hit
             });
             base.Shoot();
         }

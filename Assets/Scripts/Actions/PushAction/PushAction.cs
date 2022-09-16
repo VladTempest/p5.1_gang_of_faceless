@@ -91,7 +91,6 @@ namespace Actions
                     if (CurrentState == PushActionState.Idle)
                     {
                         CurrentState = state;
-                        //InvokeOnActionStart(this, EventArgs.Empty);
                         StartCoroutine(UnitRotator.RotateToDirection(_unit.transform, _enemyUnit.WorldPosition, _timeToRotateToEnemy));
                     }
                     break;

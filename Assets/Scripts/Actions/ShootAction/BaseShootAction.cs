@@ -62,7 +62,6 @@ public class BaseShootAction : BaseAction
                 if (_currentState != State.Idle) break;
                 _currentState = state;
                 StartCoroutine(UnitRotator.RotateToDirection(transform, _targetUnit.WorldPosition, _rotationTime));
-                //InvokeOnActionStart(this, EventArgs.Empty);
                 break;
             case State.Shooting:
                 if (_currentState != State.Aiming) break;

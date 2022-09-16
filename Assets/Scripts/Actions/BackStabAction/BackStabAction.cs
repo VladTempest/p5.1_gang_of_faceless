@@ -134,7 +134,6 @@ namespace Actions
                     break;
                 case BackStabActionState.Teleporting:
                     if (CurrentState == BackStabActionState.Idle) CurrentState = state;
-                    //InvokeOnActionStart(this, EventArgs.Empty);
                     FXSpawner.Instance.InstantiateFog(transform.position + new Vector3(0, _heightOfFog,0));
                     _trailRenderer.emitting = true;
                     TeleportWithRotate(_taragetPosition);

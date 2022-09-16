@@ -89,7 +89,6 @@ public class GrenadeAction : BaseAction
                 if (_currentState != GrenadeThrowState.Idle) break;
                 _currentState = state;
                 StartCoroutine(UnitRotator.RotateToDirection(transform, LevelGrid.Instance.GetWorldPosition(_targetPosition), _timeToRotateToEnemy));
-                //InvokeOnActionStart(this, EventArgs.Empty);
                 break;
             case GrenadeThrowState.Attacking:
                 if (_currentState != GrenadeThrowState.Swinging) break;
