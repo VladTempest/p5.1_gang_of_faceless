@@ -23,6 +23,7 @@ public class MeleeAttackAction : BaseAction
 
     private void Start()
     {
+        base.Start();
         _warriorAnimationEvents.ActionEffectCallback += ActionEffectCallback;
         _warriorAnimationEvents.ActionFinishCallback += ActionFinishCallback;
         _warriorAnimationEvents.DualSwordCutWasMadeCallback += DualSwordCutWasMadeCallback;
@@ -52,7 +53,7 @@ public class MeleeAttackAction : BaseAction
                 if (_currentState != MeleeAttackState.Idle) break;
                 _currentState = state;
                 StartCoroutine(UnitRotator.RotateToDirection(transform, _targetUnit.WorldPosition, _timeToRotateToEnemy));
-                InvokeOnActionStart(this, EventArgs.Empty);
+                //InvokeOnActionStart(this, EventArgs.Empty);
                 break;
             case MeleeAttackState.Attacking:
                 if (_currentState != MeleeAttackState.Swinging) break;
@@ -106,7 +107,7 @@ public class MeleeAttackAction : BaseAction
         return true;
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         return new EnemyAIAction()
         {

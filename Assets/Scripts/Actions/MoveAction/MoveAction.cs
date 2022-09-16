@@ -90,6 +90,7 @@ public class MoveAction : BaseAction
 
         var onStartMovingArgs = new OnStartMovingEventArgs() {isMovementShort = _positionList.Count <= 2};
         OnStartMoving?.Invoke(this, onStartMovingArgs);
+        //InvokeOnActionStart(this, EventArgs.Empty);
         ActionStart(onActionComplete);
         StartCoroutine(nameof(MoveUnit));
     }
@@ -132,8 +133,8 @@ public class MoveAction : BaseAction
     {
         return "Move";
     }
-    
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+
+    protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         var actionValueForMovingToNearest = GetActionValueForMovingToNearest(gridPosition);
 

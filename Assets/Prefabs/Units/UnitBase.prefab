@@ -342,6 +342,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActionRange: 7
+  _cooldownValue: 0
+  _maxCharges: 0
   _moveSpeed: 8
   _speedAnimationCurve:
     serializedVersion: 2
@@ -398,6 +400,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActionRange: 5
+  _cooldownValue: 0
+  _maxCharges: 0
   MinActionRange: 2
   _obstaclesLayerMask:
   - serializedVersion: 2
@@ -418,6 +422,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActionRange: 10
+  _cooldownValue: 2
+  _maxCharges: 0
   MinActionRange: 5
   _obstaclesLayerMask: []
   _archerAnimationEvents: {fileID: 5364160928189757119}
@@ -436,6 +442,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActionRange: 10
+  _cooldownValue: 2
+  _maxCharges: 0
   MinActionRange: 2
   _obstaclesLayerMask:
   - serializedVersion: 2
@@ -456,6 +464,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActionRange: 5
+  _cooldownValue: 2
+  _maxCharges: 2
   _grenadeProjectilePrefab: {fileID: 6687859904654384484, guid: 7f382f4aa51b52a418459543f697891c,
     type: 3}
   _obstaclesLayerMask:
@@ -476,6 +486,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActionRange: 10
+  _cooldownValue: 2
+  _maxCharges: 0
   _lightWarriorAnimationEvents: {fileID: 8601540634580136297}
   _attackDamage: 50
   _swordDamageSource: {fileID: 7368226612755129201}
@@ -493,6 +505,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActionRange: 1
+  _cooldownValue: 2
+  _maxCharges: 0
   _warriorAnimationEvents: {fileID: 6127686426106681534}
 --- !u!114 &8829374000318235079
 MonoBehaviour:
@@ -507,6 +521,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActionRange: 1
+  _cooldownValue: 0
+  _maxCharges: 0
   _warriorAnimationEvents: {fileID: 6127686426106681534}
   _swordDamageSource: {fileID: 7368226612755129201}
   _hitAmount: 50
@@ -523,6 +539,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActionRange: 1
+  _cooldownValue: 2
+  _maxCharges: 0
   _warriorAnimationEvents: {fileID: 6127686426106681534}
   _swordDamageSource: {fileID: 7368226612755129201}
   _hitAmount: 0
@@ -539,6 +557,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActionRange: 1
+  _cooldownValue: 2
+  _maxCharges: 0
 --- !u!114 &6456212231567743547
 MonoBehaviour:
   m_ObjectHideFlags: 0

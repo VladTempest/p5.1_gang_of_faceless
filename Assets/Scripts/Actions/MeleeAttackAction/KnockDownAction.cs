@@ -26,7 +26,7 @@ public class KnockDownAction : MeleeAttackAction
                 if (_currentState != MeleeAttackState.Idle) break;
                 _currentState = state;
                 StartCoroutine(UnitRotator.RotateToDirection(transform, _targetUnit.WorldPosition, _timeToRotateToEnemy));
-                InvokeOnActionStart(this, EventArgs.Empty);
+                //InvokeOnActionStart(this, EventArgs.Empty);
                 break;
             case MeleeAttackState.Attacking:
                 if (_currentState != MeleeAttackState.Swinging) break;

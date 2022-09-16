@@ -18,6 +18,7 @@ public class InteractAction : BaseAction
     {
         IInteractable interactableObject = LevelGrid.Instance.GetInteractableAtGridPosition(gridPosition);
         interactableObject.Interact(OnInteractComplete);
+        //InvokeOnActionStart(this, EventArgs.Empty);
         ActionStart(onActionComplete);
     }
 
@@ -40,7 +41,7 @@ public class InteractAction : BaseAction
         return true;
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         return new EnemyAIAction()
         {

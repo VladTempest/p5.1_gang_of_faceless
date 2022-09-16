@@ -16,6 +16,7 @@ namespace Actions
 
         private void Start()
         {
+            base.Start();
             _archerAnimationEvents.DefaultShotCallback = () => TryToChangeState(State.Shooting);
             //_archerAnimationEvents.EndDefaultShotCallback = () => TryToChangeState(State.Idle);
         }

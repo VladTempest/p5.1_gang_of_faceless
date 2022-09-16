@@ -28,6 +28,7 @@ namespace Actions
         
         private void Start()
         {
+            base.Start();
             _lightWarriorAnimationEvents.ActionTeleportCallback += ActionTeleportCallback;
             _lightWarriorAnimationEvents.ActionEffectCallback += ActionEffectCallback;
             _lightWarriorAnimationEvents.ActionFinishCallback += ActionFinishCallback;
@@ -118,7 +119,7 @@ namespace Actions
             return true;
         }
 
-        public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+        protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
         {
             return new EnemyAIAction(){actionValue = 0, gridPosition = new GridPosition()};
         }
@@ -133,6 +134,7 @@ namespace Actions
                     break;
                 case BackStabActionState.Teleporting:
                     if (CurrentState == BackStabActionState.Idle) CurrentState = state;
+                    //InvokeOnActionStart(this, EventArgs.Empty);
                     FXSpawner.Instance.InstantiateFog(transform.position + new Vector3(0, _heightOfFog,0));
                     _trailRenderer.emitting = true;
                     TeleportWithRotate(_taragetPosition);

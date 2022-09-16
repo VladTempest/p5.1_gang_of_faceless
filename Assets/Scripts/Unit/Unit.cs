@@ -26,10 +26,13 @@ public class Unit : MonoBehaviour
     public Vector3 WorldPosition => transform.position;
     public float HealthNormalised => _healthSystem.GetNormalisedValueOfHealth();
 
+    public MoveAction UnitMoveAction => _moveAction;
+
     [SerializeField] private int ACTION_POINT_MAX = 10;
     [SerializeField] private bool _isEnemy;
     [SerializeField] private int _actionPoint = 10;
 
+    private MoveAction _moveAction;
     private HealthSystem _healthSystem;
     private EffectSystem _effectSystem;
     private GridPosition _currentGridPosition;
@@ -49,6 +52,9 @@ public class Unit : MonoBehaviour
     {
         _actionPoint = ACTION_POINT_MAX;
         GridPosition gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+
+        _moveAction = GetComponent<MoveAction>();
+        
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
         
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;

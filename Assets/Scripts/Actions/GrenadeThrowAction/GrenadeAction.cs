@@ -20,6 +20,7 @@ public class GrenadeAction : BaseAction
 
     private void Start()
     {
+        base.Start();
         _lightWarriorAnimationEvents.OnReleaseBomb += LightWarriorAnimationEvents_OnReleaseBomb;
         _lightWarriorAnimationEvents.OnEquipDagger += LightWarriorAnimationEvents_OnEquipDagger;
     }
@@ -88,7 +89,7 @@ public class GrenadeAction : BaseAction
                 if (_currentState != GrenadeThrowState.Idle) break;
                 _currentState = state;
                 StartCoroutine(UnitRotator.RotateToDirection(transform, LevelGrid.Instance.GetWorldPosition(_targetPosition), _timeToRotateToEnemy));
-                InvokeOnActionStart(this, EventArgs.Empty);
+                //InvokeOnActionStart(this, EventArgs.Empty);
                 break;
             case GrenadeThrowState.Attacking:
                 if (_currentState != GrenadeThrowState.Swinging) break;
@@ -109,7 +110,8 @@ public class GrenadeAction : BaseAction
     {
         TryToChangeState(GrenadeThrowState.Idle);
     }
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+
+    protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         return new EnemyAIAction
         {

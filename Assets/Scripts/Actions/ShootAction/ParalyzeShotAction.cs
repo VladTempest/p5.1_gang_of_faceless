@@ -15,6 +15,7 @@ namespace Actions
 
         private void Start()
         {
+            base.Start();
             _archerAnimationEvents.ParalyzeShotCallback = () => TryToChangeState(State.Shooting);
         }
 

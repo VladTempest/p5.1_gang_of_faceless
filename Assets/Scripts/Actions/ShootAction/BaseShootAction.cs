@@ -62,7 +62,7 @@ public class BaseShootAction : BaseAction
                 if (_currentState != State.Idle) break;
                 _currentState = state;
                 StartCoroutine(UnitRotator.RotateToDirection(transform, _targetUnit.WorldPosition, _rotationTime));
-                InvokeOnActionStart(this, EventArgs.Empty);
+                //InvokeOnActionStart(this, EventArgs.Empty);
                 break;
             case State.Shooting:
                 if (_currentState != State.Aiming) break;
@@ -103,7 +103,7 @@ public class BaseShootAction : BaseAction
         return true;
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
         return new EnemyAIAction

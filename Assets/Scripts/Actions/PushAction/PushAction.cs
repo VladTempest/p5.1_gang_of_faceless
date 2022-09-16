@@ -31,6 +31,7 @@ namespace Actions
 
         private void Start()
         {
+            base.Start();
             _warriorAnimationEvents.PushingCallback += PushingCallback;
             _warriorAnimationEvents.ActionFinishCallback += ActionFinishCallback;
         }
@@ -90,7 +91,7 @@ namespace Actions
                     if (CurrentState == PushActionState.Idle)
                     {
                         CurrentState = state;
-                        InvokeOnActionStart(this, EventArgs.Empty);
+                        //InvokeOnActionStart(this, EventArgs.Empty);
                         StartCoroutine(UnitRotator.RotateToDirection(_unit.transform, _enemyUnit.WorldPosition, _timeToRotateToEnemy));
                     }
                     break;
@@ -124,7 +125,7 @@ namespace Actions
             return true;
         }
 
-        public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+        protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
         {
             return new EnemyAIAction(){actionValue = 0, gridPosition = new GridPosition()};
         }
