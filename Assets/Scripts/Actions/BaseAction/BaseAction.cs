@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Editor.Scripts.Actions.BaseAction;
+using Editor.Scripts.Utils;
 using GridSystems;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
 
 public abstract class BaseAction : MonoBehaviour
@@ -12,9 +14,11 @@ public abstract class BaseAction : MonoBehaviour
     public static event EventHandler OnAnyActionCompleted;
     public event EventHandler OnActionStart;
 
+    [SerializeField] private ActionsEnum _actionType;
+    
     public event EventHandler OnActionStatusUpdate;
 
-    public int ActionRange = 0;
+    public int MaxActionRange = 0;
 
 
     public bool IsAvailable => _currentStatus == ActionStatus.ReadyToUse;
@@ -32,10 +36,14 @@ public abstract class BaseAction : MonoBehaviour
         }
     }
 
-    [SerializeField] private int _cooldownValue = 2;
-    public int FullCoolDownValue => _cooldownValue * 2;
+    public int MinActionRange => _minActionRange;
+
+    [SerializeField] private float _cooldownValue = 2;
+    private float FullCoolDownValue => _cooldownValue;
+
     private ActionStatus _currentStatus;
-    private int _coolDownTurnsLeft = 0;
+    
+    private float _coolDownTurnsLeft = 0;
 
     public bool IsChargeable => (_maxCharges != 0);
     [SerializeField] private int _maxCharges = 0;
@@ -45,15 +53,26 @@ public abstract class BaseAction : MonoBehaviour
     protected Unit _unit;
 
 
-    protected bool IsActive
-    {
-        get => _currentStatus == ActionStatus.InProgress;
-    }
+    protected bool IsActive => _currentStatus == ActionStatus.InProgress;
 
-    protected Action _onActionComplete;
+    private Action _onActionComplete;
+    protected float _damage;
+    protected int _minActionRange;
+    protected int _actionPointCost;
 
     protected virtual void Awake()
     {
+        if (!enabled) return;
+        
+        var actionsParameters = ConstantsProvider.Instance.actionsParametersSO.ActionsParametersDictionary[_actionType];
+        
+        MaxActionRange = actionsParameters.MaxRange;
+        _maxCharges = actionsParameters.Charges;
+        _cooldownValue = actionsParameters.CoolDown;
+        _damage = actionsParameters.Damage;
+        _minActionRange = actionsParameters.MinRange;
+        _actionPointCost = actionsParameters.ActionPoints;
+        
         _chargesLeft = _maxCharges;
         
         if (_coolDownTurnsLeft == 0)
@@ -69,6 +88,8 @@ public abstract class BaseAction : MonoBehaviour
 
     protected void Start()
     {
+        if (!enabled) return;
+        
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
     }
     
@@ -80,7 +101,7 @@ public abstract class BaseAction : MonoBehaviour
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
         DecreaseCoolDownValueLeft();
-        ChangeActionStatusFrom(_currentStatus);
+        TryChangeStatusAfterCoolDown();
     }
 
     public abstract string GetActionName();
@@ -95,7 +116,7 @@ public abstract class BaseAction : MonoBehaviour
 
     protected virtual bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
     {
-        if (_unit.EffectSystem.IsKnockedDown(out int durationLeft))
+        if (_unit.EffectSystem.IsKnockedDown(out float durationLeft))
         {
             return false;
         }
@@ -105,7 +126,7 @@ public abstract class BaseAction : MonoBehaviour
 
     public virtual int GetActionPointCost()
     {
-        return 1;
+        return _actionPointCost;
     }
 
     public List<GridPosition> GetValidGridPositions()
@@ -114,9 +135,9 @@ public abstract class BaseAction : MonoBehaviour
         List<GridPosition> validGridPositionList = new List<GridPosition>();
         GridPosition unitGridPosition = _unit.GetGridPosition();
         
-        for (int x = -ActionRange; x <= ActionRange; x++)
+        for (int x = -MaxActionRange; x <= MaxActionRange; x++)
         {
-            for (int z = -ActionRange; z <= ActionRange; z++)
+            for (int z = -MaxActionRange; z <= MaxActionRange; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
@@ -141,7 +162,7 @@ public abstract class BaseAction : MonoBehaviour
 
     protected void ActionComplete()
     {
-        ChangeActionStatusFrom(_currentStatus);
+        UpdateActionStatus();
         _onActionComplete?.Invoke();
         OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
     }
@@ -176,22 +197,36 @@ public abstract class BaseAction : MonoBehaviour
     {
         if (_maxCharges != 0) _chargesLeft--;
         if (HasCoolDown) _coolDownTurnsLeft = FullCoolDownValue;
-        ChangeActionStatusFrom(_currentStatus);
+        UpdateActionStatus();
         OnActionStart?.Invoke(sender, eventArgs);
     }
 
-    protected void ChangeActionStatusFrom(ActionStatus status)
+    private void TryChangeStatusAfterCoolDown()
     {
-        switch (status)
+        switch (_currentStatus)
+        {
+            case ActionStatus.Discharged:
+                break;
+            case ActionStatus.OnCoolDown:
+                if (_cooldownValue != 0 && _coolDownTurnsLeft > 0)
+                {
+                    OnActionStatusUpdate?.Invoke(this, EventArgs.Empty);
+                    break;
+                }
+                _currentStatus = ActionStatus.ReadyToUse;
+                OnActionStatusUpdate?.Invoke(this, EventArgs.Empty);
+                break;
+        }
+    }
+    
+    private void UpdateActionStatus()
+    {
+        switch (_currentStatus)
         {
             case ActionStatus.ReadyToUse:
                 _currentStatus = ActionStatus.InProgress;
                 break;
             case ActionStatus.Discharged:
-                break;
-            case ActionStatus.OnCoolDown:
-                _currentStatus = ActionStatus.ReadyToUse;
-                OnActionStatusUpdate?.Invoke(this, EventArgs.Empty);
                 break;
             case ActionStatus.InProgress:
                 if (_maxCharges != 0 && _chargesLeft <= 0)
@@ -209,8 +244,6 @@ public abstract class BaseAction : MonoBehaviour
                 _currentStatus = ActionStatus.ReadyToUse;
                 OnActionStatusUpdate?.Invoke(this, EventArgs.Empty);
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(status), status, null);
         }
     }
 
@@ -218,7 +251,7 @@ public abstract class BaseAction : MonoBehaviour
     {
         if (_coolDownTurnsLeft > 0)
         {
-            --_coolDownTurnsLeft;
+            _coolDownTurnsLeft -= GameGlobalConstants.TURN_WEIGHT_VALUE;
         }
     }
 }

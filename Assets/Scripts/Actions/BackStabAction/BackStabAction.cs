@@ -14,7 +14,6 @@ namespace Actions
         public event EventHandler OnStartTeleporting;
         
         [SerializeField] private LightWarriorAnimationEvents _lightWarriorAnimationEvents;
-        [SerializeField] private int _attackDamage = 100;
         [SerializeField] private Transform _swordDamageSource;
         [SerializeField] private TrailRenderer _trailRenderer;
         private Dictionary<GridPosition, GridPosition> _firstValidTeleportGridPositionsAndEnemyGridPositions = new Dictionary<GridPosition, GridPosition>();
@@ -29,6 +28,7 @@ namespace Actions
         private void Start()
         {
             base.Start();
+            if (!enabled) return;
             _lightWarriorAnimationEvents.ActionTeleportCallback += ActionTeleportCallback;
             _lightWarriorAnimationEvents.ActionEffectCallback += ActionEffectCallback;
             _lightWarriorAnimationEvents.ActionFinishCallback += ActionFinishCallback;
@@ -74,7 +74,7 @@ namespace Actions
 
         private void Attack(GridPosition gridPosition)
         {
-            _targetUnit.Damage(_attackDamage, _swordDamageSource.position);
+            _targetUnit.Damage(_damage, _swordDamageSource.position);
         }
 
         private void TeleportWithRotate(GridPosition gridPosition)

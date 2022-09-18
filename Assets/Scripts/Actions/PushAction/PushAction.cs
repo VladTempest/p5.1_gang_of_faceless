@@ -32,6 +32,7 @@ namespace Actions
         private void Start()
         {
             base.Start();
+            if (!enabled) return;
             _warriorAnimationEvents.PushingCallback += PushingCallback;
             _warriorAnimationEvents.ActionFinishCallback += ActionFinishCallback;
         }
@@ -83,7 +84,7 @@ namespace Actions
                         CurrentState = state;
                         OnUnitPushed?.Invoke(this, new OnPushActionEventArgs(){pushedUnitAnimator = _enemyUnit.GetComponentInChildren<Animator>()});
                         PushEnemyAway(_enemyUnit, _sourceOfPushGridPosition);
-                        _enemyUnit.Damage(0, transform.position);
+                        _enemyUnit.Damage(_damage, transform.position);
                         StartCoroutine(UnitRotator.RotateUnitToDirection(_enemyUnit, _unit.WorldPosition, _timeForEnemyToRotate));
                     }
                     break;
@@ -119,7 +120,7 @@ namespace Actions
                 return false;
             }
             
-            if (!GridPositionValidator.IsPositionInsideActionCircleRange(ActionRange, testGridPosition, unitGridPosition)) return false;
+            if (!GridPositionValidator.IsPositionInsideActionCircleRange(MaxActionRange, testGridPosition, unitGridPosition)) return false;
 
             return true;
         }

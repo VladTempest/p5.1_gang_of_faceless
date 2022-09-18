@@ -14,7 +14,6 @@ public class MeleeAttackAction : BaseAction
 
     [SerializeField] private WarriorAnimationEvents _warriorAnimationEvents;
     [SerializeField] private Transform _swordDamageSource;
-    [SerializeField] private int _hitAmount = 50;
 
     protected MeleeAttackState _currentState;
     protected Unit _targetUnit;
@@ -23,6 +22,7 @@ public class MeleeAttackAction : BaseAction
 
     private void Start()
     {
+        if (!enabled) return;
         base.Start();
         _warriorAnimationEvents.ActionEffectCallback += ActionEffectCallback;
         _warriorAnimationEvents.ActionFinishCallback += ActionFinishCallback;
@@ -58,7 +58,7 @@ public class MeleeAttackAction : BaseAction
                 if (_currentState != MeleeAttackState.Swinging) break;
                 _currentState = state;
                 StartCoroutine(UnitRotator.RotateUnitToDirection(_targetUnit, _unit.WorldPosition, _timeForEnemyToRotate));
-                _targetUnit.Damage(_hitAmount, _swordDamageSource.position);
+                _targetUnit.Damage(_damage, _swordDamageSource.position);
                 OnAnyMeleeHit?.Invoke(this, EventArgs.Empty);
                 break;
             case MeleeAttackState.Idle:

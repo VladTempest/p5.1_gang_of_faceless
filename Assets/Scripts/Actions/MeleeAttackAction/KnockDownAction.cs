@@ -31,6 +31,7 @@ public class KnockDownAction : MeleeAttackAction
                 if (_currentState != MeleeAttackState.Swinging) break;
                 _currentState = state;
                 StartCoroutine(UnitRotator.RotateUnitToDirection(_targetUnit, _unit.WorldPosition, _timeForEnemyToRotate));
+                _targetUnit.Damage(_damage, transform.position);
                 _targetUnit.EffectSystem.KnockDownUnit();   
                 OnAnyKnockDownHappened?.Invoke(this, EventArgs.Empty);
                 break;
@@ -57,7 +58,7 @@ public class KnockDownAction : MeleeAttackAction
             return false;
         }
         
-        if (!GridPositionValidator.IsPositionInsideActionCircleRange(ActionRange, testGridPosition, unitGridPosition))
+        if (!GridPositionValidator.IsPositionInsideActionCircleRange(MaxActionRange, testGridPosition, unitGridPosition))
         {
             return false;
         }

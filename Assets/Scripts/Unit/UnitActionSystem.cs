@@ -79,7 +79,20 @@ public class UnitActionSystem : MonoBehaviour
     {
         SetUpSelectedUnit();
         TurnSystem.Instance.OnTurnChanged += ChangeSelectedPlayer;
+        Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
         OnBusyChanged += ChangeSelectedActionToMoveAction;
+    }
+
+    private void Unit_OnAnyUnitDead(object sender, Unit.OnAnyUnitDiedEventArgs e)
+    {
+        SetUpSelectedUnit();
+    }
+
+    private void OnDestroy()
+    {
+        TurnSystem.Instance.OnTurnChanged -= ChangeSelectedPlayer;
+        Unit.OnAnyUnitDead -= Unit_OnAnyUnitDead;
+        OnBusyChanged -= ChangeSelectedActionToMoveAction;
     }
 
     private void ChangeSelectedPlayer(object sender, EventArgs e)

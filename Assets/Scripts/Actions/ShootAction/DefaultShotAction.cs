@@ -17,6 +17,7 @@ namespace Actions
         private void Start()
         {
             base.Start();
+            if (!enabled) return;
             _archerAnimationEvents.DefaultShotCallback = () => TryToChangeState(State.Shooting);
         }
 
@@ -31,7 +32,7 @@ namespace Actions
                 return false;
             }
 
-            if (!GridPositionValidator.IsPositionInsideActionCircleRange(ActionRange, testGridPosition, unitGridPosition, MinActionRange))
+            if (!GridPositionValidator.IsPositionInsideActionCircleRange(MaxActionRange, testGridPosition, unitGridPosition, _minActionRange))
             {
                 return false;
             }

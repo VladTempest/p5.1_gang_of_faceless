@@ -13,6 +13,7 @@ public class SpinAction : BaseAction
 
     private void Update()
     {
+        if (!enabled) return;
         if (!IsActive) return;
         
         float spinAddAmount = 360f * Time.deltaTime;

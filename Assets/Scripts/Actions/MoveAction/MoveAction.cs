@@ -30,14 +30,14 @@ public class MoveAction : BaseAction
     {
         while (_currentPositionIndex != _positionList.Count)
         {
+            _currentPositionIndex = Mathf.Clamp(_currentPositionIndex, 0, (_positionList.Count - 1));
             Vector3 targetPosition = _positionList[_currentPositionIndex];
-            Vector3 moveDirection = (targetPosition - transform.position).normalized;
             StartCoroutine(UnitRotator.RotateToDirection(transform,targetPosition, _rotateTime));
             while (Vector3.Distance(targetPosition, transform.position) >= _moveSpeed * Time.deltaTime)
             {
                 var currentSpeedMultiplier = GetCurrentSpeedMultiplier();
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, _moveSpeed * currentSpeedMultiplier * Time.deltaTime);
-                yield return 0;
+                yield return null;
             }
 
             transform.position = targetPosition;
@@ -57,6 +57,7 @@ public class MoveAction : BaseAction
     
     private float GetCurrentSpeedMultiplier()
     {
+        _currentPositionIndex = Mathf.Clamp(_currentPositionIndex, 0, (_positionList.Count - 1));
         if (_currentPositionIndex == 0)
         {
             _passedDistanceFromLastPosition = Vector3.Distance(_positionList[0],

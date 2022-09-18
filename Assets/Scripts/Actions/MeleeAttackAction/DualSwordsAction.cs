@@ -1,23 +1,13 @@
-﻿using System;
-using DefaultNamespace;
+﻿using DefaultNamespace;
 using GridSystems;
 
-namespace Actions
+namespace Editor.Scripts.Actions
 {
-    public class LongShotAction : BaseShootAction
+    public class DualSwordsAction : MeleeAttackAction
     {
-        public event EventHandler<OnShootEventArgs> OnLongShot;
-        
-        private void Start()
-        {
-            base.Start();
-            if (!enabled) return;
-            _archerAnimationEvents.LongShotCallback = () => TryToChangeState(State.Shooting);
-        }
-        
         public override string GetActionName()
         {
-            return "Long Shot";
+            return "Dual Swords Attack";
         }
         
         protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
@@ -26,13 +16,11 @@ namespace Actions
             {
                 return false;
             }
-            
             if (!GridPositionValidator.IsPositionInsideBoundaries(testGridPosition))
             {
                 return false;
             }
-
-            if (!GridPositionValidator.IsPositionInsideActionCircleRange(MaxActionRange, testGridPosition, unitGridPosition, _minActionRange))
+            if (!GridPositionValidator.IsPositionInsideActionCircleRange(MaxActionRange, testGridPosition, unitGridPosition))
             {
                 return false;
             }
@@ -42,24 +30,12 @@ namespace Actions
                 return false;
             }
 
-
             if (!GridPositionValidator.IsGridPositionWithEnemy(testGridPosition, _unit))
             {
                 return false;
             }
 
             return true;
-        }
-        
-        protected override void Shoot()
-        {
-            OnLongShot?.Invoke(this, new OnShootEventArgs
-            {
-                TargetUnit = _targetUnit,
-                HitCallback = () => Hit()
-
-            });
-            base.Shoot();
         }
     }
 }

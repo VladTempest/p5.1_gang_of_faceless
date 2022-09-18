@@ -67,6 +67,11 @@ public class UnitAnimator : MonoBehaviour
             swordAction.OnActionStart += MeleeActionOnOnMeleeActionStarted;
         }
         
+        if (TryGetComponent(out DualSwordsAction dualSwordsAction))
+        {
+            dualSwordsAction.OnActionStart += MeleeActionOnOnMeleeActionStarted;
+        }
+        
         if (TryGetComponent(out KnockDownAction knockDownAction))
         {
             knockDownAction.OnActionStart += KnockDownAction_OnActionStart;
@@ -205,42 +210,74 @@ public class UnitAnimator : MonoBehaviour
             defaultShootAction.OnActionStart -= DefaultShootAction_OnActionStart;
         }
         
+        if (TryGetComponent(out ParalyzeShotAction paralyzeShootAction))
+        {
+            paralyzeShootAction.OnActionStart -= ParalyzeShotAction_OnActionStart;
+        }
+        
         if (TryGetComponent(out LongShotAction longShotAction))
         {
             longShotAction.OnActionStart -= LongShotAction_OnActionStart;
         }
         
-        if (TryGetComponent(out PushAction pushAction))
-        {
-            pushAction.OnActionStart -= PushAction_OnActionStart;
-        }
             
-        if (TryGetComponent(out MeleeAttackAction swordAction))
+        if (TryGetComponent(out GreatSwordAction swordAction))
         {
             swordAction.OnActionStart -= MeleeActionOnOnMeleeActionStarted;
         }
         
-        if (TryGetComponent(out EffectSystem effectSystem))
+        if (TryGetComponent(out DualSwordsAction dualSwordsAction))
         {
-            effectSystem.OnKnockDownOver -= EffectSystem_OnKnockDownOver;
-            effectSystem.OnKnockDownStart -= EffectSystem_OnKnockDownStart;
+            dualSwordsAction.OnActionStart -= MeleeActionOnOnMeleeActionStarted;
         }
+        
         if (TryGetComponent(out KnockDownAction knockDownAction))
         {
             knockDownAction.OnActionStart -= KnockDownAction_OnActionStart;
         }
         
-        if (TryGetComponent(out BackStabAction backStabAction))
+        if (TryGetComponent(out PushAction pushAction))
         {
-            backStabAction.OnActionStart -= BackStabAction_OnActionStart;
+            pushAction.OnActionStart -= PushAction_OnActionStart;
+            pushAction.OnUnitPushed -= PushAction_OnUnitPushed;
+        }
+
+        if (TryGetComponent(out EffectSystem effectSystem))
+        {
+            effectSystem.OnKnockDownOver -= EffectSystem_OnKnockDownOver;
+            effectSystem.OnKnockDownStart -= EffectSystem_OnKnockDownStart;
+            
+            effectSystem.OnParalyzeOver -= EffectSystem_OnParalyzeOver;
+            effectSystem.OnParalyzeStart -= EffectSystem_OnKParalyzeStart;
         }
         
-
+        if (TryGetComponent(out HealthSystem healthSystem))
+        {
+            healthSystem.OnDamaged -= HealthSystem_OnDamaged;
+        }
+        
+        if (TryGetComponent(out BackStabAction backStabAction))
+        {
+            backStabAction.OnStartTeleporting -= BackStabAction_OnActionStart;
+        }
+        
+        if (TryGetComponent(out GrenadeAction grenadeAction))
+        {
+            grenadeAction.OnActionStart -= GrenadeAction_OnActionStart;
+        }
+        
         var archerAnimationsEvents = GetComponentInChildren<ArcherAnimationsEvents>();
         if (archerAnimationsEvents != null)
         {
             archerAnimationsEvents.OnGettingArrow -= ArcherAnimationsEvents_OnGettingArrow;
             archerAnimationsEvents.OnReleaseArrow -= ArcherAnimationsEvents_OnReleaseArrow;
+        }
+        var lightWarriorAnimationsEvents = GetComponentInChildren<LightWarriorAnimationEvents>();
+        if (archerAnimationsEvents != null)
+        {
+            lightWarriorAnimationsEvents.OnGettingBomb -= LightWarriorAnimationsEvents_OnGettingBomb;
+            lightWarriorAnimationsEvents.OnReleaseBomb -= LightWarriorAnimationsEvents_OnReleaseBomb;
+            lightWarriorAnimationsEvents.OnEquipDagger -= LightWarriorAnimationsEvents_OnEquipDagger;
         }
     }
 

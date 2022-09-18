@@ -118,7 +118,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void Damage(int damageAmount, Vector3 damageSourcePosition)
+    public void Damage(float damageAmount, Vector3 damageSourcePosition)
     {
         _healthSystem.Damage(damageAmount, damageSourcePosition);
     }

@@ -21,6 +21,7 @@ public class GrenadeAction : BaseAction
     private void Start()
     {
         base.Start();
+        if (!enabled) return;
         _lightWarriorAnimationEvents.OnReleaseBomb += LightWarriorAnimationEvents_OnReleaseBomb;
         _lightWarriorAnimationEvents.OnEquipDagger += LightWarriorAnimationEvents_OnEquipDagger;
     }
@@ -59,7 +60,7 @@ public class GrenadeAction : BaseAction
             return false;
         }
         
-        if (!GridPositionValidator.IsPositionInsideActionCircleRange(ActionRange, testGridPosition, unitGridPosition)) return false;;
+        if (!GridPositionValidator.IsPositionInsideActionCircleRange(MaxActionRange, testGridPosition, unitGridPosition)) return false;;
 
         if (!GridPositionValidator.IsGridPositionOnLineOfSight(testGridPosition, unitGridPosition,
                 _obstaclesLayerMask))
@@ -95,7 +96,7 @@ public class GrenadeAction : BaseAction
                 _currentState = state;
                 Transform grenadeProjectileTransform = Instantiate(_grenadeProjectilePrefab, _throwStartPoint.position, Quaternion.identity);
                 GrenadeProjectile grenadeProjectile = grenadeProjectileTransform.GetComponent<GrenadeProjectile>();
-                grenadeProjectile.Setup(_throwStartPoint, _targetPosition, OnGrenadeBehaviourComplete);
+                grenadeProjectile.Setup(_throwStartPoint, _targetPosition, OnGrenadeBehaviourComplete, _damage);
                 break;
             case GrenadeThrowState.Idle:
                 if (_currentState != GrenadeThrowState.Attacking) break;

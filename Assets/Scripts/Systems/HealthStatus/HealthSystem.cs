@@ -33,9 +33,9 @@ public class HealthSystem : MonoBehaviour
         _healthMax = _health;
     }
 
-    public void Damage(int damageAmount, Vector3 damageSourcePosition)
+    public void Damage(float damageAmount, Vector3 damageSourcePosition)
     {
-        _health -= damageAmount;
+        _health -= (int) damageAmount;
         _lastDamageSourcePosition = damageSourcePosition;
         _lastDamagedHealthAmountNormilised = (float) damageAmount / _healthMax;
         if (_health < 0)

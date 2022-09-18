@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Actions;
+using Editor.Scripts.Actions;
 using GridSystems;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -185,19 +186,27 @@ public class GridSystemVisual : MonoBehaviour
                  break;
              case BackStabAction backstab:
                  gridVisualType = GridVisualType.Red;
-                 ShowGridPositionRangeSquare(selectedUnit.GetGridPosition(), backstab.ActionRange, GridVisualType.RedSoft);
+                 ShowGridPositionRangeSquare(selectedUnit.GetGridPosition(), backstab.MaxActionRange, GridVisualType.RedSoft);
                  break;
-             case MeleeAttackAction swordAction:
+             case GreatSwordAction swordAction:
                  gridVisualType = GridVisualType.Red;
-                 ShowGridPositionRangeSquare(selectedUnit.GetGridPosition(), swordAction.ActionRange, GridVisualType.RedSoft);
+                 ShowGridPositionRangeSquare(selectedUnit.GetGridPosition(), swordAction.MaxActionRange, GridVisualType.RedSoft);
                  break;
+            case DualSwordsAction dualSwordAction:
+                gridVisualType = GridVisualType.Red;
+                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), dualSwordAction.MaxActionRange, GridVisualType.RedSoft);
+                break;
+            case KnockDownAction knockDownAction:
+                gridVisualType = GridVisualType.Red;
+                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), knockDownAction.MaxActionRange, GridVisualType.RedSoft);
+                break;
             case BaseShootAction shootAction:
                 gridVisualType = GridVisualType.Red;
-                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), shootAction.ActionRange, GridVisualType.RedSoft, shootAction.MinActionRange);
+                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), shootAction.MaxActionRange, GridVisualType.RedSoft, shootAction.MinActionRange);
                 break;
             case PushAction pushAction:
                 gridVisualType = GridVisualType.Red;
-                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), pushAction.ActionRange, GridVisualType.RedSoft);
+                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), pushAction.MaxActionRange, GridVisualType.RedSoft);
                 break;
         }
         
