@@ -1,6 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using Scripts.Unit;
 using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
@@ -13,6 +12,7 @@ public class HealthSystem : MonoBehaviour
     private int _healthMax = 100;
     private Vector3 _lastDamageSourcePosition;
     private float _lastDamagedHealthAmountNormilised;
+    private UnitType _unitType;
 
 
     public class OnDeadEventArgs : EventArgs
@@ -28,9 +28,24 @@ public class HealthSystem : MonoBehaviour
         }
     }
     
-    private void Awake()
+    private void Start()
     {
-        _healthMax = _health;
+        _unitType = GetComponent<Unit>().UnitType;
+        SetUpClassParameters();
+        _health = _healthMax;
+    }
+    
+    private void SetUpClassParameters()
+    {
+        if (ConstantsProvider.Instance.classesParametersSO.ClassesParametersDictionary.TryGetValue(_unitType,
+                out var classesParameters))
+        {
+            _healthMax = classesParameters.ActionPoints;
+        }
+        else
+        {
+            Debug.LogError($"[Action] Can not find {_unitType} in Constants Provider dict", this);
+        }
     }
 
     public void Damage(float damageAmount, Vector3 damageSourcePosition)

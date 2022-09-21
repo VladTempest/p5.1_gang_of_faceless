@@ -8,6 +8,7 @@ public class ConstantsProvider : MonoBehaviour
     public static ConstantsProvider Instance { get; private set; }
 
     [SerializeField] public ActionsParamtersSO actionsParametersSO; 
+    [SerializeField] public ClassesParamtersSO classesParametersSO; 
     private void Awake()
     {
         if (Instance != null)

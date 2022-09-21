@@ -50,6 +50,7 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
+        SetUpClassParameters();
         _actionPoint = ACTION_POINT_MAX;
         GridPosition gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
 
@@ -62,6 +63,19 @@ public class Unit : MonoBehaviour
         _healthSystem.OnDead += HealthSystem_OnDead;
         
         OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
+    }
+    
+    private void SetUpClassParameters()
+    {
+        if (ConstantsProvider.Instance.classesParametersSO.ClassesParametersDictionary.TryGetValue(UnitType,
+                out var classesParameters))
+        {
+            ACTION_POINT_MAX = classesParameters.ActionPoints;
+        }
+        else
+        {
+            Debug.LogError($"[Action] Can not find {UnitType} in Constants Provider dict", this);
+        }
     }
 
     private void Update()

@@ -63,15 +63,8 @@ public abstract class BaseAction : MonoBehaviour
     protected virtual void Awake()
     {
         if (!enabled) return;
-        
-        var actionsParameters = ConstantsProvider.Instance.actionsParametersSO.ActionsParametersDictionary[_actionType];
-        
-        MaxActionRange = actionsParameters.MaxRange;
-        _maxCharges = actionsParameters.Charges;
-        _cooldownValue = actionsParameters.CoolDown;
-        _damage = actionsParameters.Damage;
-        _minActionRange = actionsParameters.MinRange;
-        _actionPointCost = actionsParameters.ActionPoints;
+
+        SetUpActionParameters();
         
         _chargesLeft = _maxCharges;
         
@@ -84,6 +77,24 @@ public abstract class BaseAction : MonoBehaviour
             _currentStatus = ActionStatus.OnCoolDown;
         }
         _unit = GetComponent<Unit>();
+    }
+
+    private void SetUpActionParameters()
+    {
+        if (ConstantsProvider.Instance.actionsParametersSO.ActionsParametersDictionary.TryGetValue(_actionType,
+                out var actionsParameters))
+        {
+            MaxActionRange = actionsParameters.MaxRange;
+            _maxCharges = actionsParameters.Charges;
+            _cooldownValue = actionsParameters.CoolDown;
+            _damage = actionsParameters.Damage;
+            _minActionRange = actionsParameters.MinRange;
+            _actionPointCost = actionsParameters.ActionPoints;
+        }
+        else
+        {
+            Debug.LogError($"[Action] Can not find {_actionType} in Constants Provider dict", this);
+        }
     }
 
     protected void Start()

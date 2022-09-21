@@ -342,7 +342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7256d2eff5fc65747b81b7bb27e33a2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actionType: 9
+  _actionType: 10
   MaxActionRange: 0
   _cooldownValue: 0
   _maxCharges: 0
@@ -401,11 +401,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61d64d80d14c4135b07f320e23722271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actionType: 0
+  _actionType: 1
   MaxActionRange: 0
   _cooldownValue: 0
   _maxCharges: 0
-  MinActionRange: 2
   _obstaclesLayerMask:
   - serializedVersion: 2
     m_Bits: 256
@@ -423,11 +422,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ec37c9dea0a46ce8a5b0b4155e05f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actionType: 1
+  _actionType: 2
   MaxActionRange: 0
   _cooldownValue: 2
   _maxCharges: 0
-  MinActionRange: 5
   _obstaclesLayerMask: []
   _archerAnimationEvents: {fileID: 5364160928189757119}
   _rotationTime: 0.25
@@ -443,11 +441,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d385d935fcae4d5ca299c7e0e69199df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actionType: 2
+  _actionType: 3
   MaxActionRange: 0
   _cooldownValue: 2
   _maxCharges: 0
-  MinActionRange: 2
   _obstaclesLayerMask:
   - serializedVersion: 2
     m_Bits: 256
@@ -465,7 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc1aa7c1e32db6c43be2027013b1868d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actionType: 8
+  _actionType: 9
   MaxActionRange: 0
   _cooldownValue: 2
   _maxCharges: 2
@@ -488,7 +485,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b677cdc349443cba97de06b8371dbdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actionType: 7
+  _actionType: 8
   MaxActionRange: 0
   _cooldownValue: 2
   _maxCharges: 0
@@ -507,7 +504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bcbdf0a9bb64141b4dc2439d80f512c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actionType: 4
+  _actionType: 5
   MaxActionRange: 0
   _cooldownValue: 2
   _maxCharges: 0
@@ -524,7 +521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c15fd00f51064ace90e7dbcb00ff32bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actionType: 6
+  _actionType: 7
   MaxActionRange: 0
   _cooldownValue: 0
   _maxCharges: 0
@@ -542,7 +539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc9ddee24b7409c98a0a215ba3938ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actionType: 3
+  _actionType: 4
   MaxActionRange: 0
   _cooldownValue: 0
   _maxCharges: 0
@@ -560,7 +557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0941aa577da4301ac59d445538e72dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actionType: 5
+  _actionType: 6
   MaxActionRange: 0
   _cooldownValue: 2
   _maxCharges: 0
@@ -578,7 +575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 169b94405af2dd04490ffa10b8cbfe07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actionType: 10
+  _actionType: 11
   MaxActionRange: 0
   _cooldownValue: 2
   _maxCharges: 0

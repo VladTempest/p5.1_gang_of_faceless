@@ -2,16 +2,17 @@
 {
     public enum ActionsEnum
     {
-        DefaultShot = 0,
-        LongShot = 1,
-        Parallyze = 2,
-        GreatSwordAttack = 3,
-        Push = 4,
-        KnockDown = 5,
-        DualSwordAttack = 6,
-        BackStab = 7,
-        Bomb = 8,
-        Move = 9,
-        Interact = 10
+        NoAction = 0,
+        DefaultShot = 1,
+        LongShot = 2,
+        Parallyze = 3,
+        GreatSwordAttack = 4,
+        Push = 5,
+        KnockDown = 6,
+        DualSwordAttack = 7,
+        BackStab = 8,
+        Bomb = 9,
+        Move = 10,
+        Interact = 11
     }
 }
