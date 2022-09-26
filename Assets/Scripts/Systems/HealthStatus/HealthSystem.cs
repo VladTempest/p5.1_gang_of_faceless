@@ -40,7 +40,7 @@ public class HealthSystem : MonoBehaviour
         if (ConstantsProvider.Instance.classesParametersSO.ClassesParametersDictionary.TryGetValue(_unitType,
                 out var classesParameters))
         {
-            _healthMax = classesParameters.ActionPoints;
+            _healthMax = classesParameters.HP;
         }
         else
         {

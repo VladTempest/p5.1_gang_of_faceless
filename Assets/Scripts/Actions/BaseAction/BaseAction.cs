@@ -20,6 +20,8 @@ public abstract class BaseAction : MonoBehaviour
 
     public int MaxActionRange = 0;
 
+    public float Damage => _damage;
+
 
     public bool IsAvailable => _currentStatus == ActionStatus.ReadyToUse;
     public bool HasCoolDown => (_cooldownValue != 0);

@@ -12,6 +12,7 @@ public class ActionButtonUI : MonoBehaviour
     [SerializeField] private Button _button;
     [SerializeField] private GameObject _selectedVisual;
     [SerializeField] private TextMeshProUGUI _chargesLeft;
+    [SerializeField] private TextMeshProUGUI _apDamageRange;
     [SerializeField] private Image _coolDownMask;
 
     private BaseAction _baseAction;
@@ -20,7 +21,7 @@ public class ActionButtonUI : MonoBehaviour
     {
         _button = GetComponent<Button>();
     }
-    
+
     private void BaseAction_OnActionStatusUpdate(object sender, EventArgs e)
     {
         UpdateChargesVisuals();
@@ -32,6 +33,12 @@ public class ActionButtonUI : MonoBehaviour
     {
         _textMeshPro.text = baseAction.GetActionName().ToUpper();
         _baseAction = baseAction;
+        if (!(_baseAction is MoveAction))
+        {
+            _apDamageRange.text = _baseAction.GetActionPointCost() + "/" + _baseAction.Damage + "/" +
+                                  _baseAction.MinActionRange + "-" + _baseAction.MaxActionRange;
+        }
+
         _button.onClick.AddListener(() => UnitActionSystem.Instance.SetSelectedAction(baseAction));
         SetUpActionVisuals();
         _baseAction.OnActionStatusUpdate += BaseAction_OnActionStatusUpdate;
