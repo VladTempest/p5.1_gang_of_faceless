@@ -121,13 +121,7 @@ public abstract class BaseAction : MonoBehaviour
 
     public abstract void TakeAction(GridPosition gridPosition, Action onActionComplete);
     
-    public virtual bool IsValidActionGridPosition(GridPosition gridPosition)
-    {
-        var validGridPositions = GetValidGridPositions();
-        return validGridPositions.Contains(gridPosition);
-    }
-
-    protected virtual bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+    public virtual bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
     {
         if (_unit.EffectSystem.IsKnockedDown(out float durationLeft))
         {

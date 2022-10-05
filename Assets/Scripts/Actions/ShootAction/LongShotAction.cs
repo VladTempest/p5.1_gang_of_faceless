@@ -19,8 +19,8 @@ namespace Actions
         {
             return "Long Shot";
         }
-        
-        protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+
+        public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
         {
             if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
             {

@@ -84,7 +84,7 @@ namespace Actions
             _firstValidTeleportGridPositionsAndEnemyGridPositions.Clear();
         }
 
-        protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+        public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
         {
             if (_unit.EffectSystem.IsParalyzed(out var durationLeft))
             {

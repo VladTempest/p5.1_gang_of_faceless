@@ -163,6 +163,14 @@ public class Pathfinding : MonoBehaviour
         return pathLength;
     }
     
+    public int GetPathLengthToUnwalkableGridPosition(GridPosition startGridPosition, GridPosition endGridPosition)
+    {
+        SetIsWalkableGridPosition(endGridPosition, true);
+        FindPath(startGridPosition, endGridPosition, out var pathLength);
+        SetIsWalkableGridPosition(endGridPosition, false);
+        return pathLength;
+    }
+    
     private int CalculateDistance(GridPosition gridPositionA, GridPosition gridPositionB)
     {
         GridPosition gridPositionDistance = gridPositionA - gridPositionB;

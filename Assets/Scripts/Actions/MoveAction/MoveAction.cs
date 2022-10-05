@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Actions.MoveAction;
 using DefaultNamespace;
+using Editor.Scripts.Utils;
 using GridSystems;
 using Scripts.Unit;
 using UnityEngine;
@@ -16,9 +17,6 @@ public class MoveAction : BaseAction
     [SerializeField] private float _moveSpeed = 4f;
     [SerializeField] private AnimationCurve _speedAnimationCurve;
 
-    private int ONE_GRID_MOVEMENT_COST = 2;
-    private int PATH_TO_POINT_MULTIPLIER = 10;
-    
     private List<Vector3> _positionList;
     private float _currentPathLength;
     private float _alreadyWalkedPathLength;
@@ -95,7 +93,7 @@ public class MoveAction : BaseAction
         StartCoroutine(nameof(MoveUnit));
     }
 
-    protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+    public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
     {
         if (_unit.EffectSystem.IsParalyzed(out var durationLeft))
         {
@@ -136,51 +134,20 @@ public class MoveAction : BaseAction
 
     protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        var actionValueForMovingToNearest = GetActionValueForMovingToNearest(gridPosition);
-
-        var actionValueForMovingToMostTarget = GetActionValueForMovingToMostTargets(gridPosition);
-
-
-        return new EnemyAIAction
-        {
-            gridPosition = gridPosition,
-            actionValue = Mathf.Max(actionValueForMovingToNearest, actionValueForMovingToMostTarget)
-        };
+        throw new NotImplementedException();
     }
 
-    private int GetActionValueForMovingToMostTargets(GridPosition gridPosition)
-    {
-        var shootAction = _unit.GetAction<BaseShootAction>();
-        var targetCountAtGridPosition = shootAction.GetTargetCountAtPosition(gridPosition);
-        var actionValueForMovingToMostTarget = targetCountAtGridPosition * 1000;
-        return actionValueForMovingToMostTarget;
-    }
-
-    private static int GetActionValueForMovingToNearest(GridPosition gridPosition)
-    {
-        var friendlyUnitList = UnitManager.Instance.FriendlyUnitList;
-
-        var nearestFriendlyUnitDistance = float.MaxValue;
-        var currentDistanceFromEnemyToFriendlyUnit = int.MaxValue;
-        foreach (var friendlyUnit in friendlyUnitList)
-        {
-            Pathfinding.Instance.FindPath(friendlyUnit.GetGridPosition(), gridPosition,
-                out currentDistanceFromEnemyToFriendlyUnit);
-            if (currentDistanceFromEnemyToFriendlyUnit < nearestFriendlyUnitDistance)
-            {
-                nearestFriendlyUnitDistance = currentDistanceFromEnemyToFriendlyUnit;
-            }
-        }
-
-        var actionValueForMovingToNearest = Mathf.RoundToInt(1000 - currentDistanceFromEnemyToFriendlyUnit);
-        return actionValueForMovingToNearest;
-    }
     public override int GetActionPointCost()
     {
         var mousePosition = MouseWorld.GetPointerInWorldPosition();
         var targetGridPosition = LevelGrid.Instance.GetGridPosition(mousePosition);
+        return GetActionPointCost(targetGridPosition);
+    }
+    
+    public int GetActionPointCost(GridPosition targetGridPosition)
+    {
         var currentPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         var pathLength = Pathfinding.Instance.GetPathLength(currentPosition, targetGridPosition);
-        return pathLength * ONE_GRID_MOVEMENT_COST / PATH_TO_POINT_MULTIPLIER;
+        return pathLength * GameGlobalConstants.ONE_GRID_MOVEMENT_COST / GameGlobalConstants.PATH_TO_POINT_MULTIPLIER;
     }
 }

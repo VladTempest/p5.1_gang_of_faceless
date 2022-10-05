@@ -34,7 +34,7 @@ public class SpinAction : BaseAction
 
     }
 
-    protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+    public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
     {
         if (GridPositionValidator.HasAnyUnitOnGridPosition(testGridPosition))
         {

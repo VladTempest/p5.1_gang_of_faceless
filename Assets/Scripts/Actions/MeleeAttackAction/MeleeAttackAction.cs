@@ -82,7 +82,7 @@ public class MeleeAttackAction : BaseAction
         
     }
 
-    protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+    public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
     {
         if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
         {

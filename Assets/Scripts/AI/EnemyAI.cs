@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Editor.Scripts.AI;
 using GridSystems;
 using UnityEngine;
 
@@ -80,7 +81,11 @@ public class EnemyAI : MonoBehaviour
 
     private bool TryTakeEnemyActionAI(Unit enemyUnit, Action onActionComplete)
     {
-        EnemyAIAction bestEnemyAIAction = null;
+        Debug.Log("Checking unit" + enemyUnit.gameObject.name);
+        enemyUnit.gameObject.GetComponent<EnemyAIUnit>().MakeAIAction(onActionComplete);
+        return false;
+        
+        /*EnemyAIAction bestEnemyAIAction = null;
         BaseAction bestBaseAction = null;
         foreach (var baseAction in enemyUnit.GetBaseActionArray())
         {
@@ -111,6 +116,7 @@ public class EnemyAI : MonoBehaviour
             bestBaseAction.TakeAction(bestEnemyAIAction.gridPosition, onActionComplete);
             return true;
         }
+        return false;*/
         return false;
     }
 
