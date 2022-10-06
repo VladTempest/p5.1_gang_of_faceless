@@ -9,7 +9,8 @@ using UnityEngine.Serialization;
 public class Pathfinding : MonoBehaviour
 {
     public static Pathfinding Instance { get; private set; }
-    
+
+    [SerializeField] private bool isDebugElementsShown = false;
     [SerializeField] private Transform _gridDebugObjectrPrefab;
     [SerializeField] private LayerMask _obstaclesLayerMask;
 
@@ -43,7 +44,7 @@ public class Pathfinding : MonoBehaviour
         _gridSystem = new GridSystem<PathNode>(_width, _height, _cellSize,
             (GridSystem<PathNode> g, GridPosition gridPosition) => new PathNode(gridPosition));
         
-        //if (_gridDebugObjectrPrefab) _gridSystem.CreateDebugObjects(_gridDebugObjectrPrefab);
+        if (_gridDebugObjectrPrefab && isDebugElementsShown) _gridSystem.CreateDebugObjects(_gridDebugObjectrPrefab);
 
         for (int x = 0; x < width; x++)
         {
@@ -163,11 +164,13 @@ public class Pathfinding : MonoBehaviour
         return pathLength;
     }
     
-    public int GetPathLengthToUnwalkableGridPosition(GridPosition startGridPosition, GridPosition endGridPosition)
+    public int GetPathLengthToUnwalkableGridPosition(GridPosition startGridPosition, GridPosition endGridPosition, GridPosition sourceOfPathRequestPositiob)
     {
         SetIsWalkableGridPosition(endGridPosition, true);
+        SetIsWalkableGridPosition(sourceOfPathRequestPositiob, true);
         FindPath(startGridPosition, endGridPosition, out var pathLength);
         SetIsWalkableGridPosition(endGridPosition, false);
+        SetIsWalkableGridPosition(sourceOfPathRequestPositiob, false);
         return pathLength;
     }
     

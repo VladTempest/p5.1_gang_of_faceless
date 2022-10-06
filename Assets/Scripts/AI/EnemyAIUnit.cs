@@ -30,7 +30,8 @@ namespace Editor.Scripts.AI
 
         private List<BaseAction> _availableAttackActions;
         
-
+        const float enemyPresenceWeight = 1;
+        
         private void Start()
         {
             SetUpEnemyAIUnit();
@@ -53,54 +54,53 @@ namespace Editor.Scripts.AI
             var maxGridsToMove = _unit.ActionPoints / GameGlobalConstants.ONE_GRID_MOVEMENT_COST;
             
 
-            
+            AIMovementActionData aiBestActionData = new AIMovementActionData(new GridPosition(0, 0), 0);
             for (int gridsOffsetNumber = 0; gridsOffsetNumber <= maxGridsToMove; gridsOffsetNumber++)
             {
-                if (TryToMoveWithAnOffset(onActionComplete, gridsOffsetNumber))
-                    return;
+                aiBestActionData = GetBestActionDataForOffset(gridsOffsetNumber, aiBestActionData);
+                if (aiBestActionData.MovementRating >= enemyPresenceWeight) {break;}
             }
+
+            if (aiBestActionData.TargetGridPosition != _unit.GetGridPosition())
+            {
+                _moveAction.TakeAction(aiBestActionData.TargetGridPosition, onActionComplete);
+            }
+            else
+            {
+                onActionComplete?.Invoke();
+            }
+            
         }
 
-        private bool TryToMoveWithAnOffset(Action onActionComplete, int gridsOffsetNumber)
+        private AIMovementActionData GetBestActionDataForOffset(int gridsOffsetNumber, AIMovementActionData aiBestActionData)
         {
-            AIMovementActionData aiBestActionData = new AIMovementActionData(new GridPosition(0,0), 0);
-            Tuple<float, GridPosition> currentTuple;
             if (gridsOffsetNumber == 0)
             {
-                aiBestActionData = UpdateBestTuple(aiBestActionData);
-
-                if (aiBestActionData.MovementRating > 0) return true;
-                return false;
+                return UpdateBestActionData(aiBestActionData);
             }
 
             if (gridsOffsetNumber > 1)
             {
                 var previousOffsetNumber = gridsOffsetNumber - 1;
-                aiBestActionData = UpdateBestTuple(aiBestActionData, previousOffsetNumber , previousOffsetNumber);
-                aiBestActionData = UpdateBestTuple(aiBestActionData,-previousOffsetNumber, -previousOffsetNumber);
-                aiBestActionData = UpdateBestTuple(aiBestActionData,previousOffsetNumber, -previousOffsetNumber);
-                aiBestActionData = UpdateBestTuple(aiBestActionData,-previousOffsetNumber, previousOffsetNumber);
+                aiBestActionData = UpdateBestActionData(aiBestActionData, previousOffsetNumber , previousOffsetNumber);
+                aiBestActionData = UpdateBestActionData(aiBestActionData,-previousOffsetNumber, -previousOffsetNumber);
+                aiBestActionData = UpdateBestActionData(aiBestActionData,previousOffsetNumber, -previousOffsetNumber);
+                aiBestActionData = UpdateBestActionData(aiBestActionData,-previousOffsetNumber, previousOffsetNumber);
             }
 
-            aiBestActionData = UpdateBestTuple(aiBestActionData, 0 , gridsOffsetNumber);
-            aiBestActionData = UpdateBestTuple(aiBestActionData,gridsOffsetNumber, 0);
-            aiBestActionData = UpdateBestTuple(aiBestActionData,0, -gridsOffsetNumber);
-            aiBestActionData = UpdateBestTuple(aiBestActionData,-gridsOffsetNumber, 0);
+            aiBestActionData = UpdateBestActionData(aiBestActionData, 0 , gridsOffsetNumber);
+            aiBestActionData = UpdateBestActionData(aiBestActionData,gridsOffsetNumber, 0);
+            aiBestActionData = UpdateBestActionData(aiBestActionData,0, -gridsOffsetNumber);
+            aiBestActionData = UpdateBestActionData(aiBestActionData,-gridsOffsetNumber, 0);
 
-            if (aiBestActionData.MovementRating > 0)
-            {
-                _moveAction.TakeAction(aiBestActionData.TargetGridPosition, onActionComplete);
-                return true;
-            }
-
-            return false;
+            return aiBestActionData;
         }
 
-        private AIMovementActionData UpdateBestTuple(AIMovementActionData aiBestMovementActionData,int xGridOffset = 0, int zGridOffset = 0)
+        private AIMovementActionData UpdateBestActionData(AIMovementActionData aiBestMovementActionData,int xGridOffset = 0, int zGridOffset = 0)
         {
             AIMovementActionData currentAiData;
             currentAiData = RateGridPositionWithOffset(xGridOffset, zGridOffset);
-            if (currentAiData.MovementRating != 0 && currentAiData.MovementRating >= aiBestMovementActionData.MovementRating)
+            if (currentAiData.MovementRating != 0 && currentAiData.MovementRating > aiBestMovementActionData.MovementRating)
             {
                 aiBestMovementActionData = currentAiData;
             }
@@ -117,7 +117,6 @@ namespace Editor.Scripts.AI
         }
         private float RateGridPosition(GridPosition testGridPosition)
         {
-            const float enemyPresenceWeight = 1;
             const float enemyPathLenghtWeight = 1;
             float gridPositionRating = 0;
             var friendlyUnitList = UnitManager.Instance.FriendlyUnitList;
@@ -126,12 +125,19 @@ namespace Editor.Scripts.AI
                 foreach (var action in _availableAttackActions)
                 {
                     Debug.Log("Checking " + action.name + "action");
-                    if (!CheckIfGridPositionReachable(testGridPosition, _unit.GetGridPosition())) continue;
-                    if (!CheckIfUnitInAttackRange(testGridPosition, playerUnit, action)) continue;
+                    var enemiesInRangeNumber = 0;
+                    if (testGridPosition != _unit.GetGridPosition() && !CheckIfGridPositionReachable(testGridPosition, _unit.GetGridPosition())) continue;
+
+                    if (CheckIfUnitInAttackRange(testGridPosition, playerUnit, action))
+                    {
+                        enemiesInRangeNumber = 1;
+                    }
+                    
                     var playerGridPosition = playerUnit.GetGridPosition();
-                    var enemyToPlayerLenghtPath =
-                        Pathfinding.Instance.GetPathLengthToUnwalkableGridPosition(testGridPosition, playerGridPosition);
-                    gridPositionRating += enemyPresenceWeight + 1/(float)enemyToPlayerLenghtPath*enemyPathLenghtWeight;
+                    var enemyToPlayerLenghtPath = Pathfinding.Instance.GetPathLengthToUnwalkableGridPosition(testGridPosition, playerGridPosition, _unit.GetGridPosition());
+                    if (enemyToPlayerLenghtPath == 0) continue;
+                    
+                    gridPositionRating += enemiesInRangeNumber * enemyPresenceWeight + 1/(float)enemyToPlayerLenghtPath*enemyPathLenghtWeight;
                 }
             }
 

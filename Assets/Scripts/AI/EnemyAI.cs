@@ -84,40 +84,6 @@ public class EnemyAI : MonoBehaviour
         Debug.Log("Checking unit" + enemyUnit.gameObject.name);
         enemyUnit.gameObject.GetComponent<EnemyAIUnit>().MakeAIAction(onActionComplete);
         return false;
-        
-        /*EnemyAIAction bestEnemyAIAction = null;
-        BaseAction bestBaseAction = null;
-        foreach (var baseAction in enemyUnit.GetBaseActionArray())
-        {
-            if (!baseAction.enabled) continue;
-            if (!enemyUnit.CanSpendActionPointToTakeAction(baseAction))
-            {
-                continue;
-            }
-
-            if (bestEnemyAIAction == null)
-            {
-                bestEnemyAIAction = baseAction.GetBestEnemyAIAction();
-                bestBaseAction = baseAction;
-            }
-            else
-            {
-                EnemyAIAction testEnemyAIAction = baseAction.GetBestEnemyAIAction();
-                if (testEnemyAIAction != null && testEnemyAIAction.actionValue > bestEnemyAIAction.actionValue)
-                {
-                    bestEnemyAIAction = testEnemyAIAction;
-                    bestBaseAction = baseAction;
-                }
-            }
-        }
-
-        if (bestEnemyAIAction != null && enemyUnit.TrySpendActionPointsToTakeAction(bestBaseAction))
-        {
-            bestBaseAction.TakeAction(bestEnemyAIAction.gridPosition, onActionComplete);
-            return true;
-        }
-        return false;*/
-        return false;
     }
 
     private void SetStateTakingTurn()
