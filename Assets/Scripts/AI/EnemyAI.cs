@@ -73,16 +73,11 @@ public class EnemyAI : MonoBehaviour
         var enemyUnitList = UnitManager.Instance.EnemyUnitList;
         foreach (var enemyUnit in enemyUnitList)
         {
-            if (TryTakeEnemyActionAI(enemyUnit, onActionComplete)) return true;
+            Debug.Log("Checking unit" + enemyUnit.gameObject.name);
+            bool isActionHappen = enemyUnit.gameObject.GetComponent<EnemyAIUnit>().TryMakeAIAction(onActionComplete);
+            if (isActionHappen) return true;
         }
 
-        return false;
-    }
-
-    private bool TryTakeEnemyActionAI(Unit enemyUnit, Action onActionComplete)
-    {
-        Debug.Log("Checking unit" + enemyUnit.gameObject.name);
-        enemyUnit.gameObject.GetComponent<EnemyAIUnit>().MakeAIAction(onActionComplete);
         return false;
     }
 

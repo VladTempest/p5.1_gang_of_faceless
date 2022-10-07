@@ -43,13 +43,14 @@ namespace Editor.Scripts.AI
             _availableAttackActions.Remove(_moveAction);
         }
 
-        public void MakeAIAction(Action onActionComplete)
+        public bool TryMakeAIAction(Action onActionComplete)
         {
-            StartMovePhase(onActionComplete); 
-            //StartAttackPhase();
+            bool isActionHappen = TryStartMovePhase(onActionComplete);
+            //isActionHappen = StartAttackPhase(onActionComplete);
+            return isActionHappen;
         }
 
-        private void StartMovePhase(Action onActionComplete)
+        private bool TryStartMovePhase(Action onActionComplete)
         {
             var maxGridsToMove = _unit.ActionPoints / GameGlobalConstants.ONE_GRID_MOVEMENT_COST;
             
@@ -64,12 +65,17 @@ namespace Editor.Scripts.AI
             if (aiBestActionData.TargetGridPosition != _unit.GetGridPosition())
             {
                 _moveAction.TakeAction(aiBestActionData.TargetGridPosition, onActionComplete);
+                return true;
             }
             else
             {
+                //ToDo: здесь будет другая логика окончания хода
                 onActionComplete?.Invoke();
+                return false;
             }
-            
+
+            return false;
+
         }
 
         private AIMovementActionData GetBestActionDataForOffset(int gridsOffsetNumber, AIMovementActionData aiBestActionData)
