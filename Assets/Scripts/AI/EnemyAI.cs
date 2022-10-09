@@ -15,7 +15,10 @@ public class EnemyAI : MonoBehaviour
     }
 
     private State _state;
-    private float _timer;
+    bool isEnemyShouldTryMakeAction = true;
+    private int _enemiesCount;
+    private int _currentEnemyInAction;
+    private List<Unit> _enemyUnitList;
 
     private void Awake()
     {
@@ -31,59 +34,64 @@ public class EnemyAI : MonoBehaviour
     {
         if (!TurnSystem.Instance.IsPlayerTurn)
         {
-            _state = State.TakingTurn;
-            _timer = 2f;
+            MakeAITurn();
         }
     }
 
-    void Update()
+    private void MakeAITurn()
     {
-        if (TurnSystem.Instance.IsPlayerTurn)
+        _enemyUnitList = UnitManager.Instance.EnemyUnitList;
+        _enemiesCount = _enemyUnitList.Count;
+        _currentEnemyInAction = 0;
+        MakeTurnOfEnemyWithIndex(_currentEnemyInAction);
+    }
+
+    private void MakeTurnOfEnemyWithIndex(int currentEnemyInAction)
+    {
+        if (currentEnemyInAction <= _enemiesCount - 1)
         {
+            var enemyAiUnit = _enemyUnitList[currentEnemyInAction].gameObject.GetComponent<EnemyAIUnit>();
+            enemyAiUnit.TryMakeAIAction(() =>
+            {
+                Debug.Log("[ENEMY AI] action finished on" + enemyAiUnit.gameObject.name);
+                MakeTurnOfEnemyWithIndex(_currentEnemyInAction++);
+                
+            });
             return;
         }
-
-        switch (_state)
-        {
-            case State.WaitingForEnemyTurn:
-                break;
-            case State.Busy:
-                break;
-            case State.TakingTurn:
-                _timer -= Time.deltaTime;
-                if (_timer <= 0f)
-                {
-                    if (TryTakeEnemyActionAI(SetStateTakingTurn))
-                    {
-                        _state = State.Busy;
-                    }
-                    else
-                    {
-                        TurnSystem.Instance.NextTurn();
-                    }
-                }
-                break;
-        }
-
+        
+        TurnSystem.Instance.NextTurn();
         
     }
 
-    private bool TryTakeEnemyActionAI(Action onActionComplete)
+    /*IEnumerator StartEnemiesAction()
+    {
+        var enemyUnitList = UnitManager.Instance.EnemyUnitList;
+        var enemyAiUnit = enemyUnitList[0].gameObject.GetComponent<EnemyAIUnit>();
+        
+    }*/
+    
+    /*private bool TryTakeEnemyActionAI(Action onActionComplete)
+    {
+        var enemyUnitList = UnitManager.Instance.EnemyUnitList;
+        bool isActionHappen = false;
+        StartCoroutine(MakeAction(onActionComplete));
+        return false;
+    }*/
+    
+
+    /*IEnumerator MakeAction(Action onActionComplete)
     {
         var enemyUnitList = UnitManager.Instance.EnemyUnitList;
         foreach (var enemyUnit in enemyUnitList)
         {
+            var enemyAiUnit = enemyUnit.gameObject.GetComponent<EnemyAIUnit>();
             Debug.Log("Checking unit" + enemyUnit.gameObject.name);
-            bool isActionHappen = enemyUnit.gameObject.GetComponent<EnemyAIUnit>().TryMakeAIAction(onActionComplete);
-            if (isActionHappen) return true;
+            while (isEnemyShouldTryMakeAction)
+            {
+                isEnemyShouldTryMakeAction = enemyAiUnit.TryMakeAIAction(onActionComplete);
+                yield return null;
+            }
         }
-
-        return false;
-    }
-
-    private void SetStateTakingTurn()
-    {
-        _timer = 0.5f;
-        _state = State.TakingTurn;
-    }
+    }*/
 }

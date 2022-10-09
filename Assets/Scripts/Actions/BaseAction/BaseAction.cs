@@ -18,6 +18,7 @@ public abstract class BaseAction : MonoBehaviour
     
     public event EventHandler OnActionStatusUpdate;
 
+    public int ActionPointCost => _actionPointCost;
     public int MaxActionRange = 0;
 
     public float Damage => _damage;
@@ -134,6 +135,11 @@ public abstract class BaseAction : MonoBehaviour
     public virtual int GetActionPointCost()
     {
         return _actionPointCost;
+    }
+    
+    public virtual int GetActionPointCost(GridPosition targetGridPosition)
+    {
+       return GetActionPointCost();
     }
 
     public List<GridPosition> GetValidGridPositions()

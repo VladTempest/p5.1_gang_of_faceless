@@ -144,7 +144,7 @@ public class MoveAction : BaseAction
         return GetActionPointCost(targetGridPosition);
     }
     
-    public int GetActionPointCost(GridPosition targetGridPosition)
+    public override int GetActionPointCost(GridPosition targetGridPosition)
     {
         var currentPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         var pathLength = Pathfinding.Instance.GetPathLength(currentPosition, targetGridPosition);

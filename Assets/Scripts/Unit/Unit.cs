@@ -110,10 +110,26 @@ public class Unit : MonoBehaviour
 
         return false;
     }
+    
+    public bool TrySpendActionPointsToTakeAction(BaseAction baseAction, GridPosition targetGridPosition)
+    {
+        if (CanSpendActionPointToTakeAction(baseAction, targetGridPosition))
+        {
+            SpendActionPoints(baseAction.GetActionPointCost(targetGridPosition));
+            return true;
+        }
+
+        return false;
+    }
 
     public bool CanSpendActionPointToTakeAction(BaseAction baseAction)
     {
         return _actionPoint >= baseAction.GetActionPointCost();
+    }
+    
+    public bool CanSpendActionPointToTakeAction(BaseAction baseAction, GridPosition targetGridPosition)
+    {
+        return _actionPoint >= baseAction.GetActionPointCost(targetGridPosition);
     }
 
     private void SpendActionPoints(int amount)

@@ -29,7 +29,8 @@ namespace Editor.Scripts.AI
         private MoveAction _moveAction;
 
         private List<BaseAction> _availableAttackActions;
-        
+        private Action _onAiActionComplete;
+
         const float enemyPresenceWeight = 1;
         
         private void Start()
@@ -43,15 +44,53 @@ namespace Editor.Scripts.AI
             _availableAttackActions.Remove(_moveAction);
         }
 
-        public bool TryMakeAIAction(Action onActionComplete)
+        public void TryMakeAIAction(Action onActionComplete)
         {
-            bool isActionHappen = TryStartMovePhase(onActionComplete);
-            //isActionHappen = StartAttackPhase(onActionComplete);
-            return isActionHappen;
+            _onAiActionComplete = onActionComplete;
+            TryStartMovePhase(() => TryStartAttackPhase(() => TryMakeAIAction(onActionComplete)));
+
+        }
+        
+
+        private bool TryStartAttackPhase(Action onActionComplete)
+        {
+            var friendlyUnitList = UnitManager.Instance.FriendlyUnitList;
+            var unitActionPoint = _unit.ActionPoints;
+            if (_availableAttackActions.Any(action => action.ActionPointCost <= unitActionPoint))
+            {
+                foreach (var playerUnit in friendlyUnitList)
+                {
+                    foreach (var action in _availableAttackActions)
+                    {
+                        if (TryMakeAttackAction(playerUnit, action, onActionComplete))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            _onAiActionComplete?.Invoke();
+            return false;
+        }
+
+        private bool TryMakeAttackAction(Unit playerUnit, BaseAction action, Action onActionComplete)
+        {
+            var playerUnitGridPosition = playerUnit.GetGridPosition();
+            if (action.IsGridPositionValid(playerUnitGridPosition, _unit.GetGridPosition()))
+            {
+                if (_unit.TrySpendActionPointsToTakeAction(action))
+                {
+                    action.TakeAction(playerUnitGridPosition, onActionComplete);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private bool TryStartMovePhase(Action onActionComplete)
         {
+            
             var maxGridsToMove = _unit.ActionPoints / GameGlobalConstants.ONE_GRID_MOVEMENT_COST;
             
 
@@ -64,18 +103,15 @@ namespace Editor.Scripts.AI
 
             if (aiBestActionData.TargetGridPosition != _unit.GetGridPosition())
             {
-                _moveAction.TakeAction(aiBestActionData.TargetGridPosition, onActionComplete);
-                return true;
+                if (_unit.TrySpendActionPointsToTakeAction(_moveAction, aiBestActionData.TargetGridPosition))
+                {
+                    _moveAction.TakeAction(aiBestActionData.TargetGridPosition, onActionComplete);
+                    return true;
+                }
             }
-            else
-            {
-                //ToDo: здесь будет другая логика окончания хода
-                onActionComplete?.Invoke();
-                return false;
-            }
-
+            onActionComplete?.Invoke();
+  
             return false;
-
         }
 
         private AIMovementActionData GetBestActionDataForOffset(int gridsOffsetNumber, AIMovementActionData aiBestActionData)
@@ -130,7 +166,7 @@ namespace Editor.Scripts.AI
             {
                 foreach (var action in _availableAttackActions)
                 {
-                    Debug.Log("Checking " + action.name + "action");
+                    //Debug.Log("Checking " + action.name + "action");
                     var enemiesInRangeNumber = 0;
                     if (testGridPosition != _unit.GetGridPosition() && !CheckIfGridPositionReachable(testGridPosition, _unit.GetGridPosition())) continue;
 
@@ -147,7 +183,7 @@ namespace Editor.Scripts.AI
                 }
             }
 
-            Debug.Log($"Check gridposition {testGridPosition} with rating {gridPositionRating}");
+            //Debug.Log($"Check gridposition {testGridPosition} with rating {gridPositionRating}");
             return gridPositionRating;
         }
 
@@ -161,10 +197,6 @@ namespace Editor.Scripts.AI
         {
             return _moveAction.IsGridPositionValid(targetGridPosition, enemyGridPosition);
         }
-
-        private void StartAttackPhase()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
