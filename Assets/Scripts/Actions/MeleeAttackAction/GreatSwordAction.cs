@@ -16,7 +16,13 @@ namespace Editor.Scripts.Actions
             {
                 return false;
             }
+            
             if (!GridPositionValidator.IsPositionInsideBoundaries(testGridPosition))
+            {
+                return false;
+            }
+            
+            if (!GridPositionValidator.IsPositionInsideActionSquareRange(MaxActionRange, testGridPosition, unitGridPosition))
             {
                 return false;
             }

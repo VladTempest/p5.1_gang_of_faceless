@@ -44,15 +44,15 @@ namespace Editor.Scripts.AI
             _availableAttackActions.Remove(_moveAction);
         }
 
-        public void TryMakeAIAction(Action onActionComplete)
+        public void MakeAIAction(Action onActionComplete)
         {
             _onAiActionComplete = onActionComplete;
-            TryStartMovePhase(() => TryStartAttackPhase(() => TryMakeAIAction(onActionComplete)));
+            StartMovePhase(() => StartAttackPhase(() => MakeAIAction(onActionComplete)));
 
         }
         
 
-        private bool TryStartAttackPhase(Action onActionComplete)
+        private void StartAttackPhase(Action onActionComplete)
         {
             var friendlyUnitList = UnitManager.Instance.FriendlyUnitList;
             var unitActionPoint = _unit.ActionPoints;
@@ -64,13 +64,12 @@ namespace Editor.Scripts.AI
                     {
                         if (TryMakeAttackAction(playerUnit, action, onActionComplete))
                         {
-                            return true;
+                            return;
                         }
                     }
                 }
             }
             _onAiActionComplete?.Invoke();
-            return false;
         }
 
         private bool TryMakeAttackAction(Unit playerUnit, BaseAction action, Action onActionComplete)
@@ -88,7 +87,7 @@ namespace Editor.Scripts.AI
             return false;
         }
 
-        private bool TryStartMovePhase(Action onActionComplete)
+        private void StartMovePhase(Action onActionComplete)
         {
             
             var maxGridsToMove = _unit.ActionPoints / GameGlobalConstants.ONE_GRID_MOVEMENT_COST;
@@ -106,12 +105,10 @@ namespace Editor.Scripts.AI
                 if (_unit.TrySpendActionPointsToTakeAction(_moveAction, aiBestActionData.TargetGridPosition))
                 {
                     _moveAction.TakeAction(aiBestActionData.TargetGridPosition, onActionComplete);
-                    return true;
+                    return;
                 }
             }
             onActionComplete?.Invoke();
-  
-            return false;
         }
 
         private AIMovementActionData GetBestActionDataForOffset(int gridsOffsetNumber, AIMovementActionData aiBestActionData)
@@ -166,7 +163,7 @@ namespace Editor.Scripts.AI
             {
                 foreach (var action in _availableAttackActions)
                 {
-                    //Debug.Log("Checking " + action.name + "action");
+                    Debug.Log("Checking " + action.GetActionName() + " action");
                     var enemiesInRangeNumber = 0;
                     if (testGridPosition != _unit.GetGridPosition() && !CheckIfGridPositionReachable(testGridPosition, _unit.GetGridPosition())) continue;
 
@@ -183,7 +180,7 @@ namespace Editor.Scripts.AI
                 }
             }
 
-            //Debug.Log($"Check gridposition {testGridPosition} with rating {gridPositionRating}");
+            Debug.Log($"Check gridposition {testGridPosition} with rating {gridPositionRating}");
             return gridPositionRating;
         }
 

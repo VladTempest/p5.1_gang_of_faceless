@@ -24,6 +24,12 @@ namespace DefaultNamespace
             return targetUnit.IsUnitAnEnemy != sourceUnit.IsUnitAnEnemy;
         }
 
+        public static bool IsPositionInsideActionSquareRange(int actionMaxRange, GridPosition testGridPosition, GridPosition unitGridPosition, int actionMinRange = 0)
+        {
+            int x = testGridPosition.x - unitGridPosition.x;
+            int z = testGridPosition.z - unitGridPosition.z; ;
+            return (Mathf.Abs(x) <= actionMaxRange && Mathf.Abs(x) >= actionMinRange) && (Mathf.Abs(z) <= actionMaxRange && Mathf.Abs(z) >= actionMinRange);
+        }
         public static bool IsPositionInsideActionCircleRange(int actionMaxRange, GridPosition testGridPosition, GridPosition unitGridPosition, int actionMinRange = 0)
         {
             int x = testGridPosition.x - unitGridPosition.x;

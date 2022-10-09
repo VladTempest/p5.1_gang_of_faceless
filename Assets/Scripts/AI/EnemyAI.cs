@@ -7,24 +7,10 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    private enum State
-    {
-      WaitingForEnemyTurn,
-      TakingTurn,
-      Busy
-    }
-
-    private State _state;
-    bool isEnemyShouldTryMakeAction = true;
     private int _enemiesCount;
     private int _currentEnemyInAction;
     private List<Unit> _enemyUnitList;
-
-    private void Awake()
-    {
-        _state = State.WaitingForEnemyTurn;
-    }
-
+    
     private void Start()
     {
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
@@ -48,13 +34,16 @@ public class EnemyAI : MonoBehaviour
 
     private void MakeTurnOfEnemyWithIndex(int currentEnemyInAction)
     {
+        Debug.Log($"{Time.time} [ENEMY AI] Trying make action for {currentEnemyInAction} enemy");
         if (currentEnemyInAction <= _enemiesCount - 1)
         {
             var enemyAiUnit = _enemyUnitList[currentEnemyInAction].gameObject.GetComponent<EnemyAIUnit>();
-            enemyAiUnit.TryMakeAIAction(() =>
+            _currentEnemyInAction++;
+            Debug.Log($"{Time.time} [ENEMY AI] Start make action for {currentEnemyInAction} enemy");
+            enemyAiUnit.MakeAIAction(() =>
             {
-                Debug.Log("[ENEMY AI] action finished on" + enemyAiUnit.gameObject.name);
-                MakeTurnOfEnemyWithIndex(_currentEnemyInAction++);
+                Debug.Log($"{Time.time} [ENEMY AI] action finished on" + enemyAiUnit.gameObject.name);
+                MakeTurnOfEnemyWithIndex(_currentEnemyInAction);
                 
             });
             return;
