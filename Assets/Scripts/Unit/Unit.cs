@@ -25,6 +25,7 @@ public class Unit : MonoBehaviour
     public bool IsUnitAnEnemy => _isEnemy;
     public Vector3 WorldPosition => transform.position;
     public float HealthNormalised => _healthSystem.GetNormalisedValueOfHealth();
+    public float HealthPointsLeft => _healthSystem.Health;
     public BaseAction[] BaseActions => _baseActionArray;
 
     public MoveAction UnitMoveAction => _moveAction;

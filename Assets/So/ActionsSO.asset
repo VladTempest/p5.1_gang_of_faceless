@@ -27,7 +27,7 @@ MonoBehaviour:
       Charges: 0
       MinRange: 2
       MaxRange: 5
-    - Damage: 3
+    - Damage: 2
       ActionPoints: 6
       CoolDown: 2
       Charges: 0

@@ -7,7 +7,7 @@ public class HealthSystem : MonoBehaviour
     public event EventHandler<OnDeadEventArgs> OnDead;
     public event EventHandler OnDamaged;
     public static event EventHandler OnAnyUnitDamaged;
-    
+    public int Health => _health;
     [SerializeField] private int _health = 100;
     private int _healthMax = 100;
     private Vector3 _lastDamageSourcePosition;

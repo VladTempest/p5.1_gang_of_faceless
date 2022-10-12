@@ -25,6 +25,7 @@ namespace Editor.Scripts.AI
         [SerializeField]
         private Unit _unit;
 
+        private GridRatingEstimator _ratingEstimator;
         [SerializeField]
         private MoveAction _moveAction;
 
@@ -36,6 +37,7 @@ namespace Editor.Scripts.AI
         private void Start()
         {
             SetUpEnemyAIUnit();
+            _ratingEstimator = new GridRatingEstimator(_unit);
         }
 
         private void SetUpEnemyAIUnit()
@@ -58,19 +60,19 @@ namespace Editor.Scripts.AI
             var unitActionPoint = _unit.ActionPoints;
             if (_availableAttackActions.Any(action => action.ActionPointCost <= unitActionPoint))
             {
-                foreach (var playerUnit in friendlyUnitList)
+                var bestAttackActionData =
+                    _ratingEstimator.GetBestAttackAction(onActionComplete, _availableAttackActions, friendlyUnitList);
+                
+                if (bestAttackActionData != null)
                 {
-                    foreach (var action in _availableAttackActions)
-                    {
-                        if (TryMakeAttackAction(playerUnit, action, onActionComplete))
-                        {
-                            return;
-                        }
-                    }
+                    _unit.TrySpendActionPointsToTakeAction(bestAttackActionData.AttackAction);
+                    bestAttackActionData.AttackAction.TakeAction(bestAttackActionData.TargetPosition, bestAttackActionData.OnActionComplete);
+                    return;
                 }
             }
             _onAiActionComplete?.Invoke();
         }
+        
 
         private bool TryMakeAttackAction(Unit playerUnit, BaseAction action, Action onActionComplete)
         {
@@ -150,11 +152,11 @@ namespace Editor.Scripts.AI
         private AIMovementActionData RateGridPositionWithOffset(int xOffset = 0, int zOffset = 0)
         {
             var testGridPosition = _unit.GetGridPosition() + new GridPosition(xOffset, zOffset);
-            var rating = RateGridPosition(testGridPosition);
+            var rating = RateGridPositionToMove(testGridPosition);
             return new AIMovementActionData(testGridPosition, rating);
 
         }
-        private float RateGridPosition(GridPosition testGridPosition)
+        private float RateGridPositionToMove(GridPosition testGridPosition)
         {
             const float enemyPathLenghtWeight = 1;
             float gridPositionRating = 0;
