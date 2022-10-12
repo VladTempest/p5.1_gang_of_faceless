@@ -102,13 +102,11 @@ namespace Editor.Scripts.AI
 
             if (_enemyUnit.CanSpendActionPointToTakeAction(attackAction) && attackAction.IsGridPositionValid(friendlyUnit.GetGridPosition(), _enemyUnit.GetGridPosition()))
             {
-                float playerUnitHealthLeftRating = (1 - friendlyUnit.HealthNormalised) * healthLeftWeight;
+                float playerUnitHealthLeftRating = GetPlayerUnitHealthLeftRating(friendlyUnit);
 
-                var rawNormalizedDamageToHealthRating =
-                    (1 - Mathf.Abs(friendlyUnit.HealthPointsLeft - attackAction.Damage) / attackAction.Damage);
-                float normalizedDamageToHealthRating = Mathf.Clamp(rawNormalizedDamageToHealthRating, 0 , 1)  * normilizedDamageWeight;
-
-                float normalizedActionCostRating = (1 - attackAction.ActionPointCost/_enemyUnit.ActionPoints)  * normilizedActionPointCostWeight;
+                float normalizedDamageToHealthRating = GetNormalizedDamageToHealthRating(attackAction, friendlyUnit);
+                
+                var normalizedActionCostRating = GetNormalizedActionCostRating(attackAction);
 
 
 
@@ -122,6 +120,31 @@ namespace Editor.Scripts.AI
             }
 
             return null;
+        }
+
+        private float GetNormalizedActionCostRating(BaseAction attackAction)
+        {
+            float normalizedActionCostRating =
+                (1 - attackAction.ActionPointCost / _enemyUnit.ActionPoints) * normilizedActionPointCostWeight;
+            return normalizedActionCostRating;
+        }
+
+        private float GetNormalizedDamageToHealthRating(BaseAction attackAction, Unit friendlyUnit)
+        {
+            float normalizedDamageToHealthRating = 0;
+            if (attackAction.Damage != 0)
+            {
+                var rawNormalizedDamageToHealthRating =
+                    (1 - Mathf.Abs(friendlyUnit.HealthPointsLeft - attackAction.Damage) / attackAction.Damage);
+                normalizedDamageToHealthRating = Mathf.Clamp(rawNormalizedDamageToHealthRating, 0, 1) * normilizedDamageWeight;
+            }
+
+            return normalizedDamageToHealthRating;
+        }
+
+        private float GetPlayerUnitHealthLeftRating(Unit friendlyUnit)
+        {
+            return (1 - friendlyUnit.HealthNormalised) * healthLeftWeight;
         }
     }
 }
