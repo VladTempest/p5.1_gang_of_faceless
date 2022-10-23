@@ -18,6 +18,11 @@ namespace Editor.Scripts.AI
             TargetGridPosition = targetGridPosition;
             MovementRating = movementRating;
         }
+
+        public override string ToString()
+        {
+            return $"Movement Target Grid Position {TargetGridPosition} with moveing rating {MovementRating}";
+        }
     }
     
     public class EnemyAIUnit : MonoBehaviour
@@ -146,6 +151,7 @@ namespace Editor.Scripts.AI
                 aiBestMovementActionData = currentAiData;
             }
 
+            Debug.LogWarning($"[Enemy AI] Best AI Action Data for {_unit}: {aiBestMovementActionData}");
             return aiBestMovementActionData;
         }
         
@@ -165,7 +171,6 @@ namespace Editor.Scripts.AI
             {
                 foreach (var action in _availableAttackActions)
                 {
-                    Debug.Log("Checking " + action.GetActionName() + " action");
                     var enemiesInRangeNumber = 0;
                     if (testGridPosition != _unit.GetGridPosition() && !CheckIfGridPositionReachable(testGridPosition, _unit.GetGridPosition())) continue;
 
@@ -181,8 +186,6 @@ namespace Editor.Scripts.AI
                     gridPositionRating += enemiesInRangeNumber * enemyPresenceWeight + 1/(float)enemyToPlayerLenghtPath*enemyPathLenghtWeight;
                 }
             }
-
-            Debug.Log($"Check gridposition {testGridPosition} with rating {gridPositionRating}");
             return gridPositionRating;
         }
 

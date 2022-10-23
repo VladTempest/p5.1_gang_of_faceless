@@ -42,7 +42,7 @@ public abstract class BaseAction : MonoBehaviour
     public int MinActionRange => _minActionRange;
 
     [SerializeField] private float _cooldownValue = 2;
-    private float FullCoolDownValue => _cooldownValue;
+    public float FullCoolDownValue => _cooldownValue;
 
     private ActionStatus _currentStatus;
     
@@ -128,6 +128,12 @@ public abstract class BaseAction : MonoBehaviour
         {
             return false;
         }
+
+        if (_currentStatus != ActionStatus.ReadyToUse)
+        {
+            return false;
+        }
+        
 
         return true;
     }

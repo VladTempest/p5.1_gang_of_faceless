@@ -122,6 +122,10 @@ namespace Actions
             
             if (!GridPositionValidator.IsPositionInsideActionCircleRange(MaxActionRange, testGridPosition, unitGridPosition)) return false;
 
+
+            if (!CheckIfUnitPushable(LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition), unitGridPosition, out var targetDirection))
+                return false;
+            
             return true;
         }
 
@@ -132,11 +136,8 @@ namespace Actions
 
         private IEnumerator MoveUnit(Unit pushedUnit, GridPosition sourceOfPush)
         {
-            var pushedFromPosition = pushedUnit.WorldPosition;
-            var pushDirection = pushedFromPosition - transform.position;
-            Vector3 targetPosition = pushedUnit.transform.position + pushDirection;
-            if (GridPositionValidator.IsGridPositionOpenToMoveTo(LevelGrid.Instance.GetGridPosition(targetPosition),
-                    pushedUnit.GetGridPosition()))
+            if (CheckIfUnitPushable(pushedUnit,
+                    sourceOfPush, out var targetPosition))
             {
                 while (Vector3.Distance(targetPosition, pushedUnit.transform.position) >= _moveSpeed * Time.deltaTime)
                 {
@@ -144,11 +145,20 @@ namespace Actions
                         _moveSpeed * Time.deltaTime);
                     yield return 0;
                 }
-                OnAnyUnitPushed?.Invoke(this, new OnAnyPushActionEventArgs(){ pushedFromGridPosition = LevelGrid.Instance.GetGridPosition(pushedFromPosition)});
+                OnAnyUnitPushed?.Invoke(this, new OnAnyPushActionEventArgs(){ pushedFromGridPosition = LevelGrid.Instance.GetGridPosition(pushedUnit.WorldPosition)});
                 pushedUnit.transform.position = targetPosition;
             }
             TryToChangeState(PushActionState.Idle);
             ActionComplete();
+        }
+
+        private bool CheckIfUnitPushable(Unit pushedUnit, GridPosition sourceOfPush, out Vector3 targetPosition)
+        {
+            var pushedFromPosition = pushedUnit.WorldPosition;
+            var pushDirection = pushedFromPosition - transform.position;
+            targetPosition = pushedUnit.transform.position + pushDirection;
+            return (GridPositionValidator.IsGridPositionOpenToMoveTo(LevelGrid.Instance.GetGridPosition(targetPosition),
+                pushedUnit.GetGridPosition()));
         }
     }
 }

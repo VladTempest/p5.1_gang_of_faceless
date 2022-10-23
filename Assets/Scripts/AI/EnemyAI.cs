@@ -34,12 +34,11 @@ public class EnemyAI : MonoBehaviour
 
     private void MakeTurnOfEnemyWithIndex(int currentEnemyInAction)
     {
-        Debug.Log($"{Time.time} [ENEMY AI] Trying make action for {currentEnemyInAction} enemy");
         if (currentEnemyInAction <= _enemiesCount - 1)
         {
             var enemyAiUnit = _enemyUnitList[currentEnemyInAction].gameObject.GetComponent<EnemyAIUnit>();
             _currentEnemyInAction++;
-            Debug.Log($"{Time.time} [ENEMY AI] Start make action for {currentEnemyInAction} enemy");
+            Debug.Log($"{Time.time} [ENEMY AI] Start make action for {_enemyUnitList[currentEnemyInAction]}({_enemyUnitList[currentEnemyInAction].GetGridPosition()}) enemy");
             enemyAiUnit.MakeAIAction(() =>
             {
                 Debug.Log($"{Time.time} [ENEMY AI] action finished on" + enemyAiUnit.gameObject.name);

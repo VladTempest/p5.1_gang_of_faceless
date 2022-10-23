@@ -21,6 +21,7 @@ namespace DefaultNamespace
         public static bool IsGridPositionWithEnemy(GridPosition testGridPosition, Unit sourceUnit)
         {
             var targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
+            if (targetUnit == null) return false;
             return targetUnit.IsUnitAnEnemy != sourceUnit.IsUnitAnEnemy;
         }
 

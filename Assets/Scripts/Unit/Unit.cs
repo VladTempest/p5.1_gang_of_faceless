@@ -22,6 +22,7 @@ public class Unit : MonoBehaviour
     public UnitType UnitType = UnitType.None;
     public EffectSystem EffectSystem => _effectSystem;
     public int ActionPoints => _actionPoint;
+    public int ActionPointsMax => _actionPointMax;
     public bool IsUnitAnEnemy => _isEnemy;
     public Vector3 WorldPosition => transform.position;
     public float HealthNormalised => _healthSystem.GetNormalisedValueOfHealth();
@@ -30,7 +31,7 @@ public class Unit : MonoBehaviour
 
     public MoveAction UnitMoveAction => _moveAction;
 
-    [SerializeField] private int ACTION_POINT_MAX = 10;
+    [SerializeField] private int _actionPointMax = 10;
     [SerializeField] private bool _isEnemy;
     [SerializeField] private int _actionPoint = 10;
 
@@ -53,7 +54,7 @@ public class Unit : MonoBehaviour
     private void Start()
     {
         SetUpClassParameters();
-        _actionPoint = ACTION_POINT_MAX;
+        _actionPoint = _actionPointMax;
         GridPosition gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
 
         _moveAction = GetComponent<MoveAction>();
@@ -72,7 +73,7 @@ public class Unit : MonoBehaviour
         if (ConstantsProvider.Instance.classesParametersSO.ClassesParametersDictionary.TryGetValue(UnitType,
                 out var classesParameters))
         {
-            ACTION_POINT_MAX = classesParameters.ActionPoints;
+            _actionPointMax = classesParameters.ActionPoints;
         }
         else
         {
@@ -144,7 +145,7 @@ public class Unit : MonoBehaviour
     {
         if ((_isEnemy && !TurnSystem.Instance.IsPlayerTurn) || (!_isEnemy && TurnSystem.Instance.IsPlayerTurn))
         {
-            _actionPoint = ACTION_POINT_MAX;
+            _actionPoint = _actionPointMax;
 
             OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
         }
