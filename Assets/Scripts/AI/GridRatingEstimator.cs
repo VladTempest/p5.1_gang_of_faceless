@@ -135,12 +135,12 @@ namespace Editor.Scripts.AI
             var normalizedAdditionalEffectsRating = 0f;
             switch (attackAction)
             {
-                case PushAction pushAction:
+                case ParalyzeShotAction paralyzeShotAction:
                     if (friendlyUnit.UnitType != UnitType.HeavyWarrior && friendlyUnit.UnitType != UnitType.LightWarrior) break;
-                    if (!IsThereEnemyAroundFriendlyUnit(friendlyUnit)) break;
+                    if (IsThereEnemyAroundFriendlyUnit(friendlyUnit)) break;
                     normalizedAdditionalEffectsRating = 1f;
                     break;
-                case ParalyzeShotAction paralyzeShotAction:
+                case PushAction pushAction:
                     var pathLength = Pathfinding.Instance.GetPathLengthToUnwalkableGridPosition(
                         friendlyUnit.GetGridPosition(), _enemyUnit.GetGridPosition(), _enemyUnit.GetGridPosition());
                     if ((friendlyUnit.UnitType == UnitType.HeavyWarrior ||
