@@ -25,7 +25,7 @@ namespace Actions
         private BackStabActionState CurrentState { get; set; } = BackStabActionState.Idle;
 
         
-        private void Start()
+        private new void Start()
         {
             base.Start();
             if (!enabled) return;

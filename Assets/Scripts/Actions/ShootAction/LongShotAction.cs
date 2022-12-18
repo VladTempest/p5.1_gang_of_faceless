@@ -8,7 +8,7 @@ namespace Actions
     {
         public event EventHandler<OnShootEventArgs> OnLongShot;
         
-        private void Start()
+        private new void Start()
         {
             base.Start();
             if (!enabled) return;

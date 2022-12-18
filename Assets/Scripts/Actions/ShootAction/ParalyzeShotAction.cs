@@ -13,7 +13,7 @@ namespace Actions
             return "Paralyze";
         }
 
-        private void Start()
+        private new void Start()
         {
             base.Start();
             if (!enabled) return;

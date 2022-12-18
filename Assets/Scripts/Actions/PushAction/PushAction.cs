@@ -29,7 +29,7 @@ namespace Actions
         private float _timeToRotateToEnemy = 0.3f;
         private float _timeForEnemyToRotate = 0.3f;
 
-        private void Start()
+        private new void Start()
         {
             base.Start();
             if (!enabled) return;

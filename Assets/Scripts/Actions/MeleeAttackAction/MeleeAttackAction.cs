@@ -20,7 +20,7 @@ public class MeleeAttackAction : BaseAction
     protected float _timeToRotateToEnemy = 0.5f;
     protected float _timeForEnemyToRotate = 0.3f;
 
-    private void Start()
+    private new void Start()
     {
         if (!enabled) return;
         base.Start();

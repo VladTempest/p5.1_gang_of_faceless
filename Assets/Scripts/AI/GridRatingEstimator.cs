@@ -11,6 +11,12 @@ using UnityEngine;
 
 namespace Editor.Scripts.AI
 {
+    enum CheckType
+    {
+        IsEnemyArcherOnGrid,
+        IsFriendlyWarriorUnitNotOnGrid,
+        IsGridAvailableToMove
+    }
     public class AIAttackActionData
     {
         public BaseAction AttackAction;
@@ -50,7 +56,7 @@ namespace Editor.Scripts.AI
         private float actionPointCostWeight = 1;
         private float coolDownWeight = 1;
         private float normilizedDamageWeight = 1;
-        private float AdditionalEffectsWeight = 1;
+        private float additionalEffectsWeight = 1;
         
         public AIAttackActionData GetBestAttackAction(Action onActionComplete, List<BaseAction> availableAttackActions,
             List<Unit> friendlyUnitList)
@@ -141,13 +147,8 @@ namespace Editor.Scripts.AI
                     normalizedAdditionalEffectsRating = 1f;
                     break;
                 case PushAction pushAction:
-                    var pathLength = Pathfinding.Instance.GetPathLengthToUnwalkableGridPosition(
-                        friendlyUnit.GetGridPosition(), _enemyUnit.GetGridPosition(), _enemyUnit.GetGridPosition());
-                    if ((friendlyUnit.UnitType == UnitType.HeavyWarrior ||
-                        friendlyUnit.UnitType == UnitType.LightWarrior) && (friendlyUnit.ActionPointsMax >= (pathLength/GameGlobalConstants.PATH_TO_POINT_MULTIPLIER)))
-                    {
-                        normalizedAdditionalEffectsRating = (1.1f - ((pathLength / GameGlobalConstants.PATH_TO_POINT_MULTIPLIER) / friendlyUnit.ActionPointsMax)) * AdditionalEffectsWeight;
-                    };
+                    if (friendlyUnit.UnitType == UnitType.Archer) break;
+                    normalizedAdditionalEffectsRating = GetNormalizedAdditionalEffectsRatingForPush(friendlyUnit);
                     break;
                 case KnockDownAction knockDownAction:
                     switch (friendlyUnit.UnitType)
@@ -166,7 +167,89 @@ namespace Editor.Scripts.AI
                     }
                     break;
             }
+            return normalizedAdditionalEffectsRating * additionalEffectsWeight;
+        }
+
+        private float GetNormalizedAdditionalEffectsRatingForPush(Unit friendlyUnit)
+        {
+            float normalizedAdditionalEffectsRating = 0;
+            var isEnemyArcherCloserValidFactor = false;
+            var isPushActionValid = false;
+
+            List<Tuple<int, int, CheckType>> coordinateTemplateForCheck = new List<Tuple<int, int, CheckType>>()
+            {
+                new(0, 1, CheckType.IsEnemyArcherOnGrid),
+                new(0, -1, CheckType.IsEnemyArcherOnGrid),
+                new(1, 1, CheckType.IsEnemyArcherOnGrid),
+                new(1, -1, CheckType.IsEnemyArcherOnGrid),
+                new(2, 0, CheckType.IsGridAvailableToMove),
+                new(2, 1, CheckType.IsFriendlyWarriorUnitNotOnGrid),
+                new(3, 1, CheckType.IsFriendlyWarriorUnitNotOnGrid),
+                new(3, 0, CheckType.IsFriendlyWarriorUnitNotOnGrid),
+                new(2, -1, CheckType.IsFriendlyWarriorUnitNotOnGrid),
+                new(3, -1, CheckType.IsFriendlyWarriorUnitNotOnGrid)
+            };
+
+            var differencePositionVectorNormalized = (friendlyUnit.WorldPosition - _enemyUnit.WorldPosition).normalized;
+
+
+            if (differencePositionVectorNormalized.x != 0)
+            {
+                foreach (var templateGridPositionOffset in coordinateTemplateForCheck)
+                {
+                    isPushActionValid = CheckAroundGridPositionWithTemplateIsValid(
+                        templateGridPositionOffset.Item1 * (int) differencePositionVectorNormalized.x,
+                        templateGridPositionOffset.Item2 * (int) differencePositionVectorNormalized.x,
+                        templateGridPositionOffset.Item3);
+                }
+            }
+
+            if (differencePositionVectorNormalized.z != 0)
+            {
+                foreach (var templateGridPositionOffset in coordinateTemplateForCheck)
+                {
+                    isPushActionValid = CheckAroundGridPositionWithTemplateIsValid(
+                        templateGridPositionOffset.Item2 * (int) differencePositionVectorNormalized.z,
+                        templateGridPositionOffset.Item1 * (int) differencePositionVectorNormalized.z,
+                        templateGridPositionOffset.Item3);
+                }
+            }
+
+            if (!isPushActionValid)
+            {
+                return normalizedAdditionalEffectsRating;
+            }
+            
+            normalizedAdditionalEffectsRating = 1.1f;
             return normalizedAdditionalEffectsRating;
+
+            bool CheckAroundGridPositionWithTemplateIsValid(int xOffset, int zOffset, CheckType checkType)
+            {
+                GridPosition testGridPosition = _enemyUnit.GetGridPosition() + new GridPosition(xOffset, zOffset);
+                switch (checkType)
+                {
+                    case CheckType.IsEnemyArcherOnGrid:
+                        var unitOnGrid = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
+                        if (unitOnGrid != null &&
+                            LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition).IsUnitAnEnemy &&
+                            unitOnGrid.UnitType == UnitType.Archer)
+                        {
+                            return isEnemyArcherCloserValidFactor = true;
+                        }
+
+                        return isEnemyArcherCloserValidFactor;
+                    case CheckType.IsFriendlyWarriorUnitNotOnGrid:
+                        unitOnGrid = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
+                        return !(unitOnGrid != null &&
+                                 !LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition).IsUnitAnEnemy &&
+                                 unitOnGrid.UnitType != UnitType.Archer);
+                    case CheckType.IsGridAvailableToMove:
+                        return GridPositionValidator.IsGridPositionReachable(testGridPosition,
+                            friendlyUnit.GetGridPosition(), GameGlobalConstants.ONE_GRID_MOVEMENT_COST);
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(checkType), checkType, null);
+                }
+            }
         }
 
         private float GetNormalizedCooldownRating(BaseAction attackAction)

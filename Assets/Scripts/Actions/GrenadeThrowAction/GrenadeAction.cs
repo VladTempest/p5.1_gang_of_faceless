@@ -18,7 +18,7 @@ public class GrenadeAction : BaseAction
     private GridPosition _targetPosition;
     private float _timeToRotateToEnemy = 0.4f;
 
-    private void Start()
+    private new void Start()
     {
         base.Start();
         if (!enabled) return;

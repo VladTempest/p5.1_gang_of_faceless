@@ -14,7 +14,7 @@ namespace Actions
             return "Default Shot";
         }
 
-        private void Start()
+        private new void Start()
         {
             base.Start();
             if (!enabled) return;
