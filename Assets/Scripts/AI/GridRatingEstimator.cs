@@ -8,6 +8,7 @@ using GridSystems;
 using Scripts.Unit;
 using Sirenix.Utilities;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Editor.Scripts.AI
 {
@@ -34,7 +35,7 @@ namespace Editor.Scripts.AI
 
         public override string ToString()
         {
-            return $"{AttackAction.name} on position {TargetPosition} with rating {ActionRating}";
+            return $"{AttackAction.GetActionName()} on position {TargetPosition} with rating {ActionRating}";
         }
     }
     
@@ -50,7 +51,7 @@ namespace Editor.Scripts.AI
 
         private float healthLeftWeight = 1;
         private float playerCharacterStatusWeight = 1;
-        private float playerCharacterPathLengthWeight = 1;
+        private float pathLengthWeight = 1;
         private float playerCharacterClassWeight = 1;
         private float allyInNeighbourGridWeight = 1;
         private float actionPointCostWeight = 1;
@@ -100,8 +101,11 @@ namespace Editor.Scripts.AI
             {
                 var orderedList = listOfAiActionDataForUnit.OrderByDescending(aiActionData => aiActionData.ActionRating);
                 var bestActionAiData =  orderedList.First();
+                var bestActionsWithSameRating = orderedList.Where(item => Math.Abs(item.ActionRating - bestActionAiData.ActionRating) < 0.01f);
                 Debug.LogWarning($"[Enemy AI] Rated action of {_enemyUnit.name} for friendly unit: {friendlyUnit.name} - {bestActionAiData}");
-                return bestActionAiData;
+                IEnumerable<AIAttackActionData> actionsWithSameRating = bestActionsWithSameRating as AIAttackActionData[] ?? bestActionsWithSameRating.ToArray();
+                var randomIndex = Random.Range(0, actionsWithSameRating.Count());
+                return actionsWithSameRating.ToList()[randomIndex];
             }
             Debug.LogWarning($"[Enemy AI] Rated action for friendly unit: {friendlyUnit.name} -IS NULL for {_enemyUnit.name}");
             return null;
@@ -123,17 +127,40 @@ namespace Editor.Scripts.AI
                 
                 float normalizedAdditionalEffectsRating = GetNormalizedAdditionalEffectsRating(attackAction, friendlyUnit);
 
+                float normalizedPathLengthRating = GetPathLengthRating(friendlyUnit);
 
+                float playerCharacterStatusRating = GetPlayerCharacterStatusRating(friendlyUnit);
 
-
-
-                resultingRating = normalizedActionCostRating + normalizedDamageToHealthRating + playerUnitHealthLeftRating + normalizedCooldownRating + normalizedAdditionalEffectsRating;
-                Debug.LogWarning($"[Enemy AI] RATING {attackAction.GetActionName()} for {friendlyUnit}({friendlyUnit.GetGridPosition()}): resultingRating({resultingRating}) = normalizedActionCostRating({normalizedActionCostRating})+ normalizedDamageToHealthRating({normalizedDamageToHealthRating}) + playerUnitHealthLeftRating({playerUnitHealthLeftRating}) + normalizedCooldownRating({normalizedCooldownRating}) + normalizedAdditionalEffectsRating({normalizedAdditionalEffectsRating});");
+                resultingRating = normalizedActionCostRating + normalizedDamageToHealthRating + playerUnitHealthLeftRating + normalizedCooldownRating + normalizedAdditionalEffectsRating + normalizedPathLengthRating + playerCharacterStatusRating;
+                Debug.LogWarning($"[Enemy AI] RATING {attackAction.GetActionName()} for {friendlyUnit}({friendlyUnit.GetGridPosition()}): resultingRating({resultingRating}) = normalizedActionCostRating({normalizedActionCostRating})+ normalizedDamageToHealthRating({normalizedDamageToHealthRating}) + playerUnitHealthLeftRating({playerUnitHealthLeftRating}) + normalizedCooldownRating({normalizedCooldownRating}) + normalizedAdditionalEffectsRating({normalizedAdditionalEffectsRating} + normalizedPathLengthRating({normalizedPathLengthRating} + playerCharacterStatusRating({playerCharacterStatusRating})));");
                 return new AIAttackActionData(attackAction, friendlyUnit.GetGridPosition(), onActionComplete,
                     resultingRating);
             }
 
             return null;
+        }
+
+        private float GetPlayerCharacterStatusRating(Unit friendlyUnit)
+        {
+            float rawPlayerCharacterStatusRating = 2f;
+
+            if (friendlyUnit.EffectSystem.IsKnockedDown()) rawPlayerCharacterStatusRating -= 1;
+            if (friendlyUnit.EffectSystem.IsParalyzed(out var duration)) rawPlayerCharacterStatusRating -= 1;
+            return playerCharacterStatusWeight * rawPlayerCharacterStatusRating;
+        }
+
+        private float GetPathLengthRating(Unit friendlyUnit)
+        {
+            float pathLength = Pathfinding.Instance.GetPathLengthToUnwalkableGridPosition(
+                _enemyUnit.GetGridPosition(),
+                friendlyUnit.GetGridPosition(),
+                _enemyUnit.GetGridPosition());
+            float normalizedPathLength = pathLength /
+                                         (LevelGrid.Instance.GetWidth() * 1.4f *
+                                          GameGlobalConstants.PATH_TO_POINT_MULTIPLIER);
+
+            float playerCharacterPathLengthRating = (1 - normalizedPathLength) * pathLengthWeight;
+            return playerCharacterPathLengthRating;
         }
 
         private float GetNormalizedAdditionalEffectsRating(BaseAction attackAction, Unit friendlyUnit)
@@ -156,13 +183,13 @@ namespace Editor.Scripts.AI
                         case UnitType.None:
                             break;
                         case UnitType.Archer:
-                            normalizedAdditionalEffectsRating = 0.7f;
+                            normalizedAdditionalEffectsRating = 1f;
                             break;
                         case UnitType.HeavyWarrior:
-                            normalizedAdditionalEffectsRating = 0.9f;
+                            normalizedAdditionalEffectsRating = 2f;
                             break;
                         case UnitType.LightWarrior:
-                            normalizedAdditionalEffectsRating = 0.8f;
+                            normalizedAdditionalEffectsRating = 1.5f;
                             break;
                     }
                     break;
@@ -239,13 +266,19 @@ namespace Editor.Scripts.AI
 
                         return isEnemyArcherCloserValidFactor;
                     case CheckType.IsFriendlyWarriorUnitNotOnGrid:
+                        if (!isEnemyArcherCloserValidFactor) return false;
                         unitOnGrid = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
-                        return !(unitOnGrid != null &&
-                                 !LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition).IsUnitAnEnemy &&
-                                 unitOnGrid.UnitType != UnitType.Archer);
+                        var isFriendlyWarriorUnitNotOnGrid = !(unitOnGrid != null &&
+                                                               !LevelGrid.Instance
+                                                                   .GetUnitAtGridPosition(testGridPosition)
+                                                                   .IsUnitAnEnemy &&
+                                                               unitOnGrid.UnitType != UnitType.Archer);
+                        return isFriendlyWarriorUnitNotOnGrid && isPushActionValid;
                     case CheckType.IsGridAvailableToMove:
-                        return GridPositionValidator.IsGridPositionReachable(testGridPosition,
+                        if (!isEnemyArcherCloserValidFactor) return false;
+                        var isGridAvailableToMove = GridPositionValidator.IsGridPositionReachable(testGridPosition,
                             friendlyUnit.GetGridPosition(), GameGlobalConstants.ONE_GRID_MOVEMENT_COST);
+                        return isGridAvailableToMove && isPushActionValid;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(checkType), checkType, null);
                 }

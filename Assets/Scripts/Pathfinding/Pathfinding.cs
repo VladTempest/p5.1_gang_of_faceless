@@ -164,13 +164,13 @@ public class Pathfinding : MonoBehaviour
         return pathLength;
     }
     
-    public int GetPathLengthToUnwalkableGridPosition(GridPosition startGridPosition, GridPosition endGridPosition, GridPosition sourceOfPathRequestPositiob)
+    public int GetPathLengthToUnwalkableGridPosition(GridPosition startGridPosition, GridPosition endGridPosition, GridPosition sourceOfPathRequestPosition)
     {
         SetIsWalkableGridPosition(endGridPosition, true);
-        SetIsWalkableGridPosition(sourceOfPathRequestPositiob, true);
+        SetIsWalkableGridPosition(sourceOfPathRequestPosition, true);
         FindPath(startGridPosition, endGridPosition, out var pathLength);
         SetIsWalkableGridPosition(endGridPosition, false);
-        SetIsWalkableGridPosition(sourceOfPathRequestPositiob, false);
+        SetIsWalkableGridPosition(sourceOfPathRequestPosition, false);
         return pathLength;
     }
     
