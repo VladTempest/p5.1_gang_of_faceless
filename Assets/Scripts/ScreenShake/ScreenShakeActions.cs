@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class ScreenShakeActions : MonoBehaviour
 {
-    private float _explosionIntensity = 3f;
-    private float _swordHitIntensity = 1f;
+    private float _explosionIntensity = 0.6f;
+    private float _swordHitIntensity = 0.2f;
     // Start is called before the first frame update
     void Start()
     {

@@ -14,7 +14,6 @@ namespace Actions
         public event EventHandler OnStartTeleporting;
         
         [SerializeField] private LightWarriorAnimationEvents _lightWarriorAnimationEvents;
-        [SerializeField] private int _attackDamage = 100;
         [SerializeField] private Transform _swordDamageSource;
         [SerializeField] private TrailRenderer _trailRenderer;
         private Dictionary<GridPosition, GridPosition> _firstValidTeleportGridPositionsAndEnemyGridPositions = new Dictionary<GridPosition, GridPosition>();
@@ -26,8 +25,10 @@ namespace Actions
         private BackStabActionState CurrentState { get; set; } = BackStabActionState.Idle;
 
         
-        private void Start()
+        private new void Start()
         {
+            base.Start();
+            if (!enabled) return;
             _lightWarriorAnimationEvents.ActionTeleportCallback += ActionTeleportCallback;
             _lightWarriorAnimationEvents.ActionEffectCallback += ActionEffectCallback;
             _lightWarriorAnimationEvents.ActionFinishCallback += ActionFinishCallback;
@@ -73,7 +74,7 @@ namespace Actions
 
         private void Attack(GridPosition gridPosition)
         {
-            _targetUnit.Damage(_attackDamage, _swordDamageSource.position);
+            _targetUnit.Damage(_damage, _swordDamageSource.position);
         }
 
         private void TeleportWithRotate(GridPosition gridPosition)
@@ -83,7 +84,7 @@ namespace Actions
             _firstValidTeleportGridPositionsAndEnemyGridPositions.Clear();
         }
 
-        protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+        public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
         {
             if (_unit.EffectSystem.IsParalyzed(out var durationLeft))
             {
@@ -95,6 +96,11 @@ namespace Actions
                 return false;
             }
             if (!GridPositionValidator.IsPositionInsideBoundaries(testGridPosition))
+            {
+                return false;
+            }
+            
+            if (!GridPositionValidator.IsPositionInsideActionCircleRange(MaxActionRange, testGridPosition, unitGridPosition, _minActionRange))
             {
                 return false;
             }
@@ -118,7 +124,7 @@ namespace Actions
             return true;
         }
 
-        public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+        protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
         {
             return new EnemyAIAction(){actionValue = 0, gridPosition = new GridPosition()};
         }

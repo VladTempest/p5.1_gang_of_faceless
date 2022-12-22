@@ -246,6 +246,7 @@ GameObject:
   - component: {fileID: -2730335575051894864}
   - component: {fileID: 8406230969961827847}
   - component: {fileID: -4126613748944046514}
+  - component: {fileID: 2965004077767140891}
   - component: {fileID: 8829374000318235079}
   - component: {fileID: 1971420035106117558}
   - component: {fileID: 8496798667586030098}
@@ -254,6 +255,7 @@ GameObject:
   - component: {fileID: 5327539066858463754}
   - component: {fileID: 1493523556375220270}
   - component: {fileID: -6478949446067805892}
+  - component: {fileID: 5689569581579747589}
   m_Layer: 7
   m_Name: UnitBase
   m_TagString: Untagged
@@ -341,7 +343,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7256d2eff5fc65747b81b7bb27e33a2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActionRange: 7
+  _actionType: 10
+  MaxActionRange: 0
+  _cooldownValue: 0
+  _maxCharges: 0
   _moveSpeed: 8
   _speedAnimationCurve:
     serializedVersion: 2
@@ -397,14 +402,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61d64d80d14c4135b07f320e23722271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActionRange: 5
-  MinActionRange: 2
+  _actionType: 1
+  MaxActionRange: 0
+  _cooldownValue: 0
+  _maxCharges: 0
   _obstaclesLayerMask:
   - serializedVersion: 2
     m_Bits: 256
   _archerAnimationEvents: {fileID: 5364160928189757119}
   _rotationTime: 0.25
-  _hitAmount: 50
 --- !u!114 &7340662836777019536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,12 +423,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ec37c9dea0a46ce8a5b0b4155e05f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActionRange: 10
-  MinActionRange: 5
+  _actionType: 2
+  MaxActionRange: 0
+  _cooldownValue: 2
+  _maxCharges: 0
   _obstaclesLayerMask: []
   _archerAnimationEvents: {fileID: 5364160928189757119}
   _rotationTime: 0.25
-  _hitAmount: 50
 --- !u!114 &7493238401456063891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,14 +442,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d385d935fcae4d5ca299c7e0e69199df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActionRange: 10
-  MinActionRange: 2
+  _actionType: 3
+  MaxActionRange: 0
+  _cooldownValue: 2
+  _maxCharges: 0
   _obstaclesLayerMask:
   - serializedVersion: 2
     m_Bits: 256
   _archerAnimationEvents: {fileID: 5364160928189757119}
   _rotationTime: 0.5
-  _hitAmount: 0
 --- !u!114 &-2730335575051894864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,7 +463,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc1aa7c1e32db6c43be2027013b1868d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActionRange: 5
+  _actionType: 9
+  MaxActionRange: 0
+  _cooldownValue: 2
+  _maxCharges: 2
   _grenadeProjectilePrefab: {fileID: 6687859904654384484, guid: 7f382f4aa51b52a418459543f697891c,
     type: 3}
   _obstaclesLayerMask:
@@ -475,9 +486,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b677cdc349443cba97de06b8371dbdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActionRange: 10
+  _actionType: 8
+  MaxActionRange: 0
+  _cooldownValue: 2
+  _maxCharges: 0
   _lightWarriorAnimationEvents: {fileID: 8601540634580136297}
-  _attackDamage: 50
   _swordDamageSource: {fileID: 7368226612755129201}
   _trailRenderer: {fileID: 436859824795894663}
 --- !u!114 &-4126613748944046514
@@ -492,8 +505,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bcbdf0a9bb64141b4dc2439d80f512c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActionRange: 1
+  _actionType: 5
+  MaxActionRange: 0
+  _cooldownValue: 2
+  _maxCharges: 0
   _warriorAnimationEvents: {fileID: 6127686426106681534}
+--- !u!114 &2965004077767140891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3237063788311959988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c15fd00f51064ace90e7dbcb00ff32bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionType: 7
+  MaxActionRange: 0
+  _cooldownValue: 0
+  _maxCharges: 0
+  _warriorAnimationEvents: {fileID: 6127686426106681534}
+  _swordDamageSource: {fileID: 7368226612755129201}
 --- !u!114 &8829374000318235079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,10 +540,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc9ddee24b7409c98a0a215ba3938ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActionRange: 1
+  _actionType: 4
+  MaxActionRange: 0
+  _cooldownValue: 0
+  _maxCharges: 0
   _warriorAnimationEvents: {fileID: 6127686426106681534}
   _swordDamageSource: {fileID: 7368226612755129201}
-  _hitAmount: 50
 --- !u!114 &1971420035106117558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,10 +558,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0941aa577da4301ac59d445538e72dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActionRange: 1
+  _actionType: 6
+  MaxActionRange: 0
+  _cooldownValue: 2
+  _maxCharges: 0
   _warriorAnimationEvents: {fileID: 6127686426106681534}
   _swordDamageSource: {fileID: 7368226612755129201}
-  _hitAmount: 0
 --- !u!114 &8496798667586030098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,7 +576,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 169b94405af2dd04490ffa10b8cbfe07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActionRange: 1
+  _actionType: 11
+  MaxActionRange: 0
+  _cooldownValue: 2
+  _maxCharges: 0
 --- !u!114 &6456212231567743547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -612,9 +653,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentEffectsAndDurationLeftDict:
     keyData: 
-    valueData: 
+    valueData: []
   _knockDownDuration: 2
   _paralyzeDuration: 2
+--- !u!114 &5689569581579747589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3237063788311959988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7916a1238e041cdb2edd0ea1e90545b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _unit: {fileID: 3237063788311959990}
+  _moveAction: {fileID: 6511915750059178299}
 --- !u!1 &6027021452995310800
 GameObject:
   m_ObjectHideFlags: 0

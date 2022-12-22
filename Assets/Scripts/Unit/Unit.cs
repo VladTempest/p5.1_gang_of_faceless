@@ -22,14 +22,20 @@ public class Unit : MonoBehaviour
     public UnitType UnitType = UnitType.None;
     public EffectSystem EffectSystem => _effectSystem;
     public int ActionPoints => _actionPoint;
+    public int ActionPointsMax => _actionPointMax;
     public bool IsUnitAnEnemy => _isEnemy;
     public Vector3 WorldPosition => transform.position;
     public float HealthNormalised => _healthSystem.GetNormalisedValueOfHealth();
+    public float HealthPointsLeft => _healthSystem.Health;
+    public BaseAction[] BaseActions => _baseActionArray;
 
-    [SerializeField] private int ACTION_POINT_MAX = 10;
+    public MoveAction UnitMoveAction => _moveAction;
+
+    [SerializeField] private int _actionPointMax = 10;
     [SerializeField] private bool _isEnemy;
     [SerializeField] private int _actionPoint = 10;
 
+    private MoveAction _moveAction;
     private HealthSystem _healthSystem;
     private EffectSystem _effectSystem;
     private GridPosition _currentGridPosition;
@@ -47,8 +53,12 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
-        _actionPoint = ACTION_POINT_MAX;
+        SetUpClassParameters();
+        _actionPoint = _actionPointMax;
         GridPosition gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+
+        _moveAction = GetComponent<MoveAction>();
+        
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
         
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
@@ -56,6 +66,19 @@ public class Unit : MonoBehaviour
         _healthSystem.OnDead += HealthSystem_OnDead;
         
         OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
+    }
+    
+    private void SetUpClassParameters()
+    {
+        if (ConstantsProvider.Instance.classesParametersSO.ClassesParametersDictionary.TryGetValue(UnitType,
+                out var classesParameters))
+        {
+            _actionPointMax = classesParameters.ActionPoints;
+        }
+        else
+        {
+            Debug.LogError($"[Action] Can not find {UnitType} in Constants Provider dict", this);
+        }
     }
 
     private void Update()
@@ -89,10 +112,26 @@ public class Unit : MonoBehaviour
 
         return false;
     }
+    
+    public bool TrySpendActionPointsToTakeAction(BaseAction baseAction, GridPosition targetGridPosition)
+    {
+        if (CanSpendActionPointToTakeAction(baseAction, targetGridPosition))
+        {
+            SpendActionPoints(baseAction.GetActionPointCost(targetGridPosition));
+            return true;
+        }
+
+        return false;
+    }
 
     public bool CanSpendActionPointToTakeAction(BaseAction baseAction)
     {
         return _actionPoint >= baseAction.GetActionPointCost();
+    }
+    
+    public bool CanSpendActionPointToTakeAction(BaseAction baseAction, GridPosition targetGridPosition)
+    {
+        return _actionPoint >= baseAction.GetActionPointCost(targetGridPosition);
     }
 
     private void SpendActionPoints(int amount)
@@ -106,13 +145,13 @@ public class Unit : MonoBehaviour
     {
         if ((_isEnemy && !TurnSystem.Instance.IsPlayerTurn) || (!_isEnemy && TurnSystem.Instance.IsPlayerTurn))
         {
-            _actionPoint = ACTION_POINT_MAX;
+            _actionPoint = _actionPointMax;
 
             OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
-    public void Damage(int damageAmount, Vector3 damageSourcePosition)
+    public void Damage(float damageAmount, Vector3 damageSourcePosition)
     {
         _healthSystem.Damage(damageAmount, damageSourcePosition);
     }

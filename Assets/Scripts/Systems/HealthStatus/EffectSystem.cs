@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Editor.Scripts;
+using Editor.Scripts.Utils;
 using Sirenix.Serialization;
 using UnityEngine;
 
 namespace Systems.HealthStatus
 {
     [Serializable]
-    public class EffectsAndDurationLeftDictionary : UnitySerializedDictionary<EffectStatus, int>
+    public class EffectsAndDurationLeftDictionary : UnitySerializedDictionary<EffectStatus, float>
     {
     }
 
@@ -21,8 +22,8 @@ namespace Systems.HealthStatus
         public event EventHandler OnParalyzeOver;
         
         [SerializeField] private EffectsAndDurationLeftDictionary _currentEffectsAndDurationLeftDict;
-        [SerializeField] private int _knockDownDuration = 2;
-        [SerializeField] private int _paralyzeDuration = 2;
+        [SerializeField] private float _knockDownDuration = 1;
+        [SerializeField] private float _paralyzeDuration = 1;
 
         private void Start()
         {
@@ -46,7 +47,7 @@ namespace Systems.HealthStatus
             OnParalyzeStart?.Invoke(this, EventArgs.Empty);
         }
 
-        public bool IsKnockedDown(out int duration)
+        public bool IsKnockedDown(out float duration)
         {
             return _currentEffectsAndDurationLeftDict.TryGetValue(EffectStatus.KnockedDown, out duration);
         }
@@ -55,7 +56,7 @@ namespace Systems.HealthStatus
             return _currentEffectsAndDurationLeftDict.TryGetValue(EffectStatus.KnockedDown, out var duration);
         }
         
-        public bool IsParalyzed(out int duration)
+        public bool IsParalyzed(out float duration)
         {
             return _currentEffectsAndDurationLeftDict.TryGetValue(EffectStatus.Paralyzed, out duration);
         }
@@ -65,7 +66,7 @@ namespace Systems.HealthStatus
             List<EffectStatus> effectList = _currentEffectsAndDurationLeftDict.Keys.ToList();
             foreach (var effect in effectList)
             {
-                if (_currentEffectsAndDurationLeftDict[effect] - 1 == 0)
+                if (_currentEffectsAndDurationLeftDict[effect] - GameGlobalConstants.TURN_WEIGHT_VALUE == 0)
                 {
                     switch (effect)
                     {
@@ -85,7 +86,7 @@ namespace Systems.HealthStatus
                     _currentEffectsAndDurationLeftDict.Remove(effect);
                     continue;
                 }
-                _currentEffectsAndDurationLeftDict[effect] -= 1;
+                _currentEffectsAndDurationLeftDict[effect] -= GameGlobalConstants.TURN_WEIGHT_VALUE;
             }
         }
 

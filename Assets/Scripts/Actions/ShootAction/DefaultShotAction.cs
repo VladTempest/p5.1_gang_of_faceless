@@ -14,13 +14,14 @@ namespace Actions
             return "Default Shot";
         }
 
-        private void Start()
+        private new void Start()
         {
+            base.Start();
+            if (!enabled) return;
             _archerAnimationEvents.DefaultShotCallback = () => TryToChangeState(State.Shooting);
-            //_archerAnimationEvents.EndDefaultShotCallback = () => TryToChangeState(State.Idle);
         }
 
-        protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+        public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
         {
             if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
             {
@@ -31,7 +32,7 @@ namespace Actions
                 return false;
             }
 
-            if (!GridPositionValidator.IsPositionInsideActionCircleRange(ActionRange, testGridPosition, unitGridPosition, MinActionRange))
+            if (!GridPositionValidator.IsPositionInsideActionCircleRange(MaxActionRange, testGridPosition, unitGridPosition, _minActionRange))
             {
                 return false;
             }
@@ -61,10 +62,7 @@ namespace Actions
             OnDefaultShot?.Invoke(this, new OnShootEventArgs
             {
                 TargetUnit = _targetUnit,
-                HitCallback = () =>
-                {
-                    Hit();
-                }
+                HitCallback = Hit
             });
             base.Shoot();
         }

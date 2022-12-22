@@ -13,12 +13,14 @@ namespace Actions
             return "Paralyze";
         }
 
-        private void Start()
+        private new void Start()
         {
+            base.Start();
+            if (!enabled) return;
             _archerAnimationEvents.ParalyzeShotCallback = () => TryToChangeState(State.Shooting);
         }
 
-        protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+        public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
         {
             if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
             {
@@ -29,7 +31,7 @@ namespace Actions
                 return false;
             }
 
-            if (!GridPositionValidator.IsPositionInsideActionCircleRange(ActionRange, testGridPosition, unitGridPosition, MinActionRange))
+            if (!GridPositionValidator.IsPositionInsideActionCircleRange(MaxActionRange, testGridPosition, unitGridPosition, _minActionRange))
             {
                 return false;
             }

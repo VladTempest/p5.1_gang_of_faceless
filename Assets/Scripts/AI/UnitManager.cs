@@ -45,6 +45,7 @@ public class UnitManager : MonoBehaviour
         if (unit.IsUnitAnEnemy)
         {
             _enemyUnitList.Add(unit);
+            _enemyUnitList.Sort(((a, b) => a.ActionPointsMax - b.ActionPointsMax));
         }
         else
         {

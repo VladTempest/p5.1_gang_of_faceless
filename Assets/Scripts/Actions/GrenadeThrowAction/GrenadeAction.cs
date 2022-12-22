@@ -18,8 +18,10 @@ public class GrenadeAction : BaseAction
     private GridPosition _targetPosition;
     private float _timeToRotateToEnemy = 0.4f;
 
-    private void Start()
+    private new void Start()
     {
+        base.Start();
+        if (!enabled) return;
         _lightWarriorAnimationEvents.OnReleaseBomb += LightWarriorAnimationEvents_OnReleaseBomb;
         _lightWarriorAnimationEvents.OnEquipDagger += LightWarriorAnimationEvents_OnEquipDagger;
     }
@@ -47,7 +49,7 @@ public class GrenadeAction : BaseAction
         ActionStart(onActionComplete);
     }
 
-    protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+    public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
     {
         if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
         {
@@ -58,7 +60,7 @@ public class GrenadeAction : BaseAction
             return false;
         }
         
-        if (!GridPositionValidator.IsPositionInsideActionCircleRange(ActionRange, testGridPosition, unitGridPosition)) return false;;
+        if (!GridPositionValidator.IsPositionInsideActionCircleRange(MaxActionRange, testGridPosition, unitGridPosition)) return false;;
 
         if (!GridPositionValidator.IsGridPositionOnLineOfSight(testGridPosition, unitGridPosition,
                 _obstaclesLayerMask))
@@ -88,14 +90,13 @@ public class GrenadeAction : BaseAction
                 if (_currentState != GrenadeThrowState.Idle) break;
                 _currentState = state;
                 StartCoroutine(UnitRotator.RotateToDirection(transform, LevelGrid.Instance.GetWorldPosition(_targetPosition), _timeToRotateToEnemy));
-                InvokeOnActionStart(this, EventArgs.Empty);
                 break;
             case GrenadeThrowState.Attacking:
                 if (_currentState != GrenadeThrowState.Swinging) break;
                 _currentState = state;
                 Transform grenadeProjectileTransform = Instantiate(_grenadeProjectilePrefab, _throwStartPoint.position, Quaternion.identity);
                 GrenadeProjectile grenadeProjectile = grenadeProjectileTransform.GetComponent<GrenadeProjectile>();
-                grenadeProjectile.Setup(_throwStartPoint, _targetPosition, OnGrenadeBehaviourComplete);
+                grenadeProjectile.Setup(_throwStartPoint, _targetPosition, OnGrenadeBehaviourComplete, _damage);
                 break;
             case GrenadeThrowState.Idle:
                 if (_currentState != GrenadeThrowState.Attacking) break;
@@ -109,7 +110,8 @@ public class GrenadeAction : BaseAction
     {
         TryToChangeState(GrenadeThrowState.Idle);
     }
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+
+    protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         return new EnemyAIAction
         {

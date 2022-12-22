@@ -26,12 +26,12 @@ public class KnockDownAction : MeleeAttackAction
                 if (_currentState != MeleeAttackState.Idle) break;
                 _currentState = state;
                 StartCoroutine(UnitRotator.RotateToDirection(transform, _targetUnit.WorldPosition, _timeToRotateToEnemy));
-                InvokeOnActionStart(this, EventArgs.Empty);
                 break;
             case MeleeAttackState.Attacking:
                 if (_currentState != MeleeAttackState.Swinging) break;
                 _currentState = state;
                 StartCoroutine(UnitRotator.RotateUnitToDirection(_targetUnit, _unit.WorldPosition, _timeForEnemyToRotate));
+                _targetUnit.Damage(_damage, transform.position);
                 _targetUnit.EffectSystem.KnockDownUnit();   
                 OnAnyKnockDownHappened?.Invoke(this, EventArgs.Empty);
                 break;
@@ -50,15 +50,15 @@ public class KnockDownAction : MeleeAttackAction
         ActionStart(onActionComplete);
         
     }
-    
-    protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+
+    public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
     {
         if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
         {
             return false;
         }
         
-        if (!GridPositionValidator.IsPositionInsideActionCircleRange(ActionRange, testGridPosition, unitGridPosition))
+        if (!GridPositionValidator.IsPositionInsideActionCircleRange(MaxActionRange, testGridPosition, unitGridPosition))
         {
             return false;
         }

@@ -29,8 +29,10 @@ namespace Actions
         private float _timeToRotateToEnemy = 0.3f;
         private float _timeForEnemyToRotate = 0.3f;
 
-        private void Start()
+        private new void Start()
         {
+            base.Start();
+            if (!enabled) return;
             _warriorAnimationEvents.PushingCallback += PushingCallback;
             _warriorAnimationEvents.ActionFinishCallback += ActionFinishCallback;
         }
@@ -82,7 +84,7 @@ namespace Actions
                         CurrentState = state;
                         OnUnitPushed?.Invoke(this, new OnPushActionEventArgs(){pushedUnitAnimator = _enemyUnit.GetComponentInChildren<Animator>()});
                         PushEnemyAway(_enemyUnit, _sourceOfPushGridPosition);
-                        _enemyUnit.Damage(0, transform.position);
+                        _enemyUnit.Damage(_damage, transform.position);
                         StartCoroutine(UnitRotator.RotateUnitToDirection(_enemyUnit, _unit.WorldPosition, _timeForEnemyToRotate));
                     }
                     break;
@@ -90,14 +92,13 @@ namespace Actions
                     if (CurrentState == PushActionState.Idle)
                     {
                         CurrentState = state;
-                        InvokeOnActionStart(this, EventArgs.Empty);
                         StartCoroutine(UnitRotator.RotateToDirection(_unit.transform, _enemyUnit.WorldPosition, _timeToRotateToEnemy));
                     }
                     break;
             }
         }
-        
-        protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+
+        public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
         {
             if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
             {
@@ -119,23 +120,24 @@ namespace Actions
                 return false;
             }
             
-            if (!GridPositionValidator.IsPositionInsideActionCircleRange(ActionRange, testGridPosition, unitGridPosition)) return false;
+            if (!GridPositionValidator.IsPositionInsideActionCircleRange(MaxActionRange, testGridPosition, unitGridPosition)) return false;
 
+
+            if (!CheckIfUnitPushable(LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition), unitGridPosition, out var targetDirection))
+                return false;
+            
             return true;
         }
 
-        public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+        protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
         {
             return new EnemyAIAction(){actionValue = 0, gridPosition = new GridPosition()};
         }
 
         private IEnumerator MoveUnit(Unit pushedUnit, GridPosition sourceOfPush)
         {
-            var pushedFromPosition = pushedUnit.WorldPosition;
-            var pushDirection = pushedFromPosition - transform.position;
-            Vector3 targetPosition = pushedUnit.transform.position + pushDirection;
-            if (GridPositionValidator.IsGridPositionOpenToMoveTo(LevelGrid.Instance.GetGridPosition(targetPosition),
-                    pushedUnit.GetGridPosition()))
+            if (CheckIfUnitPushable(pushedUnit,
+                    sourceOfPush, out var targetPosition))
             {
                 while (Vector3.Distance(targetPosition, pushedUnit.transform.position) >= _moveSpeed * Time.deltaTime)
                 {
@@ -143,11 +145,20 @@ namespace Actions
                         _moveSpeed * Time.deltaTime);
                     yield return 0;
                 }
-                OnAnyUnitPushed?.Invoke(this, new OnAnyPushActionEventArgs(){ pushedFromGridPosition = LevelGrid.Instance.GetGridPosition(pushedFromPosition)});
+                OnAnyUnitPushed?.Invoke(this, new OnAnyPushActionEventArgs(){ pushedFromGridPosition = LevelGrid.Instance.GetGridPosition(pushedUnit.WorldPosition)});
                 pushedUnit.transform.position = targetPosition;
             }
             TryToChangeState(PushActionState.Idle);
             ActionComplete();
+        }
+
+        private bool CheckIfUnitPushable(Unit pushedUnit, GridPosition sourceOfPush, out Vector3 targetPosition)
+        {
+            var pushedFromPosition = pushedUnit.WorldPosition;
+            var pushDirection = pushedFromPosition - transform.position;
+            targetPosition = pushedUnit.transform.position + pushDirection;
+            return (GridPositionValidator.IsGridPositionOpenToMoveTo(LevelGrid.Instance.GetGridPosition(targetPosition),
+                pushedUnit.GetGridPosition()));
         }
     }
 }

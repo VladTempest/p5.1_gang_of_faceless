@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a108cdf74a84e45a3ece93889ef143e, type: 3}
+  m_Name: ClassesSO
+  m_EditorClassIdentifier: 
+  ClassesParametersDictionary:
+    keyData: 010000000300000002000000
+    valueData:
+    - HP: 6
+      ActionPoints: 8
+    - HP: 8
+      ActionPoints: 10
+    - HP: 10
+      ActionPoints: 6

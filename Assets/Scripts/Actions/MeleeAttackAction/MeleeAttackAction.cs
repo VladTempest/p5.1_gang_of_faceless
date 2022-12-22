@@ -14,15 +14,16 @@ public class MeleeAttackAction : BaseAction
 
     [SerializeField] private WarriorAnimationEvents _warriorAnimationEvents;
     [SerializeField] private Transform _swordDamageSource;
-    [SerializeField] private int _hitAmount = 50;
 
     protected MeleeAttackState _currentState;
     protected Unit _targetUnit;
     protected float _timeToRotateToEnemy = 0.5f;
     protected float _timeForEnemyToRotate = 0.3f;
 
-    private void Start()
+    private new void Start()
     {
+        if (!enabled) return;
+        base.Start();
         _warriorAnimationEvents.ActionEffectCallback += ActionEffectCallback;
         _warriorAnimationEvents.ActionFinishCallback += ActionFinishCallback;
         _warriorAnimationEvents.DualSwordCutWasMadeCallback += DualSwordCutWasMadeCallback;
@@ -52,13 +53,12 @@ public class MeleeAttackAction : BaseAction
                 if (_currentState != MeleeAttackState.Idle) break;
                 _currentState = state;
                 StartCoroutine(UnitRotator.RotateToDirection(transform, _targetUnit.WorldPosition, _timeToRotateToEnemy));
-                InvokeOnActionStart(this, EventArgs.Empty);
                 break;
             case MeleeAttackState.Attacking:
                 if (_currentState != MeleeAttackState.Swinging) break;
                 _currentState = state;
                 StartCoroutine(UnitRotator.RotateUnitToDirection(_targetUnit, _unit.WorldPosition, _timeForEnemyToRotate));
-                _targetUnit.Damage(_hitAmount, _swordDamageSource.position);
+                _targetUnit.Damage(_damage, _swordDamageSource.position);
                 OnAnyMeleeHit?.Invoke(this, EventArgs.Empty);
                 break;
             case MeleeAttackState.Idle:
@@ -82,7 +82,7 @@ public class MeleeAttackAction : BaseAction
         
     }
 
-    protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+    public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
     {
         if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
         {
@@ -106,7 +106,7 @@ public class MeleeAttackAction : BaseAction
         return true;
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         return new EnemyAIAction()
         {

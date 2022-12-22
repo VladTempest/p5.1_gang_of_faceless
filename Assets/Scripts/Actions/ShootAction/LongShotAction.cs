@@ -8,18 +8,19 @@ namespace Actions
     {
         public event EventHandler<OnShootEventArgs> OnLongShot;
         
-        private void Start()
+        private new void Start()
         {
+            base.Start();
+            if (!enabled) return;
             _archerAnimationEvents.LongShotCallback = () => TryToChangeState(State.Shooting);
-            //_archerAnimationEvents.EndLongShotCallback = () => TryToChangeState(State.Idle);
         }
         
         public override string GetActionName()
         {
             return "Long Shot";
         }
-        
-        protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+
+        public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
         {
             if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))
             {
@@ -31,7 +32,7 @@ namespace Actions
                 return false;
             }
 
-            if (!GridPositionValidator.IsPositionInsideActionCircleRange(ActionRange, testGridPosition, unitGridPosition, MinActionRange))
+            if (!GridPositionValidator.IsPositionInsideActionCircleRange(MaxActionRange, testGridPosition, unitGridPosition, _minActionRange))
             {
                 return false;
             }

@@ -14,7 +14,7 @@ public class GrenadeProjectile : MonoBehaviour
     [SerializeField] private AnimationCurve _arcYAnimationDistanceCorrectionCurve;
     [SerializeField] private AnimationCurve _speedAnimationCurve;
 
-    [SerializeField] private int _damageAmount = 80;
+    [SerializeField] private float _damageAmount;
     
     private Vector3 _targetPosition;
     private float _moveSpeed = 20f;
@@ -72,8 +72,10 @@ public class GrenadeProjectile : MonoBehaviour
         return distanceNormalized;
     }
 
-    public void Setup(Transform throwStartPoint, GridPosition targetGridPosition, Action OnGrenadeBehaviourComplete)
+    public void Setup(Transform throwStartPoint, GridPosition targetGridPosition, Action OnGrenadeBehaviourComplete, float damage)
     {
+        _damageAmount = damage;
+        
         _startHeight = throwStartPoint.position.y;
         _OnGrenadeBehaviourComplete = OnGrenadeBehaviourComplete;
         _targetPosition = LevelGrid.Instance.GetWorldPosition(targetGridPosition);

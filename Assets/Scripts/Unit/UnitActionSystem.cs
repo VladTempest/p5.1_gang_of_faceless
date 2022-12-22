@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using GridSystems;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
@@ -15,22 +16,52 @@ public class UnitActionSystem : MonoBehaviour
     public event EventHandler<bool> OnBusyChanged;
     
     public event EventHandler OnActionStarted;
-    
-    [SerializeField] private Unit _selectedUnit;
+
     [SerializeField] private LayerMask _unitLayerMask;
 
-    [SerializeField] private BaseAction _selectedAction;
+    private Unit _selectedUnit;
+    private BaseAction _selectedAction;
 
+    public bool IsBusy => _isBusy;
     private bool _isBusy;
 
     public Unit GetSelectedUnit()
     {
+        if (_selectedUnit == null)
+        {
+            if (UnitManager.Instance.FriendlyUnitList.IsNullOrEmpty())
+            {
+                Debug.LogError("There is no friendly units");
+                return null;
+            }
+            
+            _selectedUnit = UnitManager.Instance.FriendlyUnitList[0];
+            OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
+            //ToDo: Удалить стопяцот инвоков ивента
+        }
         return _selectedUnit;
+    }
+
+    public BaseAction GetMoveAction()
+    {
+        if (_selectedUnit != null && _selectedUnit.UnitMoveAction != null)
+        {
+            return _selectedUnit.UnitMoveAction;
+        }
+        
+        Debug.LogError("There is no Actions on Unit");
+        var dummyAction = gameObject.AddComponent<MoveAction>();
+        return dummyAction;
     }
 
     public BaseAction GetSelectedAction()
     {
-        return _selectedAction;
+        if (_selectedAction != null)
+        {
+            return _selectedAction;
+        }
+
+        return GetMoveAction();
     }
 
     private void Awake()
@@ -46,9 +77,46 @@ public class UnitActionSystem : MonoBehaviour
 
     private void Start()
     {
-        SetSelectedUnit(_selectedUnit);
+        SetUpSelectedUnit();
+        TurnSystem.Instance.OnTurnChanged += ChangeSelectedPlayer;
+        Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
+        OnBusyChanged += ChangeSelectedActionToMoveAction;
     }
-    
+
+    private void Unit_OnAnyUnitDead(object sender, Unit.OnAnyUnitDiedEventArgs e)
+    {
+        SetUpSelectedUnit();
+    }
+
+    private void OnDestroy()
+    {
+        TurnSystem.Instance.OnTurnChanged -= ChangeSelectedPlayer;
+        Unit.OnAnyUnitDead -= Unit_OnAnyUnitDead;
+        OnBusyChanged -= ChangeSelectedActionToMoveAction;
+    }
+
+    private void ChangeSelectedPlayer(object sender, EventArgs e)
+    {
+        SetUpSelectedUnit();
+    }
+
+    private void ChangeSelectedActionToMoveAction(object sender, bool isBusy)
+    {
+        if (!isBusy) SetSelectedAction(GetMoveAction());
+    }
+
+    private void SetUpSelectedUnit()
+    {
+        if (_selectedUnit != null)
+        {
+            SetSelectedAction(GetMoveAction());
+            return;
+        }
+        _selectedUnit = GetSelectedUnit();
+        SetSelectedAction(GetMoveAction());
+        OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
+    }
+
     private void Update()
     {
         if (_isBusy) return;
@@ -68,7 +136,7 @@ public class UnitActionSystem : MonoBehaviour
         {
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPointerInWorldPosition());
 
-            if (!_selectedAction.IsValidActionGridPosition(mouseGridPosition)) return;
+            if (!_selectedAction.IsGridPositionValid(mouseGridPosition, _selectedUnit.GetGridPosition())) return;
             if (!_selectedUnit.TrySpendActionPointsToTakeAction(_selectedAction)) return;
             SetBusy();
             _selectedAction.TakeAction(mouseGridPosition, ClearBusy);
@@ -99,7 +167,7 @@ public class UnitActionSystem : MonoBehaviour
     private void SetSelectedUnit(Unit unit)
     {
         _selectedUnit = unit;
-        SetSelectedAction(unit.GetAction<MoveAction>());
+        SetSelectedAction(GetMoveAction());
         
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
     }

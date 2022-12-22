@@ -13,6 +13,7 @@ public class SpinAction : BaseAction
 
     private void Update()
     {
+        if (!enabled) return;
         if (!IsActive) return;
         
         float spinAddAmount = 360f * Time.deltaTime;
@@ -28,11 +29,12 @@ public class SpinAction : BaseAction
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         _totalSpinAmount = 0;
+        //InvokeOnActionStart(this, EventArgs.Empty);
         ActionStart(onActionComplete);
 
     }
 
-    protected override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
+    public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
     {
         if (GridPositionValidator.HasAnyUnitOnGridPosition(testGridPosition))
         {
@@ -52,7 +54,7 @@ public class SpinAction : BaseAction
         return 1;
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         return new EnemyAIAction
         {
