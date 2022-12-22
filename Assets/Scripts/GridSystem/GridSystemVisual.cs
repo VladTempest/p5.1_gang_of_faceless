@@ -186,7 +186,7 @@ public class GridSystemVisual : MonoBehaviour
                  break;
              case BackStabAction backstab:
                  gridVisualType = GridVisualType.Red;
-                 ShowGridPositionRangeSquare(selectedUnit.GetGridPosition(), backstab.MaxActionRange, GridVisualType.RedSoft);
+                 ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), backstab.MaxActionRange, GridVisualType.RedSoft);
                  break;
              case GreatSwordAction swordAction:
                  gridVisualType = GridVisualType.Red;

@@ -99,6 +99,11 @@ namespace Actions
             {
                 return false;
             }
+            
+            if (!GridPositionValidator.IsPositionInsideActionCircleRange(MaxActionRange, testGridPosition, unitGridPosition, _minActionRange))
+            {
+                return false;
+            }
 
             if (!GridPositionValidator.HasAnyUnitOnGridPosition(testGridPosition))
             {

@@ -26,13 +26,13 @@ MonoBehaviour:
       CoolDown: 0
       Charges: 0
       MinRange: 2
-      MaxRange: 5
+      MaxRange: 4
     - Damage: 2
       ActionPoints: 6
       CoolDown: 2
       Charges: 0
       MinRange: 3
-      MaxRange: 8
+      MaxRange: 6
     - Damage: 0
       ActionPoints: 6
       CoolDown: 2
@@ -68,7 +68,7 @@ MonoBehaviour:
       CoolDown: 2
       Charges: 0
       MinRange: 0
-      MaxRange: 8
+      MaxRange: 4
     - Damage: 6
       ActionPoints: 10
       CoolDown: 0
