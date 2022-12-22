@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 361c0ee25f034345bff433ca9cad5609, type: 3}
+  m_Name: WeigthsSO
+  m_EditorClassIdentifier: 
+  GridEstimationWeightsDictionary:
+    keyData: 010000000200000003000000
+    valueData:
+    - healthLeftWeight: 2
+      playerCharacterStatusWeight: 1
+      pathLengthWeight: 2
+      actionPointCostWeight: 1
+      coolDownWeight: 1
+      normalizedDamageWeight: 1
+      additionalEffectsWeight: 1
+    - healthLeftWeight: 1
+      playerCharacterStatusWeight: 1
+      pathLengthWeight: 1
+      actionPointCostWeight: 1
+      coolDownWeight: 1
+      normalizedDamageWeight: 1
+      additionalEffectsWeight: 2
+    - healthLeftWeight: 1
+      playerCharacterStatusWeight: 1
+      pathLengthWeight: 0.5
+      actionPointCostWeight: 1
+      coolDownWeight: 1
+      normalizedDamageWeight: 2
+      additionalEffectsWeight: 1

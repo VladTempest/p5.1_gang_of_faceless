@@ -12,53 +12,18 @@ using Random = UnityEngine.Random;
 
 namespace Editor.Scripts.AI
 {
-    enum CheckType
-    {
-        IsEnemyArcherOnGrid,
-        IsFriendlyWarriorUnitNotOnGrid,
-        IsGridAvailableToMove
-    }
-    public class AIAttackActionData
-    {
-        public BaseAction AttackAction;
-        public GridPosition TargetPosition;
-        public Action OnActionComplete;
-        public float ActionRating;
-
-        public AIAttackActionData(BaseAction attackAction, GridPosition targetPosition, Action onActionComplete, float actionRating)
-        {
-            AttackAction = attackAction;
-            TargetPosition = targetPosition;
-            OnActionComplete = onActionComplete;
-            ActionRating = actionRating;
-        }
-
-        public override string ToString()
-        {
-            return $"{AttackAction.GetActionName()} on position {TargetPosition} with rating {ActionRating}";
-        }
-    }
-    
     public class GridRatingEstimator
     {
-        public GridRatingEstimator(Unit enemyUnit)
-        {
-            _enemyUnit = enemyUnit;
-        }
-
-        private Unit _enemyUnit;
-
-
-        private float healthLeftWeight = 1;
-        private float playerCharacterStatusWeight = 1;
-        private float pathLengthWeight = 1;
-        private float playerCharacterClassWeight = 1;
-        private float allyInNeighbourGridWeight = 1;
-        private float actionPointCostWeight = 1;
-        private float coolDownWeight = 1;
-        private float normilizedDamageWeight = 1;
-        private float additionalEffectsWeight = 1;
+        private readonly Unit _enemyUnit;
         
+        private readonly float _healthLeftWeight;
+        private readonly float _playerCharacterStatusWeight;
+        private readonly float _pathLengthWeight;
+        private readonly float _actionPointCostWeight;
+        private readonly float _coolDownWeight;
+        private readonly float _normalizedDamageWeight;
+        private readonly float _additionalEffectsWeight;
+
         public AIAttackActionData GetBestAttackAction(Action onActionComplete, List<BaseAction> availableAttackActions,
             List<Unit> friendlyUnitList)
         {
@@ -76,15 +41,37 @@ namespace Editor.Scripts.AI
 
             if (!listOfBestActions.IsNullOrEmpty())
             {
-                var orderedList=listOfBestActions.OrderByDescending(aiActionData =>
-                    aiActionData.ActionRating); //ToDo: выделить в метод!
-                var bestActionAiData = orderedList.First();
-                Debug.LogWarning($"[Enemy AI] Resulting {bestActionAiData} for {_enemyUnit.name}");
-                return bestActionAiData;
+                var randomBestAction = GetBestAIAttackActionData(listOfBestActions);
+                return randomBestAction;
             }
             
             Debug.LogWarning($"[Enemy AI] Resulting best action IS NULL for {_enemyUnit.name}");
             return null;
+        }
+
+        private AIAttackActionData GetBestAIAttackActionData(List<AIAttackActionData> listOfBestActions)
+        {
+            var orderedList = listOfBestActions.OrderByDescending(aiActionData =>
+                aiActionData.ActionRating);
+            var bestActionAiData = orderedList.First();
+            var randomBestAction = GetRandomBestAIActionFromList(orderedList, bestActionAiData);
+            Debug.LogWarning($"[Enemy AI] Resulting {randomBestAction} for {_enemyUnit.name}");
+            return randomBestAction;
+        }
+
+        public GridRatingEstimator(Unit enemyUnit)
+        {
+            _enemyUnit = enemyUnit; 
+            
+            var estimationWeights = ConstantsProvider.Instance.gridEstimationWeightsSO.GridEstimationWeightsDictionary[_enemyUnit.UnitType];
+            _healthLeftWeight = estimationWeights.healthLeftWeight;
+            _playerCharacterStatusWeight = estimationWeights.playerCharacterStatusWeight;
+            _pathLengthWeight = estimationWeights.pathLengthWeight;
+            _actionPointCostWeight = estimationWeights.actionPointCostWeight;
+            _coolDownWeight = estimationWeights.coolDownWeight;
+            _normalizedDamageWeight = estimationWeights.normalizedDamageWeight;
+            _additionalEffectsWeight = estimationWeights.additionalEffectsWeight;
+            
         }
 
         private AIAttackActionData GetBestAttackActionForUnit(Unit friendlyUnit, List<BaseAction> availableAttackActions, Action onActionComplete)
@@ -99,16 +86,25 @@ namespace Editor.Scripts.AI
 
             if (!listOfAiActionDataForUnit.IsNullOrEmpty())
             {
-                var orderedList = listOfAiActionDataForUnit.OrderByDescending(aiActionData => aiActionData.ActionRating);
-                var bestActionAiData =  orderedList.First();
-                var bestActionsWithSameRating = orderedList.Where(item => Math.Abs(item.ActionRating - bestActionAiData.ActionRating) < 0.01f);
-                Debug.LogWarning($"[Enemy AI] Rated action of {_enemyUnit.name} for friendly unit: {friendlyUnit.name} - {bestActionAiData}");
-                IEnumerable<AIAttackActionData> actionsWithSameRating = bestActionsWithSameRating as AIAttackActionData[] ?? bestActionsWithSameRating.ToArray();
-                var randomIndex = Random.Range(0, actionsWithSameRating.Count());
-                return actionsWithSameRating.ToList()[randomIndex];
+                var randomBestAction = GetBestAIAttackActionData(listOfAiActionDataForUnit);
+                return randomBestAction;
             }
             Debug.LogWarning($"[Enemy AI] Rated action for friendly unit: {friendlyUnit.name} -IS NULL for {_enemyUnit.name}");
             return null;
+        }
+
+        private AIAttackActionData GetRandomBestAIActionFromList(IOrderedEnumerable<AIAttackActionData> orderedList,
+            AIAttackActionData bestActionAiData)
+        {
+            var bestActionsWithSameRating =
+                orderedList.Where(item => Math.Abs(item.ActionRating - bestActionAiData.ActionRating) < 0.01f);
+            Debug.LogWarning(
+                $"[Enemy AI] Rated action of {_enemyUnit.name} for friendly unit: {LevelGrid.Instance.GetUnitAtGridPosition(bestActionAiData.TargetPosition).name} - {bestActionAiData}");
+            IEnumerable<AIAttackActionData> actionsWithSameRating =
+                bestActionsWithSameRating as AIAttackActionData[] ?? bestActionsWithSameRating.ToArray();
+            var randomIndex = Random.Range(0, actionsWithSameRating.Count());
+            var randomBestAction = actionsWithSameRating.ToList()[randomIndex];
+            return randomBestAction;
         }
 
         private AIAttackActionData GetAIAttackActionData(BaseAction attackAction, Unit friendlyUnit, Action onActionComplete)
@@ -146,7 +142,7 @@ namespace Editor.Scripts.AI
 
             if (friendlyUnit.EffectSystem.IsKnockedDown()) rawPlayerCharacterStatusRating -= 1;
             if (friendlyUnit.EffectSystem.IsParalyzed(out var duration)) rawPlayerCharacterStatusRating -= 1;
-            return playerCharacterStatusWeight * rawPlayerCharacterStatusRating;
+            return _playerCharacterStatusWeight * rawPlayerCharacterStatusRating;
         }
 
         private float GetPathLengthRating(Unit friendlyUnit)
@@ -159,7 +155,7 @@ namespace Editor.Scripts.AI
                                          (LevelGrid.Instance.GetWidth() * 1.4f *
                                           GameGlobalConstants.PATH_TO_POINT_MULTIPLIER);
 
-            float playerCharacterPathLengthRating = (1 - normalizedPathLength) * pathLengthWeight;
+            float playerCharacterPathLengthRating = (1 - normalizedPathLength) * _pathLengthWeight;
             return playerCharacterPathLengthRating;
         }
 
@@ -194,7 +190,7 @@ namespace Editor.Scripts.AI
                     }
                     break;
             }
-            return normalizedAdditionalEffectsRating * additionalEffectsWeight;
+            return normalizedAdditionalEffectsRating * _additionalEffectsWeight;
         }
 
         private float GetNormalizedAdditionalEffectsRatingForPush(Unit friendlyUnit)
@@ -290,7 +286,7 @@ namespace Editor.Scripts.AI
             float normalizedCooldownRating = 1;
             if (attackAction.HasCoolDown)
             {
-                normalizedCooldownRating /= attackAction.FullCoolDownValue * coolDownWeight;
+                normalizedCooldownRating /= attackAction.FullCoolDownValue * _coolDownWeight;
             }
 
             return normalizedCooldownRating;
@@ -299,7 +295,7 @@ namespace Editor.Scripts.AI
         private float GetNormalizedActionCostRating(BaseAction attackAction)
         {
             float normalizedActionCostRating =
-                (1 - attackAction.ActionPointCost / _enemyUnit.ActionPoints) * actionPointCostWeight;
+                (1 - attackAction.ActionPointCost / _enemyUnit.ActionPoints) * _actionPointCostWeight;
             return normalizedActionCostRating;
         }
 
@@ -310,7 +306,7 @@ namespace Editor.Scripts.AI
             {
                 var rawNormalizedDamageToHealthRating =
                     (1 - Mathf.Abs(friendlyUnit.HealthPointsLeft - attackAction.Damage) / attackAction.Damage);
-                normalizedDamageToHealthRating = Mathf.Clamp(rawNormalizedDamageToHealthRating, 0, 1) * normilizedDamageWeight;
+                normalizedDamageToHealthRating = Mathf.Clamp(rawNormalizedDamageToHealthRating, 0, 1) * _normalizedDamageWeight;
             }
 
             return normalizedDamageToHealthRating;
@@ -318,7 +314,7 @@ namespace Editor.Scripts.AI
 
         private float GetPlayerUnitHealthLeftRating(Unit friendlyUnit)
         {
-            return (1 - friendlyUnit.HealthNormalised) * healthLeftWeight;
+            return (1 - friendlyUnit.HealthNormalised) * _healthLeftWeight;
         }
 
         private bool IsThereEnemyAroundFriendlyUnit(Unit friendlyUnit)
