@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class LoadingProgressBarUI : MonoBehaviour
 
     public void SetLoadProgressAmount(float progress)
     {
-        Debug.Log("loading!!!!!!!!!");
-        _progressBar.fillAmount = progress;
+        Debug.Log("Progress = " + progress);
+        if (Math.Abs(progress - _progressBar.fillAmount) > 0.001f) _progressBar.fillAmount = progress;
     }
 }

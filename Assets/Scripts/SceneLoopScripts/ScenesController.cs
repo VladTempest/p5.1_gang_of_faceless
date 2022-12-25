@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Editor.Scripts.SceneLoopScripts
         
         [SerializeField] private List<SceneWithEnum> _sceneWithEnums;
         private LoadingProgressBarUI _progressBar;
+        private bool _alreadyLoaded;
 
 
         private void Awake()
@@ -42,24 +44,51 @@ namespace Editor.Scripts.SceneLoopScripts
         private void LoadWithLoadingScreen(string targetSceneName)
         {
             var loadingSceneName = GetSceneNameFromSceneEnum(ScenesEnum.Loading);
-            SceneManager.LoadScene(loadingSceneName);
-            _progressBar = FindObjectOfType<LoadingProgressBarUI>();
-            TargetSceneLoadASync(targetSceneName);
+            _alreadyLoaded = false;
+            StartCoroutine(LoadingSceneLoadAsync());
+            StartCoroutine(TargetSceneLoadASync(targetSceneName));
         }
 
-        private async void TargetSceneLoadASync(string sceneName)
+        private IEnumerator TargetSceneLoadASync(string sceneName)
         {
-            var loadOperation = SceneManager.LoadSceneAsync(sceneName);
+            yield return null;
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName);
             loadOperation.allowSceneActivation = false;
 
-            do
+            while (!loadOperation.isDone)
             {
-                Debug.Log("10 sec passed");
-                await Task.Delay(1000);
-                if (_progressBar != null) _progressBar.SetLoadProgressAmount(loadOperation.progress);
-            } while (loadOperation.progress < 0.9f);
+                if (!_alreadyLoaded)
+                {
+                    if (_progressBar != null) _progressBar.SetLoadProgressAmount(loadOperation.progress);
+                    yield return null;
+                }
 
-            loadOperation.allowSceneActivation = true;
+
+                if (loadOperation.progress >= 0.9f)
+                {
+                    _alreadyLoaded = true;
+                    _progressBar.SetLoadProgressAmount(1f);
+                    yield return null;
+                    loadOperation.allowSceneActivation = true;
+                }
+            }
+
+            yield return null;
         }
+        
+        private IEnumerator LoadingSceneLoadAsync()
+        {
+            yield return null;
+            string sceneName = GetSceneNameFromSceneEnum(ScenesEnum.Loading);
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName);
+            
+            while (!loadOperation.isDone)
+            {
+                yield return null;
+            }
+            
+            _progressBar = FindObjectOfType<LoadingProgressBarUI>();
+        }
+        
     }
 }
