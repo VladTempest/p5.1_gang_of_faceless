@@ -472,7 +472,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1384
+  m_Name: pb_Mesh-2359112
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -723,7 +723,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1454
+  m_Name: pb_Mesh-2359182
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -898,7 +898,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1356
+  m_Name: pb_Mesh-2359084
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -1372,7 +1372,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1799,7 +1799,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278190140
-  m_fontColor: {r: 0.23584908, g: 0, b: 0, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1872,7 +1872,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1370
+  m_Name: pb_Mesh-2359098
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -2047,7 +2047,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1510
+  m_Name: pb_Mesh-2359238
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -2222,7 +2222,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1342
+  m_Name: pb_Mesh-2359070
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -2409,7 +2409,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1440
+  m_Name: pb_Mesh-2359168
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -2584,7 +2584,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1538
+  m_Name: pb_Mesh-2359266
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -2893,7 +2893,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1328
+  m_Name: pb_Mesh-2359056
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -3068,7 +3068,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1300
+  m_Name: pb_Mesh-2359028
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -3243,7 +3243,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1426
+  m_Name: pb_Mesh-2359154
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -3418,7 +3418,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1314
+  m_Name: pb_Mesh-2359042
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -3593,7 +3593,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1482
+  m_Name: pb_Mesh-2359210
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -3768,7 +3768,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1468
+  m_Name: pb_Mesh-2359196
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -4009,7 +4009,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1398
+  m_Name: pb_Mesh-2359126
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -4592,7 +4592,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1496
+  m_Name: pb_Mesh-2359224
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -4946,7 +4946,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1524
+  m_Name: pb_Mesh-2359252
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -5232,8 +5232,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5513,8 +5513,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5653,7 +5653,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1412
+  m_Name: pb_Mesh-2359140
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -6132,8 +6132,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6260,7 +6260,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5f2c2473868958f468a84fe310b6dd02, type: 2}
+  - {fileID: 2100000, guid: 99e9469e5953cd24e8eb4d7c87ac8038, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6297,14 +6297,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1809828687}
-  m_LocalRotation: {x: -0.0042105895, y: -0.050942183, z: 0.0822657, w: 0.99529874}
-  m_LocalPosition: {x: -7.85, y: -1.212677, z: 7.9830666}
+  m_LocalRotation: {x: -0.0048924424, y: -0.059191633, z: 0.08222797, w: 0.9948422}
+  m_LocalPosition: {x: -6.51, y: -1.212677, z: 8.9}
   m_LocalScale: {x: 10.963542, y: 13.043321, z: 10.33089}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1645325177}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: -5.86, z: 9.45}
+  m_LocalEulerAnglesHint: {x: 0, y: -6.81, z: 9.45}
 --- !u!1 &1834867208
 GameObject:
   m_ObjectHideFlags: 0
@@ -6563,7 +6563,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278190140
-  m_fontColor: {r: 0.23584908, g: 0, b: 0, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6825,7 +6825,7 @@ GameObject:
   - component: {fileID: 1971767904}
   - component: {fileID: 1971767903}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6871,7 +6871,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GANGS OF FACELESS
+  m_text: GANG OF FACELESS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 72bc208ef9dce7a47984366827a4fbc8, type: 2}
   m_sharedMaterial: {fileID: -1010529002273224184, guid: 72bc208ef9dce7a47984366827a4fbc8,
@@ -6881,8 +6881,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190140
-  m_fontColor: {r: 0.23584908, g: 0, b: 0, a: 1}
+    rgba: 4278239487
+  m_fontColor: {r: 1, g: 0.7548077, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
