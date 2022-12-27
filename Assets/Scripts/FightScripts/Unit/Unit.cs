@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using GridSystems;
 using Scripts.Unit;
+using SoundSystemScripts;
 using Systems.HealthStatus;
 using UnityEngine;
 using UnityEngine.Analytics;
@@ -169,8 +170,8 @@ public class Unit : MonoBehaviour
     
     private void HealthSystem_OnDead(object sender, EventArgs e)
     {
+        SoundtrackPlayerWrapper.PlayDeathSounds(this, transform);
         LevelGrid.Instance.RemoveUnitAtGridPosition(_currentGridPosition, this);
-        
         Destroy(gameObject);
         
         OnAnyUnitDead?.Invoke(this, new OnAnyUnitDiedEventArgs(){deadUnitGridPosition = _currentGridPosition});

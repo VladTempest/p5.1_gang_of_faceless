@@ -6,14 +6,15 @@ using UnityEngine.UI;
 
 namespace Editor.Scripts.MainMenuScripts.UI
 {
-    public class LoadSceneButtonUI : MonoBehaviour
+    public class LoadSceneButtonUI : ButtonBehaviourUI
     {
-       [SerializeField] private Button _button;
+       
        [SerializeField] private ScenesEnum _sceneToLoad;
-
-        private void Start()
+       
+       private void Start()
         {
             _button.onClick.AddListener(LoadScene);
+            
         }
 
         private void LoadScene()

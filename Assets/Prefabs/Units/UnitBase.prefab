@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: 2
-  ACTION_POINT_MAX: 11
+  _actionPointMax: 10
   _isEnemy: 0
   _actionPoint: 11
 --- !u!114 &5790186910903509649
@@ -326,9 +326,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3237063788311959988}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.7769966, y: 1.8320601, z: 0.5789876}
   m_Center: {x: 0.01854229, y: 0.8725703, z: 0.035380125}
 --- !u!114 &6511915750059178299
@@ -1021,7 +1029,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TransformParent: {fileID: 3237063788311959989}
     m_Modifications:
     - target: {fileID: 124330, guid: 534b7b0f42c1d304299f3f3762536fb4, type: 3}
@@ -1104,6 +1112,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 626abf1fbfbbcbd4c89e54c1d7718421, type: 2}
+    - target: {fileID: 124902731048750918, guid: 534b7b0f42c1d304299f3f3762536fb4,
+        type: 3}
+      propertyPath: _unit
+      value: 
+      objectReference: {fileID: 3237063788311959990}
     - target: {fileID: 878392216543318068, guid: 534b7b0f42c1d304299f3f3762536fb4,
         type: 3}
       propertyPath: m_IsActive
@@ -1125,7 +1138,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 534b7b0f42c1d304299f3f3762536fb4, type: 3}
 --- !u!96 &436859824795894663 stripped
 TrailRenderer:

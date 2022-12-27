@@ -1,0 +1,237 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 346b52b8f4e238a419122d0ffb0a2580, type: 3}
+  m_Name: SoundtracksListSO
+  m_EditorClassIdentifier: 
+  list:
+  - Name: UI_Click_long
+    Clip:
+    - {fileID: 8300000, guid: 2b9889dd5357ab54994c319342b6694a, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 1
+    typeOfSfxByPlace: 1
+  - Name: UI_Click_short
+    Clip:
+    - {fileID: 8300000, guid: 0d2e6ff0691f9b44fb6bd3376658e835, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 3
+    typeOfSfxByPlace: 1
+  - Name: Main menu OST
+    Clip:
+    - {fileID: 8300000, guid: fdcee5dfa5e7e69449b078de3e6a2131, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 0
+    typeOfOstByItsNature: 1
+    typeOfSfxByItsNature: 0
+    typeOfSfxByPlace: 1
+  - Name: Fight Scene OST
+    Clip:
+    - {fileID: 8300000, guid: f8916f28385b2824d87e11024531bb94, type: 3}
+    Volume: 0.005
+    typeOfSoundtrack: 0
+    typeOfOstByItsNature: 2
+    typeOfSfxByItsNature: 0
+    typeOfSfxByPlace: 1
+  - Name: Concrete steps
+    Clip:
+    - {fileID: 8300000, guid: 0e81a17b1d8a36e41a5eb03a79608cd0, type: 3}
+    - {fileID: 8300000, guid: 77fc7315c6356804299a12c91e31ebee, type: 3}
+    - {fileID: 8300000, guid: 6586c85663c70204cbe8edec4ffb40db, type: 3}
+    - {fileID: 8300000, guid: c5d0ff9f6f88c424c81e3d8f68e00197, type: 3}
+    - {fileID: 8300000, guid: 3aa670dc8b2ae024dafdb25a7ec46c96, type: 3}
+    - {fileID: 8300000, guid: e67ac06c025b64543bc364a20c2db917, type: 3}
+    - {fileID: 8300000, guid: ad98e27c91e747e43b0656138b6d7532, type: 3}
+    - {fileID: 8300000, guid: 91b1ebf4953583d4bbf059ff05bb9309, type: 3}
+    - {fileID: 8300000, guid: 7347b9ca33ebe4143b0f91c0c68f0d23, type: 3}
+    - {fileID: 8300000, guid: b14d72fb544ec004e8ed9b02f0f7ce3c, type: 3}
+    - {fileID: 8300000, guid: 9542d9a8e5cb8044abc1a440cc9b83d0, type: 3}
+    - {fileID: 8300000, guid: 0fd909d56c8109e4eaec87b112e7ed64, type: 3}
+    - {fileID: 8300000, guid: 5b7e8976d1987b243917f0fa92aef0c8, type: 3}
+    - {fileID: 8300000, guid: 78d745b020d28944eb373a5d88cc2dd0, type: 3}
+    - {fileID: 8300000, guid: 005230b0c305f5d45b34b7ae45c74d7c, type: 3}
+    - {fileID: 8300000, guid: fe06e561a3000aa4aa3a70267f1120e7, type: 3}
+    - {fileID: 8300000, guid: e6e5b0f27c9370d4f8186232f26440d1, type: 3}
+    - {fileID: 8300000, guid: 41d1a68d1daec2741be41b0b99549e21, type: 3}
+    - {fileID: 8300000, guid: 4f37314bade27564ab42b0bdc28b41f9, type: 3}
+    - {fileID: 8300000, guid: 07e64c9c7f14f0741a4279d05a97a250, type: 3}
+    - {fileID: 8300000, guid: 59585cfd42256574da65756d01a00277, type: 3}
+    Volume: 0.104
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 2
+    typeOfSfxByPlace: 0
+  - Name: Land
+    Clip:
+    - {fileID: 8300000, guid: 964ca92e489996f42ae6aee1f0f803be, type: 3}
+    - {fileID: 8300000, guid: b5fd360fe70f22a4b9c90517d6bf5f95, type: 3}
+    - {fileID: 8300000, guid: eb59fae816799ee47bb3448abe8455b8, type: 3}
+    - {fileID: 8300000, guid: 228aa958b6a03214b971a64e86ab11c6, type: 3}
+    - {fileID: 8300000, guid: df61eaabbaa8fe148ac190efaa8494d0, type: 3}
+    - {fileID: 8300000, guid: 5e9ce74f99b280243885be80bb09f634, type: 3}
+    - {fileID: 8300000, guid: 90dd4f958e9cc2b4e8a4f9621e6a2ba5, type: 3}
+    - {fileID: 8300000, guid: 256ba0a4286bf6f4fac40666cacea10b, type: 3}
+    - {fileID: 8300000, guid: bf31bf30a9ad37d43827279856ea3e43, type: 3}
+    - {fileID: 8300000, guid: 554fae347cf9a7a49b111dc175651946, type: 3}
+    - {fileID: 8300000, guid: 3b2776c53ec34344ca07324ba37c79b9, type: 3}
+    Volume: 0.104
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 5
+    typeOfSfxByPlace: 0
+  - Name: Slide
+    Clip:
+    - {fileID: 8300000, guid: 554a33f15ae28ee4ca130b57bb6c9add, type: 3}
+    - {fileID: 8300000, guid: 4d3ae20db227d4f499652151b3adfa40, type: 3}
+    - {fileID: 8300000, guid: 41c110e9b1502e246a2f885a5b803d4c, type: 3}
+    - {fileID: 8300000, guid: 6dc14929d57eb9647bf98288b71e9a3b, type: 3}
+    - {fileID: 8300000, guid: aff25ba8cc7eea34ba674ba6df9b5322, type: 3}
+    - {fileID: 8300000, guid: 1d31458e89f303144b64e7c8e5f1d221, type: 3}
+    - {fileID: 8300000, guid: 240dd3ebe530f0f44833c8e8253ecfad, type: 3}
+    - {fileID: 8300000, guid: 7524156ba75ef9f4e88ca02996570d85, type: 3}
+    - {fileID: 8300000, guid: 4b91a39950a13404d8e806c6ad0284ef, type: 3}
+    Volume: 0.1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 4
+    typeOfSfxByPlace: 0
+  - Name: heavy armor foley
+    Clip:
+    - {fileID: 8300000, guid: e0f05660ac926bf469eef9758bcc8dde, type: 3}
+    - {fileID: 8300000, guid: 0be92ad6053e680498176a97555410e0, type: 3}
+    - {fileID: 8300000, guid: 351b304e85e6c5d43a1925ae4d2f07ea, type: 3}
+    - {fileID: 8300000, guid: 8f269efe4b4c66946bd378d0665abf50, type: 3}
+    - {fileID: 8300000, guid: 2504e3c066b0128469a0ef58f604a43c, type: 3}
+    - {fileID: 8300000, guid: 0bc80851bf3858e4baad28e40b7df262, type: 3}
+    - {fileID: 8300000, guid: 9941abe8c8c262c448bc4271def0fa96, type: 3}
+    - {fileID: 8300000, guid: 6cb7de0ecbf5f474faffe0cd090a622a, type: 3}
+    - {fileID: 8300000, guid: bbb68ecf16e99a64c9486b00b7cf8a76, type: 3}
+    - {fileID: 8300000, guid: 56b2903d03821b54c8518597f8a1094c, type: 3}
+    Volume: 0.2
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 6
+    typeOfSfxByPlace: 0
+  - Name: light armor foley
+    Clip:
+    - {fileID: 8300000, guid: 1358e83fb72a7cf47a646f93a3934ee5, type: 3}
+    - {fileID: 8300000, guid: df155bd9142d93c48abff04e75cd1838, type: 3}
+    - {fileID: 8300000, guid: 08c7feec641324f44b768b5c410fb24c, type: 3}
+    - {fileID: 8300000, guid: 568d5d766f402bb4d9bdc79fe397e984, type: 3}
+    - {fileID: 8300000, guid: b3bf676f16019f0459efb0e77540472f, type: 3}
+    - {fileID: 8300000, guid: 2f128693a5e11794bbaf65512b04c633, type: 3}
+    - {fileID: 8300000, guid: dafadead04440154fb41db09c70d7352, type: 3}
+    - {fileID: 8300000, guid: e309b7f334135344cb7fce50d12f575f, type: 3}
+    - {fileID: 8300000, guid: 4c8cbf9099722db49bd1906da5ff8e39, type: 3}
+    - {fileID: 8300000, guid: 9804d99b2d5d1ad4e8555fbf44bb9ece, type: 3}
+    Volume: 0.2
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 7
+    typeOfSfxByPlace: 0
+  - Name: archer armor foley
+    Clip:
+    - {fileID: 8300000, guid: 68716436f3af4f141b9e5caeee610b0b, type: 3}
+    - {fileID: 8300000, guid: 6c0192a281bcaa94eb6310e80c9709b2, type: 3}
+    - {fileID: 8300000, guid: 8b09243c4773d2a4f90bb8ac66a1f957, type: 3}
+    - {fileID: 8300000, guid: 9022319c1b09d7045936be0405cc5a27, type: 3}
+    - {fileID: 8300000, guid: 25c5ff1b44716f64193688f0ae724d35, type: 3}
+    - {fileID: 8300000, guid: 635164750af03a94db4a390ab9015729, type: 3}
+    - {fileID: 8300000, guid: 45b1380ff3cc5d04d98a0401a2e321d6, type: 3}
+    - {fileID: 8300000, guid: 57b7720c29164374396fb0f39373a969, type: 3}
+    - {fileID: 8300000, guid: dda8cc5a11d110d47b408824aae32b00, type: 3}
+    - {fileID: 8300000, guid: 3a5ecd3d825ef8545949476c445c3f41, type: 3}
+    Volume: 0.2
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 8
+    typeOfSfxByPlace: 0
+  - Name: sword swoosh
+    Clip:
+    - {fileID: 8300000, guid: d411de29d28f2ee468d79b31a176cfd1, type: 3}
+    - {fileID: 8300000, guid: 835b95335f230ca48aec099885a4de28, type: 3}
+    - {fileID: 8300000, guid: eb6aaa2362edf034eb4901f25363c18b, type: 3}
+    - {fileID: 8300000, guid: faa2266f20acd6340be12c4ac896fb43, type: 3}
+    Volume: 0.5
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 9
+    typeOfSfxByPlace: 0
+  - Name: dagger swoosh
+    Clip:
+    - {fileID: 8300000, guid: edc33b521c9e5dd4891402fedd0a2bb8, type: 3}
+    - {fileID: 8300000, guid: 123ccfde96a0e0e4489c113ccd370a11, type: 3}
+    - {fileID: 8300000, guid: eebc5b4c23c1dcc45865fee9a74d013c, type: 3}
+    - {fileID: 8300000, guid: a7131cdea479cf64e852857dfc6259c9, type: 3}
+    - {fileID: 8300000, guid: 84845b9243667354c941c2de2ba7d4fd, type: 3}
+    Volume: 0.5
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 10
+    typeOfSfxByPlace: 0
+  - Name: blood splatter
+    Clip:
+    - {fileID: 8300000, guid: fa58196df5d1f624f888ea49581cffc3, type: 3}
+    - {fileID: 8300000, guid: 03a8d0b55e5ef6942813dc48f1abc6bf, type: 3}
+    - {fileID: 8300000, guid: cf5c117eab1171842bd7899dbb8be634, type: 3}
+    Volume: 0.3
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 11
+    typeOfSfxByPlace: 0
+  - Name: Armor hit
+    Clip:
+    - {fileID: 8300000, guid: eecb2a6e0f65fd3429824aca8e8a45d6, type: 3}
+    - {fileID: 8300000, guid: e5d1bc9bf377c5c4ca1e75a4a9e67359, type: 3}
+    - {fileID: 8300000, guid: 5b8952fb39f82c247890b3bd6ecc13f0, type: 3}
+    - {fileID: 8300000, guid: 26f2db1db84e6f649aac7ec4833251cf, type: 3}
+    Volume: 0.3
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 13
+    typeOfSfxByPlace: 0
+  - Name: Without armor hit
+    Clip:
+    - {fileID: 8300000, guid: b7a27694715c6b248be69a2209472ffe, type: 3}
+    - {fileID: 8300000, guid: e0b687bdb5677384ca9d81caa18b8d2f, type: 3}
+    - {fileID: 8300000, guid: 69eb6f4bc4fefa04f95d9e99e321055d, type: 3}
+    - {fileID: 8300000, guid: 1f3bd317e933dc6448cb39684537fa49, type: 3}
+    - {fileID: 8300000, guid: 0aec1a171efb2384780fca18d95a79a7, type: 3}
+    - {fileID: 8300000, guid: 254733f76792fae46a1a7f11c0cb7afb, type: 3}
+    Volume: 0.3
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 14
+    typeOfSfxByPlace: 0
+  - Name: Male grunt
+    Clip:
+    - {fileID: 8300000, guid: 7126f401acd8ea148a95540ed3b8cc71, type: 3}
+    - {fileID: 8300000, guid: 1afe03b3ae738b34d8f9a2e089efa1c5, type: 3}
+    - {fileID: 8300000, guid: 7c2b22e220c93a54496504e95650efed, type: 3}
+    Volume: 0.4
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 12
+    typeOfSfxByPlace: 0
+  - Name: female grunt
+    Clip:
+    - {fileID: 8300000, guid: bdbaac53ab7ff814592199e4c827a436, type: 3}
+    - {fileID: 8300000, guid: 29e3649a7320d234287c1d87f5dc8242, type: 3}
+    - {fileID: 8300000, guid: 2dd11d3d761d9e1418430f3a32c38935, type: 3}
+    Volume: 0.4
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 15
+    typeOfSfxByPlace: 0
