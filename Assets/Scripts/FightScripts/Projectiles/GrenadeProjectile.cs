@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using GridSystems;
+using SoundSystemScripts;
 using UnityEngine;
 
 public class GrenadeProjectile : MonoBehaviour
@@ -59,6 +60,7 @@ public class GrenadeProjectile : MonoBehaviour
 
             _trailRenderer.transform.parent = null;
             Instantiate(_explodeVfxPrefab, _targetPosition + Vector3.up, Quaternion.identity);
+            SoundtrackPlayerWrapper.PlayBombExplosionSound(transform);
             Destroy(gameObject);
 
             _OnGrenadeBehaviourComplete?.Invoke();

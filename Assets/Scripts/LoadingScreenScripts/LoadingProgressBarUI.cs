@@ -10,7 +10,6 @@ public class LoadingProgressBarUI : MonoBehaviour
 
     public void SetLoadProgressAmount(float progress)
     {
-        Debug.Log("Progress = " + progress);
         if (Math.Abs(progress - _progressBar.fillAmount) > 0.001f) _progressBar.fillAmount = progress;
     }
 }

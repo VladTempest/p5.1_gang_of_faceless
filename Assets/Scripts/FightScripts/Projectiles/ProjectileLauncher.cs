@@ -1,5 +1,6 @@
 ﻿using System;
 using Actions;
+using SoundSystemScripts;
 using UnityEngine;
 
 namespace Projectiles
@@ -43,6 +44,7 @@ namespace Projectiles
             var targetWorldPosition = e.TargetUnit.WorldPosition;
 
             targetWorldPosition.y = position.y;
+            e.HitCallback += () => SoundtrackPlayerWrapper.PLayHitArrowSound(transform);
             projectiile.GetComponent<ArrowProjectile>().Setup(targetWorldPosition, e.HitCallback);
         }
         
@@ -68,7 +70,7 @@ namespace Projectiles
             targetWorldPosition.y = _shootPoint.position.y;
             
             Transform projectile = Instantiate(_arrowProjectiilePrefab, position, Quaternion.LookRotation(Vector3.down)).transform;
-            
+            e.HitCallback += () => SoundtrackPlayerWrapper.PLayHitArrowSound(transform);
             projectile.GetComponent<ArrowProjectile>().Setup(targetWorldPosition, e.HitCallback);
         }
 

@@ -6,6 +6,7 @@ using DefaultNamespace;
 using Editor.Scripts.Utils;
 using GridSystems;
 using Scripts.Unit;
+using SoundSystemScripts;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -43,6 +44,7 @@ public class BaseShootAction : BaseAction
 
     protected void Hit()
     {
+        SoundtrackPlayerWrapper.PLayHitArrowSound(transform);
         _targetUnit.Damage(_damage, transform.position + Vector3.up * GameGlobalConstants.UNIT_SHOULDER_HEIGHT);
         StartCoroutine(UnitRotator.RotateUnitToDirection(_targetUnit, _unit.WorldPosition, _timeForEnemyToRotate));
         OnShootHit?.Invoke(this, EventArgs.Empty);
