@@ -48,5 +48,50 @@ namespace SoundSystemScripts
         {
             SoundtrackPlayerWrapper.PlayGruntSound(_unit,transform);
         }
+
+        public void PlayHitSound(HeavyWarriorActionEnum action)
+        {
+            SoundtrackPlayerWrapper.PlaySwordHitSound(action, transform);
+        }
+        
+        public void PlayBowStretchSound()
+        {
+            SoundtrackPlayerWrapper.PlayBowStretchSound(transform);
+        }
+        
+        public void PlayArrowLaunchSound()
+        {
+            SoundtrackPlayerWrapper.PlayArrowLaunchSound(transform);
+        }
+        
+        public void PlayArrowSetupSound()
+        {
+            SoundtrackPlayerWrapper.PlayArrowSetupSound(transform);
+        }
+        
+        public void PlayParalyseArrowSetupSound()
+        {
+            SoundtrackPlayerWrapper.PlayParalyseArrowSetupSound(transform);
+        }
+        
+        public void PlayParalyseArrowLaunchSound()
+        {
+            SoundtrackPlayerWrapper.PlayParalyseArrowLaunchSound(transform);
+        }
+        
+        public void PlayBackstabSound()
+        {
+            SoundtrackPlayerWrapper.PlayBackstabSound(transform);
+        }
+        
+        public void PlayThrowBombSound()
+        {
+            SoundtrackPlayerWrapper.PlayThrowBombSound(transform);
+        }
+
+        public void PlayTakeOutBombSound()
+        {
+            SoundtrackPlayerWrapper.PlayTakeOutBombSound(transform);
+        }
     }
 }

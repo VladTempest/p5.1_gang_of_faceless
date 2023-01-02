@@ -24,7 +24,7 @@ MonoBehaviour:
   - Name: UI_Click_short
     Clip:
     - {fileID: 8300000, guid: 0d2e6ff0691f9b44fb6bd3376658e835, type: 3}
-    Volume: 1
+    Volume: 0.9
     typeOfSoundtrack: 1
     typeOfOstByItsNature: 0
     typeOfSfxByItsNature: 3
@@ -40,7 +40,7 @@ MonoBehaviour:
   - Name: Fight Scene OST
     Clip:
     - {fileID: 8300000, guid: f8916f28385b2824d87e11024531bb94, type: 3}
-    Volume: 0.005
+    Volume: 0.214
     typeOfSoundtrack: 0
     typeOfOstByItsNature: 2
     typeOfSfxByItsNature: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 4f37314bade27564ab42b0bdc28b41f9, type: 3}
     - {fileID: 8300000, guid: 07e64c9c7f14f0741a4279d05a97a250, type: 3}
     - {fileID: 8300000, guid: 59585cfd42256574da65756d01a00277, type: 3}
-    Volume: 0.104
+    Volume: 1
     typeOfSoundtrack: 1
     typeOfOstByItsNature: 0
     typeOfSfxByItsNature: 2
@@ -86,7 +86,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: bf31bf30a9ad37d43827279856ea3e43, type: 3}
     - {fileID: 8300000, guid: 554fae347cf9a7a49b111dc175651946, type: 3}
     - {fileID: 8300000, guid: 3b2776c53ec34344ca07324ba37c79b9, type: 3}
-    Volume: 0.104
+    Volume: 1
     typeOfSoundtrack: 1
     typeOfOstByItsNature: 0
     typeOfSfxByItsNature: 5
@@ -102,7 +102,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 240dd3ebe530f0f44833c8e8253ecfad, type: 3}
     - {fileID: 8300000, guid: 7524156ba75ef9f4e88ca02996570d85, type: 3}
     - {fileID: 8300000, guid: 4b91a39950a13404d8e806c6ad0284ef, type: 3}
-    Volume: 0.1
+    Volume: 1
     typeOfSoundtrack: 1
     typeOfOstByItsNature: 0
     typeOfSfxByItsNature: 4
@@ -119,7 +119,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 6cb7de0ecbf5f474faffe0cd090a622a, type: 3}
     - {fileID: 8300000, guid: bbb68ecf16e99a64c9486b00b7cf8a76, type: 3}
     - {fileID: 8300000, guid: 56b2903d03821b54c8518597f8a1094c, type: 3}
-    Volume: 0.2
+    Volume: 1
     typeOfSoundtrack: 1
     typeOfOstByItsNature: 0
     typeOfSfxByItsNature: 6
@@ -136,7 +136,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: e309b7f334135344cb7fce50d12f575f, type: 3}
     - {fileID: 8300000, guid: 4c8cbf9099722db49bd1906da5ff8e39, type: 3}
     - {fileID: 8300000, guid: 9804d99b2d5d1ad4e8555fbf44bb9ece, type: 3}
-    Volume: 0.2
+    Volume: 1
     typeOfSoundtrack: 1
     typeOfOstByItsNature: 0
     typeOfSfxByItsNature: 7
@@ -153,7 +153,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 57b7720c29164374396fb0f39373a969, type: 3}
     - {fileID: 8300000, guid: dda8cc5a11d110d47b408824aae32b00, type: 3}
     - {fileID: 8300000, guid: 3a5ecd3d825ef8545949476c445c3f41, type: 3}
-    Volume: 0.2
+    Volume: 1
     typeOfSoundtrack: 1
     typeOfOstByItsNature: 0
     typeOfSfxByItsNature: 8
@@ -164,7 +164,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 835b95335f230ca48aec099885a4de28, type: 3}
     - {fileID: 8300000, guid: eb6aaa2362edf034eb4901f25363c18b, type: 3}
     - {fileID: 8300000, guid: faa2266f20acd6340be12c4ac896fb43, type: 3}
-    Volume: 0.5
+    Volume: 1
     typeOfSoundtrack: 1
     typeOfOstByItsNature: 0
     typeOfSfxByItsNature: 9
@@ -176,7 +176,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: eebc5b4c23c1dcc45865fee9a74d013c, type: 3}
     - {fileID: 8300000, guid: a7131cdea479cf64e852857dfc6259c9, type: 3}
     - {fileID: 8300000, guid: 84845b9243667354c941c2de2ba7d4fd, type: 3}
-    Volume: 0.5
+    Volume: 1
     typeOfSoundtrack: 1
     typeOfOstByItsNature: 0
     typeOfSfxByItsNature: 10
@@ -186,7 +186,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: fa58196df5d1f624f888ea49581cffc3, type: 3}
     - {fileID: 8300000, guid: 03a8d0b55e5ef6942813dc48f1abc6bf, type: 3}
     - {fileID: 8300000, guid: cf5c117eab1171842bd7899dbb8be634, type: 3}
-    Volume: 0.3
+    Volume: 1
     typeOfSoundtrack: 1
     typeOfOstByItsNature: 0
     typeOfSfxByItsNature: 11
@@ -197,7 +197,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: e5d1bc9bf377c5c4ca1e75a4a9e67359, type: 3}
     - {fileID: 8300000, guid: 5b8952fb39f82c247890b3bd6ecc13f0, type: 3}
     - {fileID: 8300000, guid: 26f2db1db84e6f649aac7ec4833251cf, type: 3}
-    Volume: 0.3
+    Volume: 1
     typeOfSoundtrack: 1
     typeOfOstByItsNature: 0
     typeOfSfxByItsNature: 13
@@ -210,7 +210,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 1f3bd317e933dc6448cb39684537fa49, type: 3}
     - {fileID: 8300000, guid: 0aec1a171efb2384780fca18d95a79a7, type: 3}
     - {fileID: 8300000, guid: 254733f76792fae46a1a7f11c0cb7afb, type: 3}
-    Volume: 0.3
+    Volume: 1
     typeOfSoundtrack: 1
     typeOfOstByItsNature: 0
     typeOfSfxByItsNature: 14
@@ -220,7 +220,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 7126f401acd8ea148a95540ed3b8cc71, type: 3}
     - {fileID: 8300000, guid: 1afe03b3ae738b34d8f9a2e089efa1c5, type: 3}
     - {fileID: 8300000, guid: 7c2b22e220c93a54496504e95650efed, type: 3}
-    Volume: 0.4
+    Volume: 1
     typeOfSoundtrack: 1
     typeOfOstByItsNature: 0
     typeOfSfxByItsNature: 12
@@ -230,8 +230,183 @@ MonoBehaviour:
     - {fileID: 8300000, guid: bdbaac53ab7ff814592199e4c827a436, type: 3}
     - {fileID: 8300000, guid: 29e3649a7320d234287c1d87f5dc8242, type: 3}
     - {fileID: 8300000, guid: 2dd11d3d761d9e1418430f3a32c38935, type: 3}
-    Volume: 0.4
+    Volume: 1
     typeOfSoundtrack: 1
     typeOfOstByItsNature: 0
     typeOfSfxByItsNature: 15
+    typeOfSfxByPlace: 0
+  - Name: Dismembering
+    Clip:
+    - {fileID: 8300000, guid: 758a66b47ce4bb741a74ba0d8e723c07, type: 3}
+    - {fileID: 8300000, guid: 15985b4786bc8c445b8cd8f683348df2, type: 3}
+    - {fileID: 8300000, guid: 6eead0953d7155b4b8ef25a1887dfe34, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 16
+    typeOfSfxByPlace: 0
+  - Name: ArrowHit
+    Clip:
+    - {fileID: 8300000, guid: 48e12b805388dab479b48c6e01f98019, type: 3}
+    - {fileID: 8300000, guid: 7dda2377216b0bd44ab5f61ef28edae2, type: 3}
+    - {fileID: 8300000, guid: f2e119612ada8e546b75f89aa5d35eb7, type: 3}
+    - {fileID: 8300000, guid: 2e53a351533520e4da756f5f7ec88eff, type: 3}
+    - {fileID: 8300000, guid: b535a9d6bab498b41aff41182f17c442, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 17
+    typeOfSfxByPlace: 0
+  - Name: BigSwordHit
+    Clip:
+    - {fileID: 8300000, guid: da4ebeeba58dc2b42913e2dc59da887f, type: 3}
+    - {fileID: 8300000, guid: f0deb57c4a58c0146a033e8d5f7bbd33, type: 3}
+    - {fileID: 8300000, guid: 3183621e4b496404da08e2d3214d99b7, type: 3}
+    - {fileID: 8300000, guid: 170944a441721bc4e9fe81dc77226b77, type: 3}
+    - {fileID: 8300000, guid: f12c1ba259eef4b46b5298aa1939950b, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 18
+    typeOfSfxByPlace: 0
+  - Name: KnockDownHit
+    Clip:
+    - {fileID: 8300000, guid: b3318f4e925265c45898fa7d94dfecc2, type: 3}
+    - {fileID: 8300000, guid: 7588464a7820ba945be8dbac29910951, type: 3}
+    - {fileID: 8300000, guid: d40935fb20adae345be5784e06cd3526, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 19
+    typeOfSfxByPlace: 0
+  - Name: PushHit
+    Clip:
+    - {fileID: 8300000, guid: 4116586a2cd41b448bbe85d53bba3fd7, type: 3}
+    - {fileID: 8300000, guid: bc4cbd3eac5fad14eb1f3b31f0b62648, type: 3}
+    - {fileID: 8300000, guid: 7e2ec9b60b611e649ba7d66003b12f9b, type: 3}
+    - {fileID: 8300000, guid: b110e5244aa0ff14cb26cdf30d068c4a, type: 3}
+    - {fileID: 8300000, guid: 71793fbdfda41664f84b5c3fd697ba84, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 20
+    typeOfSfxByPlace: 0
+  - Name: BowStretch
+    Clip:
+    - {fileID: 8300000, guid: 96cfa9c018b05674081b53d3b03eb825, type: 3}
+    - {fileID: 8300000, guid: 1cbc2a236734c6848a3281866c2413c9, type: 3}
+    - {fileID: 8300000, guid: c8f2d172b3cb22343bfca3c1c45ae4ff, type: 3}
+    - {fileID: 8300000, guid: ec919e3c36c4af84bafef1d4dfde4caf, type: 3}
+    - {fileID: 8300000, guid: a2710e5f538d3f545a5b871bc33bf2ad, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 21
+    typeOfSfxByPlace: 0
+  - Name: ArrowLlaunch
+    Clip:
+    - {fileID: 8300000, guid: 666630cbad13d3249ac8e476c6ce5465, type: 3}
+    - {fileID: 8300000, guid: 4b1541f41a652a341b22bea0f90e35d9, type: 3}
+    - {fileID: 8300000, guid: e63114ddfa126024d968b6c38d3f3eac, type: 3}
+    - {fileID: 8300000, guid: 745683adad4beba408feeba71354d8b0, type: 3}
+    - {fileID: 8300000, guid: cde3b7f80014d064d8b504e42aa3c0b6, type: 3}
+    - {fileID: 8300000, guid: 0107a3979a7aa7d4098b1993607ff469, type: 3}
+    - {fileID: 8300000, guid: 2386391d566702045bbbc96c6bc0f15e, type: 3}
+    - {fileID: 8300000, guid: 722df560b5223744a810713ce4f28246, type: 3}
+    - {fileID: 8300000, guid: 136bbfd91c75b214db56c877f929ea65, type: 3}
+    - {fileID: 8300000, guid: b215a5adc2862a14098d3d86996ff61d, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 22
+    typeOfSfxByPlace: 0
+  - Name: ArrowSetup
+    Clip:
+    - {fileID: 8300000, guid: 6d97628cdacdbef49b7ffc59f490716a, type: 3}
+    - {fileID: 8300000, guid: 1f6e8555b544b34499a513b175f0d92e, type: 3}
+    - {fileID: 8300000, guid: 40b53cf2a2b234e4593460897cb9105c, type: 3}
+    - {fileID: 8300000, guid: b1f33091609ce374791cadae4d811985, type: 3}
+    - {fileID: 8300000, guid: f775e42d36aa89f4d8f2021c872dedf4, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 23
+    typeOfSfxByPlace: 0
+  - Name: ParalyzeArrowLauch
+    Clip:
+    - {fileID: 8300000, guid: 7ba298fb060215c42815992eb790528d, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 24
+    typeOfSfxByPlace: 0
+  - Name: ParalyzeArrowSetup
+    Clip:
+    - {fileID: 8300000, guid: 37bb4a12fa9c27640b6ae9fcbffe4e06, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 25
+    typeOfSfxByPlace: 0
+  - Name: UI_onActionChoose
+    Clip:
+    - {fileID: 8300000, guid: 38dbd795e1512be44ac76cb7e4686c10, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 26
+    typeOfSfxByPlace: 1
+  - Name: UI_onTargetChoose
+    Clip:
+    - {fileID: 8300000, guid: b2958c65bb853524a8b47efe57119949, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 27
+    typeOfSfxByPlace: 1
+  - Name: UI_OnUnitChoose
+    Clip:
+    - {fileID: 8300000, guid: 01ee9d1a876d6124ea4434eade3c22bd, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 28
+    typeOfSfxByPlace: 1
+  - Name: Backstab
+    Clip:
+    - {fileID: 8300000, guid: 46804df4f6f367d4c992d728f80a9063, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 29
+    typeOfSfxByPlace: 0
+  - Name: Bomb_take_out
+    Clip:
+    - {fileID: 8300000, guid: 9d561cea6c1dbe142b242fc4e5dee15c, type: 3}
+    - {fileID: 8300000, guid: 2c9c39977f85ca844b55521880fdc57d, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 31
+    typeOfSfxByPlace: 0
+  - Name: Bomb_throw
+    Clip:
+    - {fileID: 8300000, guid: 9dd4926151bca1c448eeb6a21450943c, type: 3}
+    - {fileID: 8300000, guid: d9b27e368ef46b54980e3ac9ae734fd0, type: 3}
+    - {fileID: 8300000, guid: b920c2796d7f79b4b948e09087abf6d6, type: 3}
+    - {fileID: 8300000, guid: 497bb93360a85b941b1ff6600dc2fc04, type: 3}
+    - {fileID: 8300000, guid: 13b75e7337277e34a8b2ba00cc77d083, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 30
+    typeOfSfxByPlace: 0
+  - Name: Bomb_explosion
+    Clip:
+    - {fileID: 8300000, guid: fc18d5a71b9521b4b993788354ebd3fb, type: 3}
+    - {fileID: 8300000, guid: 68a2fedc972c516499ebf171f6159689, type: 3}
+    Volume: 1
+    typeOfSoundtrack: 1
+    typeOfOstByItsNature: 0
+    typeOfSfxByItsNature: 32
     typeOfSfxByPlace: 0

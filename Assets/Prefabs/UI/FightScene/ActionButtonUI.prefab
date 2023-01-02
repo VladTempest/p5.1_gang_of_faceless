@@ -574,6 +574,7 @@ GameObject:
   - component: {fileID: 1901553306790344575}
   - component: {fileID: 8824635598873993625}
   - component: {fileID: 3097794443096913752}
+  - component: {fileID: 6384809317075061523}
   m_Layer: 5
   m_Name: ActionButtonUI
   m_TagString: Untagged
@@ -721,3 +722,16 @@ MonoBehaviour:
   _chargesLeft: {fileID: 4165901634081308450}
   _apDamageRange: {fileID: 882102508666523719}
   _coolDownMask: {fileID: 3772977128365892020}
+--- !u!114 &6384809317075061523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9027311843653044111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d635fba210284d95a1cc81a1fbc04292, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _soundtrack: 26

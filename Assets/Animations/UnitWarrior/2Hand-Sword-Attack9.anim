@@ -96046,6 +96046,13 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 1
   m_Events:
+  - time: 0.33333334
+    functionName: PlayWeaponSwooshSound
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.43333334
     functionName: EffectPushingAction
     data: 
@@ -96054,11 +96061,11 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.43333334
-    functionName: PlayWeaponSwooshSound
+    functionName: PlayHitSound
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 0
+    intParameter: 1
     messageOptions: 0
   - time: 1.1666666
     functionName: FinishPushingAction

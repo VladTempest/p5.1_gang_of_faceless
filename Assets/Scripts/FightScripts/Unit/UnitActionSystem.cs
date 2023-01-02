@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using GridSystems;
 using Sirenix.Utilities;
+using SoundSystemScripts;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
@@ -138,6 +139,7 @@ public class UnitActionSystem : MonoBehaviour
 
             if (!_selectedAction.IsGridPositionValid(mouseGridPosition, _selectedUnit.GetGridPosition())) return;
             if (!_selectedUnit.TrySpendActionPointsToTakeAction(_selectedAction)) return;
+            if (InputManager.Instance.IsMouseButtonDownThisFrame()) SoundtrackPlayerWrapper.PlayUITargetChooseSound();
             SetBusy();
             _selectedAction.TakeAction(mouseGridPosition, ClearBusy);
             OnActionStarted?.Invoke(this, EventArgs.Empty);
@@ -166,6 +168,7 @@ public class UnitActionSystem : MonoBehaviour
 
     private void SetSelectedUnit(Unit unit)
     {
+        if (InputManager.Instance.IsMouseButtonDownThisFrame()) SoundtrackPlayerWrapper.PlayUIUnitChooseSound();
         _selectedUnit = unit;
         SetSelectedAction(GetMoveAction());
         

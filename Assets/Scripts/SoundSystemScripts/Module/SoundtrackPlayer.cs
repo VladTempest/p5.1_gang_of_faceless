@@ -79,7 +79,9 @@ namespace SoundSystemScripts
             {
                 case TypeOfSoundtrack.OST:
                     _ostAudioSource.Stop();
-                    _ostAudioSource.PlayOneShot(soundtrack.Clip[ReturnRandomIndexOfClip(soundtrack)],soundtrack.Volume);
+                    _ostAudioSource.volume = soundtrack.Volume;
+                    _ostAudioSource.clip = soundtrack.Clip[ReturnRandomIndexOfClip(soundtrack)];
+                    _ostAudioSource.Play();
                     break;
                 case TypeOfSoundtrack.SFX:
                     if (soundtrack.typeOfSfxByPlace == TypeOfSFXByPlace.Global)

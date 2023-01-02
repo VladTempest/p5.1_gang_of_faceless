@@ -96850,7 +96850,7 @@ AnimationClip:
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 1
   m_Events:
-  - time: 0.43333334
+  - time: 0.26666668
     functionName: PlayWeaponSwooshSound
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -96859,6 +96859,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0.46666667
     functionName: EffectMeleeAction
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.46666667
+    functionName: PlayHitSound
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
