@@ -4,16 +4,19 @@ using System.Collections.Generic;
 using GridSystems;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class ActionButtonUI : MonoBehaviour
+public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private TextMeshProUGUI _textMeshPro;
     [SerializeField] private Button _button;
     [SerializeField] private GameObject _selectedVisual;
     [SerializeField] private TextMeshProUGUI _chargesLeft;
-    [SerializeField] private TextMeshProUGUI _apDamageRange;
+    [FormerlySerializedAs("_apActionDescription")] [FormerlySerializedAs("_apDamageRange")] [SerializeField] private TextMeshProUGUI _actionDescription;
     [SerializeField] private Image _coolDownMask;
+    [SerializeField] private GameObject _actionDescriptionUI;
 
     private BaseAction _baseAction;
 
@@ -35,8 +38,22 @@ public class ActionButtonUI : MonoBehaviour
         _baseAction = baseAction;
         if (!(_baseAction is MoveAction))
         {
-            _apDamageRange.text = _baseAction.GetActionPointCost() + "/" + _baseAction.Damage + "/" +
-                                  _baseAction.MinActionRange + "-" + _baseAction.MaxActionRange;
+            var damageString = _baseAction.Damage == 0 ? "" : $"It deals  <b><i>{_baseAction.Damage}</i></b> damage."+"\n";
+            var actionCostString =_baseAction.GetActionPointCost() ==0 ? "" : $"Action costs  <b><i>{_baseAction.GetActionPointCost()}</i></b> points" +"\n";
+            var rangeString = _baseAction.MaxActionRange <= 1 ? "" : $"It has range from  <b><i>{_baseAction.MinActionRange}</i></b> to  <b><i>{_baseAction.MaxActionRange}</i></b> cells." +"\n";
+            var cooldownString = !_baseAction.HasCoolDown ? "" : $"Time to reload is  <b><i>{_baseAction.FullCoolDownValue}</i></b> turns." +"\n";
+            var chargesString = !_baseAction.IsChargeable ? "" : $"Action has  <b><i>{_baseAction.MaxCharges}</i></b> charges." +"\n";
+            
+            _actionDescription.text = $"<b>{_baseAction.GetActionName()}</b>" + "\n"+ $"{_baseAction.Description}"+"\n"+"\n"+
+                                        actionCostString+
+                                        damageString+
+                                        rangeString+
+                                        cooldownString+
+                                        chargesString;
+        }
+        else
+        {
+            _actionDescription.text =  $"<b>{_baseAction.GetActionName()}</b>" + "\n"+ $"{_baseAction.Description}";
         }
 
         _button.onClick.AddListener(() => UnitActionSystem.Instance.SetSelectedAction(baseAction));
@@ -63,7 +80,9 @@ public class ActionButtonUI : MonoBehaviour
             _coolDownMask.gameObject.SetActive(true);
             UpdateCoolDownVisuals();
         }
-
+        
+        
+        HideActionDescriptionUI();
         UpdateButtonInteractivity();
 
     }
@@ -81,11 +100,31 @@ public class ActionButtonUI : MonoBehaviour
 
     private void UpdateChargesVisuals()
     {
-        _chargesLeft.text = $"{_baseAction.ChargesLeft} charges";
+        _chargesLeft.text = $"<b><i>{_baseAction.ChargesLeft}</b></i> charges left";
     }
 
     private void OnDestroy()
     {
         if (_baseAction!=null) _baseAction.OnActionStatusUpdate -= BaseAction_OnActionStatusUpdate;
+    }
+
+    private void ShowActionDescriptionUI()
+    {
+        _actionDescriptionUI.SetActive(true);
+    }
+    
+    private void HideActionDescriptionUI()
+    {
+        _actionDescriptionUI.SetActive(false);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        ShowActionDescriptionUI();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        HideActionDescriptionUI();
     }
 }

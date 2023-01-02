@@ -21,63 +21,78 @@ MonoBehaviour:
       Charges: 0
       MinRange: 0
       MaxRange: 7
+      Description: Unit run to target cell. Moving to neighbour cell cost <b><i>2</b></i>
+        points.
     - Damage: 3
       ActionPoints: 4
       CoolDown: 0
       Charges: 0
       MinRange: 2
       MaxRange: 4
+      Description: Unit launches arrow into enemy on straight line if there are no
+        any obsacles.
     - Damage: 2
       ActionPoints: 6
       CoolDown: 2
       Charges: 0
       MinRange: 3
       MaxRange: 6
+      Description: Unit launches up arrow into enemy.
     - Damage: 0
       ActionPoints: 6
       CoolDown: 2
       Charges: 0
       MinRange: 2
       MaxRange: 6
+      Description: Unit parallyzes enemy for <b><i>2</b></i> turns from afar. Enemy
+        can't move or make attacks with changing location.
     - Damage: 6
       ActionPoints: 3
       CoolDown: 0
       Charges: 0
       MinRange: 0
       MaxRange: 1
+      Description: Unit makes massive sword swing and damages enemy nearby.
     - Damage: 0
       ActionPoints: 3
       CoolDown: 2
       Charges: 0
       MinRange: 0
       MaxRange: 1
+      Description: Unit pushes enemy in straigh line to the near cell.
     - Damage: 0
       ActionPoints: 6
       CoolDown: 3
       Charges: 0
       MinRange: 0
       MaxRange: 1
+      Description: Unit knocks down enemy. Enemy skips own next turn.
     - Damage: 3
       ActionPoints: 3
       CoolDown: 0
       Charges: 0
       MinRange: 0
       MaxRange: 1
+      Description: Unit quickly attacks enemy.
     - Damage: 3
       ActionPoints: 6
       CoolDown: 2
       Charges: 0
       MinRange: 0
       MaxRange: 4
+      Description: Unit teleports to cell behind targeted enemy and make quick attack.
     - Damage: 6
       ActionPoints: 10
       CoolDown: 0
       Charges: 2
       MinRange: 0
       MaxRange: 6
+      Description: Unit trows a explosion posion into the enemies in range of <b><i>2</b></i>
+        cell from target cell.
     - Damage: 0
       ActionPoints: 2
       CoolDown: 0
       Charges: 0
       MinRange: 0
       MaxRange: 1
+      Description: Unit interacts with the object.

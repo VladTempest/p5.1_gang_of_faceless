@@ -11,7 +11,7 @@ namespace Actions
 
         public override string GetActionName()
         {
-            return "Default Shot";
+            return "Straight shot";
         }
 
         private new void Start()

@@ -10,7 +10,7 @@ namespace Actions
 
         public override string GetActionName()
         {
-            return "Paralyze";
+            return "Paralyze shot";
         }
 
         private new void Start()

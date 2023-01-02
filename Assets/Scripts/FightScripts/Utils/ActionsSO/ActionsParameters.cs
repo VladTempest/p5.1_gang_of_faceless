@@ -11,5 +11,6 @@ namespace Editor.Scripts.Utils
         public int Charges;
         public int MinRange;
         public int MaxRange;
+        public string Description;
     }
 }

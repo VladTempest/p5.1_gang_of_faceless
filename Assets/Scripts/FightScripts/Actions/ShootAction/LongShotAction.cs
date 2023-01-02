@@ -17,7 +17,7 @@ namespace Actions
         
         public override string GetActionName()
         {
-            return "Long Shot";
+            return "Long shot";
         }
 
         public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)

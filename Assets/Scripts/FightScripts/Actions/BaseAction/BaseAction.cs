@@ -23,6 +23,7 @@ public abstract class BaseAction : MonoBehaviour
     public int MaxActionRange = 0;
 
     public float Damage => _damage;
+    public string Description => _description;
 
 
     public bool IsAvailable => _currentStatus == ActionStatus.ReadyToUse;
@@ -50,6 +51,7 @@ public abstract class BaseAction : MonoBehaviour
     private float _coolDownTurnsLeft = 0;
 
     public bool IsChargeable => (_maxCharges != 0);
+    public int MaxCharges => _maxCharges;
     [SerializeField] private int _maxCharges = 0;
     public int ChargesLeft => _chargesLeft;
     private int _chargesLeft = 0;
@@ -63,6 +65,7 @@ public abstract class BaseAction : MonoBehaviour
     protected float _damage;
     protected int _minActionRange;
     protected int _actionPointCost;
+    protected string _description;
 
     protected virtual void Awake()
     {
@@ -94,6 +97,7 @@ public abstract class BaseAction : MonoBehaviour
             _damage = actionsParameters.Damage;
             _minActionRange = actionsParameters.MinRange;
             _actionPointCost = actionsParameters.ActionPoints;
+            _description = actionsParameters.Description;
         }
         else
         {
