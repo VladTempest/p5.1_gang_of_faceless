@@ -64,7 +64,7 @@ namespace GridSystems
             
             AddUnitAtGridPosition(toGridPosition, unit);
             
-            OnAnyUnitChangedGridPosition?.Invoke(this, new OnAnyUnitChangedArgs(fromGridPosition, toGridPosition));
+            OnAnyUnitChangedGridPosition?.Invoke(this, new OnAnyUnitChangedArgs(fromGridPosition, toGridPosition, unit));
         }
 
         public Vector3 GetWorldPosition(GridPosition gridPosition) => _gridSystem.GetWorldPosition(gridPosition);

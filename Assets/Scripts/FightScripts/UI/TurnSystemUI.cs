@@ -18,9 +18,15 @@ public class TurnSystemUI : MonoBehaviour
 
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         
+        UnitActionSystem.Instance.OnBusyChanged +=  UnitActionSystem_OnBusyChanged;
         UpdateTurnText();
         UpdateEnemyTurnVisual();
         UpdateEndTurnButtonVisibility();
+    }
+
+    private void UnitActionSystem_OnBusyChanged(object sender, bool isBusyActive)
+    {
+        ChangeStateOfEndTurnButton(isBusyActive);
     }
 
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
@@ -44,5 +50,10 @@ public class TurnSystemUI : MonoBehaviour
     private void UpdateEndTurnButtonVisibility()
     {
         _endTurnButton.gameObject.SetActive(TurnSystem.Instance.IsPlayerTurn);
+    }
+
+    private void ChangeStateOfEndTurnButton(bool isBusyActive)
+    {
+        _endTurnButton.interactable = !isBusyActive;
     }
 }

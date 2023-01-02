@@ -16,6 +16,8 @@ namespace Actions
         [SerializeField] private LightWarriorAnimationEvents _lightWarriorAnimationEvents;
         [SerializeField] private Transform _swordDamageSource;
         [SerializeField] private TrailRenderer _trailRenderer;
+        [SerializeField]
+        protected LayerMask[] _obstaclesLayerMask;
         private Dictionary<GridPosition, GridPosition> _firstValidTeleportGridPositionsAndEnemyGridPositions = new Dictionary<GridPosition, GridPosition>();
         private GridPosition _taragetPosition;
         private Unit _targetUnit;
@@ -117,6 +119,12 @@ namespace Actions
 
             if (!GridPositionValidator.HasTestGridPositionAvailableNeighbours(testGridPosition,
                    _firstValidTeleportGridPositionsAndEnemyGridPositions))
+            {
+                return false;
+            }
+            
+            if (!GridPositionValidator.IsGridPositionOnLineOfSight(testGridPosition, unitGridPosition,
+                    _obstaclesLayerMask))
             {
                 return false;
             }

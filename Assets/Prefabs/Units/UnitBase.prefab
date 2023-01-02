@@ -502,6 +502,9 @@ MonoBehaviour:
   _lightWarriorAnimationEvents: {fileID: 8601540634580136297}
   _swordDamageSource: {fileID: 7368226612755129201}
   _trailRenderer: {fileID: 436859824795894663}
+  _obstaclesLayerMask:
+  - serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &-4126613748944046514
 MonoBehaviour:
   m_ObjectHideFlags: 0

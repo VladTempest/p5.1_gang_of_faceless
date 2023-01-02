@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Editor.Scripts.SceneLoopScripts;
+using Editor.Scripts.Utils;
 using UnityEngine;
 
 public class UnitManager : MonoBehaviour
@@ -67,6 +68,6 @@ public class UnitManager : MonoBehaviour
         {
             _friendlyUnitList.Remove(unit);
         }
-        if (_enemyUnitList.Count == 0 || _friendlyUnitList.Count == 0) ScenesController.Instance.LoadScene(ScenesEnum.MainMenu); // ToDo : Сделать окно поражения или победы через общий класс
+        if (_enemyUnitList.Count == 0 || _friendlyUnitList.Count == 0) Utils.CallWithDelay(2f,() => ScenesController.Instance.LoadScene(ScenesEnum.MainMenu)); // ToDo : Сделать окно поражения или победы через общий класс
     }
 }

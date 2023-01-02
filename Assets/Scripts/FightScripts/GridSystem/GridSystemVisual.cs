@@ -63,20 +63,21 @@ public class GridSystemVisual : MonoBehaviour
                     gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
             }
         }
-        BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;
+        UnitActionSystem.Instance.OnBusyChanged +=  UnitActionSystem_OnBusyChanged;
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
         LevelGrid.Instance.OnAnyUnitChangedGridPosition += LevelGrid_OnAnyUnitChangedGridPosition;
         Unit.OnAnyUnitDead += Unit_OnUnitDied;
     }
 
-    private void BaseAction_OnAnyActionCompleted(object sender, EventArgs e)
+    private void UnitActionSystem_OnBusyChanged(object sender, bool isBusyActive)
     {
-        UpdateGridVisual();;
+        if (isBusyActive) HideAllGridPosition();
     }
+
 
     private void OnDestroy()
     {
-        BaseAction.OnAnyActionCompleted -= BaseAction_OnAnyActionCompleted;
+        UnitActionSystem.Instance.OnBusyChanged -=  UnitActionSystem_OnBusyChanged;
         UnitActionSystem.Instance.OnSelectedActionChanged -= UnitActionSystem_OnSelectedActionChanged;
         LevelGrid.Instance.OnAnyUnitChangedGridPosition -= LevelGrid_OnAnyUnitChangedGridPosition;
         Unit.OnAnyUnitDead -= Unit_OnUnitDied;
@@ -84,6 +85,7 @@ public class GridSystemVisual : MonoBehaviour
 
     private void LevelGrid_OnAnyUnitChangedGridPosition(object sender, OnAnyUnitChangedArgs onAnyUnitChangedArgs)
     {
+        if (UnitActionSystem.Instance.GetSelectedUnit() != onAnyUnitChangedArgs.unit) return;
         UpdateGridVisual();
     }
 
@@ -158,6 +160,7 @@ public class GridSystemVisual : MonoBehaviour
     {
         foreach (var gridPosition in gridPositions)
         {
+            //_gridSystemVisualSingleArray[gridPosition.x, gridPosition.z].gameObject.SetActive(true);
             _gridSystemVisualSingleArray[gridPosition.x, gridPosition.z].Show(GetGridVisualTypeMaterial(gridVisualType));
         }
     }

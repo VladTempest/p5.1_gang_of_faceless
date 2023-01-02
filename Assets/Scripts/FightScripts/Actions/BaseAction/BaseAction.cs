@@ -187,6 +187,11 @@ public abstract class BaseAction : MonoBehaviour
 
     protected void ActionComplete()
     {
+        Utils.CallWithDelay(GameGlobalConstants.DELAY_FOR_ACTIONS, ActionCompleteCallback);
+    }
+
+    private void ActionCompleteCallback()
+    {
         UpdateActionStatus();
         _onActionComplete?.Invoke();
         OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
@@ -279,4 +284,5 @@ public abstract class BaseAction : MonoBehaviour
             _coolDownTurnsLeft -= GameGlobalConstants.TURN_WEIGHT_VALUE;
         }
     }
+    
 }

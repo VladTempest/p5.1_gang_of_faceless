@@ -176,9 +176,8 @@ public class Pathfinding : MonoBehaviour
     
     private int CalculateDistance(GridPosition gridPositionA, GridPosition gridPositionB)
     {
-        GridPosition gridPositionDistance = gridPositionA - gridPositionB;
-        int xDistance = Mathf.Abs(gridPositionDistance.x);
-        int zDistance = Mathf.Abs(gridPositionDistance.z);
+        int xDistance = Mathf.Abs(gridPositionA.x - gridPositionB.x);
+        int zDistance = Mathf.Abs(gridPositionA.z - gridPositionB.z);
         int remaining = Mathf.Abs(xDistance - zDistance);
         return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, zDistance) + MOVE_STRAIGHT_COST * remaining;
     }
