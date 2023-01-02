@@ -38,7 +38,7 @@ public class GrenadeAction : BaseAction
 
     public override string GetActionName()
     {
-        return "Grenade";
+        return "Explosion potion";
     }
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)

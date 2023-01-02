@@ -58,7 +58,7 @@ namespace Actions
 
         public override string GetActionName()
         {
-            return "Back Stab";
+            return "Back stab";
         }
 
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)

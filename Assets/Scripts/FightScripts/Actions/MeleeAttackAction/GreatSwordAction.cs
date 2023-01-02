@@ -7,7 +7,7 @@ namespace Editor.Scripts.Actions
     {
         public override string GetActionName()
         {
-            return "Sword Attack";
+            return "Sword attack";
         }
 
         public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
