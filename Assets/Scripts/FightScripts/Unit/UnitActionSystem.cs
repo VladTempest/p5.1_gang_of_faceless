@@ -166,6 +166,22 @@ public class UnitActionSystem : MonoBehaviour
         return false;
     }
 
+    public void SelectNextUnit()
+    {
+        var indexOfSelectedUnit = UnitManager.Instance.FriendlyUnitList.FindIndex(0,item => item == _selectedUnit);
+        indexOfSelectedUnit++;
+        if (indexOfSelectedUnit >= UnitManager.Instance.FriendlyUnitList.Count) indexOfSelectedUnit = 0;
+        SetSelectedUnit(UnitManager.Instance.FriendlyUnitList[indexOfSelectedUnit]);
+    }
+    
+    public void SelectPreviousUnit()
+    {
+        var indexOfSelectedUnit = UnitManager.Instance.FriendlyUnitList.FindIndex(0,item => item == _selectedUnit);
+        indexOfSelectedUnit--;
+        if (indexOfSelectedUnit < 0 ) indexOfSelectedUnit =  UnitManager.Instance.FriendlyUnitList.Count - 1;
+        SetSelectedUnit(UnitManager.Instance.FriendlyUnitList[indexOfSelectedUnit]);
+    }
+
     private void SetSelectedUnit(Unit unit)
     {
         if (InputManager.Instance.IsMouseButtonDownThisFrame()) SoundtrackPlayerWrapper.PlayUIUnitChooseSound();
