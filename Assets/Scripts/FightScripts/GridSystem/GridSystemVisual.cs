@@ -65,8 +65,14 @@ public class GridSystemVisual : MonoBehaviour
         }
         UnitActionSystem.Instance.OnBusyChanged +=  UnitActionSystem_OnBusyChanged;
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         LevelGrid.Instance.OnAnyUnitChangedGridPosition += LevelGrid_OnAnyUnitChangedGridPosition;
         Unit.OnAnyUnitDead += Unit_OnUnitDied;
+    }
+
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        if (!TurnSystem.Instance.IsPlayerTurn) HideAllGridPosition();
     }
 
     private void UnitActionSystem_OnBusyChanged(object sender, bool isBusyActive)
@@ -80,6 +86,7 @@ public class GridSystemVisual : MonoBehaviour
         UnitActionSystem.Instance.OnBusyChanged -=  UnitActionSystem_OnBusyChanged;
         UnitActionSystem.Instance.OnSelectedActionChanged -= UnitActionSystem_OnSelectedActionChanged;
         LevelGrid.Instance.OnAnyUnitChangedGridPosition -= LevelGrid_OnAnyUnitChangedGridPosition;
+        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
         Unit.OnAnyUnitDead -= Unit_OnUnitDied;
     }
 

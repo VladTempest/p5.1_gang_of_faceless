@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DefaultNamespace;
 using Editor.Scripts;
+using Editor.Scripts.Actions.BaseAction;
 using Editor.Scripts.Animation;
 using GridSystems;
 using Scripts.Unit;
@@ -23,6 +24,8 @@ namespace Actions
         private Unit _targetUnit;
         private float _timeForEnemyToRotate = 0.3f;
         private float _heightOfFog = 0.1f;
+        
+        
 
         private BackStabActionState CurrentState { get; set; } = BackStabActionState.Idle;
 

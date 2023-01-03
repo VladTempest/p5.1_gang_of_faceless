@@ -26,7 +26,7 @@ public abstract class BaseAction : MonoBehaviour
     public string Description => _description;
 
 
-    public bool IsAvailable => (_currentStatus == ActionStatus.ReadyToUse && _actionPointCost <= _unit.ActionPoints);
+    public virtual bool IsAvailable => (_currentStatus == ActionStatus.ReadyToUse && _actionPointCost <= _unit.ActionPoints && !_unit.EffectSystem.IsKnockedDown());
     public bool HasCoolDown => (_cooldownValue != 0);
     public float CoolDownLeftNormalized
     {
