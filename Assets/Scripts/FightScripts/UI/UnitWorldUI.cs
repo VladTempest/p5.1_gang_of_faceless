@@ -53,13 +53,26 @@ public class UnitWorldUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         _healthText.gameObject.SetActive(true);
     }
+
+    private void ShowFullActionText()
+    {
+        _actionPointText.text = _unit.ActionPoints + "/" + _unit.ActionPointsMax;
+    }
+
+    private void HideFullActionText()
+    {
+        _actionPointText.text = _unit.ActionPoints.ToString();
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         ShowHealthText();
+        ShowFullActionText();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         HideHealthText();
+        HideFullActionText();
     }
 }
