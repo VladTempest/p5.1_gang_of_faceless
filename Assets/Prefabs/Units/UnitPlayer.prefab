@@ -5,7 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TransformParent: {fileID: 6972499933403181349}
     m_Modifications:
     - target: {fileID: 31070446564490242, guid: b2f58ba5a1020094fb7b1b33d86a8f9c,
@@ -214,7 +214,9 @@ PrefabInstance:
       value: -0.8496504
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2f58ba5a1020094fb7b1b33d86a8f9c, type: 3}
 --- !u!114 &5376330554959384335 stripped
 MonoBehaviour:
@@ -239,7 +241,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3237063788311959988, guid: 8fc9cd0e0782aa245b40698187197a58,
@@ -250,7 +252,7 @@ PrefabInstance:
     - target: {fileID: 3237063788311959989, guid: 8fc9cd0e0782aa245b40698187197a58,
         type: 3}
       propertyPath: m_RootOrder
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3237063788311959989, guid: 8fc9cd0e0782aa245b40698187197a58,
         type: 3}
@@ -312,12 +314,49 @@ PrefabInstance:
       propertyPath: _ragdollPrefab
       value: 
       objectReference: {fileID: 7552569147845716995}
+    - target: {fileID: 7164027549505850950, guid: 8fc9cd0e0782aa245b40698187197a58,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.09019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 7164027549505850950, guid: 8fc9cd0e0782aa245b40698187197a58,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.7058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 7164027549505850950, guid: 8fc9cd0e0782aa245b40698187197a58,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.21568629
+      objectReference: {fileID: 0}
+    - target: {fileID: 7164027549505850950, guid: 8fc9cd0e0782aa245b40698187197a58,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4279743543
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079192634118478941, guid: 8fc9cd0e0782aa245b40698187197a58,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079192634118478941, guid: 8fc9cd0e0782aa245b40698187197a58,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.7830189
+      objectReference: {fileID: 0}
+    - target: {fileID: 8079192634118478941, guid: 8fc9cd0e0782aa245b40698187197a58,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.21795881
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3237063788311959989, guid: 8fc9cd0e0782aa245b40698187197a58,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7552569147845716995}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fc9cd0e0782aa245b40698187197a58, type: 3}
 --- !u!4 &6972499933403181349 stripped
 Transform:
