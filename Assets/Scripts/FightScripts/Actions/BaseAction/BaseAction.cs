@@ -26,7 +26,7 @@ public abstract class BaseAction : MonoBehaviour
     public string Description => _description;
 
 
-    public bool IsAvailable => _currentStatus == ActionStatus.ReadyToUse;
+    public bool IsAvailable => (_currentStatus == ActionStatus.ReadyToUse && _actionPointCost <= _unit.ActionPoints);
     public bool HasCoolDown => (_cooldownValue != 0);
     public float CoolDownLeftNormalized
     {
@@ -56,6 +56,7 @@ public abstract class BaseAction : MonoBehaviour
     public int ChargesLeft => _chargesLeft;
     private int _chargesLeft = 0;
 
+    public Unit Unit => _unit;
     protected Unit _unit;
 
 

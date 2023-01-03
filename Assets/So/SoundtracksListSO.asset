@@ -40,7 +40,7 @@ MonoBehaviour:
   - Name: Fight Scene OST
     Clip:
     - {fileID: 8300000, guid: f8916f28385b2824d87e11024531bb94, type: 3}
-    Volume: 0.214
+    Volume: 0.193
     typeOfSoundtrack: 0
     typeOfOstByItsNature: 2
     typeOfSfxByItsNature: 0
@@ -298,7 +298,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c8f2d172b3cb22343bfca3c1c45ae4ff, type: 3}
     - {fileID: 8300000, guid: ec919e3c36c4af84bafef1d4dfde4caf, type: 3}
     - {fileID: 8300000, guid: a2710e5f538d3f545a5b871bc33bf2ad, type: 3}
-    Volume: 1
+    Volume: 0.271
     typeOfSoundtrack: 1
     typeOfOstByItsNature: 0
     typeOfSfxByItsNature: 21

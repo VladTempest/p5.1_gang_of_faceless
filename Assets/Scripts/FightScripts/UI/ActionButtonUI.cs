@@ -59,8 +59,15 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         _button.onClick.AddListener(() => UnitActionSystem.Instance.SetSelectedAction(baseAction));
         SetUpActionVisuals();
         _baseAction.OnActionStatusUpdate += BaseAction_OnActionStatusUpdate;
+        UnitActionSystem.Instance.OnActionStarted += BaseAction_OnActionStarted;
+        
     }
-    
+
+    private void BaseAction_OnActionStarted(object sender, EventArgs e)
+    {
+        if (UnitActionSystem.Instance.GetSelectedUnit() == _baseAction.Unit) UpdateButtonInteractivity();
+    }
+
     public void UpdateSelectedVisual()
     {
         BaseAction selectedBaseAction = UnitActionSystem.Instance.GetSelectedAction();
@@ -106,6 +113,7 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private void OnDestroy()
     {
         if (_baseAction!=null) _baseAction.OnActionStatusUpdate -= BaseAction_OnActionStatusUpdate;
+        if (_baseAction!=null) UnitActionSystem.Instance.OnActionStarted -= BaseAction_OnActionStarted;
     }
 
     private void ShowActionDescriptionUI()
