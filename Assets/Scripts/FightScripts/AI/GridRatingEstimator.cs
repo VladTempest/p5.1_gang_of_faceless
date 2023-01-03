@@ -166,6 +166,8 @@ namespace Editor.Scripts.AI
             {
                 case ParalyzeShotAction paralyzeShotAction:
                     if (friendlyUnit.UnitType != UnitType.HeavyWarrior && friendlyUnit.UnitType != UnitType.LightWarrior) break;
+                    if (friendlyUnit.EffectSystem.IsParalyzed(out var _)) break;
+                    if (friendlyUnit.EffectSystem.IsKnockedDown(out var _)) break;
                     if (IsThereEnemyAroundFriendlyUnit(friendlyUnit)) break;
                     normalizedAdditionalEffectsRating = 1f;
                     break;
@@ -174,6 +176,8 @@ namespace Editor.Scripts.AI
                     normalizedAdditionalEffectsRating = GetNormalizedAdditionalEffectsRatingForPush(friendlyUnit);
                     break;
                 case KnockDownAction knockDownAction:
+                    if (friendlyUnit.EffectSystem.IsParalyzed(out var _)) break;
+                    if (friendlyUnit.EffectSystem.IsKnockedDown(out var _)) break;
                     switch (friendlyUnit.UnitType)
                     {
                         case UnitType.None:
