@@ -5,7 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1054073094619577017, guid: b2f58ba5a1020094fb7b1b33d86a8f9c,
@@ -27,7 +27,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0f182197e1534b84d85a681f4551bb56, type: 2}
+      objectReference: {fileID: 2100000, guid: aa02261243473d04fb2154b27a5f1316, type: 2}
     - target: {fileID: 3237063788311959988, guid: b2f58ba5a1020094fb7b1b33d86a8f9c,
         type: 3}
       propertyPath: m_Name
@@ -97,14 +97,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0f182197e1534b84d85a681f4551bb56, type: 2}
+      objectReference: {fileID: 2100000, guid: aa02261243473d04fb2154b27a5f1316, type: 2}
+    - target: {fileID: 6594905725299043889, guid: b2f58ba5a1020094fb7b1b33d86a8f9c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834762446142624452, guid: b2f58ba5a1020094fb7b1b33d86a8f9c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7758868310033931801, guid: b2f58ba5a1020094fb7b1b33d86a8f9c,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0f182197e1534b84d85a681f4551bb56, type: 2}
+      objectReference: {fileID: 2100000, guid: aa02261243473d04fb2154b27a5f1316, type: 2}
+    - target: {fileID: 9017199115300924948, guid: b2f58ba5a1020094fb7b1b33d86a8f9c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2f58ba5a1020094fb7b1b33d86a8f9c, type: 3}
 --- !u!4 &6324482307431895984 stripped
 Transform:
