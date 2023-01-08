@@ -2,6 +2,6 @@
 {
     public enum ScenesEnum
     {
-        MainMenu = 0, Loading = 1, Fight = 2
+        MainMenu = 0, Loading = 1, FightScene_Ambush = 2, FightScene_Bridge = 3
     }
 }

@@ -11,5 +11,12 @@ namespace Editor.Scripts.Utils
             DelayUtil gameObjectComponent = gameObjectWithDelay.AddComponent<DelayUtil>();
             gameObjectComponent.StartCoroutineForDelayAndCallback(delay, callback);
         }
+        
+        public static void CallWithDelay(float delay, Action<Action> callback, Action actionParam)
+        {
+            var gameObjectWithDelay = new GameObject();
+            DelayUtil gameObjectComponent = gameObjectWithDelay.AddComponent<DelayUtil>();
+            gameObjectComponent.StartCoroutineForDelayAndCallback(delay, callback, actionParam);
+        }
     }
 }
