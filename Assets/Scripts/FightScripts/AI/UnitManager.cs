@@ -70,4 +70,10 @@ public class UnitManager : MonoBehaviour
         }
         if (_enemyUnitList.Count == 0 || _friendlyUnitList.Count == 0) Utils.CallWithDelay(2f,() => ScenesController.Instance.LoadScene(ScenesEnum.MainMenu)); // ToDo : Сделать окно поражения или победы через общий класс
     }
+
+    private void OnDestroy()
+    {
+        Unit.OnAnyUnitSpawned -= Unit_OnAnyUnitSpawned;
+        Unit.OnAnyUnitDead -= Unit_OnAnyUnitDead;
+    }
 }

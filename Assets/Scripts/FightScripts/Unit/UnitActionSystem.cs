@@ -114,6 +114,7 @@ public class UnitActionSystem : MonoBehaviour
             return;
         }
         _selectedUnit = GetSelectedUnit();
+        if (_selectedUnit == null) return;
         SetSelectedAction(GetMoveAction());
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
     }

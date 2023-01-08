@@ -28,7 +28,9 @@ public class CameraController : MonoBehaviour
 
     private void UnitAction_OnSelectedUnitChanged(object sender, EventArgs e)
     {
-        var positionOfSelectedUnit = UnitActionSystem.Instance.GetSelectedUnit().transform.position;
+        var selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
+        if (selectedUnit == null) return;
+        var positionOfSelectedUnit = selectedUnit.transform.position;
         StartMovingToTargetUnit(positionOfSelectedUnit);
     }
 

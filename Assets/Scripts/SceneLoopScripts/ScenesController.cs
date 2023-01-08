@@ -43,7 +43,6 @@ namespace Editor.Scripts.SceneLoopScripts
 
         private void LoadWithLoadingScreen(string targetSceneName)
         {
-            var loadingSceneName = GetSceneNameFromSceneEnum(ScenesEnum.Loading);
             _alreadyLoaded = false;
             StartCoroutine(LoadingSceneLoadAsync());
             StartCoroutine(TargetSceneLoadASync(targetSceneName));
