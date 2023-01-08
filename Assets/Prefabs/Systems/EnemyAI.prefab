@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3618937911145742784
+--- !u!1 &6361234068457102835
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3618937911145742786}
-  - component: {fileID: 3618937911145742785}
+  - component: {fileID: 6361234068457102837}
+  - component: {fileID: 6361234068457102836}
   m_Layer: 0
-  m_Name: ScenesController
+  m_Name: EnemyAI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3618937911145742786
+--- !u!4 &6361234068457102837
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3618937911145742784}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 693.31757, y: 405.21268, z: 0.016933441}
+  m_GameObject: {fileID: 6361234068457102835}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.065199, y: 0.60526866, z: 1.643244}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3618937911145742785
+--- !u!114 &6361234068457102836
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3618937911145742784}
+  m_GameObject: {fileID: 6361234068457102835}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cbeb5fc27cc4a67986eda0487b1c628, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ce59e49d3746e54c91f7f25b2a50047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneWithEnums:
-  - sceneEnumName: 0
-    sceneName: MainMenuScene
-  - sceneEnumName: 1
-    sceneName: LoadingScene
-  - sceneEnumName: 2
-    sceneName: FightScene_Ambush
-  - sceneEnumName: 3
-    sceneName: FightScene_Bridge

@@ -19,5 +19,5 @@ MonoBehaviour:
       ActionPoints: 8
     - HP: 8
       ActionPoints: 10
-    - HP: 10
-      ActionPoints: 6
+    - HP: 14
+      ActionPoints: 8

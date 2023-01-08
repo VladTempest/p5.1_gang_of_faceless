@@ -28,7 +28,7 @@ MonoBehaviour:
       CoolDown: 0
       Charges: 0
       MinRange: 2
-      MaxRange: 4
+      MaxRange: 5
       Description: Unit launches arrow into enemy on straight line if there are no
         any obsacles.
     - Damage: 2

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class TurnSystemUI : MonoBehaviour
 {
     [SerializeField] private Button _endTurnButton;
+    [SerializeField] private Button[] _unitSwitchButtons;
     [SerializeField] private TextMeshProUGUI _turnNumberText;
     [SerializeField] private GameObject _enemyTurnVisualGameObject;
     [SerializeField] private GameObject _unitActionSystemUI;
@@ -21,19 +22,19 @@ public class TurnSystemUI : MonoBehaviour
         UnitActionSystem.Instance.OnBusyChanged +=  UnitActionSystem_OnBusyChanged;
         UpdateTurnText();
         UpdateEnemyTurnVisual();
-        UpdateEndTurnButtonVisibility();
+        UpdateEndTurnAndUnitSwitchButtonsVisibility();
     }
 
     private void UnitActionSystem_OnBusyChanged(object sender, bool isBusyActive)
     {
-        ChangeStateOfEndTurnButton(isBusyActive);
+        ChangeStateOfEndTurnAndUnitSwitchButtons(isBusyActive);
     }
 
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
         UpdateTurnText();
         UpdateEnemyTurnVisual();
-        UpdateEndTurnButtonVisibility();
+        UpdateEndTurnAndUnitSwitchButtonsVisibility();
     }
 
     private void UpdateTurnText()
@@ -47,13 +48,22 @@ public class TurnSystemUI : MonoBehaviour
         _unitActionSystemUI.SetActive(TurnSystem.Instance.IsPlayerTurn);
     }
 
-    private void UpdateEndTurnButtonVisibility()
+    private void UpdateEndTurnAndUnitSwitchButtonsVisibility()
     {
         _endTurnButton.gameObject.SetActive(TurnSystem.Instance.IsPlayerTurn);
+        foreach (var unitSwitchButton in _unitSwitchButtons)
+        {
+            unitSwitchButton.gameObject.SetActive(TurnSystem.Instance.IsPlayerTurn);   
+        }
     }
 
-    private void ChangeStateOfEndTurnButton(bool isBusyActive)
+    private void ChangeStateOfEndTurnAndUnitSwitchButtons(bool isBusyActive)
     {
         _endTurnButton.interactable = !isBusyActive;
+        
+        foreach (var unitSwitchButton in _unitSwitchButtons)
+        {
+            unitSwitchButton.interactable = !isBusyActive;
+        }
     }
 }

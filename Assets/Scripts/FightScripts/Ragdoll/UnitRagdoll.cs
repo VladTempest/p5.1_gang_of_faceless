@@ -9,7 +9,8 @@ public class UnitRagdoll : MonoBehaviour
     [SerializeField] private Transform _unitRootBone;
     [SerializeField] private float _explosionBaseValue;
     [SerializeField] private float _explosionBaseRange;
-    
+    private float _customCoefficient = 6f;
+
     public void Setup(Transform originalRootBone, Vector3 positionOfInfluencerBody, float damageAmountNormalized)
     {
         MatchAllChildTransform(originalRootBone, _unitRootBone);
@@ -18,7 +19,7 @@ public class UnitRagdoll : MonoBehaviour
         var explosionPosition = influenceDirection;
         
 
-        ApplyExplosionToRagdoll(_unitRootBone, _explosionBaseValue * damageAmountNormalized, explosionPosition, _explosionBaseRange);
+        ApplyExplosionToRagdoll(_unitRootBone, _explosionBaseValue * damageAmountNormalized * _customCoefficient, explosionPosition, _explosionBaseRange);
     }
 
     private void MatchAllChildTransform(Transform root, Transform clone)

@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
+    [SerializeField] private CameraController _cameraController;
     private int _enemiesCount;
     private int _currentEnemyInAction;
     private List<Unit> _enemyUnitList;
@@ -38,6 +39,7 @@ public class EnemyAI : MonoBehaviour
         {
             var enemyAiUnit = _enemyUnitList[currentEnemyInAction].gameObject.GetComponent<EnemyAIUnit>();
             _currentEnemyInAction++;
+            _cameraController.StartMovingToTargetUnit(enemyAiUnit.transform.position);
             Debug.Log($"{Time.time} [ENEMY AI] Start make action for {_enemyUnitList[currentEnemyInAction]}({_enemyUnitList[currentEnemyInAction].GetGridPosition()}) enemy");
             enemyAiUnit.MakeAIAction(() =>
             {
@@ -51,35 +53,4 @@ public class EnemyAI : MonoBehaviour
         TurnSystem.Instance.NextTurn();
         
     }
-
-    /*IEnumerator StartEnemiesAction()
-    {
-        var enemyUnitList = UnitManager.Instance.EnemyUnitList;
-        var enemyAiUnit = enemyUnitList[0].gameObject.GetComponent<EnemyAIUnit>();
-        
-    }*/
-    
-    /*private bool TryTakeEnemyActionAI(Action onActionComplete)
-    {
-        var enemyUnitList = UnitManager.Instance.EnemyUnitList;
-        bool isActionHappen = false;
-        StartCoroutine(MakeAction(onActionComplete));
-        return false;
-    }*/
-    
-
-    /*IEnumerator MakeAction(Action onActionComplete)
-    {
-        var enemyUnitList = UnitManager.Instance.EnemyUnitList;
-        foreach (var enemyUnit in enemyUnitList)
-        {
-            var enemyAiUnit = enemyUnit.gameObject.GetComponent<EnemyAIUnit>();
-            Debug.Log("Checking unit" + enemyUnit.gameObject.name);
-            while (isEnemyShouldTryMakeAction)
-            {
-                isEnemyShouldTryMakeAction = enemyAiUnit.TryMakeAIAction(onActionComplete);
-                yield return null;
-            }
-        }
-    }*/
 }

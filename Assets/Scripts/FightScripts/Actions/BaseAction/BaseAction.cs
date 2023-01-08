@@ -180,7 +180,11 @@ public abstract class BaseAction : MonoBehaviour
 
     protected void ActionStart(Action onActionComplete)
     {
-        
+        Utils.CallWithDelay(GameGlobalConstants.DELAY_FOR_ACTIONS, ActionStartCallback, onActionComplete);
+    }
+
+    private void ActionStartCallback(Action onActionComplete)
+    {
         OnAnyActionStarted?.Invoke(this, EventArgs.Empty);
         InvokeOnActionStart(this, EventArgs.Empty);
         _onActionComplete = onActionComplete;
