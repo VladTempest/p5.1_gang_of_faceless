@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace;
 using Editor.Scripts.Utils;
 using GridSystems;
 using UnityEngine;
@@ -98,14 +99,33 @@ namespace Editor.Scripts.AI
         {
             
             var maxGridsToMove = _unit.ActionPoints / GameGlobalConstants.ONE_GRID_MOVEMENT_COST;
-            
+            if (maxGridsToMove == 0)
+            {
+                onActionComplete?.Invoke();
+                return;
+            }
 
             AIMovementActionData aiBestActionData = new AIMovementActionData(new GridPosition(0, 0), 0);
-            for (int gridsOffsetNumber = 0; gridsOffsetNumber <= maxGridsToMove; gridsOffsetNumber++)
+
+            var currentGridPosition = _unit.GetGridPosition();
+            var listOfTestGridPositions = new List<GridPosition>();
+            for (int x = currentGridPosition.x - maxGridsToMove; x <= currentGridPosition.x + maxGridsToMove; x++)
             {
-                aiBestActionData = GetBestActionDataForOffset(gridsOffsetNumber, aiBestActionData);
-                if (aiBestActionData.MovementRating >= enemyPresenceWeight) {break;}
+                for (int z = currentGridPosition.z - maxGridsToMove; z <= currentGridPosition.z + maxGridsToMove; z++)
+                {
+                    GridPosition testGridPosition = new GridPosition(x, z);
+                    if (!GridPositionValidator.IsPositionInsideBoundaries(testGridPosition)) continue;
+                    listOfTestGridPositions.Add(testGridPosition);
+                }
             }
+
+            listOfTestGridPositions.Sort((item1, item2) => GridPosition.Distance(_unit.GetGridPosition(), item1) > GridPosition.Distance(_unit.GetGridPosition(), item2) ? 1 : -1);
+            
+            foreach (var testGridPosition in listOfTestGridPositions)
+            {
+                if (TryGetBestAIMovementActionForGridPosition(testGridPosition, ref aiBestActionData)) break;
+            }
+            
 
             if (aiBestActionData.TargetGridPosition != _unit.GetGridPosition())
             {
@@ -118,34 +138,32 @@ namespace Editor.Scripts.AI
             onActionComplete?.Invoke();
         }
 
-        private AIMovementActionData GetBestActionDataForOffset(int gridsOffsetNumber, AIMovementActionData aiBestActionData)
+        private bool TryGetBestAIMovementActionForGridPosition(GridPosition testGridPosition, ref AIMovementActionData aiBestActionData)
         {
-            if (gridsOffsetNumber == 0)
+            if (testGridPosition != _unit.GetGridPosition())
             {
-                return UpdateBestActionData(aiBestActionData);
+                if (!GridPositionValidator.IsGridPositionReachable(testGridPosition, _unit.GetGridPosition(),
+                        Mathf.FloorToInt(_unit.ActionPoints / 2)))
+                {
+                    Debug.LogWarning($"[Enemy AI] TOO FAR with AI Action Data for {_unit}: {testGridPosition}");
+                    return false;
+                }
             }
 
-            if (gridsOffsetNumber > 1)
+            aiBestActionData = UpdateBestActionData(aiBestActionData, testGridPosition);
+            if (aiBestActionData.MovementRating >= enemyPresenceWeight)
             {
-                var previousOffsetNumber = gridsOffsetNumber - 1;
-                aiBestActionData = UpdateBestActionData(aiBestActionData, previousOffsetNumber , previousOffsetNumber);
-                aiBestActionData = UpdateBestActionData(aiBestActionData,-previousOffsetNumber, -previousOffsetNumber);
-                aiBestActionData = UpdateBestActionData(aiBestActionData,previousOffsetNumber, -previousOffsetNumber);
-                aiBestActionData = UpdateBestActionData(aiBestActionData,-previousOffsetNumber, previousOffsetNumber);
+                Debug.LogWarning($"[Enemy AI] BREAK with AI Action Data for {_unit}: {aiBestActionData}");
+                return true;
             }
 
-            aiBestActionData = UpdateBestActionData(aiBestActionData, 0 , gridsOffsetNumber);
-            aiBestActionData = UpdateBestActionData(aiBestActionData,gridsOffsetNumber, 0);
-            aiBestActionData = UpdateBestActionData(aiBestActionData,0, -gridsOffsetNumber);
-            aiBestActionData = UpdateBestActionData(aiBestActionData,-gridsOffsetNumber, 0);
-
-            return aiBestActionData;
+            return false;
         }
-
-        private AIMovementActionData UpdateBestActionData(AIMovementActionData aiBestMovementActionData,int xGridOffset = 0, int zGridOffset = 0)
+        
+        private AIMovementActionData UpdateBestActionData(AIMovementActionData aiBestMovementActionData,GridPosition testGridPosition,int xGridOffset = 0, int zGridOffset = 0)
         {
             AIMovementActionData currentAiData;
-            currentAiData = RateGridPositionWithOffset(xGridOffset, zGridOffset);
+            currentAiData = RateGridPositionWithOffset(testGridPosition);
             if (currentAiData.MovementRating != 0 && currentAiData.MovementRating > aiBestMovementActionData.MovementRating)
             {
                 aiBestMovementActionData = currentAiData;
@@ -155,9 +173,8 @@ namespace Editor.Scripts.AI
             return aiBestMovementActionData;
         }
         
-        private AIMovementActionData RateGridPositionWithOffset(int xOffset = 0, int zOffset = 0)
+        private AIMovementActionData RateGridPositionWithOffset(GridPosition testGridPosition)
         {
-            var testGridPosition = _unit.GetGridPosition() + new GridPosition(xOffset, zOffset);
             var rating = RateGridPositionToMove(testGridPosition);
             return new AIMovementActionData(testGridPosition, rating);
 

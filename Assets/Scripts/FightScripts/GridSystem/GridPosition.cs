@@ -1,4 +1,6 @@
 ﻿using System;
+using Unity.VisualScripting;
+using UnityEngine;
 
 namespace GridSystems
 {
@@ -53,6 +55,12 @@ namespace GridSystems
         public static GridPosition operator -(GridPosition a, GridPosition b)
         {
             return new GridPosition(a.x - b.x, a.z - b.z);
+        }
+
+        public static float Distance(GridPosition gridPosition1, GridPosition gridPosition2)
+        {
+            return Vector2.Distance(new Vector2(gridPosition1.x, gridPosition1.z),
+                new Vector2(gridPosition2.x, gridPosition2.z));
         }
     }
 }
