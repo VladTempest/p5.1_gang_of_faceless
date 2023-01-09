@@ -178,9 +178,9 @@ public abstract class BaseAction : MonoBehaviour
         return validGridPositionList;
     }
 
-    protected void ActionStart(Action onActionComplete)
+    protected void ActionStart(Action onActionComplete, float delay = GameGlobalConstants.DELAY_FOR_ACTIONS)
     {
-        Utils.CallWithDelay(GameGlobalConstants.DELAY_FOR_ACTIONS, ActionStartCallback, onActionComplete);
+        Utils.CallWithDelay(delay, ActionStartCallback, onActionComplete);
     }
 
     private void ActionStartCallback(Action onActionComplete)
@@ -190,9 +190,9 @@ public abstract class BaseAction : MonoBehaviour
         _onActionComplete = onActionComplete;
     }
 
-    protected void ActionComplete()
+    protected void ActionComplete(float delay = GameGlobalConstants.DELAY_FOR_ACTIONS)
     {
-        Utils.CallWithDelay(GameGlobalConstants.DELAY_FOR_ACTIONS, ActionCompleteCallback);
+        Utils.CallWithDelay(delay, ActionCompleteCallback);
     }
 
     private void ActionCompleteCallback()
