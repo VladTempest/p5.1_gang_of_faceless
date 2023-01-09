@@ -72,12 +72,13 @@ namespace DefaultNamespace
                 return false;
             }
                 
-            if (!Pathfinding.Instance.HasPath( sourceGridPosition, testGridPosition)) {
+            if (!Pathfinding.Instance.TryGetPath(sourceGridPosition, testGridPosition, out var pathLength)) {
                 return false;
             }
+            
                 
             int pathFindingDistanceMultiplier = 10;
-            if (Pathfinding.Instance.GetPathLength( sourceGridPosition, testGridPosition) > actionRange * pathFindingDistanceMultiplier)
+            if (pathLength > actionRange * pathFindingDistanceMultiplier)
             {
                 return false;
             }

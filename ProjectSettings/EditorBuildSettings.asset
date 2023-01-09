@@ -16,5 +16,5 @@ EditorBuildSettings:
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
     path: Assets/Scenes/FightScene_Bridge.unity
-    guid: b6b2f43924868a4488a7112b83404844
+    guid: c28e2f35b6645de4f8b4176844b72dd6
   m_configObjects: {}
