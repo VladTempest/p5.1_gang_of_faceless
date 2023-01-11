@@ -8,6 +8,6 @@
         public const int ONE_GRID_MOVEMENT_COST = 2;
         public const int PATH_TO_POINT_MULTIPLIER = 10;
         
-        public const float DELAY_FOR_ACTIONS = 0.8f;
+        public const float DELAY_FOR_ACTIONS = 0.5f;
     }
 }

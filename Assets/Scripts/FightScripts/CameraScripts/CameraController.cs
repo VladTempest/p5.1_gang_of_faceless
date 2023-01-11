@@ -95,5 +95,9 @@ public class CameraController : MonoBehaviour
             yield return null;
         }
     }
-    
+
+    private void OnDestroy()
+    {
+        UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitAction_OnSelectedUnitChanged;
+    }
 }

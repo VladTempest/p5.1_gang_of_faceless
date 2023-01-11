@@ -24,6 +24,16 @@ namespace Editor.Scripts.AI
         {
             return $"Movement Target Grid Position {TargetGridPosition} with moveing rating {MovementRating}";
         }
+        
+        public static bool operator ==(AIMovementActionData a, AIMovementActionData b)
+        {
+            return a.TargetGridPosition == b.TargetGridPosition && Math.Abs(a.MovementRating - b.MovementRating) < 0.001f;
+        }
+        
+        public static bool operator !=(AIMovementActionData a, AIMovementActionData b)
+        {
+            return !(a ==b);
+        }
     }
     
     public class EnemyAIUnit : MonoBehaviour
@@ -105,7 +115,8 @@ namespace Editor.Scripts.AI
                 return;
             }
 
-            AIMovementActionData aiBestActionData = new AIMovementActionData(new GridPosition(0, 0), 0);
+            var emptyAiAction = new AIMovementActionData(new GridPosition(0, 0), 0);
+            AIMovementActionData aiBestActionData = emptyAiAction;
 
             var currentGridPosition = _unit.GetGridPosition();
             var listOfTestGridPositions = new List<GridPosition>();
@@ -127,7 +138,7 @@ namespace Editor.Scripts.AI
             }
             
 
-            if (aiBestActionData.TargetGridPosition != _unit.GetGridPosition())
+            if (aiBestActionData.TargetGridPosition != _unit.GetGridPosition() && aiBestActionData != emptyAiAction)
             {
                 if (_unit.TrySpendActionPointsToTakeAction(_moveAction, aiBestActionData.TargetGridPosition))
                 {
