@@ -15,9 +15,12 @@ MonoBehaviour:
   ClassesParametersDictionary:
     keyData: 010000000300000002000000
     valueData:
-    - HP: 6
+    - ClassLogo: {fileID: 21300000, guid: 17a6f0da10fc2894dbc869cced1ac5ce, type: 3}
+      HP: 6
       ActionPoints: 8
-    - HP: 8
+    - ClassLogo: {fileID: 21300000, guid: 7c828fea13f147244b07a51d884435bc, type: 3}
+      HP: 8
       ActionPoints: 10
-    - HP: 14
+    - ClassLogo: {fileID: 21300000, guid: 3217b404f96267145bbfd1408f892d5b, type: 3}
+      HP: 14
       ActionPoints: 8

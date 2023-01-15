@@ -109,6 +109,7 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void UpdateCoolDownVisuals()
     {
+        if (_coolDownMask == null) return;
         if (!_coolDownMask.gameObject.activeInHierarchy) return;
         _coolDownMask.fillAmount = _baseAction.CoolDownLeftNormalized;
     }

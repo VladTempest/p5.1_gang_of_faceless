@@ -43,7 +43,22 @@ public class UnitActionSystem : MonoBehaviour
         return _selectedUnit;
     }
 
-    public BaseAction GetMoveAction()
+    public BaseAction GetSelectedAction()
+    {
+        if (_selectedAction != null)
+        {
+            return _selectedAction;
+        }
+
+        return GetMoveAction();
+    }
+    
+    public bool IfThisSelectedUnit(Unit unit)
+    {
+        return unit == _selectedUnit;
+    }
+
+    private BaseAction GetMoveAction()
     {
         if (_selectedUnit != null && _selectedUnit.UnitMoveAction != null)
         {
@@ -53,16 +68,6 @@ public class UnitActionSystem : MonoBehaviour
         Debug.LogError("There is no Actions on Unit");
         var dummyAction = gameObject.AddComponent<MoveAction>();
         return dummyAction;
-    }
-
-    public BaseAction GetSelectedAction()
-    {
-        if (_selectedAction != null)
-        {
-            return _selectedAction;
-        }
-
-        return GetMoveAction();
     }
 
     private void Awake()
@@ -183,7 +188,7 @@ public class UnitActionSystem : MonoBehaviour
         SetSelectedUnit(UnitManager.Instance.FriendlyUnitList[indexOfSelectedUnit]);
     }
 
-    private void SetSelectedUnit(Unit unit)
+    public void SetSelectedUnit(Unit unit)
     {
         if (InputManager.Instance.IsMouseButtonDownThisFrame()) SoundtrackPlayerWrapper.PlayUIUnitChooseSound();
         _selectedUnit = unit;

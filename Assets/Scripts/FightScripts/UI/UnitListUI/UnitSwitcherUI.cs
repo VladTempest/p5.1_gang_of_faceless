@@ -11,14 +11,14 @@ public class UnitSwitcherUI : MonoBehaviour
 
     private void Start()
     {
-        _nextUnitButton.onClick.AddListener(ChooseNextUnit);
-        _previousUnitButton.onClick.AddListener(ChoosePreviousUnit);
+        if (_nextUnitButton != null)_nextUnitButton.onClick.AddListener(ChooseNextUnit);
+        if (_previousUnitButton != null)_previousUnitButton.onClick.AddListener(ChoosePreviousUnit);
     }
 
     private void OnDestroy()
     {
-        _nextUnitButton.onClick.RemoveListener(ChooseNextUnit);
-        _previousUnitButton.onClick.RemoveListener(ChoosePreviousUnit);
+        if (_nextUnitButton != null) _nextUnitButton.onClick.RemoveListener(ChooseNextUnit);
+        if (_previousUnitButton != null) _previousUnitButton.onClick.RemoveListener(ChoosePreviousUnit);
     }
 
     private void ChooseNextUnit()

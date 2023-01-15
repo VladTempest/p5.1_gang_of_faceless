@@ -52,7 +52,26 @@ public class UnitManager : MonoBehaviour
         else
         {
             _friendlyUnitList.Add(unit);
+            unit.OnUnitEndedTurn += Unit_OnUnitEndedTurn;
         }
+    }
+
+    private void Unit_OnUnitEndedTurn(object sender, EventArgs e)
+    {
+        if (!CheckIfAvailableUnitsLeft())
+        {
+            TurnSystem.Instance.NextTurn();
+        }
+    }
+
+    private bool CheckIfAvailableUnitsLeft()
+    {
+        foreach (var unit in _friendlyUnitList)
+        {
+            if (unit.IsUnitAvailableForAction) return true;
+        }
+
+        return false;
     }
 
     private void Unit_OnAnyUnitDead(object sender, Unit.OnAnyUnitDiedEventArgs onAnyUnitDiedEventArgs)
@@ -67,6 +86,7 @@ public class UnitManager : MonoBehaviour
         else
         {
             _friendlyUnitList.Remove(unit);
+            unit.OnUnitEndedTurn -= Unit_OnUnitEndedTurn;
         }
         if (_enemyUnitList.Count == 0 || _friendlyUnitList.Count == 0) Utils.CallWithDelay(2f,() => ScenesController.Instance.LoadScene(ScenesEnum.MainMenu)); // ToDo : Сделать окно поражения или победы через общий класс
     }
@@ -76,4 +96,6 @@ public class UnitManager : MonoBehaviour
         Unit.OnAnyUnitSpawned -= Unit_OnAnyUnitSpawned;
         Unit.OnAnyUnitDead -= Unit_OnAnyUnitDead;
     }
+    
+    
 }
