@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private TextMeshProUGUI _textMeshPro;
     [SerializeField] private Button _button;
@@ -139,11 +139,25 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ShowActionDescriptionUI();
+        if (Application.platform == RuntimePlatform.Android) return;
+        //();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (Application.platform == RuntimePlatform.Android) return;
+        //HideActionDescriptionUI();
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        //if (Application.platform != RuntimePlatform.Android) return;
+        ShowActionDescriptionUI();
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        //if (Application.platform != RuntimePlatform.Android) return;
         HideActionDescriptionUI();
     }
 }

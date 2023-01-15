@@ -26,6 +26,8 @@ public class InputManager : MonoBehaviour
    public Vector2 GetMouseScreenPosition()
    {
        #if USE_NEW_INPUT_SYSTEM
+       
+       if (Application.platform == RuntimePlatform.Android) return Touchscreen.current.primaryTouch.position.ReadValue();
        return Mouse.current.position.ReadValue();
 #else
       return Input.mousePosition;

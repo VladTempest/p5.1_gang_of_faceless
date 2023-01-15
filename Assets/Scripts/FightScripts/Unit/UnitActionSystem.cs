@@ -156,7 +156,7 @@ public class UnitActionSystem : MonoBehaviour
     {
         if (InputManager.Instance.IsMouseButtonDownThisFrame())
         {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var ray = Camera.main.ScreenPointToRay(InputManager.Instance.GetMouseScreenPosition());
             if (Physics.Raycast(ray, out var raycastHit, float.MaxValue, _unitLayerMask))
             {
                 if (raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
