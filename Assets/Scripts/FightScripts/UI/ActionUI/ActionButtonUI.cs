@@ -74,6 +74,8 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             UpdateButtonInteractivity();
             UpdateCoolDownVisuals();
        }
+       
+       HideActionDescriptionUI();
     }
 
     public void UpdateSelectedVisual()
@@ -140,24 +142,24 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (Application.platform == RuntimePlatform.Android) return;
-        //();
+        ShowActionDescriptionUI();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (Application.platform == RuntimePlatform.Android) return;
-        //HideActionDescriptionUI();
+        HideActionDescriptionUI();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        //if (Application.platform != RuntimePlatform.Android) return;
+        if (Application.platform != RuntimePlatform.Android) return;
         ShowActionDescriptionUI();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        //if (Application.platform != RuntimePlatform.Android) return;
+        if (Application.platform != RuntimePlatform.Android) return;
         HideActionDescriptionUI();
     }
 }
