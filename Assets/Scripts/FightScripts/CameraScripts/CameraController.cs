@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour
     private const float MIN_FOLLOW_Y_OFFSET = 2f;
     private const float MAX_FOLLOW_Y_OFFSET = 20f;
     
-    private const float MOVE_SPEED = 12f;
+    private const float MOVE_SPEED = 9f;
 
     private Vector3 _targetFollowOffset;
     private CinemachineTransposer _cinemachineTransposer;
@@ -57,7 +57,7 @@ public class CameraController : MonoBehaviour
 
     private void HandleTheZoom()
     {
-        float zoomSpeed = 7f;
+        float zoomSpeed = 5f;
 
         _targetFollowOffset.y += InputManager.Instance.GetCameraZoomAmount();
         if (InputManager.Instance.GetCameraZoomAmount() != 0) StopMovingToUnit();
@@ -78,7 +78,7 @@ public class CameraController : MonoBehaviour
 
     private void HandleTheRotation()
     {
-        float rotationSpeed = 120f;
+        float rotationSpeed = 100f;
         var rotateAmount = InputManager.Instance.GetCameraRotateAmount();
         if (rotateAmount != 0) StopMovingToUnit();
         var rotationVector = new Vector3(0,rotateAmount,0); 

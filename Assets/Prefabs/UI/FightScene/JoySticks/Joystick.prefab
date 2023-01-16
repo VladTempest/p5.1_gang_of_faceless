@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4399651868404799357}
   - component: {fileID: 3927896147029471559}
   - component: {fileID: 8774920989223470816}
+  - component: {fileID: 4887084971367977206}
   m_Layer: 5
   m_Name: Joystick
   m_TagString: Untagged
@@ -92,6 +93,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MovementRange: 100
   m_ControlPath: <Gamepad>/leftStick
+--- !u!225 &4887084971367977206
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3970618550546650277}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6640193528677324885
 GameObject:
   m_ObjectHideFlags: 0
