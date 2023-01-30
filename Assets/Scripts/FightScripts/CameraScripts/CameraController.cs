@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using GridSystems;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera _cinemachineCamera;
     [SerializeField] private Collider _cameraBorders;
+    [SerializeField] private GameObject _cameraPointerVisuals;   
 
     private Coroutine _moveToSelectedUnitCoroutine;
 
@@ -23,15 +25,34 @@ public class CameraController : MonoBehaviour
     {
        _cinemachineTransposer = _cinemachineCamera?.GetCinemachineComponent<CinemachineTransposer>();
        _targetFollowOffset = _cinemachineTransposer.m_FollowOffset;
-       UnitActionSystem.Instance.OnSelectedUnitChanged += UnitAction_OnSelectedUnitChanged;
+       UnitActionSystem.Instance.OnSelectedPositionChanged += UnitAction_OnSelectedUnitChanged;
+       TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+       UnitActionSystem.Instance.OnBusyChanged += OnBusyChanged;
+    }
+
+    private void OnBusyChanged(object sender, bool isBusy)
+    {
+        if (isBusy)
+        {
+            _cameraPointerVisuals.SetActive(false);
+        }
+        else
+        {
+            _cameraPointerVisuals.SetActive(true);
+        }
+    }
+
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        _cameraPointerVisuals.SetActive(TurnSystem.Instance.IsPlayerTurn);
     }
 
     private void UnitAction_OnSelectedUnitChanged(object sender, EventArgs e)
     {
-        var selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
-        if (selectedUnit == null) return;
-        var positionOfSelectedUnit = selectedUnit.transform.position;
-        StartMovingToTargetUnit(positionOfSelectedUnit);
+        var selectedPosition = UnitActionSystem.Instance.GetSelectedPosition();
+        if (selectedPosition == null) return;
+        var worldPosition = LevelGrid.Instance.GetWorldPosition((GridPosition) selectedPosition);
+        StartMovingToTargetUnit(worldPosition);
     }
 
     public void StartMovingToTargetUnit(Vector3 positionOfTargetUnit)
@@ -71,9 +92,29 @@ public class CameraController : MonoBehaviour
     {
         Vector2 inputMoveDir = InputManager.Instance.GetCameraMoveVector();
         if (!inputMoveDir.Equals(Vector3.zero)) StopMovingToUnit(); 
+        if (inputMoveDir.Equals(Vector3.zero)) return; 
         Vector3 moveVector = transform.forward * inputMoveDir.y + transform.right * inputMoveDir.x;
         var newPosition = transform.position + moveVector * MOVE_SPEED * Time.deltaTime;
         if (_cameraBorders.bounds.Contains(newPosition)) transform.position += moveVector * MOVE_SPEED * Time.deltaTime;
+
+        ChooseGridAccordingly();
+    }
+
+    private void ChooseGridAccordingly()
+    {
+        if (!TurnSystem.Instance.IsPlayerTurn) return;
+        var positionOnGridLevel = new Vector3(transform.position.x, 0, transform.position.z);
+        var currentGridPosition = LevelGrid.Instance.GetGridPosition(positionOnGridLevel);
+        
+        if (UnitActionSystem.Instance.GetSelectedPosition() == currentGridPosition) return;
+        if (UnitActionSystem.Instance.IfCurrentGridPositionFromCachedValidPositions(currentGridPosition))
+        {
+            UnitActionSystem.Instance.SetSelectedPosition(currentGridPosition);
+        }
+        else
+        {
+            UnitActionSystem.Instance.ClearSelectedPosition();
+        }
     }
 
     private void HandleTheRotation()
@@ -99,5 +140,7 @@ public class CameraController : MonoBehaviour
     private void OnDestroy()
     {
         UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitAction_OnSelectedUnitChanged;
+        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+        UnitActionSystem.Instance.OnBusyChanged -= OnBusyChanged;
     }
 }

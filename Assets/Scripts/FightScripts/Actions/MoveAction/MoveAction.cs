@@ -139,8 +139,7 @@ public class MoveAction : BaseAction
 
     public override int GetActionPointCost()
     {
-        var mousePosition = MouseWorld.GetPointerInWorldPosition();
-        var targetGridPosition = LevelGrid.Instance.GetGridPosition(mousePosition);
+        GridPosition targetGridPosition = (GridPosition) UnitActionSystem.Instance.GetSelectedPosition();
         return GetActionPointCost(targetGridPosition);
     }
     

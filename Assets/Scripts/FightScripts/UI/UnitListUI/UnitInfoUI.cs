@@ -21,10 +21,10 @@ namespace Editor.Scripts.FightScripts.UI.CharacterListUI
         [SerializeField] private CanvasGroup _canvasGroup;
 
         [SerializeField] private TypeOfSFXByItsNature _soundtrack;
-        private Unit _unit;
+        private global::Unit _unit;
         private HealthSystem _healthSystem;
 
-        public void SetUpUnitInfo(ClassesParameters classesParameters, Unit unit)
+        public void SetUpUnitInfo(ClassesParameters classesParameters, global::Unit unit)
         {
             _unit = unit;
             

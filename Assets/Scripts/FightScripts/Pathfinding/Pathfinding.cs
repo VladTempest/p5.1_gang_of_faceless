@@ -143,6 +143,7 @@ public class Pathfinding : MonoBehaviour
 
     public bool IsWalkableGridPosition(GridPosition gridPosition)
     {
+        if (_gridSystem == null) return false;
         return _gridSystem.GetGridObject(gridPosition).IsWalkable && !GridPositionValidator.HasAnyUnitOnGridPosition(gridPosition);
     }
     

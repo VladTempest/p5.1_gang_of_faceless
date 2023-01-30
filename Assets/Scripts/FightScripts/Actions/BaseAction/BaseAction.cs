@@ -67,6 +67,8 @@ public abstract class BaseAction : MonoBehaviour
     protected int _minActionRange;
     protected int _actionPointCost;
     protected string _description;
+    
+    protected List<GridPosition> _cachedAvailablePositions = new List<GridPosition>();
 
     protected virtual void Awake()
     {
@@ -111,12 +113,43 @@ public abstract class BaseAction : MonoBehaviour
         if (!enabled) return;
         
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        LevelGrid.Instance.OnAnyUnitChangedGridPosition += UpdateCachedGrids;
+        Unit.OnAnyUnitDead += UpdateCachedGrids;
+        Unit.OnAnyUnitSpawned += UpdateCachedGrids;
+        DestructibleCrate.OnAnyCrateDestroyed += UpdateCachedGrids;
     }
-    
+
+    private void UpdateCachedGrids(object sender, EventArgs e)
+    {
+        ClearCachedGrids();
+    }
+
+    private void UpdateCachedGrids(object sender, Unit.OnAnyUnitDiedEventArgs e)
+    {
+        ClearCachedGrids();
+    }
+
+    private void UpdateCachedGrids(object sender, OnAnyUnitChangedArgs e)
+    {
+        ClearCachedGrids();
+    }
+
+    private void ClearCachedGrids()
+    {
+        if (_cachedAvailablePositions.Count > 0)
+        {
+            _cachedAvailablePositions.Clear();
+        }
+    }
+
     protected void OnDestroy()
     {
         if (SceneManager.GetActiveScene().name == "MainMenuScene") return; //TODO: использовать кастомный левел менеждер
         TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+        LevelGrid.Instance.OnAnyUnitChangedGridPosition -= UpdateCachedGrids;
+        Unit.OnAnyUnitDead -= UpdateCachedGrids;
+        Unit.OnAnyUnitSpawned -= UpdateCachedGrids;
+        DestructibleCrate.OnAnyCrateDestroyed -= UpdateCachedGrids;
     }
 
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
@@ -157,27 +190,46 @@ public abstract class BaseAction : MonoBehaviour
 
     public List<GridPosition> GetValidGridPositions()
     {
-        //if (IsActive) return new List<GridPosition>();
-        List<GridPosition> validGridPositionList = new List<GridPosition>();
-        GridPosition unitGridPosition = _unit.GetGridPosition();
-        
-        for (int x = -MaxActionRange; x <= MaxActionRange; x++)
+        if (_cachedAvailablePositions.Count == 0)
         {
-            for (int z = -MaxActionRange; z <= MaxActionRange; z++)
-            {
-                GridPosition offsetGridPosition = new GridPosition(x, z);
-                GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
+            List<GridPosition> validGridPositionList = new List<GridPosition>();
+            GridPosition unitGridPosition = _unit.GetGridPosition();
 
-                if (IsGridPositionValid(testGridPosition, unitGridPosition))
+            for (int x = -MaxActionRange; x <= MaxActionRange; x++)
+            {
+                for (int z = -MaxActionRange; z <= MaxActionRange; z++)
                 {
-                    validGridPositionList.Add(testGridPosition);
+                    GridPosition offsetGridPosition = new GridPosition(x, z);
+                    GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
+
+                    if (IsGridPositionValid(testGridPosition, unitGridPosition))
+                    {
+                        validGridPositionList.Add(testGridPosition);
+                    }
                 }
             }
+            
+            _cachedAvailablePositions = validGridPositionList;
+            return validGridPositionList;
         }
 
-        return validGridPositionList;
+        return _cachedAvailablePositions;
     }
-
+    
+    public bool IfGridPositionFromCachedList(GridPosition gridPosition)
+    {
+        if (_cachedAvailablePositions.Count == 0)
+        {
+            GetValidGridPositions();
+        }
+        return _cachedAvailablePositions.Contains(gridPosition);
+    }
+    
+    private void ClearCachedAvailablePositions()
+    {
+        _cachedAvailablePositions.Clear();
+    }
+    
     protected void ActionStart(Action onActionComplete, float delay = GameGlobalConstants.DELAY_FOR_ACTIONS)
     {
         Utils.CallWithDelay(delay, ActionStartCallback, onActionComplete);

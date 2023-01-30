@@ -55,4 +55,9 @@ public class DestructibleCrate : MonoBehaviour, IInteractable
         SoundtrackPlayerWrapper.PlaySwordHitSound(HeavyWarriorActionEnum.Knockdown, transform);
         onActionComplete.Invoke();
     }
+
+    private void OnDestroy()
+    {
+        
+    }
 }

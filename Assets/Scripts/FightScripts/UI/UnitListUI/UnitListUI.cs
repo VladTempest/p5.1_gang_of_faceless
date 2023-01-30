@@ -14,7 +14,7 @@ namespace Editor.Scripts.FightScripts.UI.CharacterListUI
         {
             _unitManger = UnitManager.Instance;
             
-            List<Unit> playerCharacters = _unitManger.FriendlyUnitList;
+            List<global::Unit> playerCharacters = _unitManger.FriendlyUnitList;
             ClearInstantiatedCharacters();
             SpawnCharacterInfoForPlayerCharacters(playerCharacters);
         }
@@ -27,9 +27,9 @@ namespace Editor.Scripts.FightScripts.UI.CharacterListUI
             }
         }
 
-        private void SpawnCharacterInfoForPlayerCharacters(List<Unit> playerCharacters)
+        private void SpawnCharacterInfoForPlayerCharacters(List<global::Unit> playerCharacters)
         {
-            foreach (Unit unit in playerCharacters)
+            foreach (global::Unit unit in playerCharacters)
             {
                 UnitInfoUI unitInfo = Instantiate(unitInfoPrefab, transform);
 

@@ -9,11 +9,18 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
+public class OnSelectedPositionChangedArgs : EventArgs
+{
+    public GridPosition NewGridPosition { get; set; }
+}
 public class UnitActionSystem : MonoBehaviour
 {
     public static UnitActionSystem Instance { get; private set; }
     public event EventHandler OnSelectedUnitChanged;
     public event EventHandler OnSelectedActionChanged;
+    public event EventHandler<OnSelectedPositionChangedArgs> OnSelectedPositionChanged;
+    
+    
     public event EventHandler<bool> OnBusyChanged;
     
     public event EventHandler OnActionStarted;
@@ -22,6 +29,7 @@ public class UnitActionSystem : MonoBehaviour
 
     private Unit _selectedUnit;
     private BaseAction _selectedAction;
+    private GridPosition? _selectedPosition;
 
     public bool IsBusy => _isBusy;
     private bool _isBusy;
@@ -42,6 +50,9 @@ public class UnitActionSystem : MonoBehaviour
         }
         return _selectedUnit;
     }
+    
+    
+    public GridPosition? GetSelectedPosition() => _selectedPosition;
 
     public BaseAction GetSelectedAction()
     {
@@ -58,6 +69,10 @@ public class UnitActionSystem : MonoBehaviour
         return unit == _selectedUnit;
     }
 
+    public bool IfCurrentGridPositionFromCachedValidPositions(GridPosition gridPosition)
+    {
+        return _selectedAction.IfGridPositionFromCachedList(gridPosition);
+    }
     private BaseAction GetMoveAction()
     {
         if (_selectedUnit != null && _selectedUnit.UnitMoveAction != null)
@@ -111,6 +126,38 @@ public class UnitActionSystem : MonoBehaviour
         if (!isBusy) SetSelectedAction(GetMoveAction());
     }
 
+    private void TrySelectTargetGridPosition(GridPosition targetGridPosition)
+    {
+        if (_selectedAction.GetValidGridPositions().Contains(targetGridPosition))
+        {
+            _selectedPosition = targetGridPosition;
+            OnSelectedPositionChanged?.Invoke(this, new OnSelectedPositionChangedArgs{NewGridPosition = targetGridPosition});
+        }
+        else
+        {
+            InvokeWithEmptyGridPosition();
+        }
+    }
+
+    private void InvokeWithEmptyGridPosition()
+    {
+        OnSelectedPositionChanged?.Invoke(this,
+            new OnSelectedPositionChangedArgs {NewGridPosition = new GridPosition(0, 0)});
+    }
+
+    public void SelectDefaultSelectedGridPosition()
+    {
+        var validGridPositions = _selectedAction.GetValidGridPositions();
+        if (!validGridPositions.IsNullOrEmpty())
+        {
+            TrySelectTargetGridPosition(validGridPositions[0]);
+        }
+        else
+        {
+            InvokeWithEmptyGridPosition();
+        }
+    }
+
     private void SetUpSelectedUnit()
     {
         if (_selectedUnit != null)
@@ -132,24 +179,16 @@ public class UnitActionSystem : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject()) return;
         
         if (TryHandleUnitSelection()) return;
-        
-        HandleSelectedAction();
     }
 
 
     private void HandleSelectedAction()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPointerInWorldPosition());
-
-            if (!_selectedAction.IsGridPositionValid(mouseGridPosition, _selectedUnit.GetGridPosition())) return;
+            if (!_selectedAction.IsGridPositionValid((GridPosition) _selectedPosition, _selectedUnit.GetGridPosition())) return;
             if (!_selectedUnit.TrySpendActionPointsToTakeAction(_selectedAction)) return;
-            if (InputManager.Instance.IsMouseButtonDownThisFrame()) SoundtrackPlayerWrapper.PlayUITargetChooseSound();
             SetBusy();
-            _selectedAction.TakeAction(mouseGridPosition, ClearBusy);
+            _selectedAction.TakeAction((GridPosition) _selectedPosition, ClearBusy);
             OnActionStarted?.Invoke(this, EventArgs.Empty);
-        }
     }
 
     private bool TryHandleUnitSelection()
@@ -200,7 +239,8 @@ public class UnitActionSystem : MonoBehaviour
     public void SetSelectedAction(BaseAction baseAction)
     {
         _selectedAction = baseAction;
-        
+        SelectDefaultSelectedGridPosition();
+
         OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
     }
     private void SetBusy()
@@ -213,5 +253,23 @@ public class UnitActionSystem : MonoBehaviour
     {
         _isBusy = false;
         OnBusyChanged?.Invoke(this, _isBusy);
+    }
+
+    public void SetSelectedPosition(GridPosition targetGridPosition)
+    {
+        TrySelectTargetGridPosition(targetGridPosition);
+    }
+
+    public void ClearSelectedPosition()
+    {
+        _selectedPosition = null;
+        InvokeWithEmptyGridPosition();
+    }
+    
+    public void ActivateSelectedActionOnSelectedPosition()
+    {
+        if (_selectedAction == null) return;
+        if (_selectedPosition == null) return;
+        HandleSelectedAction();
     }
 }
