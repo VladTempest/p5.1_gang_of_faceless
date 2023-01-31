@@ -65,6 +65,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9188136158289152169, guid: 90ba0d01d73c6fb48b6f11b742049495,
         type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9188136158289152169, guid: 90ba0d01d73c6fb48b6f11b742049495,
+        type: 3}
       propertyPath: VelocityModule.x.scalar
       value: 0
       objectReference: {fileID: 0}
