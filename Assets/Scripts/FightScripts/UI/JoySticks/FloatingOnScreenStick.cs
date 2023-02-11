@@ -12,6 +12,7 @@ namespace UnityEngine.InputSystem.OnScreen
     //[HelpURL(InputSystem.kDocUrl + "/manual/OnScreen.html#on-screen-sticks")]
     public class FloatingOnScreenStick : OnScreenControl, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
+        private Vector3 m_StartDefaultPos;
         
         public void OnPointerDown(PointerEventData eventData)
         {
@@ -47,14 +48,14 @@ namespace UnityEngine.InputSystem.OnScreen
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            gameObject.SetActive(false);
-            ((RectTransform)transform).anchoredPosition = m_StartPos;
+            ((RectTransform)transform).anchoredPosition = m_StartDefaultPos;
             SendValueToControl(Vector2.zero);
         }
 
         private void Start()
         {
             m_StartPos = ((RectTransform)transform).anchoredPosition;
+            m_StartDefaultPos = m_StartPos;
         }
 
         public float movementRange
