@@ -16969,30 +16969,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 692355233}
-    - target: {fileID: 48968983, guid: 8bf2f429471d2004aa1901d013e548d4, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: c77998c121ab66543a2232052b31bbe8, type: 2}
     - target: {fileID: 48968984, guid: 8bf2f429471d2004aa1901d013e548d4, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 692355233}
     - target: {fileID: 48968984, guid: 8bf2f429471d2004aa1901d013e548d4, type: 3}
       propertyPath: m_VersionIndex
-      value: 12
+      value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 381880271, guid: 8bf2f429471d2004aa1901d013e548d4, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.27865437
-      objectReference: {fileID: 0}
-    - target: {fileID: 381880271, guid: 8bf2f429471d2004aa1901d013e548d4, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.731
-      objectReference: {fileID: 0}
-    - target: {fileID: 381880273, guid: 8bf2f429471d2004aa1901d013e548d4, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: c77998c121ab66543a2232052b31bbe8, type: 2}
     - target: {fileID: 4070397458305518850, guid: 8bf2f429471d2004aa1901d013e548d4,
         type: 3}
       propertyPath: _cameraBorders

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Editor.Scripts.Actions.BaseAction;
 using Editor.Scripts.Utils;
+using FightScripts.GridSystem;
 using GridSystems;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -209,7 +210,9 @@ public abstract class BaseAction : MonoBehaviour
                 }
             }
             
+            GridPositionUtils.SortGridPositionByDistanceToUnit(validGridPositionList, _unit);
             _cachedAvailablePositions = validGridPositionList;
+            
             return validGridPositionList;
         }
 

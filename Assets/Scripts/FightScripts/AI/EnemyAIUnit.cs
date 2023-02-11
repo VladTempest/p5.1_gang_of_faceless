@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
 using Editor.Scripts.Utils;
+using FightScripts.GridSystem;
 using GridSystems;
 using UnityEngine;
 
@@ -130,7 +131,7 @@ namespace Editor.Scripts.AI
                 }
             }
 
-            listOfTestGridPositions.Sort((item1, item2) => GridPosition.Distance(_unit.GetGridPosition(), item1) > GridPosition.Distance(_unit.GetGridPosition(), item2) ? 1 : -1);
+            GridPositionUtils.SortGridPositionByDistanceToUnit(listOfTestGridPositions, _unit);
             
             foreach (var testGridPosition in listOfTestGridPositions)
             {
@@ -148,7 +149,7 @@ namespace Editor.Scripts.AI
             }
             onActionComplete?.Invoke();
         }
-
+        
         private bool TryGetBestAIMovementActionForGridPosition(GridPosition testGridPosition, ref AIMovementActionData aiBestActionData)
         {
             if (testGridPosition != _unit.GetGridPosition())
