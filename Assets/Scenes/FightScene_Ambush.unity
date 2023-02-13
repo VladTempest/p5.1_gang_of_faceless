@@ -4676,7 +4676,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-5851488
+  m_Name: pb_Mesh-16552
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -17163,6 +17163,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4070397459330584360, guid: 8bf2f429471d2004aa1901d013e548d4,
+        type: 3}
+      propertyPath: outlineMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4070397459330584360, guid: 8bf2f429471d2004aa1901d013e548d4,
+        type: 3}
+      propertyPath: outlineWidth
+      value: 1.45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
