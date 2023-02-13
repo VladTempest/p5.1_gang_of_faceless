@@ -17,11 +17,15 @@ namespace Editor.Scripts.FightScripts.UI.CharacterListUI
         [SerializeField] private Slider _unitHPSlider;
         [SerializeField] private TMP_Text _unitHPText;
         
+        [SerializeField] private Slider _unitAPSlider;
+        [SerializeField] private TMP_Text _unitAPText;
+        
         [SerializeField] private GameObject _unitActiveOutline;
         [SerializeField] private CanvasGroup _canvasGroup;
 
         [SerializeField] private TypeOfSFXByItsNature _soundtrack;
         private global::Unit _unit;
+
         private HealthSystem _healthSystem;
 
         public void SetUpUnitInfo(ClassesParameters classesParameters, global::Unit unit)
@@ -31,22 +35,45 @@ namespace Editor.Scripts.FightScripts.UI.CharacterListUI
             _unitLogo.sprite = classesParameters.ClassLogo;
             _deadLogo.gameObject.SetActive(false);
 
-            
-            
-            UpdateHealthUI();
 
             if (_unit.gameObject.TryGetComponent(out HealthSystem healthSystem))
             {
                 _healthSystem = healthSystem;
                 _healthSystem.OnDamaged += HealthSystem_OnDamaged;
             }
+            UpdateHealthUI();
             
+            
+            global::Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
+            UpdateAPUI();
+            
+
+
             _unitActiveOutline.SetActive(UnitActionSystem.Instance.IfThisSelectedUnit(_unit));
             UnitActionSystem.Instance.OnSelectedUnitChanged += OnSelectedUnitChanged;
             TurnSystem.Instance.OnTurnChanged += OnTurnChanged;
             
             _unit.OnUnitEndedTurn += Unit_OnUnitEndedTurn;
             _unit.OnUnitAvailableForAction += Unit_OnUnitAvailableForAction;
+        }
+
+        private void OnDestroy()
+        {
+            UnitActionSystem.Instance.OnSelectedUnitChanged -= OnSelectedUnitChanged;
+            if (_healthSystem != null) _healthSystem.OnDamaged -= HealthSystem_OnDamaged;
+            TurnSystem.Instance.OnTurnChanged -= OnTurnChanged;
+            
+            if (_unit == null) return;
+            _unit.OnUnitEndedTurn -= Unit_OnUnitEndedTurn;
+            _unit.OnUnitAvailableForAction -= Unit_OnUnitAvailableForAction;
+        }
+
+        private void Unit_OnAnyActionPointsChanged(object sender, EventArgs e)
+        {
+            if ((global::Unit) sender == UnitActionSystem.Instance.GetSelectedUnit())
+            {
+                UpdateAPUI();
+            }
         }
 
         private void OnTurnChanged(object sender, EventArgs e)
@@ -75,8 +102,14 @@ namespace Editor.Scripts.FightScripts.UI.CharacterListUI
 
         private void UpdateHealthUI()
         {
-            _unitHPText.text = _unit.HealthPointsLeft.ToString(CultureInfo.InvariantCulture);
+            _unitHPText.text = _unit.HealthPointsLeft.ToString(CultureInfo.InvariantCulture) + " HP";
             _unitHPSlider.value = _unit.HealthNormalised;
+        }
+
+        private void UpdateAPUI()
+        {
+            _unitAPText.text = _unit.ActionPoints.ToString(CultureInfo.InvariantCulture) + " AP";
+            _unitAPSlider.value = (float) _unit.ActionPoints / _unit.ActionPointsMax;
         }
 
         private void HealthSystem_OnDamaged(object sender, EventArgs e)
@@ -96,13 +129,6 @@ namespace Editor.Scripts.FightScripts.UI.CharacterListUI
         private void OnSelectedUnitChanged(object sender, EventArgs e)
         {
             _unitActiveOutline.SetActive(TurnSystem.Instance.IsPlayerTurn && UnitActionSystem.Instance.IfThisSelectedUnit(_unit));
-        }
-        
-        private void OnDestroy()
-        {
-            UnitActionSystem.Instance.OnSelectedUnitChanged -= OnSelectedUnitChanged;
-            if (_healthSystem != null) _healthSystem.OnDamaged -= HealthSystem_OnDamaged;
-            TurnSystem.Instance.OnTurnChanged -= OnTurnChanged;
         }
 
         public void OnPointerClick(PointerEventData eventData)
