@@ -32,7 +32,7 @@ public class CameraController : MonoBehaviour
 
     private void OnBusyChanged(object sender, bool isBusy)
     {
-        if (isBusy)
+        if (isBusy || !TurnSystem.Instance.IsPlayerTurn)
         {
             _cameraPointerVisuals.SetActive(false);
         }
@@ -102,7 +102,7 @@ public class CameraController : MonoBehaviour
 
     private void ChooseGridAccordingly()
     {
-        if (!TurnSystem.Instance.IsPlayerTurn) return;
+        if (!TurnSystem.Instance.IsPlayerTurn || UnitActionSystem.Instance.IsBusy) return;
         var positionOnGridLevel = new Vector3(transform.position.x, 0, transform.position.z);
         var currentGridPosition = LevelGrid.Instance.GetGridPosition(positionOnGridLevel);
         

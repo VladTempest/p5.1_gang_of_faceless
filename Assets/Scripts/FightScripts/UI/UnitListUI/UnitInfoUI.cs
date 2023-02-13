@@ -42,8 +42,7 @@ namespace Editor.Scripts.FightScripts.UI.CharacterListUI
                 _healthSystem.OnDamaged += HealthSystem_OnDamaged;
             }
             UpdateHealthUI();
-            
-            
+
             global::Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
             UpdateAPUI();
             
@@ -85,6 +84,7 @@ namespace Editor.Scripts.FightScripts.UI.CharacterListUI
             else
             {
                 _unitActiveOutline.SetActive(UnitActionSystem.Instance.IfThisSelectedUnit(_unit));
+                UpdateAPUI();
             }
         }
 

@@ -22,7 +22,7 @@ public class TurnSystemUI : MonoBehaviour
 
     private void UnitActionSystem_OnBusyChanged(object sender, bool isBusyActive)
     {
-        ChangeStateOfEndTurnAndUnitSwitchButtons(isBusyActive);
+        UpdateEndTurnAndUnitSwitchButtonsVisibility(isBusyActive);
     }
 
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
@@ -51,11 +51,11 @@ public class TurnSystemUI : MonoBehaviour
         }
     }
 
-    private void ChangeStateOfEndTurnAndUnitSwitchButtons(bool isBusyActive)
+    private void UpdateEndTurnAndUnitSwitchButtonsVisibility(bool isBusyActive)
     {
         foreach (var unitSwitchButton in _unitSwitchButtons)
         {
-            unitSwitchButton.interactable = !isBusyActive;
+            unitSwitchButton.gameObject.SetActive(!isBusyActive);   
         }
     }
 }

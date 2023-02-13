@@ -19,6 +19,7 @@ namespace Editor.Scripts.FightScripts.UI.ActionUI
         {
             var selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
             selectedUnit.ChangeUnitState(UnitAvailabilityForActState.EndedTurn);
+            UnitActionSystem.Instance.SelectNextUnit();
         }
 
         private void OnDestroy()

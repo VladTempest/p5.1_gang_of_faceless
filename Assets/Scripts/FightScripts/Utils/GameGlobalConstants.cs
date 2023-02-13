@@ -9,5 +9,7 @@
         public const int PATH_TO_POINT_MULTIPLIER = 10;
         
         public const float DELAY_FOR_ACTIONS = 0.5f;
+        
+        public const int CHEEPEST_ACTION_COST = 2;
     }
 }

@@ -95,8 +95,7 @@ using UnityEngine.SceneManagement;
             GridPosition gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
 
             _moveAction = GetComponent<MoveAction>();
-
-            //_currentGridPosition = gridPosition;
+            
             LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
 
             TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;

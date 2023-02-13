@@ -194,6 +194,7 @@ public abstract class BaseAction : MonoBehaviour
         if (_cachedAvailablePositions.Count == 0)
         {
             List<GridPosition> validGridPositionList = new List<GridPosition>();
+            if (_unit == null) return null;
             GridPosition unitGridPosition = _unit.GetGridPosition();
 
             for (int x = -MaxActionRange; x <= MaxActionRange; x++)
@@ -216,9 +217,28 @@ public abstract class BaseAction : MonoBehaviour
             return validGridPositionList;
         }
 
-        return _cachedAvailablePositions;
+        if (CheckCachedAvailablePositionsIfValid())
+        {
+            return _cachedAvailablePositions;
+        }
+        
+        ClearCachedGrids();
+        return GetValidGridPositions();
     }
-    
+
+    private bool CheckCachedAvailablePositionsIfValid()
+    {
+        for (int i = _cachedAvailablePositions.Count - 1; i >= 0; i--)
+        {
+            if (!IsGridPositionValid(_cachedAvailablePositions[i], _unit.GetGridPosition()))
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
     public bool IfGridPositionFromCachedList(GridPosition gridPosition)
     {
         if (_cachedAvailablePositions.Count == 0)

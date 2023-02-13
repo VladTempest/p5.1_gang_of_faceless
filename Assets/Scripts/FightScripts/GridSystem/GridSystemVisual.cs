@@ -165,6 +165,7 @@ public class GridSystemVisual : MonoBehaviour
 
     public void ShowGridPositionList(List<GridPosition> gridPositions, GridVisualType gridVisualType)
     {
+        if (gridPositions == null) return;
         foreach (var gridPosition in gridPositions)
         {
             //_gridSystemVisualSingleArray[gridPosition.x, gridPosition.z].gameObject.SetActive(true);

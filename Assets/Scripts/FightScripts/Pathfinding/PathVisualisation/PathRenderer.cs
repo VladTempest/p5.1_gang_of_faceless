@@ -18,8 +18,12 @@ namespace Scripts.FightScripts.Pathfinding.PathVisualisation
 		private LineSmoother _lineSmoother = new LineSmoother();
 
 
-		public void ShowPath(List<GridPosition> path)
+		public void ShowPath()
 		{
+			if (CheckIfIncorrectTimeToShow()) return;
+			GridPosition endGridPosition = (GridPosition) UnitActionSystem.Instance.GetSelectedPosition();
+			List<GridPosition> path = global::Pathfinding.Instance.FindPath(
+				UnitActionSystem.Instance.GetSelectedUnit().GetGridPosition(), endGridPosition, out var _);
 			if (_lineRenderer != null)
 			{
 				_lineRenderer.gameObject.SetActive(true);
@@ -50,13 +54,43 @@ namespace Scripts.FightScripts.Pathfinding.PathVisualisation
 		private void Start()
 		{
 			UnitActionSystem.Instance.OnSelectedPositionChanged += OnSelectedPositionChanged;
+			UnitActionSystem.Instance.OnSelectedUnitChanged += OnSelectedUnitChanged;
 			UnitActionSystem.Instance.OnBusyChanged += OnBusyChanged;
+			TurnSystem.Instance.OnTurnChanged += OnTurnChanged;
 		}
 
 		private void OnDestroy()
 		{
 			UnitActionSystem.Instance.OnSelectedPositionChanged -= OnSelectedPositionChanged;
 			UnitActionSystem.Instance.OnBusyChanged -= OnBusyChanged;
+			TurnSystem.Instance.OnTurnChanged -= OnTurnChanged;
+			UnitActionSystem.Instance.OnSelectedUnitChanged -= OnSelectedUnitChanged;
+		}
+
+		private void OnSelectedUnitChanged(object sender, EventArgs e)
+		{
+			if (CheckIfIncorrectTimeToShow())
+			{
+				HidePath();
+				return;
+			}
+			
+			
+			ShowPath();
+			
+		}
+
+		private static bool CheckIfIncorrectTimeToShow()
+		{
+			return SelectedPositionIsNullOrEmpty() || UnitActionSystem.Instance.GetSelectedAction() is not MoveAction || UnitActionSystem.Instance.IsBusy || UnitActionSystem.Instance.GetSelectedUnit() == null || !TurnSystem.Instance.IsPlayerTurn;
+		}
+
+		private void OnTurnChanged(object sender, EventArgs e)
+		{
+			if (!TurnSystem.Instance.IsPlayerTurn)
+			{
+				HidePath();
+			}
 		}
 
 		private void OnBusyChanged(object sender, bool isBusy)
@@ -69,13 +103,18 @@ namespace Scripts.FightScripts.Pathfinding.PathVisualisation
 
 		private void OnSelectedPositionChanged(object sender, OnSelectedPositionChangedArgs e)
 		{
-			if (UnitActionSystem.Instance.GetSelectedPosition() == null || UnitActionSystem.Instance.GetSelectedAction() is not MoveAction || UnitActionSystem.Instance.IsBusy)
+			if (SelectedPositionIsNullOrEmpty() || UnitActionSystem.Instance.GetSelectedAction() is not MoveAction || UnitActionSystem.Instance.IsBusy)
 			{
 				HidePath();
 				return;
 			}
-			GridPosition endGridPosition = (GridPosition) UnitActionSystem.Instance.GetSelectedPosition();
-			ShowPath(global::Pathfinding.Instance.FindPath(UnitActionSystem.Instance.GetSelectedUnit().GetGridPosition(), endGridPosition, out var _));
+			
+			ShowPath();
+		}
+
+		private static bool SelectedPositionIsNullOrEmpty()
+		{
+			return UnitActionSystem.Instance.GetSelectedPosition() == null || UnitActionSystem.Instance.GetSelectedPosition() == new GridPosition(0,0);
 		}
 
 		private void DrawPathLine(List<GridPosition> path)

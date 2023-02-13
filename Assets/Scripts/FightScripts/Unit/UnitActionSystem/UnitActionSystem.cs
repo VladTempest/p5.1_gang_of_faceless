@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using Editor.Scripts.Utils;
 using GridSystems;
+using Scripts.Unit;
 using Sirenix.Utilities;
 using SoundSystemScripts;
 using UnityEngine;
@@ -102,11 +104,7 @@ public class UnitActionSystem : MonoBehaviour
         TurnSystem.Instance.OnTurnChanged += ChangeSelectedPlayer;
         Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
         OnBusyChanged += ChangeSelectedActionToMoveAction;
-    }
-
-    private void Unit_OnAnyUnitDead(object sender, Unit.OnAnyUnitDiedEventArgs e)
-    {
-        SetUpSelectedUnit();
+        OnBusyChanged += CheckIfAnyPointsLeft;
     }
 
     private void OnDestroy()
@@ -114,6 +112,25 @@ public class UnitActionSystem : MonoBehaviour
         TurnSystem.Instance.OnTurnChanged -= ChangeSelectedPlayer;
         Unit.OnAnyUnitDead -= Unit_OnAnyUnitDead;
         OnBusyChanged -= ChangeSelectedActionToMoveAction;
+        OnBusyChanged -= CheckIfAnyPointsLeft;
+    }
+
+    private void CheckIfAnyPointsLeft(object sender, bool isBusy)
+    {
+        if (!isBusy)
+        {
+            if (_selectedUnit == null) return;
+            if (_selectedUnit.ActionPoints < GameGlobalConstants.CHEEPEST_ACTION_COST)
+            {
+                _selectedUnit.ChangeUnitState(UnitAvailabilityForActState.EndedTurn);
+                SelectNextUnit();
+            }
+        }
+    }
+
+    private void Unit_OnAnyUnitDead(object sender, Unit.OnAnyUnitDiedEventArgs e)
+    {
+        SetUpSelectedUnit();
     }
 
     private void ChangeSelectedPlayer(object sender, EventArgs e)
@@ -128,6 +145,7 @@ public class UnitActionSystem : MonoBehaviour
 
     private void TrySelectTargetGridPosition(GridPosition targetGridPosition)
     {
+        if (IsBusy || !TurnSystem.Instance.IsPlayerTurn) return;
         if (_selectedAction.GetValidGridPositions().Contains(targetGridPosition))
         {
             _selectedPosition = targetGridPosition;
@@ -141,6 +159,7 @@ public class UnitActionSystem : MonoBehaviour
 
     private void InvokeWithEmptyGridPosition()
     {
+        _selectedPosition = null;
         OnSelectedPositionChanged?.Invoke(this,
             new OnSelectedPositionChangedArgs {NewGridPosition = new GridPosition(0, 0)});
     }
@@ -213,19 +232,11 @@ public class UnitActionSystem : MonoBehaviour
 
     public void SelectNextUnit()
     {
-        var indexOfSelectedUnit = UnitManager.Instance.FriendlyUnitList.FindIndex(0,item => item == _selectedUnit);
-        indexOfSelectedUnit++;
-        if (indexOfSelectedUnit >= UnitManager.Instance.FriendlyUnitList.Count) indexOfSelectedUnit = 0;
-        SetSelectedUnit(UnitManager.Instance.FriendlyUnitList[indexOfSelectedUnit]);
+        List<Unit> availableUnitList = UnitManager.Instance.FriendlyUnitList.FindAll(item => item.IsUnitAvailableForAction);
+        if (availableUnitList.IsNullOrEmpty()) return;
+        SetSelectedUnit(availableUnitList[0]);
     }
     
-    public void SelectPreviousUnit()
-    {
-        var indexOfSelectedUnit = UnitManager.Instance.FriendlyUnitList.FindIndex(0,item => item == _selectedUnit);
-        indexOfSelectedUnit--;
-        if (indexOfSelectedUnit < 0 ) indexOfSelectedUnit =  UnitManager.Instance.FriendlyUnitList.Count - 1;
-        SetSelectedUnit(UnitManager.Instance.FriendlyUnitList[indexOfSelectedUnit]);
-    }
 
     public void SetSelectedUnit(Unit unit)
     {
