@@ -12,6 +12,21 @@ namespace Editor.Scripts.AI
     
     struct AIMovementActionData
     {
+        public bool Equals(AIMovementActionData other)
+        {
+            return TargetGridPosition.Equals(other.TargetGridPosition) && MovementRating.Equals(other.MovementRating);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is AIMovementActionData other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(TargetGridPosition, MovementRating);
+        }
+
         public GridPosition TargetGridPosition;
         public float MovementRating;
 

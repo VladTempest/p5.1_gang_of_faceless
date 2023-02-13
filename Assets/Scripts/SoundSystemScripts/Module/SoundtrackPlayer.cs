@@ -20,6 +20,8 @@ namespace SoundSystemScripts
 
         [SerializeField]
         private AudioSource _localSFXPlayer;
+        
+        private AudioSource _localSFXPlayerInstance;
 
         [SerializeField]
         private SoundtracksListSettings _listOfSoundtracks;
@@ -90,13 +92,22 @@ namespace SoundSystemScripts
                         break;
                     }
 
-                    var localAudioSource = Instantiate(_localSFXPlayer, transformOfPlayPoint.position,
-                        transformOfPlayPoint.rotation);
+                    if (_localSFXPlayerInstance == null)
+                    {
+                        _localSFXPlayerInstance = Instantiate(_localSFXPlayer, transformOfPlayPoint.position,
+                            transformOfPlayPoint.rotation);
+                    }
+                    else
+                    {
+                        var localSfxPlayerTransform = _localSFXPlayerInstance.transform;
+                        localSfxPlayerTransform.position = transformOfPlayPoint.position;
+                        localSfxPlayerTransform.rotation = transformOfPlayPoint.rotation;
+                    }
+                    
                     var randomClipFromArray = soundtrack.Clip[ReturnRandomIndexOfClip(soundtrack)];
                         //Debug.Log(
                         //$"[SOUND SYSTEM] {randomClipFromArray.name} is playing at {transformOfPlayPoint.position}");
-                    localAudioSource.PlayOneShot(randomClipFromArray, soundtrack.Volume);
-                    Destroy(localAudioSource.gameObject, randomClipFromArray.length);
+                    _localSFXPlayerInstance.PlayOneShot(randomClipFromArray, soundtrack.Volume);
                     break;
                     
                     
