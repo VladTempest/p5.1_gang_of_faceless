@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using GridSystems;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 public class CameraController : MonoBehaviour
 {
@@ -66,14 +67,19 @@ public class CameraController : MonoBehaviour
         if (_moveToSelectedUnitCoroutine != null) StopCoroutine(_moveToSelectedUnitCoroutine);
     }
 
-    void Update()
+    private void Update()
     {
+        Profiler.BeginSample(nameof(HandleTheMovement));
         HandleTheMovement();
-
+        Profiler.EndSample();
+        
+        Profiler.BeginSample(nameof(HandleTheRotation));
         HandleTheRotation();
-
+        Profiler.EndSample();
+        
+        Profiler.BeginSample(nameof(HandleTheZoom));
         HandleTheZoom();
-
+        Profiler.EndSample();
     }
 
     private void HandleTheZoom()
