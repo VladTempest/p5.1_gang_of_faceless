@@ -611,7 +611,6 @@ GameObject:
   - component: {fileID: 5923756578725153549}
   - component: {fileID: 5923756578725153548}
   - component: {fileID: 5923756578725153551}
-  - component: {fileID: 5923756578725153547}
   - component: {fileID: 5923756578725153544}
   m_Layer: 5
   m_Name: End Unit Turn
@@ -736,19 +735,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _soundtrack: 26
---- !u!114 &5923756578725153547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5923756578725153537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 890700f38e079eb4aa261650c51781d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _nextUnitButton: {fileID: 5923756578725153548}
 --- !u!114 &5923756578725153544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2231,8 +2217,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unitSwitchButtons:
-  - {fileID: 5923756580041755357}
-  - {fileID: 5923756579531330762}
+  - {fileID: 5923756578725153548}
+  - {fileID: 6280292152512164369}
   _turnNumberText: {fileID: 5923756579798891523}
   _enemyTurnVisualGameObject: {fileID: 5923756579493025045}
   _unitActionSystemUI: {fileID: 5923756579734071126}
@@ -4879,12 +4865,12 @@ PrefabInstance:
     - target: {fileID: 1907076456270094080, guid: 02b7fc8896cac4c4692b4b7a0969a3fe,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 62
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1907076456270094080, guid: 02b7fc8896cac4c4692b4b7a0969a3fe,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1907076456270094080, guid: 02b7fc8896cac4c4692b4b7a0969a3fe,
         type: 3}
@@ -5043,12 +5029,12 @@ PrefabInstance:
     - target: {fileID: 1907076456270094080, guid: 02b7fc8896cac4c4692b4b7a0969a3fe,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 62
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1907076456270094080, guid: 02b7fc8896cac4c4692b4b7a0969a3fe,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1907076456270094080, guid: 02b7fc8896cac4c4692b4b7a0969a3fe,
         type: 3}
@@ -5207,12 +5193,12 @@ PrefabInstance:
     - target: {fileID: 1907076456270094080, guid: 02b7fc8896cac4c4692b4b7a0969a3fe,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 62
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1907076456270094080, guid: 02b7fc8896cac4c4692b4b7a0969a3fe,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1907076456270094080, guid: 02b7fc8896cac4c4692b4b7a0969a3fe,
         type: 3}
@@ -5650,12 +5636,12 @@ PrefabInstance:
     - target: {fileID: 1907076456270094080, guid: 02b7fc8896cac4c4692b4b7a0969a3fe,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 62
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1907076456270094080, guid: 02b7fc8896cac4c4692b4b7a0969a3fe,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1907076456270094080, guid: 02b7fc8896cac4c4692b4b7a0969a3fe,
         type: 3}
@@ -5814,12 +5800,12 @@ PrefabInstance:
     - target: {fileID: 1907076456270094080, guid: 02b7fc8896cac4c4692b4b7a0969a3fe,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 62
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1907076456270094080, guid: 02b7fc8896cac4c4692b4b7a0969a3fe,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1907076456270094080, guid: 02b7fc8896cac4c4692b4b7a0969a3fe,
         type: 3}
