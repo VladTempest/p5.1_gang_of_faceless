@@ -12,5 +12,6 @@ namespace Editor.Scripts.Utils
         public int MinRange;
         public int MaxRange;
         public string Description;
+        public bool IsTargeted;
     }
 }

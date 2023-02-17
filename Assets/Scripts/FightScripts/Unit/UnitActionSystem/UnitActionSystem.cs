@@ -75,6 +75,12 @@ public class UnitActionSystem : MonoBehaviour
     {
         return _selectedAction.IfGridPositionFromCachedList(gridPosition);
     }
+    
+    public bool IfSelectedActionTargeted()
+    {
+        return _selectedAction.IsTargeted;
+    }
+    
     private BaseAction GetMoveAction()
     {
         if (_selectedUnit != null && _selectedUnit.UnitMoveAction != null)
@@ -282,5 +288,40 @@ public class UnitActionSystem : MonoBehaviour
         if (_selectedAction == null) return;
         if (_selectedPosition == null) return;
         HandleSelectedAction();
+    }
+
+    public void ChooseGridAccordingly(Vector3 position)
+    {
+        if (!TurnSystem.Instance.IsPlayerTurn || IsBusy) return;
+        var positionOnGridLevel = new Vector3(position.x, 0, position.z);
+        var currentGridPosition = LevelGrid.Instance.GetGridPosition(positionOnGridLevel);
+        
+        if (GetSelectedPosition() == currentGridPosition) return;
+        if (IfCurrentGridPositionFromCachedValidPositions(currentGridPosition))
+        {
+            SetSelectedPosition(currentGridPosition);
+        }
+        else
+        {
+            ClearSelectedPosition();
+        }
+    }
+
+    public void SelectNextValidTarget()
+    {
+        if (!TurnSystem.Instance.IsPlayerTurn || IsBusy) return;
+        if (_selectedAction == null) return;
+        
+        var validGridPositions = _selectedAction.GetValidGridPositions();
+        if (validGridPositions.IsNullOrEmpty()) return;
+        var currentIndex = validGridPositions.IndexOf((GridPosition) _selectedPosition);
+        if (currentIndex == validGridPositions.Count - 1)
+        {
+            SetSelectedPosition(validGridPositions[0]);
+        }
+        else
+        {
+            SetSelectedPosition(validGridPositions[currentIndex + 1]);
+        }
     }
 }

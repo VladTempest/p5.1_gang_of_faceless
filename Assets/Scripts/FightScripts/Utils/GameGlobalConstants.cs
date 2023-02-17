@@ -11,5 +11,7 @@
         public const float DELAY_FOR_ACTIONS = 0.5f;
         
         public const int CHEEPEST_ACTION_COST = 2;
+        
+        public const float SWITCH_VALID_TARGET_TIME_DELAY = 0.25f;
     }
 }

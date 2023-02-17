@@ -92,6 +92,16 @@ public class InputManager : MonoBehaviour
            return inputMoveDir;
 #endif
        }
+       
+       public InputAction GetCameraMoveInputAction()
+       {
+#if USE_NEW_INPUT_SYSTEM
+           var inputAction = _playerInputActions.Player.CameraMovement;
+           return inputAction;
+#else
+           trow new NotImplementedException();
+#endif
+       }
    
        public float GetCameraRotateAmount()
        {

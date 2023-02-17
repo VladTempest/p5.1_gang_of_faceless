@@ -6,7 +6,8 @@ namespace Editor.Scripts.GlobalUtils
 	{
 		public const bool IsAllLogEnabled = true;
 		
-		public const bool IsPoolLogEnabled = true;
-		public const bool IsPathFindingLogEnabled = true;
+		public const bool IsPoolLogEnabled = false;
+		public const bool IsPathFindingLogEnabled = false;
+		public const bool IsAILogEnabled = false;
 	}
 }

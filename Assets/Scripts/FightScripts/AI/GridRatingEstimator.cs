@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Actions;
 using DefaultNamespace;
+using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.Utils;
 using GridSystems;
 using Scripts.Unit;
@@ -45,7 +46,7 @@ namespace Editor.Scripts.AI
                 return randomBestAction;
             }
             
-            Debug.LogWarning($"[Enemy AI] Resulting best action IS NULL for {_enemyUnit.name}");
+            ConvenientLogger.Log(nameof(EnemyAI), GlobalLogConstant.IsAILogEnabled, $" Resulting best action IS NULL for {_enemyUnit.name}");
             return null;
         }
 
@@ -55,7 +56,7 @@ namespace Editor.Scripts.AI
                 aiActionData.ActionRating);
             var bestActionAiData = orderedList.First();
             var randomBestAction = GetRandomBestAIActionFromList(orderedList, bestActionAiData);
-            Debug.LogWarning($"[Enemy AI] Resulting {randomBestAction} for {_enemyUnit.name}");
+            ConvenientLogger.Log(nameof(EnemyAI), GlobalLogConstant.IsAILogEnabled,$"Resulting {randomBestAction} for {_enemyUnit.name}");
             return randomBestAction;
         }
 
@@ -89,7 +90,7 @@ namespace Editor.Scripts.AI
                 var randomBestAction = GetBestAIAttackActionData(listOfAiActionDataForUnit);
                 return randomBestAction;
             }
-            Debug.LogWarning($"[Enemy AI] Rated action for friendly unit: {friendlyUnit.name} -IS NULL for {_enemyUnit.name}");
+            ConvenientLogger.Log(nameof(EnemyAI), GlobalLogConstant.IsAILogEnabled,$"Rated action for friendly unit: {friendlyUnit.name} -IS NULL for {_enemyUnit.name}");
             return null;
         }
 
@@ -98,8 +99,8 @@ namespace Editor.Scripts.AI
         {
             var bestActionsWithSameRating =
                 orderedList.Where(item => Math.Abs(item.ActionRating - bestActionAiData.ActionRating) < 0.01f);
-            Debug.LogWarning(
-                $"[Enemy AI] Rated action of {_enemyUnit.name} for friendly unit: {LevelGrid.Instance.GetUnitAtGridPosition(bestActionAiData.TargetPosition).name} - {bestActionAiData}");
+            ConvenientLogger.Log(nameof(EnemyAI), GlobalLogConstant.IsAILogEnabled,
+                $"Rated action of {_enemyUnit.name} for friendly unit: {LevelGrid.Instance.GetUnitAtGridPosition(bestActionAiData.TargetPosition).name} - {bestActionAiData}");
             IEnumerable<AIAttackActionData> actionsWithSameRating =
                 bestActionsWithSameRating as AIAttackActionData[] ?? bestActionsWithSameRating.ToArray();
             var randomIndex = Random.Range(0, actionsWithSameRating.Count());
@@ -128,7 +129,8 @@ namespace Editor.Scripts.AI
                 float playerCharacterStatusRating = GetPlayerCharacterStatusRating(friendlyUnit);
 
                 resultingRating = normalizedActionCostRating + normalizedDamageToHealthRating + playerUnitHealthLeftRating + normalizedCooldownRating + normalizedAdditionalEffectsRating + normalizedPathLengthRating + playerCharacterStatusRating;
-                Debug.LogWarning($"[Enemy AI] RATING {attackAction.GetActionName()} for {friendlyUnit}({friendlyUnit.GetGridPosition()}): resultingRating({resultingRating}) = normalizedActionCostRating({normalizedActionCostRating})+ normalizedDamageToHealthRating({normalizedDamageToHealthRating}) + playerUnitHealthLeftRating({playerUnitHealthLeftRating}) + normalizedCooldownRating({normalizedCooldownRating}) + normalizedAdditionalEffectsRating({normalizedAdditionalEffectsRating} + normalizedPathLengthRating({normalizedPathLengthRating} + playerCharacterStatusRating({playerCharacterStatusRating})));");
+                ConvenientLogger.Log(nameof(EnemyAI), GlobalLogConstant.IsAILogEnabled,
+                    $" RATING {attackAction.GetActionName()} for {friendlyUnit}({friendlyUnit.GetGridPosition()}): resultingRating({resultingRating}) = normalizedActionCostRating({normalizedActionCostRating})+ normalizedDamageToHealthRating({normalizedDamageToHealthRating}) + playerUnitHealthLeftRating({playerUnitHealthLeftRating}) + normalizedCooldownRating({normalizedCooldownRating}) + normalizedAdditionalEffectsRating({normalizedAdditionalEffectsRating} + normalizedPathLengthRating({normalizedPathLengthRating} + playerCharacterStatusRating({playerCharacterStatusRating})));");
                 return new AIAttackActionData(attackAction, friendlyUnit.GetGridPosition(), onActionComplete,
                     resultingRating);
             }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Editor.Scripts.AI;
+using Editor.Scripts.GlobalUtils;
 using GridSystems;
 using UnityEngine;
 
@@ -40,10 +41,10 @@ public class EnemyAI : MonoBehaviour
             var enemyAiUnit = _enemyUnitList[currentEnemyInAction].gameObject.GetComponent<EnemyAIUnit>();
             _currentEnemyInAction++;
             _cameraController.StartMovingToTargetUnit(enemyAiUnit.transform.position);
-            Debug.Log($"{Time.time} [ENEMY AI] Start make action for {_enemyUnitList[currentEnemyInAction]}({_enemyUnitList[currentEnemyInAction].GetGridPosition()}) enemy");
+            ConvenientLogger.LogError(nameof(EnemyAI), GlobalLogConstant.IsAILogEnabled, $"{Time.time} Start make action for {_enemyUnitList[currentEnemyInAction]}({_enemyUnitList[currentEnemyInAction].GetGridPosition()}) enemy");
             enemyAiUnit.MakeAIAction(() =>
             {
-                Debug.Log($"{Time.time} [ENEMY AI] action finished on" + enemyAiUnit.gameObject.name);
+                ConvenientLogger.LogError(nameof(EnemyAI), GlobalLogConstant.IsAILogEnabled, $"{Time.time} action finished on" + enemyAiUnit.gameObject.name);
                 MakeTurnOfEnemyWithIndex(_currentEnemyInAction);
                 
             });

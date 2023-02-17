@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
+using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.Utils;
 using FightScripts.GridSystem;
 using GridSystems;
@@ -172,7 +173,7 @@ namespace Editor.Scripts.AI
                 if (!GridPositionValidator.IsGridPositionReachable(testGridPosition, _unit.GetGridPosition(),
                         Mathf.FloorToInt(_unit.ActionPoints / 2)))
                 {
-                    Debug.LogWarning($"[Enemy AI] TOO FAR with AI Action Data for {_unit}: {testGridPosition}");
+                    ConvenientLogger.Log(nameof(EnemyAI), GlobalLogConstant.IsAILogEnabled, $"[Enemy AI] TOO FAR with AI Action Data for {_unit}: {testGridPosition}");
                     return false;
                 }
             }
@@ -180,7 +181,7 @@ namespace Editor.Scripts.AI
             aiBestActionData = UpdateBestActionData(aiBestActionData, testGridPosition);
             if (aiBestActionData.MovementRating >= enemyPresenceWeight)
             {
-                Debug.LogWarning($"[Enemy AI] BREAK with AI Action Data for {_unit}: {aiBestActionData}");
+                ConvenientLogger.Log(nameof(EnemyAI), GlobalLogConstant.IsAILogEnabled, $"[Enemy AI] BREAK with AI Action Data for {_unit}: {aiBestActionData}");
                 return true;
             }
 
@@ -196,7 +197,8 @@ namespace Editor.Scripts.AI
                 aiBestMovementActionData = currentAiData;
             }
 
-            Debug.LogWarning($"[Enemy AI] Best AI Action Data for {_unit}: {aiBestMovementActionData}");
+            ConvenientLogger.Log(nameof(EnemyAI), GlobalLogConstant.IsAILogEnabled,
+                $" Best AI Action Data for {_unit}: {aiBestMovementActionData}");
             return aiBestMovementActionData;
         }
         

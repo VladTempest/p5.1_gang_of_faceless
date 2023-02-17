@@ -62,6 +62,7 @@ public abstract class BaseAction : MonoBehaviour
 
 
     protected bool IsActive => _currentStatus == ActionStatus.InProgress;
+    public bool IsTargeted { get; private set; }
 
     private Action _onActionComplete;
     protected float _damage;
@@ -102,6 +103,7 @@ public abstract class BaseAction : MonoBehaviour
             _minActionRange = actionsParameters.MinRange;
             _actionPointCost = actionsParameters.ActionPoints;
             _description = actionsParameters.Description;
+            IsTargeted = actionsParameters.IsTargeted;
         }
         else
         {

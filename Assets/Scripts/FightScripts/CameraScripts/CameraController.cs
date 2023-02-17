@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using Editor.Scripts.Utils;
 using GridSystems;
 using UnityEngine;
 
@@ -9,13 +10,17 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera _cinemachineCamera;
     [SerializeField] private Collider _cameraBorders;
-    [SerializeField] private GameObject _cameraPointerVisuals;   
+    [SerializeField] private GameObject _cameraPointerVisuals;
+
+    private bool _useSwitchTargetDelayTimer = false;
+    
+    private float _timePassed = 0;
 
     private Coroutine _moveToSelectedUnitCoroutine;
 
     private const float MIN_FOLLOW_Y_OFFSET = 2f;
     private const float MAX_FOLLOW_Y_OFFSET = 20f;
-    
+
     private const float MOVE_SPEED = 9f;
 
     private Vector3 _targetFollowOffset;
@@ -64,6 +69,7 @@ public class CameraController : MonoBehaviour
     private void StopMovingToUnit()
     {
         if (_moveToSelectedUnitCoroutine != null) StopCoroutine(_moveToSelectedUnitCoroutine);
+        _moveToSelectedUnitCoroutine = null;
     }
 
     void Update()
@@ -91,29 +97,47 @@ public class CameraController : MonoBehaviour
     private void HandleTheMovement()
     {
         Vector2 inputMoveDir = InputManager.Instance.GetCameraMoveVector();
-        if (!inputMoveDir.Equals(Vector3.zero)) StopMovingToUnit(); 
-        if (inputMoveDir.Equals(Vector3.zero)) return; 
-        Vector3 moveVector = transform.forward * inputMoveDir.y + transform.right * inputMoveDir.x;
-        var newPosition = transform.position + moveVector * MOVE_SPEED * Time.deltaTime;
-        if (_cameraBorders.bounds.Contains(newPosition)) transform.position += moveVector * MOVE_SPEED * Time.deltaTime;
-
-        ChooseGridAccordingly();
-    }
-
-    private void ChooseGridAccordingly()
-    {
-        if (!TurnSystem.Instance.IsPlayerTurn || UnitActionSystem.Instance.IsBusy) return;
-        var positionOnGridLevel = new Vector3(transform.position.x, 0, transform.position.z);
-        var currentGridPosition = LevelGrid.Instance.GetGridPosition(positionOnGridLevel);
-        
-        if (UnitActionSystem.Instance.GetSelectedPosition() == currentGridPosition) return;
-        if (UnitActionSystem.Instance.IfCurrentGridPositionFromCachedValidPositions(currentGridPosition))
+        if (inputMoveDir.Equals(Vector3.zero))
         {
-            UnitActionSystem.Instance.SetSelectedPosition(currentGridPosition);
+            _timePassed = 0;
+            return;
+        }
+        
+        if (UnitActionSystem.Instance.IfSelectedActionTargeted())
+        {
+            HandleTargetedActionMovement();
         }
         else
         {
-            UnitActionSystem.Instance.ClearSelectedPosition();
+            HandleNonTargetedActionMovement(inputMoveDir);
+        }
+    }
+
+    private void HandleNonTargetedActionMovement(Vector2 inputMoveDir)
+    {
+        if (!inputMoveDir.Equals(Vector3.zero)) StopMovingToUnit();
+        Vector3 moveVector = transform.forward * inputMoveDir.y + transform.right * inputMoveDir.x;
+        var newPosition = transform.position + moveVector * MOVE_SPEED * Time.deltaTime;
+        if (_cameraBorders.bounds.Contains(newPosition))
+            transform.position += moveVector * MOVE_SPEED * Time.deltaTime;
+
+        UnitActionSystem.Instance.ChooseGridAccordingly(transform.position);
+    }
+
+    private void HandleTargetedActionMovement()
+    {
+        if (_moveToSelectedUnitCoroutine != null) return;
+        if (!_useSwitchTargetDelayTimer)
+        {
+            UnitActionSystem.Instance.SelectNextValidTarget();
+            return;
+        }
+        
+        _timePassed += Time.deltaTime;
+        if (_timePassed >= GameGlobalConstants.SWITCH_VALID_TARGET_TIME_DELAY)
+        {
+            UnitActionSystem.Instance.SelectNextValidTarget();
+            _timePassed = 0;
         }
     }
 
@@ -130,11 +154,12 @@ public class CameraController : MonoBehaviour
     {
         var positionAboveSelectedUnit =
             new Vector3(positionOfTargetUnit.x, transform.position.y, positionOfTargetUnit.z);
-        while (Vector3.Distance(transform.position, positionAboveSelectedUnit) > 0.1f)
+        while (Vector3.Distance(transform.position, positionAboveSelectedUnit) > 0.15f)
         {
-            transform.position = Vector3.Lerp(transform.position, positionAboveSelectedUnit, Time.deltaTime * MOVE_SPEED/7);
+            transform.position = Vector3.Lerp(transform.position, positionAboveSelectedUnit, Time.deltaTime * MOVE_SPEED/4);
             yield return null;
         }
+        StopMovingToUnit();
     }
 
     private void OnDestroy()
