@@ -49,6 +49,7 @@ MonoBehaviour:
   _lineRenderer: {fileID: 3614218032864769707}
   _heightOfLine: 0.1
   _segmentSize: 0.5
+  _pathType: 1
 --- !u!120 &3614218032864769707
 LineRenderer:
   serializedVersion: 2

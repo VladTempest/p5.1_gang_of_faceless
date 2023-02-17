@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Editor.Scripts.GlobalUtils;
+using Editor.Scripts.Utils.PoolScripts;
 using GridSystems;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Scripts.FightScripts.Pathfinding.PathVisualisation
 {
@@ -13,10 +14,13 @@ namespace Scripts.FightScripts.Pathfinding.PathVisualisation
 		
 		[SerializeField] private LineRenderer _lineRenderer;
 		[SerializeField] private float _heightOfLine;
-		[SerializeField] float _segmentSize = 0.2f;
-		
-		private LineSmoother _lineSmoother = new LineSmoother();
+		[SerializeField] private float _segmentSize = 0.2f;
+		[SerializeField] private PathVisualisationType _pathType = PathVisualisationType.Line;
 
+		private LineSmoother _lineSmoother = new LineSmoother();
+		private List<GameObject> _selectedGridVisuals = new List<GameObject>();
+
+		private PoolProvider _poolProvider;
 
 		public void ShowPath()
 		{
@@ -24,6 +28,22 @@ namespace Scripts.FightScripts.Pathfinding.PathVisualisation
 			GridPosition endGridPosition = (GridPosition) UnitActionSystem.Instance.GetSelectedPosition();
 			List<GridPosition> path = global::Pathfinding.Instance.FindPath(
 				UnitActionSystem.Instance.GetSelectedUnit().GetGridPosition(), endGridPosition, out var _);
+
+			switch (_pathType)
+			{
+				case PathVisualisationType.Line:
+					ShowLinePath(path);
+					break;
+				case PathVisualisationType.Grids:
+					ShowGridPath(path);
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+
+		private void ShowLinePath(List<GridPosition> path)
+		{
 			if (_lineRenderer != null)
 			{
 				_lineRenderer.gameObject.SetActive(true);
@@ -31,13 +51,69 @@ namespace Scripts.FightScripts.Pathfinding.PathVisualisation
 			}
 		}
 
+		private void ShowGridPath(List<GridPosition> path)
+		{
+			if (path.Count < 2)
+			{
+				ConvenientLogger.LogError(nameof(PathRenderer), GlobalLogConstant.IsPathFindingLogEnabled, "Path is too short");
+			}
+			path.RemoveAt(path.Count - 1);
+			
+			List<Vector3> worldPositionsFromPath = path.ConvertAll(position => LevelGrid.Instance.GetWorldPosition(position));
+			
+			//Despawn visuals not presented in worldPositionsFromPath
+			for (int i = _selectedGridVisuals.Count - 1; i >= 0; i--)
+			{
+				if (!worldPositionsFromPath.Contains(_selectedGridVisuals[i].transform.position))
+				{
+					_poolProvider.DespawnToPool(PoolsEnum.SelectedGridVisual, _selectedGridVisuals[i]);
+					_selectedGridVisuals.RemoveAt(i);
+				}
+			}
+			
+			//Spawn new visuals for worldPositionsFromPath
+			foreach (var worldPosition in worldPositionsFromPath)
+			{
+				if (!_selectedGridVisuals.Exists(visual => visual.transform.position == worldPosition))
+				{
+					_selectedGridVisuals.Add(_poolProvider.SpawnFromPool(PoolsEnum.SelectedGridVisual, worldPosition, Quaternion.identity));
+				}
+			}
+		}
+		
 		public void HidePath()
+		{
+			switch (_pathType)
+			{
+				case PathVisualisationType.Line:
+					HideLinePath();
+					break;
+				case PathVisualisationType.Grids:
+					HideGridPath();
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+
+		private void HideGridPath()
+		{
+			foreach (var selectedGridVisual in _selectedGridVisuals)
+			{
+				_poolProvider.DespawnToPool(PoolsEnum.SelectedGridVisual, selectedGridVisual);
+			}
+			_selectedGridVisuals.Clear();
+		}
+
+		private void HideLinePath()
 		{
 			if (_lineRenderer != null)
 			{
 				_lineRenderer.gameObject.SetActive(false);
 				_lineRenderer.positionCount = 0;
 			}
+
+			return;
 		}
 
 		private void Awake()
@@ -53,6 +129,25 @@ namespace Scripts.FightScripts.Pathfinding.PathVisualisation
 
 		private void Start()
 		{
+			SetUpPathRenderer();
+		}
+
+		private void SetUpPathRenderer()
+		{
+			_poolProvider = PoolProvider.Instance;
+
+			switch (_pathType)
+			{
+				case PathVisualisationType.Line:
+					_lineRenderer.enabled = true;
+					break;
+				case PathVisualisationType.Grids:
+					_lineRenderer.enabled = false;
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+			
 			UnitActionSystem.Instance.OnSelectedPositionChanged += OnSelectedPositionChanged;
 			UnitActionSystem.Instance.OnSelectedUnitChanged += OnSelectedUnitChanged;
 			UnitActionSystem.Instance.OnBusyChanged += OnBusyChanged;
@@ -75,14 +170,7 @@ namespace Scripts.FightScripts.Pathfinding.PathVisualisation
 				return;
 			}
 			
-			
 			ShowPath();
-			
-		}
-
-		private static bool CheckIfIncorrectTimeToShow()
-		{
-			return SelectedPositionIsNullOrEmpty() || UnitActionSystem.Instance.GetSelectedAction() is not MoveAction || UnitActionSystem.Instance.IsBusy || UnitActionSystem.Instance.GetSelectedUnit() == null || !TurnSystem.Instance.IsPlayerTurn;
 		}
 
 		private void OnTurnChanged(object sender, EventArgs e)
@@ -112,6 +200,11 @@ namespace Scripts.FightScripts.Pathfinding.PathVisualisation
 			ShowPath();
 		}
 
+		private static bool CheckIfIncorrectTimeToShow()
+		{
+			return SelectedPositionIsNullOrEmpty() || UnitActionSystem.Instance.GetSelectedAction() is not MoveAction || UnitActionSystem.Instance.IsBusy || UnitActionSystem.Instance.GetSelectedUnit() == null || !TurnSystem.Instance.IsPlayerTurn;
+		}
+
 		private static bool SelectedPositionIsNullOrEmpty()
 		{
 			return UnitActionSystem.Instance.GetSelectedPosition() == null || UnitActionSystem.Instance.GetSelectedPosition() == new GridPosition(0,0);
@@ -129,5 +222,11 @@ namespace Scripts.FightScripts.Pathfinding.PathVisualisation
 				_lineRenderer.SetPosition(i, lineNodeWorldPosition);
 			}
 		}
+	}
+
+	internal enum PathVisualisationType
+	{
+		Line,
+		Grids
 	}
 }
