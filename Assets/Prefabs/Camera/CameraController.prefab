@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &507684189332355316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 535189653667708479}
+  m_Layer: 0
+  m_Name: ControllerContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &535189653667708479
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507684189332355316}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.55, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4070397459330584363}
+  m_Father: {fileID: 4070397458305518861}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4070397458305518860
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,7 +62,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4070397459396792034}
-  - {fileID: 4070397459330584363}
+  - {fileID: 535189653667708479}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -205,12 +237,22 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 4070397458305518861}
+    m_TransformParent: {fileID: 535189653667708479}
     m_Modifications:
     - target: {fileID: 2295076307579274800, guid: af987540da34abf4fa82a02a6e4448e2,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 15
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856772352271449088, guid: af987540da34abf4fa82a02a6e4448e2,
+        type: 3}
+      propertyPath: outlineMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856772352271449088, guid: af987540da34abf4fa82a02a6e4448e2,
+        type: 3}
+      propertyPath: outlineWidth
+      value: 1.45
       objectReference: {fileID: 0}
     - target: {fileID: 2856772352271449090, guid: af987540da34abf4fa82a02a6e4448e2,
         type: 3}
@@ -245,17 +287,17 @@ PrefabInstance:
     - target: {fileID: 2856772352271449091, guid: af987540da34abf4fa82a02a6e4448e2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2856772352271449091, guid: af987540da34abf4fa82a02a6e4448e2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2856772352271449091, guid: af987540da34abf4fa82a02a6e4448e2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2856772352271449091, guid: af987540da34abf4fa82a02a6e4448e2,
         type: 3}
