@@ -5569,10 +5569,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: FloatingJoystick
       objectReference: {fileID: 0}
+    - target: {fileID: 7897636357838423305, guid: 1bfadd9bbb6372e4fbe37de5d57da0f0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4181742407212220503, guid: 1bfadd9bbb6372e4fbe37de5d57da0f0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 237644973}
   m_SourcePrefab: {fileID: 100100000, guid: 1bfadd9bbb6372e4fbe37de5d57da0f0, type: 3}
 --- !u!224 &4992983140291456154 stripped
 RectTransform:
@@ -5580,6 +5589,24 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 5617103597902646186}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8645641788580432893 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4181742407212220503, guid: 1bfadd9bbb6372e4fbe37de5d57da0f0,
+    type: 3}
+  m_PrefabInstance: {fileID: 5617103597902646186}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &237644973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8645641788580432893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f30597b233147d888072aef55ffcca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5923756578865815654
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -34,6 +34,8 @@ public class UnitActionSystem : MonoBehaviour
     private GridPosition? _selectedPosition;
 
     public bool IsBusy => _isBusy;
+    public bool IsSelectedActionHasOneValidTarget => _selectedAction.GetValidGridPositions().Count == 1;
+
     private bool _isBusy;
 
     public Unit GetSelectedUnit()
@@ -307,7 +309,7 @@ public class UnitActionSystem : MonoBehaviour
         }
     }
 
-    public void SelectNextValidTarget()
+    public void SelectNextValidTarget(Vector2 inputMoveDir)
     {
         if (!TurnSystem.Instance.IsPlayerTurn || IsBusy) return;
         if (_selectedAction == null) return;
@@ -315,6 +317,40 @@ public class UnitActionSystem : MonoBehaviour
         var validGridPositions = _selectedAction.GetValidGridPositions();
         if (validGridPositions.IsNullOrEmpty()) return;
         var currentIndex = validGridPositions.IndexOf((GridPosition) _selectedPosition);
+        
+        
+        if (inputMoveDir.x > 0)
+        {
+            SelectNextInList(currentIndex, validGridPositions);
+        }
+        else if (inputMoveDir.x < 0)
+        {
+            SelectPreviousInList(currentIndex, validGridPositions);
+        }
+        else if (inputMoveDir.y > 0)
+        {
+            SelectNextInList(currentIndex, validGridPositions);
+        }
+        else if (inputMoveDir.y < 0)
+        {
+            SelectPreviousInList(currentIndex, validGridPositions);
+        }
+    }
+
+    private void SelectPreviousInList(int currentIndex, List<GridPosition> validGridPositions)
+    {
+        if (currentIndex == 0)
+        {
+            SetSelectedPosition(validGridPositions[validGridPositions.Count - 1]);
+        }
+        else
+        {
+            SetSelectedPosition(validGridPositions[currentIndex - 1]);
+        }
+    }
+
+    private void SelectNextInList(int currentIndex, List<GridPosition> validGridPositions)
+    {
         if (currentIndex == validGridPositions.Count - 1)
         {
             SetSelectedPosition(validGridPositions[0]);

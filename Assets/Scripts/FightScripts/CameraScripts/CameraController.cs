@@ -105,7 +105,7 @@ public class CameraController : MonoBehaviour
         
         if (UnitActionSystem.Instance.IfSelectedActionTargeted())
         {
-            HandleTargetedActionMovement();
+            HandleTargetedActionMovement(inputMoveDir);
         }
         else
         {
@@ -124,19 +124,20 @@ public class CameraController : MonoBehaviour
         UnitActionSystem.Instance.ChooseGridAccordingly(transform.position);
     }
 
-    private void HandleTargetedActionMovement()
+    private void HandleTargetedActionMovement(Vector2 inputMoveDir)
     {
         if (_moveToSelectedUnitCoroutine != null) return;
+        if (UnitActionSystem.Instance.IsSelectedActionHasOneValidTarget) return;
         if (!_useSwitchTargetDelayTimer)
         {
-            UnitActionSystem.Instance.SelectNextValidTarget();
+            UnitActionSystem.Instance.SelectNextValidTarget(inputMoveDir);
             return;
         }
         
         _timePassed += Time.deltaTime;
         if (_timePassed >= GameGlobalConstants.SWITCH_VALID_TARGET_TIME_DELAY)
         {
-            UnitActionSystem.Instance.SelectNextValidTarget();
+            UnitActionSystem.Instance.SelectNextValidTarget(inputMoveDir);
             _timePassed = 0;
         }
     }
