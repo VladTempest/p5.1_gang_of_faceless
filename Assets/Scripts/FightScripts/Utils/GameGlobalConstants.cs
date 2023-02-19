@@ -2,6 +2,7 @@
 {
     public static class GameGlobalConstants
     {
+        public const float POINTER_DOWN_DURATION_TO_SHOW_ACTION_DESCRIPTION = 1f;
         public const float UNIT_SHOULDER_HEIGHT = 1.25f;
         public const float TURN_WEIGHT_VALUE = 0.5f;
         

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using GridSystems;
+using Editor.Scripts.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -19,6 +18,10 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] private GameObject _actionDescriptionUI;
 
     private BaseAction _baseAction;
+    
+    private float _pointerDownTime;
+    private Coroutine _pointerDownCoroutine;
+    private float _pointerDownDuration;
 
     private void Awake()
     {
@@ -142,24 +145,59 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (Application.platform == RuntimePlatform.Android) return;
-        ShowActionDescriptionUI();
+        HandleEventDurationWithCoroutine(ShowActionDescriptionUI);
+    }
+
+    private void HandleEventDurationWithCoroutine(Action actionToPerform)
+    {
+        if (_pointerDownCoroutine == null)
+        {
+            _pointerDownTime = Time.time;
+            _pointerDownCoroutine = StartCoroutine(GetPointerDownDuration(actionToPerform));
+        }
+    }
+
+    private void TryStopEventCoroutineAndResetTime()
+    {
+        if (_pointerDownCoroutine != null)
+        {
+            StopCoroutine(_pointerDownCoroutine);
+            _pointerDownCoroutine = null;
+            _pointerDownDuration = 0;
+            _pointerDownTime = 0;
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (Application.platform == RuntimePlatform.Android) return;
+        TryStopEventCoroutineAndResetTime();
         HideActionDescriptionUI();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         if (Application.platform != RuntimePlatform.Android) return;
-        ShowActionDescriptionUI();
+        HandleEventDurationWithCoroutine(ShowActionDescriptionUI);
+        
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         if (Application.platform != RuntimePlatform.Android) return;
+        TryStopEventCoroutineAndResetTime();
         HideActionDescriptionUI();
+    }
+    
+    IEnumerator GetPointerDownDuration(Action actionToPerform)
+    {
+        while (_pointerDownDuration < GameGlobalConstants.POINTER_DOWN_DURATION_TO_SHOW_ACTION_DESCRIPTION)
+        {
+            _pointerDownDuration = Time.time - _pointerDownTime;
+            yield return null;
+        }
+        
+        actionToPerform?.Invoke();
+        TryStopEventCoroutineAndResetTime();
     }
 }
