@@ -15,11 +15,6 @@ namespace Actions
             _archerAnimationEvents.LongShotCallback = () => TryToChangeState(State.Shooting);
         }
         
-        public override string GetActionName()
-        {
-            return "Long shot";
-        }
-
         public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
         {
             if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))

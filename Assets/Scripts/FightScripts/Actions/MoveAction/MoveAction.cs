@@ -126,12 +126,7 @@ public class MoveAction : BaseAction
 
         return true;
     }
-
-    public override string GetActionName()
-    {
-        return "Move";
-    }
-
+   
     protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         throw new NotImplementedException();

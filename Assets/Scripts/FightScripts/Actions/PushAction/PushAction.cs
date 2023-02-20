@@ -46,12 +46,7 @@ namespace Actions
         {
             TryToChangeState(PushActionState.Pushing);
         }
-
-        public override string GetActionName()
-        {
-            return "Push";
-        }
-
+        
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
             _currentState = PushActionState.Idle;

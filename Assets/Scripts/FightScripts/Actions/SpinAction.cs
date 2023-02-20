@@ -43,12 +43,7 @@ public class SpinAction : BaseAction
 
         return false;
     }
-
-    public override string GetActionName()
-    {
-        return "Spin";
-    }
-
+    
     public override int GetActionPointCost()
     {
         return 1;

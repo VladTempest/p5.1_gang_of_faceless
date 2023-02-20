@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: ActionUI Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: ActionUI
+  m_TableCollectionNameGuidString: b5b9969e350566049a4078e25adb89ff
+  m_Entries:
+  - m_Id: 7073954193408
+    m_Key: use_action
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8437887328256
+    m_Key: charges_string
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41122630393856
+    m_Key: action_straight_shot_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41172815241216
+    m_Key: action_long_shot_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41197448388608
+    m_Key: action_parallyze_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41269443616768
+    m_Key: action_sword_attack_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41324548382720
+    m_Key: action_push_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41373370081280
+    m_Key: action_knockdown_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41445168177152
+    m_Key: action_dual_sword_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41551552503808
+    m_Key: action_bomb_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41580870688768
+    m_Key: action_move_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41618862694400
+    m_Key: action_interact_name
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 6468072234853597228
+  references:
+    version: 2
+    RefIds:
+    - rid: 6468072234853597228
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1676924941744

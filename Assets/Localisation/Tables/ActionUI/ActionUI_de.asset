@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: ActionUI_de
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: de
+  m_SharedData: {fileID: 11400000, guid: b5b9969e350566049a4078e25adb89ff, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 6468072234853597240
+  m_TableData:
+  - m_Id: 7073954193408
+    m_Localized: 'AKTION
+
+      VERWENDEN'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8437887328256
+    m_Localized: "{0} Ladungen \xFCbrig"
+    m_Metadata:
+      m_Items:
+      - rid: 6468072234853597240
+  - m_Id: 41618862694400
+    m_Localized: Verschieben
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41580870688768
+    m_Localized: Explosionstrank
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41551552503808
+    m_Localized: "R\xFCckenstechen"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41445168177152
+    m_Localized: Angriff mit zwei Schwertern
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41373370081280
+    m_Localized: Niederschlagen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41324548382720
+    m_Localized: Schieben Sie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41269443616768
+    m_Localized: Angriff mit dem Schwert
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41197448388608
+    m_Localized: "L\xE4hmungsschuss"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41172815241216
+    m_Localized: Weitblick
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41122630393856
+    m_Localized: Gerader Schuss
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 6468072234853597240
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 00e04699ac070000

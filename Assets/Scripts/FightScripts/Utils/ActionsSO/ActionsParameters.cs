@@ -5,6 +5,7 @@ namespace Editor.Scripts.Utils
     [Serializable]
     public struct ActionsParameters
     {
+        public string Name;
         public float Damage;
         public int ActionPoints;
         public float CoolDown;

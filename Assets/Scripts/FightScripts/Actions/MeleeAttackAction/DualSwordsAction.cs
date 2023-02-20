@@ -5,11 +5,6 @@ namespace Editor.Scripts.Actions
 {
     public class DualSwordsAction : MeleeAttackAction
     {
-        public override string GetActionName()
-        {
-            return "Dual swords attack";
-        }
-
         public override bool IsGridPositionValid(GridPosition testGridPosition, GridPosition unitGridPosition)
         {
             if (!base.IsGridPositionValid(testGridPosition, unitGridPosition))

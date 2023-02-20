@@ -68,12 +68,7 @@ public class MeleeAttackAction : BaseAction
                 break;
         }
     }
-
-    public override string GetActionName()
-    {
-        return "Sword";
-    }
-
+    
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         _targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);

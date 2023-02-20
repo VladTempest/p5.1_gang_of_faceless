@@ -7,12 +7,7 @@ namespace Actions
     public class ParalyzeShotAction : BaseShootAction
     {
         public event EventHandler<OnShootEventArgs> OnParalyzeShot;
-
-        public override string GetActionName()
-        {
-            return "Paralyze shot";
-        }
-
+        
         private new void Start()
         {
             base.Start();

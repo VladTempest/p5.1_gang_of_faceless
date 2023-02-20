@@ -15,7 +15,8 @@ MonoBehaviour:
   ActionsParametersDictionary:
     keyData: 0a0000000100000002000000030000000400000005000000060000000700000008000000090000000b000000
     valueData:
-    - Damage: 0
+    - Name: Move
+      Damage: 0
       ActionPoints: 0
       CoolDown: 0
       Charges: 0
@@ -24,7 +25,8 @@ MonoBehaviour:
       Description: Unit run to target cell. Moving to neighbour cell cost <b><i>2</b></i>
         points.
       IsTargeted: 0
-    - Damage: 3
+    - Name: Straight shot
+      Damage: 3
       ActionPoints: 4
       CoolDown: 0
       Charges: 0
@@ -33,7 +35,8 @@ MonoBehaviour:
       Description: Unit launches arrow into enemy on straight line if there are no
         any obsacles.
       IsTargeted: 1
-    - Damage: 2
+    - Name: Long shot
+      Damage: 2
       ActionPoints: 6
       CoolDown: 2
       Charges: 0
@@ -41,7 +44,8 @@ MonoBehaviour:
       MaxRange: 6
       Description: Unit launches up arrow into enemy.
       IsTargeted: 1
-    - Damage: 0
+    - Name: Paralyze shot
+      Damage: 0
       ActionPoints: 6
       CoolDown: 2
       Charges: 0
@@ -50,7 +54,8 @@ MonoBehaviour:
       Description: Unit parallyzes enemy for <b><i>2</b></i> turns from afar. Enemy
         can't move or make attacks with changing location.
       IsTargeted: 1
-    - Damage: 6
+    - Name: Sword attack
+      Damage: 6
       ActionPoints: 3
       CoolDown: 0
       Charges: 0
@@ -58,7 +63,8 @@ MonoBehaviour:
       MaxRange: 1
       Description: Unit makes massive sword swing and damages enemy nearby.
       IsTargeted: 1
-    - Damage: 0
+    - Name: Push
+      Damage: 0
       ActionPoints: 3
       CoolDown: 2
       Charges: 0
@@ -66,7 +72,8 @@ MonoBehaviour:
       MaxRange: 1
       Description: Unit pushes enemy in straigh line to the near cell.
       IsTargeted: 1
-    - Damage: 0
+    - Name: Knock down
+      Damage: 0
       ActionPoints: 6
       CoolDown: 3
       Charges: 0
@@ -74,7 +81,8 @@ MonoBehaviour:
       MaxRange: 1
       Description: Unit knocks down enemy. Enemy skips own next turn.
       IsTargeted: 1
-    - Damage: 3
+    - Name: Dual swords attack
+      Damage: 3
       ActionPoints: 3
       CoolDown: 0
       Charges: 0
@@ -82,7 +90,8 @@ MonoBehaviour:
       MaxRange: 1
       Description: Unit quickly attacks enemy.
       IsTargeted: 1
-    - Damage: 3
+    - Name: Back stab
+      Damage: 3
       ActionPoints: 6
       CoolDown: 2
       Charges: 0
@@ -90,7 +99,8 @@ MonoBehaviour:
       MaxRange: 4
       Description: Unit teleports to cell behind targeted enemy and make quick attack.
       IsTargeted: 1
-    - Damage: 6
+    - Name: Explosion potion
+      Damage: 6
       ActionPoints: 10
       CoolDown: 0
       Charges: 2
@@ -99,7 +109,8 @@ MonoBehaviour:
       Description: Unit trows a explosion posion into the enemies in range of <b><i>2</b></i>
         cell from target cell.
       IsTargeted: 0
-    - Damage: 0
+    - Name: Interact
+      Damage: 0
       ActionPoints: 2
       CoolDown: 0
       Charges: 0

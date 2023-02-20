@@ -9,11 +9,6 @@ public class InteractAction : BaseAction
 {
     private int _maxInteractDistance;
     
-    public override string GetActionName()
-    {
-        return "Interact";
-    }
-
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         IInteractable interactableObject = LevelGrid.Instance.GetInteractableAtGridPosition(gridPosition);

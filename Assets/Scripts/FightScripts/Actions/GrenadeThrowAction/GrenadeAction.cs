@@ -35,12 +35,7 @@ public class GrenadeAction : BaseAction
     {
         TryToChangeState(GrenadeThrowState.Attacking);
     }
-
-    public override string GetActionName()
-    {
-        return "Explosion potion";
-    }
-
+    
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         _targetPosition = gridPosition;

@@ -60,12 +60,7 @@ namespace Actions
         {
             TryToChangeState(BackStabActionState.Teleporting);
         }
-
-        public override string GetActionName()
-        {
-            return "Back stab";
-        }
-
+        
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
             _taragetPosition = gridPosition;

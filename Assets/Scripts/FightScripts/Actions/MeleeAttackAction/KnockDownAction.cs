@@ -13,11 +13,6 @@ public class KnockDownAction : MeleeAttackAction
 {
     public static event EventHandler OnAnyKnockDownHappened;
     
-    
-    public override string GetActionName()
-    {
-        return "Knock down";
-    }
     protected override void TryToChangeState(MeleeAttackState state)
     {
         switch (state)

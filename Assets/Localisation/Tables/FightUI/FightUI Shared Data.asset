@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: FightUI Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: FightUI
+  m_TableCollectionNameGuidString: 87f43aed9dda2354b88c8d92c1f3cd28
+  m_Entries:
+  - m_Id: 150102007808
+    m_Key: busy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 174575771648
+    m_Key: end_unit_turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 424107499520
+    m_Key: pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 480873209856
+    m_Key: return
+    m_Metadata:
+      m_Items: []
+  - m_Id: 585839861760
+    m_Key: reload_level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 625136295936
+    m_Key: main_menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 657847672832
+    m_Key: exit_game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2134456590336
+    m_Key: enemy_turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3172400029696
+    m_Key: pause_menu
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 6468072234853597233
+  references:
+    version: 2
+    RefIds:
+    - rid: 6468072234853597233
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1676925045396

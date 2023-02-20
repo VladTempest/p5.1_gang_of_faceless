@@ -65,6 +65,7 @@ public abstract class BaseAction : MonoBehaviour
     public bool IsTargeted { get; private set; }
 
     private Action _onActionComplete;
+    protected string _actionName;
     protected float _damage;
     protected int _minActionRange;
     protected int _actionPointCost;
@@ -96,6 +97,7 @@ public abstract class BaseAction : MonoBehaviour
         if (ConstantsProvider.Instance.actionsParametersSO.ActionsParametersDictionary.TryGetValue(_actionType,
                 out var actionsParameters))
         {
+            _actionName = actionsParameters.Name;
             MaxActionRange = actionsParameters.MaxRange;
             _maxCharges = actionsParameters.Charges;
             _cooldownValue = actionsParameters.CoolDown;
@@ -161,7 +163,7 @@ public abstract class BaseAction : MonoBehaviour
         TryChangeStatusAfterCoolDown();
     }
 
-    public abstract string GetActionName();
+    public string GetActionName() => _actionName;
 
     public abstract void TakeAction(GridPosition gridPosition, Action onActionComplete);
     

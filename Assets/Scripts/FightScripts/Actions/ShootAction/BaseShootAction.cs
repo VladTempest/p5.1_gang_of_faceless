@@ -75,12 +75,6 @@ public class BaseShootAction : BaseAction
         }
     }
     
-    
-    public override string GetActionName()
-    {
-        return "Base Shoot";
-    }
-
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         _targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);

@@ -1,9 +1,15 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -12,7 +18,11 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] private TextMeshProUGUI _textMeshPro;
     [SerializeField] private Button _button;
     [SerializeField] private GameObject _selectedVisual;
-    [SerializeField] private TextMeshProUGUI _chargesLeft;
+    
+    [SerializeField] private LocalizeStringEvent _chargesLeft;
+    private LocalizedString _chargesLeftStringrReference;
+    private TextMeshProUGUI _chargesLeftText;
+    
     [FormerlySerializedAs("_apActionDescription")] [FormerlySerializedAs("_apDamageRange")] [SerializeField] private TextMeshProUGUI _actionDescription;
     [SerializeField] private Image _coolDownMask;
     [SerializeField] private GameObject _actionDescriptionUI;
@@ -30,8 +40,8 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void BaseAction_OnActionStatusUpdate(object sender, EventArgs e)
     {
-        UpdateChargesVisuals();
-        UpdateCoolDownVisuals();
+        if (_baseAction.IsChargeable) UpdateChargesVisuals();
+        if (_baseAction.HasCoolDown) UpdateCoolDownVisuals();
         UpdateButtonInteractivity();
     }
 
@@ -92,6 +102,7 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (_baseAction.IsChargeable)
         {
             _chargesLeft.gameObject.SetActive(true);
+            InitialSetUpChargesString();
             UpdateChargesVisuals();
         }
 
@@ -121,7 +132,32 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void UpdateChargesVisuals()
     {
-        _chargesLeft.text = $"<b><i>{_baseAction.ChargesLeft}</b></i> charges left";
+        _chargesLeftStringrReference.Arguments[0] = _baseAction.ChargesLeft;
+        ConvenientLogger.Log(nameof(ActionButtonUI), GlobalLogConstant.IsActionLogEnabled, "Charges left: " + _chargesLeftStringrReference.Arguments[0].ToString());
+        _chargesLeftStringrReference.RefreshString();
+    }
+
+    private bool InitialSetUpChargesString()
+    {
+        _chargesLeftStringrReference = _chargesLeft.StringReference;
+        _chargesLeftText = _chargesLeft.GetComponent<TextMeshProUGUI>();
+
+
+        if (_chargesLeftText == null) return true;
+        _chargesLeftText.text = _baseAction.ChargesLeft.ToString();
+
+        if (_chargesLeftStringrReference.Arguments == null)
+        {
+            _chargesLeftStringrReference.Arguments = new object[] {_baseAction.ChargesLeft};
+            _chargesLeftStringrReference.StringChanged += OnChargesLeftStringrReferenceOnStringChanged;
+        }
+
+        return false;
+    }
+
+    private void OnChargesLeftStringrReferenceOnStringChanged(string value)
+    {
+        _chargesLeftText.text = value;
     }
 
     private void OnDestroy()
@@ -130,6 +166,7 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         UnitActionSystem.Instance.OnSelectedActionChanged -= BaseAction_OnActionStarted;
         UnitActionSystem.Instance.OnSelectedUnitChanged -= BaseAction_OnActionStarted;
         TurnSystem.Instance.OnTurnChanged -= BaseAction_OnActionStarted;
+        if (_chargesLeftStringrReference != null) _chargesLeftStringrReference.StringChanged -= OnChargesLeftStringrReferenceOnStringChanged;
     }
 
     private void ShowActionDescriptionUI()

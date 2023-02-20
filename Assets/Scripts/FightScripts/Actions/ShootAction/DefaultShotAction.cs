@@ -8,12 +8,7 @@ namespace Actions
     public class DefaultShotAction : BaseShootAction
     {
         public event EventHandler<OnShootEventArgs> OnDefaultShot;
-
-        public override string GetActionName()
-        {
-            return "Straight shot";
-        }
-
+        
         private new void Start()
         {
             base.Start();
