@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.Utils;
 using TMPro;
@@ -9,16 +7,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
-using UnityEngine.Localization.SmartFormat.PersistentVariables;
+using UnityEngine.Localization.Settings;
+using UnityEngine.Localization.Tables;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
-    [SerializeField] private TextMeshProUGUI _textMeshPro;
+    [FormerlySerializedAs("_textMeshPro")] [SerializeField] private TextMeshProUGUI _actionButtonText;
+    [SerializeField] private LocalizeStringEvent _actionNameStringEvent;
     [SerializeField] private Button _button;
     [SerializeField] private GameObject _selectedVisual;
-    
     [SerializeField] private LocalizeStringEvent _chargesLeft;
     private LocalizedString _chargesLeftStringrReference;
     private TextMeshProUGUI _chargesLeftText;
@@ -47,7 +46,8 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void SetBaseAction(BaseAction baseAction)
     {
-        _textMeshPro.text = baseAction.GetActionName().ToUpper();
+        SetUpLocalizesStringAccordinglyToType(baseAction);
+
         _baseAction = baseAction;
         if (!(_baseAction is MoveAction))
         {
@@ -78,7 +78,14 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     }
 
-    
+    private void SetUpLocalizesStringAccordinglyToType(BaseAction baseAction)
+    {
+        var stringRef = _actionNameStringEvent.StringReference;
+        stringRef.TableReference = "ActionUI";
+        stringRef.TableEntryReference = baseAction.GetActionName();
+        stringRef.GetLocalizedString();
+    }
+
 
     private void BaseAction_OnActionStarted(object sender, EventArgs e)
     {

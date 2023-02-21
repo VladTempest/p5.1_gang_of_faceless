@@ -52,14 +52,18 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 41551552503808
-    m_Key: action_bomb_name
+    m_Key: action_backstab_name
     m_Metadata:
       m_Items: []
   - m_Id: 41580870688768
-    m_Key: action_move_name
+    m_Key: action_explosion_potion_name
     m_Metadata:
       m_Items: []
   - m_Id: 41618862694400
+    m_Key: action_move_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45967970066432
     m_Key: action_interact_name
     m_Metadata:
       m_Items: []
