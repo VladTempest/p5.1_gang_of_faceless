@@ -223,6 +223,7 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void UpdateChargesVisuals()
     {
+        if (_chargesLeftStringrReference == null) return;
         _chargesLeftStringrReference.Arguments[0] = _baseAction.ChargesLeft;
         ConvenientLogger.Log(nameof(ActionButtonUI), GlobalLogConstant.IsActionLogEnabled, "Charges left: " + _chargesLeftStringrReference.Arguments[0].ToString());
         _chargesLeftStringrReference.RefreshString();
@@ -230,6 +231,7 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void InitialSetUpLocalizedString(LocalizeStringEvent stringEvent, LocalizedString.ChangeHandler stringChangedCallback, params object[] dynamicStringArguments)
     {
+        if (_localizeStringEventsDictionary == null) return;
         if (_localizeStringEventsDictionary[stringEvent].Item2 == null) return;
         
         InitialSetUpLocalizedString(stringEvent, dynamicStringArguments);
@@ -239,6 +241,7 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     
     private void InitialSetUpLocalizedString(LocalizeStringEvent stringEvent, params object[] dynamicStringArguments)
     {
+        if (_localizeStringEventsDictionary == null) return;
         if (_localizeStringEventsDictionary[stringEvent].Item1.Arguments == null)
         {
             _localizeStringEventsDictionary[stringEvent].Item1.Arguments =  dynamicStringArguments;
