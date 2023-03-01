@@ -67,6 +67,70 @@ MonoBehaviour:
     m_Key: action_interact_name
     m_Metadata:
       m_Items: []
+  - m_Id: 3250420000940032
+    m_Key: action_default_shot_desc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250765456400384
+    m_Key: action_long_shot_desc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250847316631552
+    m_Key: action_parallyze_desc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250890689929216
+    m_Key: action_sword_attack_desc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250934482657280
+    m_Key: action_push_desc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251006398193664
+    m_Key: action_knockdown_desc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251082310901760
+    m_Key: action_dual_sword_desc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251125285740544
+    m_Key: action_backstab_desc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251175290232832
+    m_Key: action_explosion_potion_desc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251222316769280
+    m_Key: action_move_desc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251316462116864
+    m_Key: action_interact_desc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253082415095808
+    m_Key: damage_string
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253175079854080
+    m_Key: action_cost_string
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253252712226816
+    m_Key: range_string
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253302859325440
+    m_Key: cooldown_string
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253368038809600
+    m_Key: charges_strin
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

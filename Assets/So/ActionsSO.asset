@@ -22,8 +22,7 @@ MonoBehaviour:
       Charges: 0
       MinRange: 0
       MaxRange: 7
-      Description: Unit run to target cell. Moving to neighbour cell cost <b><i>2</b></i>
-        points.
+      Description: action_move_desc
       IsTargeted: 0
     - Name: action_straight_shot_name
       Damage: 3
@@ -32,8 +31,7 @@ MonoBehaviour:
       Charges: 0
       MinRange: 2
       MaxRange: 5
-      Description: Unit launches arrow into enemy on straight line if there are no
-        any obsacles.
+      Description: action_default_shot_desc
       IsTargeted: 1
     - Name: action_long_shot_name
       Damage: 2
@@ -42,7 +40,7 @@ MonoBehaviour:
       Charges: 0
       MinRange: 3
       MaxRange: 6
-      Description: Unit launches up arrow into enemy.
+      Description: action_long_shot_desc
       IsTargeted: 1
     - Name: action_parallyze_name
       Damage: 0
@@ -51,8 +49,7 @@ MonoBehaviour:
       Charges: 0
       MinRange: 2
       MaxRange: 6
-      Description: Unit parallyzes enemy for <b><i>2</b></i> turns from afar. Enemy
-        can't move or make attacks with changing location.
+      Description: action_parallyze_desc
       IsTargeted: 1
     - Name: action_sword_attack_name
       Damage: 6
@@ -61,7 +58,7 @@ MonoBehaviour:
       Charges: 0
       MinRange: 0
       MaxRange: 1
-      Description: Unit makes massive sword swing and damages enemy nearby.
+      Description: action_sword_attack_desc
       IsTargeted: 1
     - Name: action_push_name
       Damage: 0
@@ -70,7 +67,7 @@ MonoBehaviour:
       Charges: 0
       MinRange: 0
       MaxRange: 1
-      Description: Unit pushes enemy in straigh line to the near cell.
+      Description: action_push_desc
       IsTargeted: 1
     - Name: action_knockdown_name
       Damage: 0
@@ -79,7 +76,7 @@ MonoBehaviour:
       Charges: 0
       MinRange: 0
       MaxRange: 1
-      Description: Unit knocks down enemy. Enemy skips own next turn.
+      Description: action_knockdown_desc
       IsTargeted: 1
     - Name: action_dual_sword_name
       Damage: 3
@@ -88,7 +85,7 @@ MonoBehaviour:
       Charges: 0
       MinRange: 0
       MaxRange: 1
-      Description: Unit quickly attacks enemy.
+      Description: action_dual_sword_desc
       IsTargeted: 1
     - Name: action_backstab_name
       Damage: 3
@@ -97,7 +94,7 @@ MonoBehaviour:
       Charges: 0
       MinRange: 0
       MaxRange: 4
-      Description: Unit teleports to cell behind targeted enemy and make quick attack.
+      Description: action_backstab_desc
       IsTargeted: 1
     - Name: action_explosion_potion_name
       Damage: 6
@@ -106,8 +103,7 @@ MonoBehaviour:
       Charges: 2
       MinRange: 0
       MaxRange: 6
-      Description: Unit trows a explosion posion into the enemies in range of <b><i>2</b></i>
-        cell from target cell.
+      Description: action_explosion_potion_desc
       IsTargeted: 0
     - Name: action_interact_name
       Damage: 0
@@ -116,5 +112,5 @@ MonoBehaviour:
       Charges: 0
       MinRange: 0
       MaxRange: 1
-      Description: Unit interacts with the object.
+      Description: action_interact_desc
       IsTargeted: 1

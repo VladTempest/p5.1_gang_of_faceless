@@ -74,10 +74,81 @@ MonoBehaviour:
     m_Localized: Zusammenwirken
     m_Metadata:
       m_Items: []
+  - m_Id: 3251222316769280
+    m_Localized: "Einheit l\xE4uft zur Zielzelle. Die Bewegung zur Nachbarzelle kostet
+      2 Punkte"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250420000940032
+    m_Localized: "Die Einheit schie\xDFt einen Pfeil auf einer geraden Linie in den
+      Feind, wenn es keine Hindernisse gibt."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250765456400384
+    m_Localized: "Einheit schie\xDFt Pfeil nach oben auf den Gegner."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250847316631552
+    m_Localized: Unit parallyzes enemy for <b><i>2</b></i> turns from afar. Enemy
+      can't move or make attacks with changing location.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250890689929216
+    m_Localized: "Die Einheit macht einen gewaltigen Schwertschwung und f\xFCgt dem
+      Gegner in der N\xE4he Schaden zu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250934482657280
+    m_Localized: "Die Einheit dr\xE4ngt den Feind in gerader Linie in die nahe Zelle."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251006398193664
+    m_Localized: "Die Einheit schl\xE4gt den Gegner nieder. Der Feind \xFCberspringt
+      seinen n\xE4chsten Zug."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251082310901760
+    m_Localized: Die Einheit greift den Feind schnell an.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251125285740544
+    m_Localized: "Die Einheit teleportiert sich in eine Zelle hinter dem anvisierten
+      Feind und f\xFChrt einen Schnellangriff aus."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251175290232832
+    m_Localized: Unit trows a explosion posion into the enemies in range of <b><i>2</b></i>
+      cell from target cell.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251316462116864
+    m_Localized: Einheit interagiert mit dem Objekt.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253082415095808
+    m_Localized: Sie verursacht {0} Schaden
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253175079854080
+    m_Localized: Aktion kostet {0} Punkte
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253252712226816
+    m_Localized: Er hat einen Bereich von {0} bis {1} Zellen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253302859325440
+    m_Localized: "Die Zeit zum Nachladen betr\xE4gt {0} Runden."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253368038809600
+    m_Localized: Aktion hat {0} Ladungen
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
     - rid: 6468072234853597240
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 00e04699ac070000
+        m_Entries: 00e04699ac07000000e0c68e9c8f0b00

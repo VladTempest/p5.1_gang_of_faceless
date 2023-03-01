@@ -74,10 +74,81 @@ MonoBehaviour:
     m_Localized: Interagir
     m_Metadata:
       m_Items: []
+  - m_Id: 3251222316769280
+    m_Localized: "L'unit\xE9 se d\xE9place vers la cellule cible. Le d\xE9placement
+      vers la cellule voisine co\xFBte 2 points"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250420000940032
+    m_Localized: "L'unit\xE9 lance une fl\xE8che sur l'ennemi en ligne droite s'il
+      n'y a pas d'obstruction."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250765456400384
+    m_Localized: "L'unit\xE9 lance une fl\xE8che vers le haut sur l'ennemi."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250847316631552
+    m_Localized: Unit parallyzes enemy for <b><i>2</b></i> turns from afar. Enemy
+      can't move or make attacks with changing location.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250890689929216
+    m_Localized: "L'unit\xE9 fait un \xE9norme coup d'\xE9p\xE9e et endommage les
+      ennemis proches."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250934482657280
+    m_Localized: "L'unit\xE9 pousse l'ennemi en ligne droite vers la cellule proche."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251006398193664
+    m_Localized: "L'unit\xE9 renverse l'ennemi. L'ennemi ne passe pas son prochain
+      tour."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251082310901760
+    m_Localized: "L'unit\xE9 attaque rapidement l'ennemi."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251125285740544
+    m_Localized: "L'unit\xE9 se t\xE9l\xE9porte dans une cellule derri\xE8re l'ennemi
+      cibl\xE9 et effectue une attaque rapide."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251175290232832
+    m_Localized: "L'unit\xE9 lance une posion d'explosion sur les ennemis \xE0 une
+      distance de  <b><i>2</b></i> cellule de la cellule cible."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251316462116864
+    m_Localized: "L'unit\xE9 interagit avec l'objet."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253082415095808
+    m_Localized: Il inflige {0} dommages
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253175079854080
+    m_Localized: "L'action co\xFBte {0} points"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253252712226816
+    m_Localized: Il est compris entre {0} et {1} cellules
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253302859325440
+    m_Localized: Le temps de rechargement est de {0} tours.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253368038809600
+    m_Localized: L'action a {0} charges
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
     - rid: 6468072234853597239
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 00e04699ac070000
+        m_Entries: 00e04699ac07000000e0c68e9c8f0b00

@@ -74,10 +74,81 @@ MonoBehaviour:
     m_Localized: Interact
     m_Metadata:
       m_Items: []
+  - m_Id: 3250420000940032
+    m_Localized: Unit launches arrow into enemy on straight line if there are no
+      any obsacles.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250765456400384
+    m_Localized: Unit launches up arrow into enemy.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251222316769280
+    m_Localized: Unit run to target cell. Moving to neighbour cell cost <b><i>2</b></i>
+      points.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250847316631552
+    m_Localized: Unit parallyzes enemy for <b><i>2</b></i> turns from afar. Enemy
+      can't move or make attacks with changing location.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250890689929216
+    m_Localized: Unit makes massive sword swing and damages enemy nearby.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3250934482657280
+    m_Localized: Unit pushes enemy in straigh line to the near cell.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251006398193664
+    m_Localized: Unit knocks down enemy. Enemy skips own next turn.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251082310901760
+    m_Localized: Unit quickly attacks enemy.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251125285740544
+    m_Localized: Unit teleports to cell behind targeted enemy and make quick attack.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251175290232832
+    m_Localized: Unit trows a explosion posion into the enemies in range of <b><i>2</b></i>
+      cell from target cell.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3251316462116864
+    m_Localized: Unit interacts with the object.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253082415095808
+    m_Localized: It deals  {0} damage
+    m_Metadata:
+      m_Items:
+      - rid: 6468072234853597238
+  - m_Id: 3253175079854080
+    m_Localized: Action costs  {0} points
+    m_Metadata:
+      m_Items:
+      - rid: 6468072234853597238
+  - m_Id: 3253252712226816
+    m_Localized: It has range from {0} to {1} cells
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3253302859325440
+    m_Localized: Time to reload is {0} turns.
+    m_Metadata:
+      m_Items:
+      - rid: 6468072234853597238
+  - m_Id: 3253368038809600
+    m_Localized: Action has  {0} charges
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:
     - rid: 6468072234853597238
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 00e04699ac070000
+        m_Entries: 00e04699ac07000000e0c645a98e0b0000e006d9be8e0b0000e04699dc8e0b0000e0c68e9c8f0b00
