@@ -74,6 +74,10 @@ MonoBehaviour:
     m_Localized: '"PONT"'
     m_Metadata:
       m_Items: []
+  - m_Id: 4003853054173184
+    m_Localized: "Fran\xE7ais"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

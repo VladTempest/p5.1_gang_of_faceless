@@ -1,6 +1,7 @@
 ﻿using System;
 using Editor.Scripts.SceneLoopScripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -19,6 +20,11 @@ namespace Editor.Scripts.MainMenuScripts.UI
 
         private void LoadScene()
         {
+            if (_sceneToLoad == ScenesEnum.ThisScene)
+            {
+                ScenesController.Instance.LoadScene(SceneManager.GetActiveScene().name);
+                return;
+            }
             ScenesController.Instance.LoadScene(_sceneToLoad);
         }
 

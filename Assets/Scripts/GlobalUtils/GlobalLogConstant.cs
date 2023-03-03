@@ -9,6 +9,6 @@ namespace Editor.Scripts.GlobalUtils
 		public const bool IsPoolLogEnabled = false;
 		public const bool IsPathFindingLogEnabled = false;
 		public const bool IsAILogEnabled = false;
-		public const bool IsActionLogEnabled = true;
+		public const bool IsActionLogEnabled = false;
 	}
 }

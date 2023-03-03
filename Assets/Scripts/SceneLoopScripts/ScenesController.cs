@@ -35,11 +35,17 @@ namespace Editor.Scripts.SceneLoopScripts
             LoadWithLoadingScreen(sceneToLoad);
         }
 
+        public void LoadScene(string sceneName)
+        {
+            LoadWithLoadingScreen(sceneName);
+        }
+
         private string GetSceneNameFromSceneEnum(ScenesEnum sceneEnumToFind)
         {
             var sceneWithEnum = _sceneWithEnums.Find(item => item.sceneEnumName == sceneEnumToFind);
             return sceneWithEnum.sceneName;
         }
+        
 
         private void LoadWithLoadingScreen(string targetSceneName)
         {

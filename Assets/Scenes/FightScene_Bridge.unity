@@ -15154,16 +15154,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 156959278}
     m_Modifications:
-    - target: {fileID: 3418827443106211817, guid: f8813b48749cb7349a427af703f60053,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3418827443422661303, guid: f8813b48749cb7349a427af703f60053,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3636089983257473646, guid: f8813b48749cb7349a427af703f60053,
         type: 3}
       propertyPath: m_Pivot.y
@@ -15338,36 +15328,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5798552785689587101, guid: f8813b48749cb7349a427af703f60053,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5923756578962406248, guid: f8813b48749cb7349a427af703f60053,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5923756578962406248, guid: f8813b48749cb7349a427af703f60053,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5923756578962406248, guid: f8813b48749cb7349a427af703f60053,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5923756578962406248, guid: f8813b48749cb7349a427af703f60053,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5923756579061373504, guid: f8813b48749cb7349a427af703f60053,
-        type: 3}
-      propertyPath: _sceneToLoad
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5923756579150387550, guid: f8813b48749cb7349a427af703f60053,
         type: 3}
@@ -15378,16 +15338,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FightUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 6112900429566930228, guid: f8813b48749cb7349a427af703f60053,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6144531907163613921, guid: f8813b48749cb7349a427af703f60053,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7598638174785043606, guid: f8813b48749cb7349a427af703f60053,
         type: 3}
