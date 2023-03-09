@@ -31,47 +31,47 @@ MonoBehaviour:
       m_Items:
       - rid: 6468072234853597240
   - m_Id: 41618862694400
-    m_Localized: Verschieben
+    m_Localized: VERSCHIEBEN
     m_Metadata:
       m_Items: []
   - m_Id: 41580870688768
-    m_Localized: Explosionstrank
+    m_Localized: EXPLOSIONSTRANK
     m_Metadata:
       m_Items: []
   - m_Id: 41551552503808
-    m_Localized: "R\xFCckenstechen"
+    m_Localized: "R\xDCCKENSTECHEN"
     m_Metadata:
       m_Items: []
   - m_Id: 41445168177152
-    m_Localized: Angriff mit zwei Schwertern
+    m_Localized: ANGRIFF MIT ZWEI SCHWERTERN
     m_Metadata:
       m_Items: []
   - m_Id: 41373370081280
-    m_Localized: Niederschlagen
+    m_Localized: NIEDERSCHLAGEN
     m_Metadata:
       m_Items: []
   - m_Id: 41324548382720
-    m_Localized: Schieben Sie
+    m_Localized: SCHIEBEN SIE
     m_Metadata:
       m_Items: []
   - m_Id: 41269443616768
-    m_Localized: Angriff mit dem Schwert
+    m_Localized: ANGRIFF MIT DEM SCHWERT
     m_Metadata:
       m_Items: []
   - m_Id: 41197448388608
-    m_Localized: "L\xE4hmungsschuss"
+    m_Localized: "L\xC4HMUNGSSCHUSS"
     m_Metadata:
       m_Items: []
   - m_Id: 41172815241216
-    m_Localized: Weitblick
+    m_Localized: WEITBLICK
     m_Metadata:
       m_Items: []
   - m_Id: 41122630393856
-    m_Localized: Gerader Schuss
+    m_Localized: GERADER SCHUSS
     m_Metadata:
       m_Items: []
   - m_Id: 45967970066432
-    m_Localized: Zusammenwirken
+    m_Localized: ZUSAMMENWIRKEN
     m_Metadata:
       m_Items: []
   - m_Id: 3251222316769280

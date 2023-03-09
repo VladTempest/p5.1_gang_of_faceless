@@ -31,47 +31,47 @@ MonoBehaviour:
       m_Items:
       - rid: 6468072234853597238
   - m_Id: 41122630393856
-    m_Localized: Straight shot
+    m_Localized: STRAIGHT SHOT
     m_Metadata:
       m_Items: []
   - m_Id: 41172815241216
-    m_Localized: Long shot
+    m_Localized: LONG SHOT
     m_Metadata:
       m_Items: []
   - m_Id: 41197448388608
-    m_Localized: Paralyze shot
+    m_Localized: PARALYZE SHOT
     m_Metadata:
       m_Items: []
   - m_Id: 41269443616768
-    m_Localized: Sword attack
+    m_Localized: SWORD ATTACK
     m_Metadata:
       m_Items: []
   - m_Id: 41324548382720
-    m_Localized: Push
+    m_Localized: PUSH
     m_Metadata:
       m_Items: []
   - m_Id: 41373370081280
-    m_Localized: Knock down
+    m_Localized: KNOCK DOWN
     m_Metadata:
       m_Items: []
   - m_Id: 41445168177152
-    m_Localized: Dual swords attack
+    m_Localized: DUAL SWORDS ATTACK
     m_Metadata:
       m_Items: []
   - m_Id: 41551552503808
-    m_Localized: Back stab
+    m_Localized: BACK STAB
     m_Metadata:
       m_Items: []
   - m_Id: 41580870688768
-    m_Localized: Explosion potion
+    m_Localized: EXPLOSION POTION
     m_Metadata:
       m_Items: []
   - m_Id: 41618862694400
-    m_Localized: Move
+    m_Localized: MOVE
     m_Metadata:
       m_Items: []
   - m_Id: 45967970066432
-    m_Localized: Interact
+    m_Localized: INTERACT
     m_Metadata:
       m_Items: []
   - m_Id: 3250420000940032

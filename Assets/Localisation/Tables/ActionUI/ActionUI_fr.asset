@@ -31,47 +31,47 @@ MonoBehaviour:
       m_Items:
       - rid: 6468072234853597239
   - m_Id: 41122630393856
-    m_Localized: Coup tir
+    m_Localized: COUP TIR
     m_Metadata:
       m_Items: []
   - m_Id: 41172815241216
-    m_Localized: Long tir
+    m_Localized: LONG TIR
     m_Metadata:
       m_Items: []
   - m_Id: 41197448388608
-    m_Localized: Tir paralysant
+    m_Localized: TIR PARALYSANT
     m_Metadata:
       m_Items: []
   - m_Id: 41269443616768
-    m_Localized: "Attaque \xE0 l'\xE9p\xE9e"
+    m_Localized: "ATTAQUE \xC0 L'\xC9P\xC9E"
     m_Metadata:
       m_Items: []
   - m_Id: 41324548382720
-    m_Localized: Pousser
+    m_Localized: POUSSER
     m_Metadata:
       m_Items: []
   - m_Id: 41373370081280
-    m_Localized: Abattre
+    m_Localized: ABATTRE
     m_Metadata:
       m_Items: []
   - m_Id: 41445168177152
-    m_Localized: "Attaque \xE0 l'\xE9p\xE9e double"
+    m_Localized: "ATTAQUE \xC0 L'\xC9P\xC9E DOUBLE"
     m_Metadata:
       m_Items: []
   - m_Id: 41551552503808
-    m_Localized: Coup de poignard dans le dos
+    m_Localized: COUP DE POIGNARD DANS LE DOS
     m_Metadata:
       m_Items: []
   - m_Id: 41580870688768
-    m_Localized: Potion d'explosion
+    m_Localized: POTION D'EXPLOSION
     m_Metadata:
       m_Items: []
   - m_Id: 41618862694400
-    m_Localized: Bouger
+    m_Localized: BOUGER
     m_Metadata:
       m_Items: []
   - m_Id: 45967970066432
-    m_Localized: Interagir
+    m_Localized: INTERAGIR
     m_Metadata:
       m_Items: []
   - m_Id: 3251222316769280

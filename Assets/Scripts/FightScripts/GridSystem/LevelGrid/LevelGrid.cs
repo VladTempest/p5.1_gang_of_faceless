@@ -100,6 +100,12 @@ namespace GridSystems
             gridObject.Interactable = Interactable;
         }
 
+        public void ClearInteractableAtGridPosition(GridPosition gridPosition)
+        {
+            GridObject gridObject = _gridSystem.GetGridObject(gridPosition);
+            gridObject.Interactable = null;
+        }
+
 
     }
 }

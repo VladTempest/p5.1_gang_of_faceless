@@ -37,6 +37,11 @@ public class PathFindingUpdater : MonoBehaviour
     {
         DestructibleCrate destructibleCrate = sender as DestructibleCrate;
         if (destructibleCrate != null)
+        {
             Pathfinding.Instance.SetIsWalkableGridPosition(destructibleCrate.GridPosition, true);
+            LevelGrid.Instance.ClearInteractableAtGridPosition(destructibleCrate.GridPosition);
+        }
+            
+        
     }
 }

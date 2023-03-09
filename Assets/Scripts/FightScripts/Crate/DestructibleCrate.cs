@@ -24,15 +24,15 @@ public class DestructibleCrate : MonoBehaviour, IInteractable
 
     public void Damage(Vector3 destructionSourcePosition, float damage = 200f)
     {
+        Destroy(gameObject);
         Transform crateTransform = Instantiate(_destroyedCratePrefab, transform.position, Quaternion.identity);
-        
+
         var destructionDirection = (transform.position - destructionSourcePosition).normalized;
         var explosionPosition = transform.position - destructionDirection;
-        
-        
+
+
         ApplyExplosionToChildren(crateTransform, damage, explosionPosition, 4f);
-        Destroy(gameObject);
-        
+
         OnAnyCrateDestroyed?.Invoke(this, EventArgs.Empty);
     }
     
