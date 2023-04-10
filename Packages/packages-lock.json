@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.mnuinteractive.sceneselector": {
+      "version": "https://github.com/VladTempest/com.mnuinteractive.sceneselector.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "b2eae34ad0c37c091888a1e684ff03020f2e1c3c"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
