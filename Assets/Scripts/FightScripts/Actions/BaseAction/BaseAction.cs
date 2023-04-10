@@ -6,9 +6,7 @@ using Editor.Scripts.Utils;
 using FightScripts.GridSystem;
 using GridSystems;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public abstract class BaseAction : MonoBehaviour
 {
