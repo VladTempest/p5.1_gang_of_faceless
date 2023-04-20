@@ -14,8 +14,8 @@ TagManager:
   - MousePlane
   - UnitsLayer
   - Obstacles
-  - 
-  - 
+  - Outline
+  - PostProcessing
   - 
   - 
   - 

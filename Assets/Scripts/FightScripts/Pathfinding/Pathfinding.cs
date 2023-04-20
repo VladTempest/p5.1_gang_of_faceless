@@ -255,4 +255,32 @@ public class Pathfinding : MonoBehaviour
     {
         return gridPositionX >= 0 && gridPositionX < _gridSystem.Width && gridPositionZ >= 0 && gridPositionZ < _gridSystem.Height;
     }
+
+    public Dictionary<int, List<GridPosition>> GetPerimeterPointsFromValidGridPositions(List<GridPosition> validGridPositions)
+    {
+        var perimeterContours = new Dictionary<int, List<GridPosition>>();
+        //Create example dictionary with two separate contours
+        perimeterContours.Add(0, new List<GridPosition>());
+        perimeterContours.Add(1, new List<GridPosition>());
+        
+        //Add some grid position to the first contour on big square 3 x 3
+        perimeterContours[0].Add(new GridPosition(0, 0));
+        perimeterContours[0].Add(new GridPosition(1, 0));
+        perimeterContours[0].Add(new GridPosition(2, 0));
+        perimeterContours[0].Add(new GridPosition(2, 1));
+        perimeterContours[0].Add(new GridPosition(2, 2));
+        perimeterContours[0].Add(new GridPosition(1, 2));
+        perimeterContours[0].Add(new GridPosition(0, 2));
+        perimeterContours[0].Add(new GridPosition(0, 1));
+        
+        //Add some grid position to the first contour on big square 2 x 3 with offset from first on 3
+        perimeterContours[1].Add(new GridPosition(3, 0));
+        perimeterContours[1].Add(new GridPosition(4, 0));
+        perimeterContours[1].Add(new GridPosition(4, 1));
+        perimeterContours[1].Add(new GridPosition(4, 2));
+        perimeterContours[1].Add(new GridPosition(3, 2));
+        perimeterContours[1].Add(new GridPosition(3, 1));
+
+        return perimeterContours;
+    }
 }

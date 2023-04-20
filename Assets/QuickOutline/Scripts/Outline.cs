@@ -141,6 +141,10 @@ public class Outline : MonoBehaviour {
     foreach (var renderer in renderers) {
 
       // Remove outline shaders
+      if (renderer == null) {
+        continue;
+      }
+      
       var materials = renderer.sharedMaterials.ToList();
 
       materials.Remove(outlineMaskMaterial);
@@ -153,8 +157,13 @@ public class Outline : MonoBehaviour {
   void OnDestroy() {
 
     // Destroy material instances
-    Destroy(outlineMaskMaterial);
-    Destroy(outlineFillMaterial);
+    if (outlineFillMaterial != null) {
+      Destroy(outlineFillMaterial);
+    }
+    if (outlineMaskMaterial != null) {
+      Destroy(outlineMaskMaterial);
+    }
+
   }
 
   void Bake() {
