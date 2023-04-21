@@ -46,11 +46,6 @@ namespace FightScripts.GridSystem
 		private Outline _outline;
 
 
-		public void VisualizeGrid()
-		{
-			SetUpCombinedMesh();
-		}
-
 		public void UpdateGridVisuals(Unit unit)
 		{
 			SetUpCombinedMesh();

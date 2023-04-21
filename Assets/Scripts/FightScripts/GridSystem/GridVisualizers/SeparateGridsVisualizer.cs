@@ -22,28 +22,39 @@ namespace FightScripts.GridSystem
 		[SerializeField] private List<GridVisualTypeMaterial> _gridVisualTypeMaterialList;
 		
 		private GridSystemVisualSingle[,] _gridSystemVisualSingleArray;
-		public void VisualizeGrid()
+
+		private GridSystemVisualSingle[,] GridSystemVisualSingleArray
 		{
-			throw new System.NotImplementedException();
+			get
+			{
+				if (_gridSystemVisualSingleArray == null)
+				{
+					_gridSystemVisualSingleArray = SetUpSeparateGrids();
+				}
+
+				return _gridSystemVisualSingleArray;
+			}
 		}
 
 		public void UpdateGridVisuals(Unit selectedUnit)
 		{
+			if (GridSystemVisualSingleArray == null) SetUpSeparateGrids();
 			UpdateSeparateGridPositions(selectedUnit);
 		}
 
 		public void HideGridVisuals()
 		{
-			foreach (var gridSystemVisualSingle in _gridSystemVisualSingleArray)
+			if (GridSystemVisualSingleArray == null) return;
+			foreach (var gridSystemVisualSingle in GridSystemVisualSingleArray)
 			{
 				gridSystemVisualSingle.Hide();
 			}
 			
 		}
 		
-		private void SetUpSeparateGrids()
+		private GridSystemVisualSingle[,] SetUpSeparateGrids()
 		{
-			_gridSystemVisualSingleArray =
+			GridSystemVisualSingle[,] gridSystemVisualSingleArray =
 				new GridSystemVisualSingle[LevelGrid.Instance.GetWidth(), LevelGrid.Instance.GetHeight()];
 
 			for (int x = (int) LevelGrid.Instance.transform.position.x;
@@ -60,10 +71,12 @@ namespace FightScripts.GridSystem
 						Quaternion.identity);
 					gridSystemVisualSingleTransform.parent = transform;
 
-					_gridSystemVisualSingleArray[x, z] =
+					gridSystemVisualSingleArray[x, z] =
 						gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
 				}
 			}
+
+			return gridSystemVisualSingleArray;
 		}
 		
 		public void ShowGridPositionRangeCircle(GridPosition gridPosition, int maxRange, GridVisualType gridVisualType, int minRange = 0)
@@ -121,7 +134,7 @@ namespace FightScripts.GridSystem
 			foreach (var gridPosition in gridPositions)
 			{
 				//_gridSystemVisualSingleArray[gridPosition.x, gridPosition.z].gameObject.SetActive(true);
-				_gridSystemVisualSingleArray[gridPosition.x, gridPosition.z].Show(GetGridVisualTypeMaterial(gridVisualType));
+				GridSystemVisualSingleArray[gridPosition.x, gridPosition.z].Show(GetGridVisualTypeMaterial(gridVisualType));
 			}
 		}
 		

@@ -101,6 +101,6 @@ public class GridSystemVisual : MonoBehaviour
         Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
         if (selectedUnit == null) return;
 
-        _gridVisualizer.UpdateGridVisuals();
+        _gridVisualizer.UpdateGridVisuals(selectedUnit);
     }
 }
