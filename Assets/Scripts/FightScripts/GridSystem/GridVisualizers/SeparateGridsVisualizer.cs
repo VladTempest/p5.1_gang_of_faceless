@@ -36,10 +36,13 @@ namespace FightScripts.GridSystem
 			}
 		}
 
-		public void UpdateGridVisuals(Unit selectedUnit)
+		public void UpdateGridVisuals(Dictionary<GridVisualType, List<GridPosition>> gridVisualDict)
 		{
 			if (GridSystemVisualSingleArray == null) SetUpSeparateGrids();
-			UpdateSeparateGridPositions(selectedUnit);
+			foreach (var keyValuePair in gridVisualDict)
+			{
+				ShowGridPositionList(keyValuePair.Value,keyValuePair.Key);
+			}
 		}
 
 		public void HideGridVisuals()
@@ -79,55 +82,6 @@ namespace FightScripts.GridSystem
 			return gridSystemVisualSingleArray;
 		}
 		
-		public void ShowGridPositionRangeCircle(GridPosition gridPosition, int maxRange, GridVisualType gridVisualType, int minRange = 0)
-		{
-			List<GridPosition> gridPositionList = new List<GridPosition>();
-
-			for (int x = -maxRange; x <= maxRange; x++)
-			{
-				for (int z = -maxRange; z <= maxRange; z++)
-				{
-					GridPosition offsetGridPosition = new GridPosition(x, z);
-					GridPosition testGridPosition = gridPosition + offsetGridPosition;
-
-					if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
-					{
-						continue;
-					}
-
-					int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-					if (testDistance > maxRange || testDistance < minRange) continue;
-
-					gridPositionList.Add(testGridPosition);
-				}
-			}
-        
-			ShowGridPositionList(gridPositionList, gridVisualType);
-		}
-		
-		public void ShowGridPositionRangeSquare(GridPosition gridPosition, int range, GridVisualType gridVisualType)
-		{
-			List<GridPosition> gridPositionList = new List<GridPosition>();
-        
-			for (int x = -range; x <= range; x++)
-			{
-				for (int z = -range; z <= range; z++)
-				{
-					GridPosition offsetGridPosition = new GridPosition(x, z);
-					GridPosition testGridPosition = gridPosition + offsetGridPosition;
-                
-					if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
-					{
-						continue;
-					}
-
-					gridPositionList.Add(testGridPosition);
-				}
-			}
-
-			ShowGridPositionList(gridPositionList, gridVisualType);
-		}
-		
 		public void ShowGridPositionList(List<GridPosition> gridPositions, GridVisualType gridVisualType)
 		{
 			if (gridPositions == null) return;
@@ -137,60 +91,6 @@ namespace FightScripts.GridSystem
 				GridSystemVisualSingleArray[gridPosition.x, gridPosition.z].Show(GetGridVisualTypeMaterial(gridVisualType));
 			}
 		}
-		
-		private void UpdateSeparateGridPositions(Unit selectedUnit)
-    {
-        BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
-
-        GridVisualType gridVisualType;
-
-        switch (selectedAction)
-        {
-            default:
-            case MoveAction moveAction:
-                gridVisualType = GridVisualType.White;
-                break;
-            case SpinAction spinAction:
-            case InteractAction interactAction:
-                gridVisualType = GridVisualType.Blue;
-                break;
-            case GrenadeAction grenadeAction:
-                gridVisualType = GridVisualType.Red;
-                break;
-            case BackStabAction backstab:
-                gridVisualType = GridVisualType.Red;
-                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), backstab.MaxActionRange,
-                    GridVisualType.RedSoft);
-                break;
-            case GreatSwordAction swordAction:
-                gridVisualType = GridVisualType.Red;
-                ShowGridPositionRangeSquare(selectedUnit.GetGridPosition(), swordAction.MaxActionRange,
-                    GridVisualType.RedSoft);
-                break;
-            case DualSwordsAction dualSwordAction:
-                gridVisualType = GridVisualType.Red;
-                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), dualSwordAction.MaxActionRange,
-                    GridVisualType.RedSoft);
-                break;
-            case KnockDownAction knockDownAction:
-                gridVisualType = GridVisualType.Red;
-                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), knockDownAction.MaxActionRange,
-                    GridVisualType.RedSoft);
-                break;
-            case BaseShootAction shootAction:
-                gridVisualType = GridVisualType.Red;
-                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), shootAction.MaxActionRange,
-                    GridVisualType.RedSoft, shootAction.MinActionRange);
-                break;
-            case PushAction pushAction:
-                gridVisualType = GridVisualType.Red;
-                ShowGridPositionRangeCircle(selectedUnit.GetGridPosition(), pushAction.MaxActionRange,
-                    GridVisualType.RedSoft);
-                break;
-        }
-
-        ShowGridPositionList(selectedAction.GetValidGridPositions(), gridVisualType);
-    }
 		
 		public Material GetGridVisualTypeMaterial(GridVisualType gridVisualType)
 		{

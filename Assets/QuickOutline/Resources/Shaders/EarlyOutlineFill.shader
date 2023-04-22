@@ -6,7 +6,7 @@
 //  Copyright © 2018 Chris Nolet. All rights reserved.
 //
 
-Shader "Custom/Outline Fill" {
+Shader "Custom/Early Outline Fill" {
   Properties {
     [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 0
 
@@ -16,7 +16,7 @@ Shader "Custom/Outline Fill" {
 
   SubShader {
     Tags {
-      "Queue" = "Transparent+210"
+      "Queue" = "Transparent+110"
       "RenderType" = "Transparent"
       "DisableBatching" = "True"
     }

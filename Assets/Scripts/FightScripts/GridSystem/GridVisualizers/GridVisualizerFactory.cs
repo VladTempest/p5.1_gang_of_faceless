@@ -16,11 +16,9 @@ namespace FightScripts.GridSystem
 				case GridSystemVisual.TypeOfGridVisual.SeparateGrids:
 					_separateGridsVisualizerPrefab.gameObject.SetActive(true);
 					return _separateGridsVisualizerPrefab;
-					break;
 				case GridSystemVisual.TypeOfGridVisual.OnlyPerimeter:
 					_perimeterGridVisualizerPrefab.gameObject.SetActive(true);
 					return _perimeterGridVisualizerPrefab;
-					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}

@@ -80,14 +80,17 @@ public class Outline : MonoBehaviour {
 
   private bool needsUpdate;
 
+  protected virtual string _outlineMaskMaterialPath => @"Materials/OutlineMask";
+  protected virtual string _outlineFillMaterialPath => @"Materials/OutlineFill";
+
   void Awake() {
 
     // Cache renderers
     renderers = GetComponentsInChildren<Renderer>();
 
     // Instantiate outline materials
-    outlineMaskMaterial = Instantiate(Resources.Load<Material>(@"Materials/OutlineMask"));
-    outlineFillMaterial = Instantiate(Resources.Load<Material>(@"Materials/OutlineFill"));
+    outlineMaskMaterial = Instantiate(Resources.Load<Material>(_outlineMaskMaterialPath));
+    outlineFillMaterial = Instantiate(Resources.Load<Material>(_outlineFillMaterialPath));
 
     outlineMaskMaterial.name = "OutlineMask (Instance)";
     outlineFillMaterial.name = "OutlineFill (Instance)";
@@ -315,4 +318,10 @@ public class Outline : MonoBehaviour {
         break;
     }
   }
+}
+
+class EarlyOutline : Outline
+{
+  protected override string _outlineFillMaterialPath  => @"Materials/EarlyOutlineFill";
+  protected override string _outlineMaskMaterialPath  => @"Materials/EarlyOutlineMask";
 }

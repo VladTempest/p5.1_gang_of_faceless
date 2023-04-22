@@ -6,14 +6,14 @@
 //  Copyright © 2018 Chris Nolet. All rights reserved.
 //
 
-Shader "Custom/Outline Mask" {
+Shader "Custom/Early Outline Mask" {
   Properties {
     [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 0
   }
 
   SubShader {
     Tags {
-      "Queue" = "Transparent+200"
+      "Queue" = "Transparent+100"
       "RenderType" = "Transparent"
     }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using GridSystems;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -23,87 +24,102 @@ namespace FightScripts.GridSystem
 		private GameObject _meshPrefab;
 		[SerializeField]
 		private Material _defaultMaterial;
-		[FormerlySerializedAs("combinedMesh")] [SerializeField] 
-		private GameObject _combinedMesh;
+
 		[SerializeField]
 		private Vector3 _combinedMeshPosition =  new(0, 0.1f, 0);
-		
+
+		[FormerlySerializedAs("_parent")] [SerializeField] private GameObject _combinedMeshContainer;
+
 		[SerializeField]
-		private Color _outlineColor = Color.white;
-		[SerializeField]
-		private float _outlineWidth = 2f;
+		private List<VisualParametersSetForAction> _visualParametersSetForActionList;
+
+
+		private List<GameObject> _combinedMeshes = new ();
+		private List<MeshFilter> _combinedMeshFilters = new ();
+		private List<MeshRenderer> _combinedMeshRenderers = new ();
+		private List<Outline> _outlines = new ();
 		
-		[SerializeField]
-		private UnitActionSystem _actionSystem;
-
-		[SerializeField] private List<VisualParametersSetForAction> _visualParametersSetForActionList;
 		
-		private BaseAction _action;
-		private List<GridPosition> _validGridPositions;
-		private MeshFilter _combinedMeshFilter;
-		private MeshRenderer _combinedMeshRenderer;
-
-		private Outline _outline;
 
 
-		public void UpdateGridVisuals(Unit unit)
+		public void UpdateGridVisuals(Dictionary<GridVisualType, List<GridPosition>> gridVisualDict)
 		{
-			SetUpCombinedMesh();
+			SetUpCombinedMesh(gridVisualDict);
 		}
 
 		public void HideGridVisuals()
 		{
-			_combinedMesh.SetActive(false);
-		}
-		
-		private void Awake()
-		{
-			_combinedMeshFilter = _combinedMesh.GetComponent<MeshFilter>();
-			_combinedMeshRenderer = _combinedMesh.GetComponent<MeshRenderer>();
-			
-			_combinedMesh.transform.position = _combinedMeshPosition;
-		}
-		
-		public void SetUpCombinedMesh()
-		{
-			_action = _actionSystem.GetSelectedAction();
-			_validGridPositions = _action.GetValidGridPositions();
-
-			CombineMeshes(_validGridPositions, _combinedMeshFilter);
-			_combinedMeshRenderer.material = _defaultMaterial;
-
-			if (_outline != null)
+			if (_combinedMeshes == null || !_combinedMeshes.Any()) return;
+			foreach (var combinedMesh in _combinedMeshes)
 			{
-				Destroy(_outline);
+				Destroy(combinedMesh);
 			}
-			StartCoroutine(AddOutlineInNextFrame());
-			
 		}
 
-		private IEnumerator AddOutlineInNextFrame()
+		private void SetUpCombinedMesh(Dictionary<GridVisualType, List<GridPosition>> gridVisualDict)
+		{
+			List<KeyValuePair<GridVisualType, List<GridPosition>>> gridVisualDictList = new List<KeyValuePair<GridVisualType, List<GridPosition>>>(gridVisualDict);
+			
+			_combinedMeshes = new();
+			_combinedMeshFilters = new();
+			_combinedMeshRenderers = new();
+			_outlines = new();
+			
+			for (int i = 0; i < gridVisualDictList.Count; i++)
+			{
+				_combinedMeshes.Add(Instantiate(_meshPrefab, _combinedMeshContainer.transform));
+				_combinedMeshFilters.Add(_combinedMeshes[i].GetComponent<MeshFilter>());
+				_combinedMeshRenderers.Add(_combinedMeshes[i].GetComponent<MeshRenderer>());
+				_combinedMeshes[i].transform.position = _combinedMeshPosition;
+				
+				CombineMeshes(gridVisualDictList[i], _combinedMeshFilters[i]);
+				_combinedMeshRenderers[i].material = _defaultMaterial;
+				
+				foreach (var outline in _outlines)
+				{
+					Destroy(outline);
+				}
+				
+				StartCoroutine(AddOutlineInNextFrame(gridVisualDictList[i].Key, i));
+			}
+
+		}
+
+		private IEnumerator AddOutlineInNextFrame(GridVisualType gridVisualType, int indexOfCombinedMesh)
 		{
 			yield return null;
-			if (_outline != null) yield break;
 			
-			_outline = _combinedMesh.AddComponent<Outline>();
-			if (_outline == null)
-			{
-				Debug.LogError("Outline script not found");
-			}
-			else
-			{
-				_outline.OutlineColor = _outlineColor;
-				_outline.OutlineWidth = _outlineWidth;
-			}
+			_combinedMeshes[indexOfCombinedMesh].SetActive(false);
 			
-			_combinedMesh.SetActive(true);
+			_outlines.Add(gridVisualType == GridVisualType.Red
+				? _combinedMeshes[indexOfCombinedMesh].AddComponent<EarlyOutline>()
+				: _combinedMeshes[indexOfCombinedMesh].AddComponent<Outline>());
+			
+			_outlines[indexOfCombinedMesh].OutlineColor = GetVisualParametersSetForAction(gridVisualType).color;
+			_outlines[indexOfCombinedMesh].OutlineWidth = GetVisualParametersSetForAction(gridVisualType).width;
+			_outlines[indexOfCombinedMesh].OutlineMode = Outline.Mode.OutlineVisible;
+			
+			
+			_combinedMeshes[indexOfCombinedMesh].SetActive(true);
+		}
+		
+		private VisualParametersSetForAction GetVisualParametersSetForAction(GridVisualType gridVisualType)
+		{
+			foreach (var visualParametersSetForAction in _visualParametersSetForActionList)
+			{
+				if (visualParametersSetForAction.type == gridVisualType)
+				{
+					return visualParametersSetForAction;
+				}
+			}
+			throw new Exception("VisualParametersSetForAction not found");
 		}
 
-		private void CombineMeshes(List<GridPosition> gridPositions, MeshFilter combinedMeshFilter)
+		private void CombineMeshes(KeyValuePair<GridVisualType, List<GridPosition>> typeGridPositionsPair, MeshFilter combinedMeshFilter)
 		{
-			List<Vector3> vertices = gridPositions.ConvertAll(gridPosition => LevelGrid.Instance.GetWorldPosition(gridPosition));
+			List<Vector3> vertices = typeGridPositionsPair.Value.ConvertAll(gridPosition => LevelGrid.Instance.GetWorldPosition(gridPosition));
 			
-			MeshFilter[] meshFilters = new MeshFilter[gridPositions.Count];
+			MeshFilter[] meshFilters = new MeshFilter[typeGridPositionsPair.Value.Count];
 			for (int i = 0; i < vertices.Count; i++)
 			{
 				GameObject meshToCombine = Instantiate(_meshPrefab, vertices[i], new Quaternion(_meshPrefab.transform.rotation.x, _meshPrefab.transform.rotation.y, _meshPrefab.transform.rotation.z, _meshPrefab.transform.rotation.w), combinedMeshFilter.transform);
@@ -120,7 +136,7 @@ namespace FightScripts.GridSystem
 			combinedMeshFilter.mesh = new Mesh();
 			combinedMeshFilter.mesh.CombineMeshes(combine);
 
-			for (int i = 0; i < gridPositions.Count; i++)
+			for (int i = 0; i < typeGridPositionsPair.Value.Count; i++)
 			{
 				Destroy(meshFilters[i].gameObject);
 			}
