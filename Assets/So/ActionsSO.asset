@@ -43,10 +43,10 @@ MonoBehaviour:
       Description: action_long_shot_desc
       IsTargeted: 1
     - Name: action_parallyze_name
-      Damage: 0
+      Damage: 1
       ActionPoints: 6
-      CoolDown: 2
-      Charges: 0
+      CoolDown: 0
+      Charges: 3
       MinRange: 2
       MaxRange: 6
       Description: action_parallyze_desc
@@ -61,7 +61,7 @@ MonoBehaviour:
       Description: action_sword_attack_desc
       IsTargeted: 1
     - Name: action_push_name
-      Damage: 0
+      Damage: 1
       ActionPoints: 3
       CoolDown: 2
       Charges: 0
@@ -70,7 +70,7 @@ MonoBehaviour:
       Description: action_push_desc
       IsTargeted: 1
     - Name: action_knockdown_name
-      Damage: 0
+      Damage: 2
       ActionPoints: 6
       CoolDown: 3
       Charges: 0
