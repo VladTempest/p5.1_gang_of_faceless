@@ -10,5 +10,6 @@ namespace Editor.Scripts.GlobalUtils
 		public const bool IsPathFindingLogEnabled = false;
 		public const bool IsAILogEnabled = false;
 		public const bool IsActionLogEnabled = false;
+		public const bool IsHubRoomControllLogEnabled = true;
 	}
 }

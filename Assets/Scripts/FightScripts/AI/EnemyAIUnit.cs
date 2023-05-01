@@ -39,7 +39,7 @@ namespace Editor.Scripts.AI
 
         public override string ToString()
         {
-            return $"Movement Target Grid Position {TargetGridPosition} with moveing rating {MovementRating}";
+            return $"Movement Target Grid Position {TargetGridPosition} with moving rating {MovementRating}";
         }
         
         public static bool operator ==(AIMovementActionData a, AIMovementActionData b)
@@ -173,7 +173,7 @@ namespace Editor.Scripts.AI
                 if (!GridPositionValidator.IsGridPositionReachable(testGridPosition, _unit.GetGridPosition(),
                         Mathf.FloorToInt(_unit.ActionPoints / 2)))
                 {
-                    ConvenientLogger.Log(nameof(EnemyAI), GlobalLogConstant.IsAILogEnabled, $"[Enemy AI] TOO FAR with AI Action Data for {_unit}: {testGridPosition}");
+                    ConvenientLogger.Log(nameof(EnemyAI), GlobalLogConstant.IsAILogEnabled, $"TOO FAR with AI Action Data for {_unit}: {testGridPosition}");
                     return false;
                 }
             }
@@ -181,7 +181,7 @@ namespace Editor.Scripts.AI
             aiBestActionData = UpdateBestActionData(aiBestActionData, testGridPosition);
             if (aiBestActionData.MovementRating >= enemyPresenceWeight)
             {
-                ConvenientLogger.Log(nameof(EnemyAI), GlobalLogConstant.IsAILogEnabled, $"[Enemy AI] BREAK with AI Action Data for {_unit}: {aiBestActionData}");
+                ConvenientLogger.Log(nameof(EnemyAI), GlobalLogConstant.IsAILogEnabled, $"BREAK with AI Action Data for {_unit}: {aiBestActionData}");
                 return true;
             }
 

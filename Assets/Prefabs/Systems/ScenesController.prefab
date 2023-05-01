@@ -53,3 +53,5 @@ MonoBehaviour:
     sceneName: FightScene_Ambush
   - sceneEnumName: 3
     sceneName: FightScene_Bridge
+  - sceneEnumName: 5
+    sceneName: HubScene
