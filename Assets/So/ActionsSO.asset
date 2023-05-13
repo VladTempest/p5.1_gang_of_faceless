@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ActionsSO
   m_EditorClassIdentifier: 
   ActionsParametersDictionary:
-    keyData: 0a0000000100000002000000030000000400000005000000060000000700000008000000090000000b000000
-    valueData:
+    keys: 0a0000000100000002000000030000000400000005000000060000000700000008000000090000000b000000
+    values:
     - Name: action_move_name
       Damage: 0
       ActionPoints: 0
