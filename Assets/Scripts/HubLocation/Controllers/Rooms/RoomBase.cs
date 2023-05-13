@@ -1,14 +1,24 @@
 ﻿using Editor.Scripts.GlobalUtils;
+using Editor.Scripts.HubLocation.RoomDataSO;
 using Editor.Scripts.HubLocation.Views.Rooms;
 
 namespace Editor.Scripts.HubLocation.Rooms
 {
 	public abstract class RoomBase
 	{
-		public abstract RoomView RoomView { get; set; }
-		public abstract string RoomName { get; }
-		public abstract int Cost { get; }
+		public RoomView RoomView { get; set; }
+		public string RoomName { get; }
+		public int Cost { get; set; }
 		public bool IsBuilt { get; private set; }
+		
+		protected RoomBase(RoomData roomData)
+		{
+			Cost = roomData.Cost;
+			RoomView = roomData.RoomView;
+			RoomName = roomData.RoomName;
+			IsBuilt = false;
+		}
+		
 		public void Build()
 		{
 			ConvenientLogger.Log(nameof(RoomBase), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Start building room {RoomName}");
@@ -27,7 +37,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 		protected virtual void OnRoomBuilt()
 		{
 			// Do something when the room is built
-			ConvenientLogger.Log(nameof(RoomBase), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Room {RoomName} is built");
+			ConvenientLogger.Log(nameof(RoomBase), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomName} is built");
 		}
 	}
 

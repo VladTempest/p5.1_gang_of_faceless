@@ -10,23 +10,24 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 	public class RoomView : MonoBehaviour
 	{
 		[SerializeField]
-		private List<GameObject> _roomStateList;
-		
-		public RoomBase Room { get; private set; }
+		private SerializableDictionary<RoomState, GameObject> _roomStateDictionary;
+
+		private RoomBase _roomController { get; set; }
 		public Button BuildButton;
-		public void Initialize(RoomBase room)
+		public RoomView Initialize(RoomBase room, Transform roomViewTransform)
 		{
-			ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Room {room.RoomName} initialized");
-			Room = room;
+			ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {room.RoomName} initialized");
+			_roomController = room;
 			//`BuildButton.onClick.AddListener(OnBuildButtonClicked);
 			UpdateView();
+			return this;
 		}
 		private void OnBuildButtonClicked()
 		{
-			if (!Room.IsBuilt)
+			if (!_roomController.IsBuilt)
 			{
 				// Build the room directly using the model's functionality
-				Room.Build();
+				_roomController.Build();
 				UpdateView();
 			}
 		}
@@ -34,6 +35,17 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 		{
 			// Update the UI and visuals based on the room's state
 		}
+
+		public GameObject GetRoomPrefab()
+		{
+			return _roomStateDictionary[RoomState.Built];
+		}
 	}
 
+	internal enum RoomState
+	{
+		Locked,
+		Unlocked,
+		Built
+	}
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using TouchPhase = UnityEngine.InputSystem.TouchPhase;
@@ -38,15 +35,12 @@ public class TouchCameraController : MonoBehaviour //TODO: Integrate this script
 		
 		
 		Vector2 delta = context.ReadValue<Vector2>();
-		Debug.Log($"Delta: {delta}");
 		transform.Translate(-delta.x * dragSpeed, -delta.y * dragSpeed, 0);
 	
 	}
 
 	private void OnPinch(InputAction.CallbackContext ctx)
 	{
-		
-		
 		var touch = ctx.ReadValue<TouchState>();
 		
 		if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
@@ -59,13 +53,9 @@ public class TouchCameraController : MonoBehaviour //TODO: Integrate this script
 			_isPinching = true;
 		}
 		Vector2 currentPinchPosition = touch.position;
-		Debug.Log($"Current pinch position: {currentPinchPosition}");
 		Vector2 primaryTouchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
 
 		float currentPinchDistance = Vector2.Distance(primaryTouchPosition, currentPinchPosition);
-		
-		Debug.Log($"Pinch distance: {currentPinchDistance}");
-		
 		
 		if (touch.phase == TouchPhase.Began)
 		{

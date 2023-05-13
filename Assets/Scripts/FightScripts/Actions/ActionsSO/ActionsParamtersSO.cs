@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Editor.Scripts;
-using Editor.Scripts.Utils;
+﻿using Editor.Scripts.Utils;
 using UnityEngine;
 
 namespace Scripts.Utils

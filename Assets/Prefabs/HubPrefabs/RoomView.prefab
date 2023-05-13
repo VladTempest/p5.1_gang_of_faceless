@@ -156,9 +156,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f344b373d3d9470fbb6973c31458eb96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roomStateList:
-  - {fileID: 4242546331666704484}
-  - {fileID: 1425030171262563558}
+  _roomStateDictionary:
+    keys: 0100000002000000
+    values:
+    - {fileID: 4242546331666704484}
+    - {fileID: 1425030171262563558}
   BuildButton: {fileID: 0}
 --- !u!1 &4242546331666704484
 GameObject:

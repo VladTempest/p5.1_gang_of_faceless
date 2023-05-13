@@ -170,9 +170,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f8100cea6f4bedb2b91a9d70eaae34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roomViewPrefab: {fileID: 6907478620960076906, guid: 4ce5299058df11e4ea3f1a106691ed36,
-    type: 3}
-  _roomViewTransform: {fileID: 766353085}
+  _roomTransformDictionary:
+    keys: 00000000
+    values:
+    - {fileID: 766353085}
+  _roomDataSo: {fileID: 11400000, guid: eefdbf1d2b63512488c30b01ce0dd1b4, type: 2}
 --- !u!4 &40028725
 Transform:
   m_ObjectHideFlags: 0
@@ -3754,7 +3756,7 @@ GameObject:
   - component: {fileID: 766353085}
   - component: {fileID: 766353086}
   m_Layer: 0
-  m_Name: 1RoomPlaceHolder
+  m_Name: WorkShopRoomPlaceHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
