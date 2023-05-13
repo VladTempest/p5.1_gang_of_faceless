@@ -1,12 +1,13 @@
-﻿using Editor.Scripts.HubLocation.Rooms;
-using Editor.Scripts.HubLocation.Views.Rooms;
+﻿using Editor.Scripts.HubLocation.Views.Rooms;
+using UnityEngine.Serialization;
 
 namespace Editor.Scripts.HubLocation.RoomDataSO
 {
+[System.Serializable]
 	public struct RoomData
 	{
 		public string RoomName;
-		public RoomView RoomView;
+		[FormerlySerializedAs("RoomView")] public RoomView RoomViewPrefab;
 		public int Cost;
 	}
 }

@@ -1,16 +1,17 @@
 ﻿using System;
 using Editor.Scripts.HubLocation.RoomDataSO;
+using UnityEngine;
 
 namespace Editor.Scripts.HubLocation.Rooms
 {
 	public static class RoomControllerFactory
 	{
-		public static RoomBase GetRoomControllerByRoomType(RoomType roomType, RoomData roomData)
+		public static RoomControllerBase GetRoomControllerByRoomType(RoomType roomType, RoomData roomData, Transform transformForBuilding)
 		{
 			switch (roomType)
 			{
 				case RoomType.Workshop:
-					return new Workshop(roomData);
+					return new Workshop(roomData, transformForBuilding);
 				/*case RoomType.Library:
 				case RoomType.TrainingGround:
 				case RoomType.Armory:
@@ -25,8 +26,6 @@ namespace Editor.Scripts.HubLocation.Rooms
 				default:
 					throw new ArgumentOutOfRangeException(nameof(roomType), roomType, null);
 			}
-
-			return null;
 		}
 	}
 }

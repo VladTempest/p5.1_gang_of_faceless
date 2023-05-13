@@ -7,22 +7,6 @@ using UnityEngine;
 
 namespace Editor.Scripts.HubLocation
 {
-	public enum RoomType
-	{
-		Workshop,
-		Library,
-		TrainingGround,
-		Armory,
-		AlchemyLab,
-		Storage,
-		Stable,
-		Infirmary,
-		Market,
-		Chapel,
-		ThroneRoom,
-		TrainingRoom,
-	}
-
 	public class HubController : MonoBehaviour
 	{
 		[SerializeField]
@@ -30,41 +14,28 @@ namespace Editor.Scripts.HubLocation
 		
 		[SerializeField]
 		private RoomDataSO.RoomDataSO _roomDataSo;
-		
-		/*private RoomBase _roomController;
-		[SerializeField] private RoomView _roomViewPrefab; //Later create Scriptable Object for this
-		[SerializeField] private Transform _roomViewTransform;
-		private List<RoomBase> _builtRoomList;
-		
-		
-		//intstantiate a room after button b is clicked
-		private void Update()
+
+		private Dictionary<RoomType, RoomControllerBase> _roomControllerDictionary;
+
+		private void Awake()
 		{
-			if (Input.GetKeyDown(KeyCode.B))
+			_roomControllerDictionary = new Dictionary<RoomType, RoomControllerBase>();
+		}
+		
+		private void Start()
+		{
+			InstantiateBuiltRooms();
+
+			foreach (var pair in _roomTransformDictionary)
 			{
-				ConvenientLogger.Log(nameof(HubController), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Start instantiate room");
-
-
-				var testWorkshopRoom = new Workshop();
-				if (ResourceController.HasEnoughGold(testWorkshopRoom.Cost))
-				{
-					ResourceController.DeductGold(testWorkshopRoom.Cost);
-					InstantiateRoom(testWorkshopRoom, _roomViewPrefab, _roomViewTransform);
-				}
-				else
-				{
-					ConvenientLogger.Log(nameof(HubController), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Not enough gold to build room");
-				}
+				InitializeRoom(pair.Key);
 			}
 		}
 
-		public void InstantiateRoom(RoomBase room, RoomView roomViewPrefab, Transform roomViewTransform)
+		public void TestFunctions()
 		{
-			_roomController = room;
-			room.RoomView = Instantiate(roomViewPrefab, roomViewTransform);
-			room.RoomView .Initialize(room, roomViewTransform);
-			ConvenientLogger.Log(nameof(HubController), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {room.RoomName} instantiated");
-		}*/
+			UpgradeRoomState(RoomType.Workshop);
+		}
 		
 		//method to instantiate rooms that already built
 		private void InstantiateBuiltRooms()
@@ -74,7 +45,7 @@ namespace Editor.Scripts.HubLocation
 		}
 		
 		//method to build room of certain type - certain type here we got from touch that processed by Input Controller
-		public void BuildRoom(RoomType roomType)
+		private void InitializeRoom(RoomType roomType)
 		{
 			ConvenientLogger.Log(nameof(HubController), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Start build room");
 			//Get roomData from SO based on roomType
@@ -82,13 +53,24 @@ namespace Editor.Scripts.HubLocation
 			//Check if player can afford the room
 			if (ResourceController.HasEnoughGold(roomData.Cost))
 			{
-				//Build the room
+				ConvenientLogger.Log(nameof(HubController), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Player can afford room");
+				ResourceController.DeductGold(roomData.Cost);
+				//Initialize the room
 				//Create controller for room based on roomType with roomVIew from RoomData
-				var roomController = RoomControllerFactory.GetRoomControllerByRoomType(roomType, roomData);
-
-				//Instantiate roomView with transfrom from HubController Dictionary with roomType as key
+				var roomController = RoomControllerFactory.GetRoomControllerByRoomType(roomType, roomData, _roomTransformDictionary[roomType]);
+				roomController.Initialize();
 				//Add built room to builtRoomList
+				_roomControllerDictionary.Add(roomType, roomController);
+				//Turnoff placeholder room
+				return;
 			}
+			
+			ConvenientLogger.Log(nameof(HubController), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Player can't afford room");
+		}
+
+		private void UpgradeRoomState(RoomType roomType)
+		{
+			_roomControllerDictionary[roomType].UpgradeRoomState();
 		}
 	}
 }

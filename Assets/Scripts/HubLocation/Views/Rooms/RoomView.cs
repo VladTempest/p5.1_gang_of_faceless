@@ -11,38 +11,38 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 	{
 		[SerializeField]
 		private SerializableDictionary<RoomState, GameObject> _roomStateDictionary;
-
-		private RoomBase _roomController { get; set; }
+		private RoomState _roomState = RoomState.Unlocked;
+		private RoomControllerBase RoomControllerController { get; set; }
 		public Button BuildButton;
-		public RoomView Initialize(RoomBase room, Transform roomViewTransform)
+
+		public RoomView Initialize(RoomControllerBase roomController, Transform roomViewTransform)
 		{
-			ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {room.RoomName} initialized");
-			_roomController = room;
-			//`BuildButton.onClick.AddListener(OnBuildButtonClicked);
-			UpdateView();
-			return this;
+			ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {roomController.RoomName} initialized");
+			RoomControllerController = roomController;
+			return Instantiate(this, roomViewTransform);
 		}
-		private void OnBuildButtonClicked()
+		/*public void UpdateView()
 		{
-			if (!_roomController.IsBuilt)
-			{
-				// Build the room directly using the model's functionality
-				_roomController.Build();
-				UpdateView();
-			}
+
 		}
-		public void UpdateView()
-		{
-			// Update the UI and visuals based on the room's state
-		}
+		*/
 
 		public GameObject GetRoomPrefab()
 		{
 			return _roomStateDictionary[RoomState.Built];
 		}
+
+		public void ChangeRoomState(RoomState roomState)
+		{
+			foreach (var roomStateGameObject in _roomStateDictionary)
+			{
+				roomStateGameObject.Value.SetActive(false);
+			}
+			_roomStateDictionary[roomState].SetActive(true);
+		}
 	}
 
-	internal enum RoomState
+	public enum RoomState
 	{
 		Locked,
 		Unlocked,

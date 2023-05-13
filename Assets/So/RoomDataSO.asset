@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RoomDataDictionary:
     keys: 00000000
+    values:
+    - RoomName: Workshop
+      RoomViewPrefab: {fileID: 6907478620960076906, guid: 40c673e944ab65d40a926aa9f18fa4a0,
+        type: 3}
+      Cost: 0
