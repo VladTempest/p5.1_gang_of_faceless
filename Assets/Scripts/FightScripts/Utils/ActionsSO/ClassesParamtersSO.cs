@@ -10,12 +10,6 @@ namespace Scripts.Utils
     [CreateAssetMenu(fileName = "ClassesSO", menuName = "ScriptableObjects/ClassesSO", order = 1)]
     public class ClassesParamtersSO  : ScriptableObject
     {
-        public ClassesParametersDictionary ClassesParametersDictionary;
+        public SerializableDictionary<UnitType,ClassesParameters> ClassesParametersDictionary;
     }
-    
-    [Serializable]
-    public class ClassesParametersDictionary : UnitySerializedDictionary<UnitType, ClassesParameters>
-    {
-    }
-
 }

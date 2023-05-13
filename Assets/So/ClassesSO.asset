@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ClassesSO
   m_EditorClassIdentifier: 
   ClassesParametersDictionary:
-    keyData: 010000000300000002000000
-    valueData:
+    keys: 010000000300000002000000
+    values:
     - ClassLogo: {fileID: 21300000, guid: 17a6f0da10fc2894dbc869cced1ac5ce, type: 3}
       HP: 6
       ActionPoints: 8

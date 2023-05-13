@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: WeigthsSO
   m_EditorClassIdentifier: 
   GridEstimationWeightsDictionary:
-    keyData: 010000000200000003000000
-    valueData:
+    keys: 010000000200000003000000
+    values:
     - healthLeftWeight: 2
       playerCharacterStatusWeight: 1
       pathLengthWeight: 2

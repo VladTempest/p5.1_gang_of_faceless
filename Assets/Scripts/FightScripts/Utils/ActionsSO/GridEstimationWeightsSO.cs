@@ -9,12 +9,6 @@ namespace Scripts.Utils
     [CreateAssetMenu(fileName = "WeigthsSO", menuName = "ScriptableObjects/WeigthsSO", order = 1)]
     public class GridEstimationWeightsSO  : ScriptableObject
     {
-        public GridEstimationWeightsDictionary GridEstimationWeightsDictionary;
+        public SerializableDictionary<UnitType,GridEstimationWeights> GridEstimationWeightsDictionary;
     }
-    
-    [Serializable]
-    public class GridEstimationWeightsDictionary : UnitySerializedDictionary<UnitType, GridEstimationWeights>
-    {
-    }
-
 }

@@ -11,10 +11,4 @@ namespace Scripts.Utils
     {
         public SerializableDictionary<ActionsEnum, ActionsParameters> ActionsParametersDictionary;
     }
-    
-    [Serializable]
-    public class ActionsParametersDictionary : UnitySerializedDictionary<ActionsEnum, ActionsParameters>
-    {
-    }
-
 }
