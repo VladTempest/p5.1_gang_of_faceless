@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fxDictionary:
-    keyData: 0000000001000000
-    valueData:
+    keys: 0000000001000000
+    values:
     - {fileID: 9188136158289152168, guid: cc86598151473054c85aeda0ccf23329, type: 3}
     - {fileID: 9188136158289152168, guid: 031b5d041d54c13469d58d13fc49f06d, type: 3}

@@ -4,14 +4,9 @@ using UnityEngine;
 
 namespace Editor.Scripts
 {
-    [Serializable]
-    public class FXDictionary : UnitySerializedDictionary<FXenum, Transform>
-    {
-    }
-    
     public class FXSpawner : MonoBehaviour
     {
-        [SerializeField] private FXDictionary _fxDictionary;
+        [SerializeField] private SerializableDictionary<FXenum,Transform> _fxDictionary;
         
         public static FXSpawner Instance { get; private set; }
 

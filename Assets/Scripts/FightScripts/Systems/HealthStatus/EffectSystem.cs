@@ -9,12 +9,7 @@ using UnityEngine.SceneManagement;
 
 namespace Systems.HealthStatus
 {
-    [Serializable]
-    public class EffectsAndDurationLeftDictionary : UnitySerializedDictionary<EffectStatus, float>
-    {
-    }
-
-    public class EffectSystem : MonoBehaviour
+ public class EffectSystem : MonoBehaviour
     {
         public event EventHandler OnKnockDownStart;
         public event EventHandler OnKnockDownOver;
@@ -22,7 +17,7 @@ namespace Systems.HealthStatus
         public event EventHandler OnParalyzeStart;
         public event EventHandler OnParalyzeOver;
         
-        [SerializeField] private EffectsAndDurationLeftDictionary _currentEffectsAndDurationLeftDict;
+        [SerializeField] private SerializableDictionary<EffectStatus, float> _currentEffectsAndDurationLeftDict;
         [SerializeField] private float _knockDownDuration = 1;
         [SerializeField] private float _paralyzeDuration = 1;
 
