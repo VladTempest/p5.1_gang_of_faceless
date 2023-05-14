@@ -8,12 +8,15 @@ public class TouchCameraController : MonoBehaviour //TODO: Integrate this script
 	[SerializeField] private float dragSpeed = 0.005f;
 	[SerializeField] private float pinchZoomSpeed = 0.1f;
 
+
+	private int _defaultFromCameraDistance = -392; 
 	private InputAction dragAction;
 	private InputAction pinchAction;
 	
 	private bool _isPinching = false;
 	
 	private float _lastPinchDistance;
+	private float _multiplier=1;
 
 	private void Awake()
 	{
@@ -26,6 +29,30 @@ public class TouchCameraController : MonoBehaviour //TODO: Integrate this script
 	}
 
 
+	private float GetMultiplierForCameraDragFromCurrentDistance()
+	{
+		float currentDistance = transform.position.z;
+		var difference = currentDistance - _defaultFromCameraDistance;
+		if (difference>0)
+		{
+			_multiplier = 1 - Mathf.Abs(difference / _defaultFromCameraDistance);
+		}
+		else if (difference<0)
+		{
+			_multiplier = 1 + Mathf.Abs(difference / _defaultFromCameraDistance);
+		}
+		else if (difference <= 0.01f)
+		{
+			return _multiplier;
+		}
+		
+		if (_multiplier <= 0)
+		{
+			_multiplier = 0.01f;
+		}
+		return _multiplier;
+	}
+	
 	private void OnDrag(InputAction.CallbackContext context)
 	{
 		if (_isPinching)
@@ -35,7 +62,9 @@ public class TouchCameraController : MonoBehaviour //TODO: Integrate this script
 		
 		
 		Vector2 delta = context.ReadValue<Vector2>();
-		transform.Translate(-delta.x * dragSpeed, -delta.y * dragSpeed, 0);
+		var multiplier = GetMultiplierForCameraDragFromCurrentDistance();
+		var relativeDragSpeed = dragSpeed * multiplier;
+		transform.Translate(-delta.x * relativeDragSpeed, -delta.y * relativeDragSpeed, 0);
 	
 	}
 

@@ -161,6 +161,12 @@ MonoBehaviour:
     values:
     - {fileID: 4242546331666704484}
     - {fileID: 1425030171262563558}
+  _uiDocumentDictionary:
+    keys: 000000000100000002000000
+    values:
+    - {fileID: 3177334483297593115, guid: d0899ce6a7b3b444ebd00276aef58a41, type: 3}
+    - {fileID: 910142231949540600, guid: f4e68f1d498a442488a7513f96775ee5, type: 3}
+    - {fileID: 0}
   BuildButton: {fileID: 0}
 --- !u!1 &4242546331666704484
 GameObject:

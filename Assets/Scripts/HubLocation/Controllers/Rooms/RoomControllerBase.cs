@@ -2,6 +2,7 @@
 using Editor.Scripts.HubLocation.RoomDataSO;
 using Editor.Scripts.HubLocation.Views.Rooms;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Editor.Scripts.HubLocation.Rooms
 {
@@ -42,6 +43,11 @@ namespace Editor.Scripts.HubLocation.Rooms
 		public void UpgradeRoomState()
 		{
 			RoomView.ChangeRoomState(RoomState.Built);
+		}
+
+		public virtual void SetUpRoomViewUI(SerializableDictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
+		{
+			
 		}
 	}
 
