@@ -1,4 +1,5 @@
-﻿using Editor.Scripts.GlobalUtils;
+﻿using System.Collections.Generic;
+using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.HubLocation.RoomDataSO;
 using Editor.Scripts.HubLocation.Views.Rooms;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 			
 		}
 
-		public override void SetUpRoomViewUI(SerializableDictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
+		public override void SetUpRoomViewUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
 		{
 			base.SetUpRoomViewUI(uiDocumentDictionary);
         
@@ -22,14 +23,11 @@ namespace Editor.Scripts.HubLocation.Rooms
 				ConvenientLogger.Log(nameof(Workshop), GlobalLogConstant.IsHubRoomControllLogEnabled, $"uiDocumentDictionary is null");
 				return;
 			}
-			var root = uiDocumentDictionary[RoomViewUIType.ForBuilding].rootVisualElement;
-			var button = root.Q<Button>("YourButton");
-			button.clicked += YourButtonClicked;
-		}
-
-		private void YourButtonClicked()
-		{
-			// Handle button click here
-		}
+			
+			var rootVisualElement = uiDocumentDictionary[RoomViewUIType.ForBuilding].rootVisualElement;
+			var buildButton = rootVisualElement.Q<Button>("BuildButton");
+			buildButton.clicked += UpgradeRoomState;
+			
+		} //ToDo: move it to the base class
 	}
 }

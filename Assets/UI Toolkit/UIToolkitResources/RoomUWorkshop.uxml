@@ -4,8 +4,11 @@
         <ui:VisualElement name="LeftPanel" style="background-color: rgba(0, 0, 0, 0); align-items: center; height: 100%; width: 56%;" />
         <ui:VisualElement name="RightPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 100%; align-items: flex-start; justify-content: flex-end;">
             <ui:VisualElement name="Description" class="styleBGPanel" style="height: 63%; width: 96%; margin-left: 2%; margin-right: 0; margin-top: 1%; align-items: center; justify-content: center;">
-                <ui:Label tabindex="-1" text="Cost: 100 goldov" display-tooltip-when-elided="true" name="ResourcesCosts" class="styleText" style="align-items: center;" />
-                <ui:Button text="Build!" display-tooltip-when-elided="true" name="BuildButton" class="styleText" style="width: 30%;" />
+                <ui:VisualElement name="ReceiptContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; align-items: center;">
+                    <ui:Foldout text="Foldout" name="StuffFoldout" class="styleText" />
+                    <ui:Label tabindex="-1" text="Cost: 100 goldov" display-tooltip-when-elided="true" name="ResourcesCosts" class="styleText" style="align-items: center;" />
+                </ui:VisualElement>
+                <ui:Button text="Create!" display-tooltip-when-elided="true" name="CreateStuff" class="styleText" style="width: 42%;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

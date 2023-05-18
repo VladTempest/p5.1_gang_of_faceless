@@ -1,5 +1,7 @@
 ﻿using Editor.Scripts.HubLocation.Views.Rooms;
+using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 
 namespace Editor.Scripts.HubLocation.RoomDataSO
 {
@@ -8,6 +10,7 @@ namespace Editor.Scripts.HubLocation.RoomDataSO
 	{
 		public string RoomName;
 		[FormerlySerializedAs("RoomView")] public RoomView RoomViewPrefab;
+		public SerializableDictionary<RoomViewUIType,UIDocument> UIDocumentDictionary;
 		public int Cost;
 	}
 }

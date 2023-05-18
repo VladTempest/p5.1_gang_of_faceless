@@ -269,6 +269,9 @@ MonoBehaviour:
     values:
     - {fileID: 4242546331666704484}
     - {fileID: 1425030171262563558}
+  _uiDocumentDictionary:
+    keys: 
+    values: []
   BuildButton: {fileID: 0}
 --- !u!1 &4242546331666704484
 GameObject:

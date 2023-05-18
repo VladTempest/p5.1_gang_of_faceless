@@ -1,4 +1,5 @@
-﻿using Editor.Scripts.GlobalUtils;
+﻿using System.Collections.Generic;
+using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.HubLocation.RoomDataSO;
 using Editor.Scripts.HubLocation.Views.Rooms;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 		{
 			Cost = roomData.Cost;
 			RoomName = roomData.RoomName;
-			RoomView = roomData.RoomViewPrefab.Initialize(this, transformForBuilding);
+			RoomView = roomData.RoomViewPrefab.Initialize(this, transformForBuilding, roomData);
 			IsBuilt = false;
 		}
 		
@@ -45,7 +46,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 			RoomView.ChangeRoomState(RoomState.Built);
 		}
 
-		public virtual void SetUpRoomViewUI(SerializableDictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
+		public virtual void SetUpRoomViewUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
 		{
 			
 		}
