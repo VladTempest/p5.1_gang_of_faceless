@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Editor.Scripts.GlobalUtils;
+using Editor.Scripts.HubLocation.CameraController;
 using Editor.Scripts.HubLocation.Rooms;
 using Editor.Scripts.HubLocation.Views.Rooms;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Editor.Scripts.HubLocation
 	{
 		[SerializeField]
 		private SerializableDictionary<RoomType, Transform> _roomTransformDictionary;
+		[SerializeField] HubCameraController _hubCameraController;
 		
 		[SerializeField]
 		private RoomDataSO.RoomDataSO _roomDataSo;
@@ -57,7 +59,7 @@ namespace Editor.Scripts.HubLocation
 				ResourceController.DeductGold(roomData.Cost);
 				//Initialize the room
 				//Create controller for room based on roomType with roomVIew from RoomData
-				var roomController = RoomControllerFactory.GetRoomControllerByRoomType(roomType, roomData, _roomTransformDictionary[roomType]);
+				var roomController = RoomControllerFactory.CreateRoomControllerByRoomType(roomType, roomData, _roomTransformDictionary[roomType], _hubCameraController);
 				roomController.Initialize();
 				//Add built room to builtRoomList
 				_roomControllerDictionary.Add(roomType, roomController);

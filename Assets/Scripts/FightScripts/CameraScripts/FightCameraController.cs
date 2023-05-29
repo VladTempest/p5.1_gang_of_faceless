@@ -1,12 +1,11 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using Editor.Scripts.Utils;
 using GridSystems;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class FightCameraController : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera _cinemachineCamera;
     [SerializeField] private Collider _cameraBorders;

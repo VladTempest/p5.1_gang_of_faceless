@@ -339,6 +339,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Touch"",
+                    ""type"": ""Value"",
+                    ""id"": ""0b4e5ca0-671d-46df-ad03-b9d21236e789"",
+                    ""expectedControlType"": ""Touch"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -363,6 +372,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Pinch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e227748-5b37-44ef-b1fa-835810948b34"",
+                    ""path"": ""<Touchscreen>/primaryTouch"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Touch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -380,6 +400,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Touch = asset.FindActionMap("Touch", throwIfNotFound: true);
         m_Touch_Drag = m_Touch.FindAction("Drag", throwIfNotFound: true);
         m_Touch_Pinch = m_Touch.FindAction("Pinch", throwIfNotFound: true);
+        m_Touch_Touch = m_Touch.FindAction("Touch", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -521,12 +542,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private List<ITouchActions> m_TouchActionsCallbackInterfaces = new List<ITouchActions>();
     private readonly InputAction m_Touch_Drag;
     private readonly InputAction m_Touch_Pinch;
+    private readonly InputAction m_Touch_Touch;
     public struct TouchActions
     {
         private @PlayerInputActions m_Wrapper;
         public TouchActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Drag => m_Wrapper.m_Touch_Drag;
         public InputAction @Pinch => m_Wrapper.m_Touch_Pinch;
+        public InputAction @Touch => m_Wrapper.m_Touch_Touch;
         public InputActionMap Get() { return m_Wrapper.m_Touch; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -542,6 +565,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Pinch.started += instance.OnPinch;
             @Pinch.performed += instance.OnPinch;
             @Pinch.canceled += instance.OnPinch;
+            @Touch.started += instance.OnTouch;
+            @Touch.performed += instance.OnTouch;
+            @Touch.canceled += instance.OnTouch;
         }
 
         private void UnregisterCallbacks(ITouchActions instance)
@@ -552,6 +578,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Pinch.started -= instance.OnPinch;
             @Pinch.performed -= instance.OnPinch;
             @Pinch.canceled -= instance.OnPinch;
+            @Touch.started -= instance.OnTouch;
+            @Touch.performed -= instance.OnTouch;
+            @Touch.canceled -= instance.OnTouch;
         }
 
         public void RemoveCallbacks(ITouchActions instance)
@@ -581,5 +610,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     {
         void OnDrag(InputAction.CallbackContext context);
         void OnPinch(InputAction.CallbackContext context);
+        void OnTouch(InputAction.CallbackContext context);
     }
 }

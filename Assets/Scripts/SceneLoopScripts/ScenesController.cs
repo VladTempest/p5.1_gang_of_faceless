@@ -12,7 +12,9 @@ namespace Editor.Scripts.SceneLoopScripts
         public static ScenesController Instance { get; set; }
         
         [SerializeField] private List<SceneWithEnum> _sceneWithEnums;
+
         private LoadingProgressBarUI _progressBar;
+
         private bool _alreadyLoaded;
 
 
@@ -28,7 +30,13 @@ namespace Editor.Scripts.SceneLoopScripts
             DontDestroyOnLoad(Instance);
         }
 
-        
+        public bool CheckCurrentScene(ScenesEnum sceneEnumToCheck)
+        {
+            string sceneToCheck = GetSceneNameFromSceneEnum(sceneEnumToCheck);
+            return SceneManager.GetActiveScene().name == sceneToCheck;
+        }
+
+
         public void LoadScene(ScenesEnum sceneEnumToLoad)
         {
             string sceneToLoad = GetSceneNameFromSceneEnum(sceneEnumToLoad);
@@ -45,7 +53,7 @@ namespace Editor.Scripts.SceneLoopScripts
             var sceneWithEnum = _sceneWithEnums.Find(item => item.sceneEnumName == sceneEnumToFind);
             return sceneWithEnum.sceneName;
         }
-        
+
 
         private void LoadWithLoadingScreen(string targetSceneName)
         {
@@ -80,7 +88,7 @@ namespace Editor.Scripts.SceneLoopScripts
 
             yield return null;
         }
-        
+
         private IEnumerator LoadingSceneLoadAsync()
         {
             yield return null;
@@ -94,6 +102,5 @@ namespace Editor.Scripts.SceneLoopScripts
             
             _progressBar = FindObjectOfType<LoadingProgressBarUI>();
         }
-        
     }
 }

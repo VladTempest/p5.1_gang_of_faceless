@@ -89,6 +89,7 @@ namespace FightScripts.GridSystem
 		{
 			yield return null;
 			
+			if (_combinedMeshes[indexOfCombinedMesh] == null) yield break;
 			_combinedMeshes[indexOfCombinedMesh].SetActive(false);
 			
 			_outlines.Add(gridVisualType == GridVisualType.Red

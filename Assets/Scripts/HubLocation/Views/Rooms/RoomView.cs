@@ -6,6 +6,7 @@ using Editor.Scripts.HubLocation.RoomDataSO;
 using Editor.Scripts.HubLocation.Rooms;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 
@@ -24,19 +25,21 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 		private SerializableDictionary<RoomState, GameObject> _roomStateDictionary;
 		private RoomState _roomState = RoomState.Unlocked;
 		private Dictionary<RoomViewUIType,UIDocument> _uiDocumentDictionary = new();
-		private RoomControllerBase RoomControllerController { get; set; }
+		private RoomControllerBase RoomController { get; set; }
 
 		public RoomView Initialize(RoomControllerBase roomController, Transform roomViewTransform, RoomData roomData)
 		{
 			ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {roomController.RoomName} initialized");
-			RoomControllerController = roomController;
+			RoomController = roomController;
+			roomController.OnRoomFocusedEvent += OnRoomFocused;
 			foreach (var uiDocument in roomData.UIDocumentDictionary)
 			{
 				_uiDocumentDictionary.Add(uiDocument.Key, Instantiate(uiDocument.Value, roomViewTransform));
 			}
-			SetUpUI();
-			RoomControllerController.SetUpRoomViewUI(_uiDocumentDictionary);
-			return Instantiate(this, roomViewTransform);
+			StartSetUpUI();
+			RoomController.SetUpRoomViewUI(_uiDocumentDictionary);
+			UpdateUI();
+			return this;
 		}
 		
 		public GameObject GetRoomPrefab()
@@ -53,40 +56,53 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 			_roomStateDictionary[roomState].SetActive(true);
 		}
 		
-		private void OnRoomFocused()
+		private void OnRoomFocused(Transform _)
 		{
-			SetUpUI();
-			SetUpCamera();
-			ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomControllerController.RoomName} is focused");
+			UpdateUI();
+			ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomController.RoomName} is focused");
 		}
 
-		private void SetUpCamera()
-		{
-			
-		}
-
-		private void SetUpUI()
+		private void StartSetUpUI()
 		{
 			foreach (var uiDocument in _uiDocumentDictionary)
 			{
-				switch (uiDocument.Key)
-				{
-					case RoomViewUIType.Common:
-						uiDocument.Value.gameObject.SetActive(true);
-						break;
-					case RoomViewUIType.ForBuilding:
-						uiDocument.Value.gameObject.SetActive(_roomState == RoomState.Unlocked);
-						break;
-					case RoomViewUIType.ForFunctionality:
-						uiDocument.Value.gameObject.SetActive(_roomState == RoomState.Built);
-						break;
-					default:
-						throw new ArgumentOutOfRangeException();
-				}
+				SetUpSpecificUIDocument(uiDocument);
 			}
 		}
-	}
 
+		private void SetUpSpecificUIDocument(KeyValuePair<RoomViewUIType, UIDocument> uiDocument)
+		{
+			switch (uiDocument.Key)
+			{
+				case RoomViewUIType.Common:
+					uiDocument.Value.gameObject.SetActive(true);
+					break;
+				case RoomViewUIType.ForBuilding:
+					uiDocument.Value.gameObject.SetActive(_roomState == RoomState.Unlocked);
+					break;
+				case RoomViewUIType.ForFunctionality:
+					uiDocument.Value.gameObject.SetActive(_roomState == RoomState.Built);
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+
+		private void UpdateUI()
+		{
+			foreach (var uiDocument in _uiDocumentDictionary)
+			{
+				SetUpSpecificUIDocument(uiDocument);
+				uiDocument.Value.gameObject.SetActive(uiDocument.Value.gameObject.activeSelf && RoomController.IsFocused);
+			}
+		}
+
+		public void HandleTouch()
+		{
+			RoomController.OnRoomFocused();
+		}
+	}
+	
 	public enum RoomState
 	{
 		Locked,

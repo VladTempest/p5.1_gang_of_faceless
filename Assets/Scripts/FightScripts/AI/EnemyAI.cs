@@ -5,10 +5,11 @@ using Editor.Scripts.AI;
 using Editor.Scripts.GlobalUtils;
 using GridSystems;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] private CameraController _cameraController;
+    [FormerlySerializedAs("_cameraController")] [SerializeField] private FightCameraController _fightCameraController;
     private int _enemiesCount;
     private int _currentEnemyInAction;
     private List<Unit> _enemyUnitList;
@@ -40,7 +41,7 @@ public class EnemyAI : MonoBehaviour
         {
             var enemyAiUnit = _enemyUnitList[currentEnemyInAction].gameObject.GetComponent<EnemyAIUnit>();
             _currentEnemyInAction++;
-            _cameraController.StartMovingToTargetUnit(enemyAiUnit.transform.position);
+            _fightCameraController.StartMovingToTargetUnit(enemyAiUnit.transform.position);
             ConvenientLogger.LogError(nameof(EnemyAI), GlobalLogConstant.IsAILogEnabled, $"{Time.time} Start make action for {_enemyUnitList[currentEnemyInAction]}({_enemyUnitList[currentEnemyInAction].GetGridPosition()}) enemy");
             enemyAiUnit.MakeAIAction(() =>
             {

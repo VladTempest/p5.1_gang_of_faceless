@@ -1,4 +1,5 @@
 ﻿using System;
+using Editor.Scripts.HubLocation.CameraController;
 using Editor.Scripts.HubLocation.RoomDataSO;
 using UnityEngine;
 
@@ -6,12 +7,12 @@ namespace Editor.Scripts.HubLocation.Rooms
 {
 	public static class RoomControllerFactory
 	{
-		public static RoomControllerBase GetRoomControllerByRoomType(RoomType roomType, RoomData roomData, Transform transformForBuilding)
+		public static RoomControllerBase CreateRoomControllerByRoomType(RoomType roomType, RoomData roomData, Transform transformForBuilding, HubCameraController hubCameraController)
 		{
 			switch (roomType)
 			{
 				case RoomType.Workshop:
-					return new Workshop(roomData, transformForBuilding);
+					return new Workshop(roomData, transformForBuilding, hubCameraController);
 				/*case RoomType.Library:
 				case RoomType.TrainingGround:
 				case RoomType.Armory:

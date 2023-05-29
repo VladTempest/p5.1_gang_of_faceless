@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Editor.Scripts.GlobalUtils;
+using Editor.Scripts.HubLocation.CameraController;
 using Editor.Scripts.HubLocation.RoomDataSO;
 using Editor.Scripts.HubLocation.Views.Rooms;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 {
 	public class Workshop : RoomControllerBase
 	{
-		public Workshop(RoomData roomData, Transform transformForBuilding) : base(roomData, transformForBuilding)
+		public Workshop(RoomData roomData, Transform transformForBuilding, HubCameraController hubCameraController) : base(roomData, transformForBuilding, hubCameraController)
 		{
 			
 		}
@@ -27,7 +28,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 			var rootVisualElement = uiDocumentDictionary[RoomViewUIType.ForBuilding].rootVisualElement;
 			var buildButton = rootVisualElement.Q<Button>("BuildButton");
 			buildButton.clicked += UpgradeRoomState;
-			
+
 		} //ToDo: move it to the base class
 	}
 }
