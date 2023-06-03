@@ -19,17 +19,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 		{
 			ConvenientLogger.Log(nameof(Workshop), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Setting Up Room View UI for {RoomName}");
 			base.SetUpRoomViewUI(uiDocumentDictionary);
-        
-			if (uiDocumentDictionary == null)
-			{
-				ConvenientLogger.Log(nameof(Workshop), GlobalLogConstant.IsHubRoomControllLogEnabled, $"uiDocumentDictionary is null");
-				return;
-			}
-			
-			var rootVisualElement = uiDocumentDictionary[RoomViewUIType.ForBuilding].rootVisualElement;
-			var buildButton = rootVisualElement.Q<Button>("BuildButton");
-			buildButton.clicked += UpgradeRoomState;
-		} //ToDo: move it to the base class
+		}
 	}
 	
 }

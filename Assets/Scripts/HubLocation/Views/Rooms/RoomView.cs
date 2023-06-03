@@ -32,6 +32,7 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 			ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {roomController.RoomName} initialized");
 			RoomController = roomController;
 			roomController.OnRoomFocusedEvent += OnRoomFocused;
+			roomController.OnRoomUnfocusedEvent += OnRoomUnfocused;
 			foreach (var uiDocument in roomData.UIDocumentDictionary)
 			{
 				_uiDocumentDictionary.Add(uiDocument.Key, Instantiate(uiDocument.Value, roomViewTransform));
@@ -42,19 +43,64 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 			return this;
 		}
 
+		private void OnDestroy()
+		{
+			RoomController.OnRoomFocusedEvent -= OnRoomFocused;
+			RoomController.OnRoomUnfocusedEvent -= OnRoomUnfocused;
+		}
+
 		public void ChangeRoomState(RoomState roomState)
+		{
+			switch (roomState)
+			{
+				case RoomState.Locked:
+					ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomController.RoomName} can't be locked yet");
+					return;
+				case RoomState.Unlocked:
+					if (_roomState == RoomState.Locked)
+					{
+						ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomController.RoomName} is unlocked");
+						_roomState = roomState;
+						UpdateUI();
+						break;
+					}
+					return;
+				case RoomState.Built:
+					if (_roomState == RoomState.Unlocked)
+					{
+						ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomController.RoomName} is built");
+						_roomState = roomState;
+						UpdateUI();
+						break;
+					}
+					return;
+				default:
+					throw new ArgumentOutOfRangeException(nameof(roomState), roomState, null);
+			}
+
+			UpdateVisuals(roomState);
+		}
+
+		private void UpdateVisuals(RoomState roomState)
 		{
 			foreach (var roomStateGameObject in _roomStateDictionary)
 			{
 				roomStateGameObject.Value.SetActive(false);
 			}
+
 			_roomStateDictionary[roomState].SetActive(true);
 		}
-		
+
 		private void OnRoomFocused(Transform _)
 		{
 			UpdateUI();
 			ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomController.RoomName} is focused");
+		}
+		
+		private void OnRoomUnfocused()
+		{
+			UpdateUI();
+			ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomController.RoomName} is unfocused");
 		}
 
 		private void StartSetUpUI()
@@ -95,6 +141,11 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 		public void HandleTouch()
 		{
 			RoomController.OnRoomFocused();
+		}
+
+		public void HandlePinch()
+		{
+			RoomController.OnRoomUnfocused();
 		}
 	}
 	

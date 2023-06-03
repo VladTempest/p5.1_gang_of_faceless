@@ -42,6 +42,7 @@ namespace Editor.Scripts.HubLocation.CameraController
 
 		private float _lastPinchDistance;
 		private float _multiplier = 1;
+		private RoomView _currentFocusedRoom;
 
 		private void Awake()
 		{
@@ -118,8 +119,6 @@ namespace Editor.Scripts.HubLocation.CameraController
 
 		private void OnPinch(InputAction.CallbackContext ctx)
 		{
-			if (!IsFreeLook) return;
-
 			var touch = ctx.ReadValue<TouchState>();
 
 			if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
@@ -135,23 +134,31 @@ namespace Editor.Scripts.HubLocation.CameraController
 
 			float currentPinchDistance = Vector2.Distance(primaryTouchPosition, currentPinchPosition);
 
-			if (touch.phase == TouchPhase.Began)
+
+			if (!IsFreeLook)
 			{
+				Debug.Log($"Pinch in room {currentPinchDistance}");
+				_currentFocusedRoom?.HandlePinch();
+				_currentFocusedRoom = null;
+			}
+			else
+			{
+				if (touch.phase == TouchPhase.Began)
+				{
+					_lastPinchDistance = currentPinchDistance;
+				}
+
+				float delta = _lastPinchDistance - currentPinchDistance;
+				
+				_centerPoint.position -= _centerPoint.forward * delta * pinchZoomSpeed;
 				_lastPinchDistance = currentPinchDistance;
 			}
-
-			float delta = _lastPinchDistance - currentPinchDistance;
-
-			Debug.Log($"Delta: {delta}");
-
-
-			_centerPoint.position -= _centerPoint.forward * delta * pinchZoomSpeed;
-			_lastPinchDistance = currentPinchDistance;
 		}
 
 		private void OnTouch(InputAction.CallbackContext ctx)
 		{
 			if (!IsFreeLook) return;
+			if (_isPinching) return;
 			
 			var touch = ctx.ReadValue<TouchState>();
 			if (touch.phase == TouchPhase.Ended)
@@ -166,6 +173,7 @@ namespace Editor.Scripts.HubLocation.CameraController
 					if (room != null)
 					{
 						room.HandleTouch();
+						_currentFocusedRoom = room;
 					}
 				}
 			}
@@ -180,6 +188,14 @@ namespace Editor.Scripts.HubLocation.CameraController
 			_roomCamera.Priority = 1;
 			
 			_hubCameraState = HubCameraState.Room;
+		}
+		
+		public void UnfocusOnRoom()
+		{
+			_freeLookCamera.Priority = 1;
+			_roomCamera.Priority = 0;
+			
+			_hubCameraState = HubCameraState.FreeLook;
 		}
 	}
 }

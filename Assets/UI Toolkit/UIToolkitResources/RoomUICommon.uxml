@@ -1,12 +1,15 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/UIToolkitResources/RoomView/PanelWithBackground.uss?fileID=7433441132597879392&amp;guid=9a2d1e0cb42cf4a4e984edb40eb24659&amp;type=3#PanelWithBackground" />
-    <ui:VisualElement name="MainPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
-        <ui:VisualElement name="LeftPanel" style="background-color: rgba(0, 0, 0, 0); align-items: center; height: 100%; width: 56%;">
+    <ui:VisualElement name="MainPanel" picking-mode="Ignore" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
+        <ui:VisualElement name="LeftPanel" style="background-color: rgba(0, 0, 0, 0); align-items: center; height: 100%; width: 56%; flex-direction: column;">
             <ui:VisualElement name="ResourcePanel" class="styleBGPanel" style="height: 9%; width: 90%; margin-left: 2%; margin-right: 0; margin-top: 1%; align-items: center;">
                 <ui:Label tabindex="-1" text="Gold:1 NotGold:1" display-tooltip-when-elided="true" name="Resource1" class="styleText" />
             </ui:VisualElement>
+            <ui:VisualElement name="ReturnPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-items: flex-start; align-self: flex-start; margin-left: 6%;">
+                <ui:Button text="Return" display-tooltip-when-elided="true" name="ReturnButton" class="styleText" style="-unity-text-align: middle-center;" />
+            </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="RightPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 100%; align-items: flex-start;">
+        <ui:VisualElement name="RightPanel" picking-mode="Ignore" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 100%; align-items: flex-start;">
             <ui:VisualElement name="Description" class="styleBGPanel" style="height: 34%; width: 96%; margin-left: 2%; margin-right: 0; margin-top: 1%; align-items: flex-start;">
                 <ui:Label tabindex="-1" text="Workshop" display-tooltip-when-elided="true" name="RoomName" class="styleText" style="align-items: center;" />
                 <ui:Label tabindex="-1" text="You can buildstuff here, duh... &#10;Arrows and some other stuff. Bombs or potions,&#10;May be even something usefull" display-tooltip-when-elided="true" name="RoomDescripton" class="styleText" style="align-items: center; -unity-text-align: middle-left; white-space: normal;" />
