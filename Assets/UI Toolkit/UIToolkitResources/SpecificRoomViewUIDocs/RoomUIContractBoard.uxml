@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/UIToolkitResources/RoomView/PanelWithBackground.uss?fileID=7433441132597879392&amp;guid=9a2d1e0cb42cf4a4e984edb40eb24659&amp;type=3#PanelWithBackground" />
+    <ui:VisualElement name="MainPanel" picking-mode="Ignore" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
+        <ui:VisualElement name="LeftPanel" picking-mode="Ignore" style="background-color: rgba(0, 0, 0, 0); align-items: center; height: 100%; width: 56%;" />
+        <ui:VisualElement name="RightPanel" picking-mode="Ignore" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 100%; align-items: flex-start; justify-content: flex-end;">
+            <ui:VisualElement name="Description" class="styleBGPanel" style="height: 63%; width: 96%; margin-left: 2%; margin-right: 0; margin-top: 1%; align-items: center; justify-content: flex-start;">
+                <ui:VisualElement name="ReceiptContainer" style="background-color: rgba(0, 0, 0, 0); align-items: flex-end; height: initial;">
+                    <ui:Label tabindex="-1" text="Available Contracts" display-tooltip-when-elided="true" name="ContractsLabel" class="styleText" style="align-items: center;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="ContarctsContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: center;">
+                    <ui:Button text="Scenario" display-tooltip-when-elided="true" name="ContractButton" class="styleText styleContractButton" />
+                    <ui:Button text="Scenario" display-tooltip-when-elided="true" name="ContractButton" class="styleText styleContractButton" />
+                    <ui:Button text="Scenario" display-tooltip-when-elided="true" name="ContractButton" class="styleText styleContractButton" />
+                    <ui:Button text="Scenario" display-tooltip-when-elided="true" name="ContractButton" class="styleText styleContractButton" />
+                    <ui:Button text="Scenario" display-tooltip-when-elided="true" name="ContractButton" class="styleText styleContractButton" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

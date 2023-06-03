@@ -13,6 +13,8 @@ namespace Editor.Scripts.HubLocation.Rooms
 			{
 				case RoomType.Workshop:
 					return new Workshop(roomData, transformForBuilding, hubCameraController);
+				case RoomType.ContractBoard:
+					return new ContractBoard(roomData, transformForBuilding, hubCameraController);
 				/*case RoomType.Library:
 				case RoomType.TrainingGround:
 				case RoomType.Armory:

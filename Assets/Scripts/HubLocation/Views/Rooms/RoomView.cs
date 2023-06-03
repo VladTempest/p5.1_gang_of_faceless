@@ -23,7 +23,7 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 	{
 		[SerializeField]
 		private SerializableDictionary<RoomState, GameObject> _roomStateDictionary;
-		private RoomState _roomState = RoomState.Unlocked;
+		private RoomState _roomState = RoomState.Locked;
 		private Dictionary<RoomViewUIType,UIDocument> _uiDocumentDictionary = new();
 		private RoomControllerBase RoomController { get; set; }
 
@@ -39,7 +39,12 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 			}
 			StartSetUpUI();
 			RoomController.SetUpRoomViewUI(_uiDocumentDictionary);
+
+			//ToDo: this is a temporary solution, need to be changed with adding Save/Load system and Conditional Room Availability
+			_roomState = RoomState.Unlocked;
 			UpdateUI();
+			UpdateVisuals(_roomState);
+			
 			return this;
 		}
 

@@ -39,31 +39,22 @@ namespace Editor.Scripts.HubLocation
 			UpgradeRoomState(RoomType.Workshop);
 		}
 		
-		//method to instantiate rooms that already built
 		private void InstantiateBuiltRooms()
 		{
-			//instantiate rooms that already built
 			ConvenientLogger.Log(nameof(HubController), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Start instantiate built rooms");
 		}
 		
-		//method to build room of certain type - certain type here we got from touch that processed by Input Controller
 		private void InitializeRoom(RoomType roomType)
 		{
 			ConvenientLogger.Log(nameof(HubController), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Start build room");
-			//Get roomData from SO based on roomType
 			var roomData = _roomDataSo.RoomDataDictionary[roomType];
-			//Check if player can afford the room
 			if (ResourceController.HasEnoughGold(roomData.Cost))
 			{
 				ConvenientLogger.Log(nameof(HubController), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Player can afford room");
 				ResourceController.DeductGold(roomData.Cost);
-				//Initialize the room
-				//Create controller for room based on roomType with roomVIew from RoomData
 				var roomController = RoomControllerFactory.CreateRoomControllerByRoomType(roomType, roomData, _roomTransformDictionary[roomType], _hubCameraController);
 				roomController.Initialize();
-				//Add built room to builtRoomList
 				_roomControllerDictionary.Add(roomType, roomController);
-				//Turnoff placeholder room
 				return;
 			}
 			

@@ -15,5 +15,6 @@
 		Chapel,
 		ThroneRoom,
 		TrainingRoom,
+		ContractBoard,
 	}
 }

@@ -14,12 +14,6 @@ namespace Editor.Scripts.HubLocation.Rooms
 		{
 			
 		}
-
-		public override void SetUpRoomViewUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
-		{
-			ConvenientLogger.Log(nameof(Workshop), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Setting Up Room View UI for {RoomName}");
-			base.SetUpRoomViewUI(uiDocumentDictionary);
-		}
 	}
 	
 }

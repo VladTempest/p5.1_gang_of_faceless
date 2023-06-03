@@ -73,16 +73,24 @@ namespace Editor.Scripts.HubLocation.Rooms
 			RoomView.ChangeRoomState(RoomState.Built);
 		}
 
-		public virtual void SetUpRoomViewUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
+		public void SetUpRoomViewUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
 		{
+			ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Setting Up Room View UI for {RoomName}");
+			
 			if (uiDocumentDictionary == null)
 			{
-				ConvenientLogger.Log(nameof(Workshop), GlobalLogConstant.IsHubRoomControllLogEnabled, $"uiDocumentDictionary is null");
+				ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled, $"uiDocumentDictionary is null");
 				return;
 			}
 			
 			SetUpBuildUI(uiDocumentDictionary);
 			SetUpCommonUI(uiDocumentDictionary);
+			SetUpRoomFunctionalityUI(uiDocumentDictionary);
+		}
+
+		protected virtual void SetUpRoomFunctionalityUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
+		{
+			// Do nothing
 		}
 
 		private void SetUpCommonUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
