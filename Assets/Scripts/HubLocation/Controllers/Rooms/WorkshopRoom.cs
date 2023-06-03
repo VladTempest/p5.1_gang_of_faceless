@@ -17,6 +17,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 
 		public override void SetUpRoomViewUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
 		{
+			ConvenientLogger.Log(nameof(Workshop), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Setting Up Room View UI for {RoomName}");
 			base.SetUpRoomViewUI(uiDocumentDictionary);
         
 			if (uiDocumentDictionary == null)
@@ -28,7 +29,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 			var rootVisualElement = uiDocumentDictionary[RoomViewUIType.ForBuilding].rootVisualElement;
 			var buildButton = rootVisualElement.Q<Button>("BuildButton");
 			buildButton.clicked += UpgradeRoomState;
-
 		} //ToDo: move it to the base class
 	}
+	
 }

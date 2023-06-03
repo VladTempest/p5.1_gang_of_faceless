@@ -41,11 +41,6 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 			UpdateUI();
 			return this;
 		}
-		
-		public GameObject GetRoomPrefab()
-		{
-			return _roomStateDictionary[RoomState.Built];
-		}
 
 		public void ChangeRoomState(RoomState roomState)
 		{
@@ -75,13 +70,13 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 			switch (uiDocument.Key)
 			{
 				case RoomViewUIType.Common:
-					uiDocument.Value.gameObject.SetActive(true);
+					uiDocument.Value.rootVisualElement.visible = true;
 					break;
 				case RoomViewUIType.ForBuilding:
-					uiDocument.Value.gameObject.SetActive(_roomState == RoomState.Unlocked);
+					uiDocument.Value.rootVisualElement.visible = _roomState == RoomState.Unlocked;
 					break;
 				case RoomViewUIType.ForFunctionality:
-					uiDocument.Value.gameObject.SetActive(_roomState == RoomState.Built);
+					uiDocument.Value.rootVisualElement.visible = _roomState == RoomState.Built;
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -93,7 +88,7 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 			foreach (var uiDocument in _uiDocumentDictionary)
 			{
 				SetUpSpecificUIDocument(uiDocument);
-				uiDocument.Value.gameObject.SetActive(uiDocument.Value.gameObject.activeSelf && RoomController.IsFocused);
+				uiDocument.Value.rootVisualElement.visible = uiDocument.Value.rootVisualElement.visible && RoomController.IsFocused;
 			}
 		}
 
