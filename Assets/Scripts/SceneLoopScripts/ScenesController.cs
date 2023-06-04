@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,7 +20,6 @@ namespace Editor.Scripts.SceneLoopScripts
         {
             if (Instance != null)
             {
-                Debug.LogError("There are many singletonss", this);
                 Destroy(gameObject);
                 return;
             }
@@ -101,6 +98,12 @@ namespace Editor.Scripts.SceneLoopScripts
             }
             
             _progressBar = FindObjectOfType<LoadingProgressBarUI>();
+        }
+
+        public void ReloadCurrentScene()
+        {
+            var currentScene = SceneManager.GetActiveScene().name;
+            LoadWithLoadingScreen(currentScene);
         }
     }
 }

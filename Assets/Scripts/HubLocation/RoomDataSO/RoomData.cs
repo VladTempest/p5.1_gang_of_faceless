@@ -12,5 +12,6 @@ namespace Editor.Scripts.HubLocation.RoomDataSO
 		[FormerlySerializedAs("RoomView")] public RoomView RoomViewPrefab;
 		public SerializableDictionary<RoomViewUIType,UIDocument> UIDocumentDictionary;
 		public int Cost;
+		public string RoomKey;
 	}
 }

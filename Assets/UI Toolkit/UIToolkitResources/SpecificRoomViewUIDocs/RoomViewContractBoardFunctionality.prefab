@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8646044398962638380}
   - component: {fileID: 1113380710599045988}
+  - component: {fileID: 2420925313934868146}
   m_Layer: 5
   m_Name: RoomViewContractBoardFunctionality
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1113380710599045988
 MonoBehaviour:
@@ -49,3 +50,18 @@ MonoBehaviour:
   sourceAsset: {fileID: 9197481963319205126, guid: 62b4cd64b8f4ec546809a60d18c7d255,
     type: 3}
   m_SortingOrder: 0
+--- !u!114 &2420925313934868146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557029633505701777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26027f313fbb444684f03f56d7119ce7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _table:
+    m_TableReference:
+      m_TableCollectionName: GUID:f97f078668c972c4cbcff7f62feccde7

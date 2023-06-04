@@ -4,7 +4,6 @@ using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.HubLocation.CameraController;
 using Editor.Scripts.HubLocation.RoomDataSO;
 using Editor.Scripts.HubLocation.Views.Rooms;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,14 +13,14 @@ namespace Editor.Scripts.HubLocation.Rooms
 	{
 		public event Action<Transform> OnRoomFocusedEvent;
 		public event Action OnRoomUnfocusedEvent;
-		public RoomView RoomView { get; set; }
+		private RoomView RoomView { get; set; }
 		public string RoomName { get; }
 		public int Cost { get; set; }
 		public bool IsBuilt { get; private set; }
 		
 		const string RETURN_BUTTON_KEY = "ReturnButton";
 		const string BUILD_BUTTON_KEY = "BuildButton";
-		
+
 
 		public bool IsFocused => !_hubCameraController.IsFreeLook;
 		private HubCameraController _hubCameraController;
@@ -95,6 +94,8 @@ namespace Editor.Scripts.HubLocation.Rooms
 
 		private void SetUpCommonUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
 		{
+			//{ROOMKEY}
+			
 			var returnButton = uiDocumentDictionary[RoomViewUIType.Common].rootVisualElement.Q<Button>(RETURN_BUTTON_KEY);
 			returnButton.clicked += OnRoomUnfocused;
 		}

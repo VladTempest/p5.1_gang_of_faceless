@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: RoomUITable Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: RoomUITable
+  m_TableCollectionNameGuidString: f97f078668c972c4cbcff7f62feccde7
+  m_Entries:
+  - m_Id: 8040931328
+    m_Key: room_workshop_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 227084263424
+    m_Key: room_contract_board_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 922655055872
+    m_Key: room_workshop_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1467352539136
+    m_Key: room_contract_board_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2089892110336
+    m_Key: room_contract_board_ambush
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2274558926848
+    m_Key: room_contract_board_bridge
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2608677183488
+    m_Key: button_return
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3371985985536
+    m_Key: button_build
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 979625379880763396
+  references:
+    version: 2
+    RefIds:
+    - rid: 979625379880763396
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1685882543057

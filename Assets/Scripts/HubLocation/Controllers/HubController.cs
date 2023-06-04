@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.HubLocation.CameraController;
 using Editor.Scripts.HubLocation.Rooms;
-using Editor.Scripts.HubLocation.Views.Rooms;
 using UnityEngine;
 
 namespace Editor.Scripts.HubLocation
@@ -34,11 +32,6 @@ namespace Editor.Scripts.HubLocation
 			}
 		}
 
-		public void TestFunctions()
-		{
-			UpgradeRoomState(RoomType.Workshop);
-		}
-		
 		private void InstantiateBuiltRooms()
 		{
 			ConvenientLogger.Log(nameof(HubController), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Start instantiate built rooms");

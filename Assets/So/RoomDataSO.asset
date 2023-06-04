@@ -25,6 +25,7 @@ MonoBehaviour:
         - {fileID: 3177334483297593115, guid: d0899ce6a7b3b444ebd00276aef58a41, type: 3}
         - {fileID: 910142231949540600, guid: f4e68f1d498a442488a7513f96775ee5, type: 3}
       Cost: 0
+      RoomKey: workshop
     - RoomName: universal UI container
       RoomViewPrefab: {fileID: 0}
       UIDocumentDictionary:
@@ -33,6 +34,7 @@ MonoBehaviour:
         - {fileID: 3177334483297593115, guid: d0899ce6a7b3b444ebd00276aef58a41, type: 3}
         - {fileID: 910142231949540600, guid: f4e68f1d498a442488a7513f96775ee5, type: 3}
       Cost: 0
+      RoomKey: 
     - RoomName: ContractRoom
       RoomViewPrefab: {fileID: 534756333883887509, guid: c3141cea0d146204f83909c4f99e6fe5,
         type: 3}
@@ -43,3 +45,4 @@ MonoBehaviour:
         - {fileID: 910142231949540600, guid: f4e68f1d498a442488a7513f96775ee5, type: 3}
         - {fileID: 1113380710599045988, guid: 5eaf50deb53f00a42bf67a37b5d918a9, type: 3}
       Cost: 0
+      RoomKey: contract_board

@@ -38,6 +38,13 @@ MonoBehaviour:
     - Locale-fr
     - Preload
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7d879dc8fbb472d44808776f79d7bcd5
+    m_Address: RoomUITable_fr
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fr
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 84e4b2309a8149c43b36d98be0b4c950, type: 2}
   m_SchemaSet:

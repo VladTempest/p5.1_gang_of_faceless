@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: RoomUITable_de
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: de
+  m_SharedData: {fileID: 11400000, guid: f97f078668c972c4cbcff7f62feccde7, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 8040931328
+    m_Localized: Workshop_de
+    m_Metadata:
+      m_Items: []
+  - m_Id: 227084263424
+    m_Localized: Contract board_de
+    m_Metadata:
+      m_Items: []
+  - m_Id: 922655055872
+    m_Localized: "You can buildstuff here, duh... \nArrows and some other stuff.
+      Bombs or potions,\nMay be even something usefull_de"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1467352539136
+    m_Localized: 'You can start the available scenario.
+
+      Kill same enemies,
+      gather resources.
+
+      What else do you want?_de
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2089892110336
+    m_Localized: '''AMBUSH''_de'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2274558926848
+    m_Localized: '''BRIDGE''_de'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2608677183488
+    m_Localized: RETURN_de
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3371985985536
+    m_Localized: BUILD_de
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

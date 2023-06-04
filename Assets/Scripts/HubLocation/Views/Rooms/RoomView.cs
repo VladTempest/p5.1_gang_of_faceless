@@ -4,21 +4,11 @@ using UnityEngine;
 using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.HubLocation.RoomDataSO;
 using Editor.Scripts.HubLocation.Rooms;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
-using Button = UnityEngine.UI.Button;
 
 
 namespace Editor.Scripts.HubLocation.Views.Rooms
 {
-	public enum RoomViewUIType
-	{
-		Common,
-		ForBuilding,
-		ForFunctionality,
-	}
 	public class RoomView : MonoBehaviour
 	{
 		[SerializeField]
@@ -26,6 +16,11 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 		private RoomState _roomState = RoomState.Locked;
 		private Dictionary<RoomViewUIType,UIDocument> _uiDocumentDictionary = new();
 		private RoomControllerBase RoomController { get; set; }
+		
+		private const string ROOM_NAME_CONTAINER_NAME = "RoomName";
+		private const string ROOM_DESCRIPTION_CONTAINER_NAME = "RoomDescription";
+		private const string ROOM_KEY_MASK = "{ROOMKEY}";
+		private string _roomKey;
 
 		public RoomView Initialize(RoomControllerBase roomController, Transform roomViewTransform, RoomData roomData)
 		{
@@ -33,6 +28,8 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 			RoomController = roomController;
 			roomController.OnRoomFocusedEvent += OnRoomFocused;
 			roomController.OnRoomUnfocusedEvent += OnRoomUnfocused;
+			
+			_roomKey = roomData.RoomKey;
 			foreach (var uiDocument in roomData.UIDocumentDictionary)
 			{
 				_uiDocumentDictionary.Add(uiDocument.Key, Instantiate(uiDocument.Value, roomViewTransform));
@@ -121,6 +118,10 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 			switch (uiDocument.Key)
 			{
 				case RoomViewUIType.Common:
+					
+					ReplaceRommKeyMaskInLocaleKey(uiDocument, ROOM_NAME_CONTAINER_NAME);
+					ReplaceRommKeyMaskInLocaleKey(uiDocument, ROOM_DESCRIPTION_CONTAINER_NAME);
+
 					uiDocument.Value.rootVisualElement.visible = true;
 					break;
 				case RoomViewUIType.ForBuilding:
@@ -132,6 +133,12 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+		}
+
+		private void ReplaceRommKeyMaskInLocaleKey(KeyValuePair<RoomViewUIType, UIDocument> uiDocument, string ROOM_NAME_CONTAINER_NAME)
+		{
+			var roomNameContainer = uiDocument.Value.rootVisualElement.Q<Label>(ROOM_NAME_CONTAINER_NAME);
+			roomNameContainer.text = roomNameContainer.text.Replace(ROOM_KEY_MASK, _roomKey);
 		}
 
 		private void UpdateUI()
@@ -152,12 +159,5 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 		{
 			RoomController.OnRoomUnfocused();
 		}
-	}
-	
-	public enum RoomState
-	{
-		Locked,
-		Unlocked,
-		Built
 	}
 }

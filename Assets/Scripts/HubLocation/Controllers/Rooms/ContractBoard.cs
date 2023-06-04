@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.HubLocation.CameraController;
 using Editor.Scripts.HubLocation.RoomDataSO;
 using Editor.Scripts.HubLocation.Views.Rooms;
@@ -40,7 +40,23 @@ namespace Editor.Scripts.HubLocation.Rooms
 		{
 			var buttonElement = childrenList[indexOfButton].Q<Button>();
 			buttonElement.clicked += () => ScenesController.Instance.LoadScene(scenesEnum);
-			buttonElement.text = scenesEnum.ToString().Split("_")[1];
+			buttonElement.text = GetLocalisationKeyFromSceneEnum(scenesEnum);
+		}
+
+		private string GetLocalisationKeyFromSceneEnum(ScenesEnum scenesEnum)
+		{
+			switch (scenesEnum)
+			{
+				case ScenesEnum.FightScene_Ambush:
+					return "#room_contract_board_ambush";
+				case ScenesEnum.FightScene_Bridge:
+					return "#room_contract_board_bridge";
+				case ScenesEnum.MainMenu:
+				case ScenesEnum.Loading:
+				case ScenesEnum.HubScene:
+				default:
+					throw new ArgumentOutOfRangeException(nameof(scenesEnum), scenesEnum, null);
+			}
 		}
 	}
 	
