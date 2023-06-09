@@ -2,8 +2,9 @@
     <Style src="project://database/Assets/UI%20Toolkit/UIToolkitResources/RoomView/PanelWithBackground.uss?fileID=7433441132597879392&amp;guid=9a2d1e0cb42cf4a4e984edb40eb24659&amp;type=3#PanelWithBackground" />
     <ui:VisualElement name="MainPanel" picking-mode="Ignore" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
         <ui:VisualElement name="LeftPanel" style="background-color: rgba(0, 0, 0, 0); align-items: center; height: 100%; width: 56%; flex-direction: column;">
-            <ui:VisualElement name="ResourcePanel" class="styleBGPanel" style="height: 9%; width: 90%; margin-left: 2%; margin-right: 0; margin-top: 1%; align-items: center;">
-                <ui:Label tabindex="-1" text="Gold:1 NotGold:1" display-tooltip-when-elided="true" name="Resource1" class="styleText" />
+            <ui:VisualElement name="ResourcePanel" class="styleBGPanel" style="height: 9%; width: 90%; margin-left: 2%; margin-right: 0; margin-top: 1%; align-items: center; flex-direction: row; justify-content: center;">
+                <ui:Label tabindex="-1" text="Gold:" display-tooltip-when-elided="true" name="ResourceName" class="styleText" style="-unity-text-align: middle-right;" />
+                <ui:Label tabindex="-1" text="0" display-tooltip-when-elided="true" name="ResourceCount" class="styleText" style="-unity-text-align: middle-left;" />
             </ui:VisualElement>
             <ui:VisualElement name="ReturnPanel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-items: flex-start; align-self: flex-start; margin-left: 6%;">
                 <ui:Button text="#button_return" display-tooltip-when-elided="true" name="ReturnButton" class="styleText" style="-unity-text-align: middle-center;" />
