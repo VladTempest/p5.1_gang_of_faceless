@@ -1,39 +1,40 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Editor.Scripts.HubLocation
 {
-	public static class ResourceController
+	public class ResourceController : MonoBehaviour
 	{
-		private static int _gold;
-		
-		public static event Action OnGoldChanged;
-		
-		public static int Gold
+		private ResourceReactiveData _resourceReactiveData;
+		public static ResourceController Instance { get; private set; }
+
+		private void Awake()
 		{
-			get => _gold;
-			set
+			if (Instance != null)
 			{
-				_gold = value;
-				OnGoldChanged?.Invoke();
+				Debug.LogError("There are many singletonss");
+				Destroy(gameObject);
+				return;
 			}
+
+			Instance = this;
+			
+			_resourceReactiveData = new ResourceReactiveData(InputResourceData.GoldCount);
 		}
 		
-		//method to check if player has enough gold to build a room
-		public static bool HasEnoughGold(int goldCost)
+		public bool HasEnoughGold(int roomDataCost)
 		{
-			return _gold >= goldCost;
+			return _resourceReactiveData.GoldCount.Value >= roomDataCost;
 		}
-		
-		//method to deduct gold from player
-		public static void DeductGold(int goldCost)
+
+		public void DecreaseGold(int roomDataCost)
 		{
-			_gold -= goldCost;
+			_resourceReactiveData.GoldCount.Value -= roomDataCost;
 		}
-		
-		//method to add gold to player
-		public static void AddGold(int gold)
+
+		public ResourceReactiveData GetResourceReactiveData()
 		{
-			_gold += gold;
+			return _resourceReactiveData;
 		}
 	}
 }

@@ -20,6 +20,9 @@ namespace Editor.Scripts.HubLocation.Rooms
 		
 		const string RETURN_BUTTON_KEY = "ReturnButton";
 		const string BUILD_BUTTON_KEY = "BuildButton";
+		const string RESOURCE_COST_KEY = "ResourceCost";
+
+		private const string resourceCountKey = "ResourceCount";
 
 
 		public bool IsFocused => !_hubCameraController.IsFreeLook;
@@ -37,22 +40,15 @@ namespace Editor.Scripts.HubLocation.Rooms
 			IsBuilt = false;
 		}
 		
-		public void Initialize()
-		{
-			ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Start building room {RoomName}");
-			
-			IsBuilt = true;
-			OnRoomBuilt();
-		}
 		private bool CanAffordRoom()
 		{
-			// Check if the player can afford the room
 			ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Check if player can afford room {RoomName}");
-			return true; // for now, just return true
+			return ResourceController.Instance.HasEnoughGold(Cost);
 		}
 		protected virtual void OnRoomBuilt()
 		{
 			// Do something when the room is built
+			IsBuilt = true;
 			ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomName} is built");
 		}
 		public virtual void OnRoomFocused()
@@ -67,9 +63,17 @@ namespace Editor.Scripts.HubLocation.Rooms
 			ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomName} is unfocused");
 		}
 
-		public void UpgradeRoomState()
+		private void TryUpgradeRoomState()
 		{
-			RoomView.ChangeRoomState(RoomState.Built);
+			//if (ResourceController.Instance.HasEnoughGold(Cost))
+			{
+				ResourceController.Instance.DecreaseGold(Cost);
+				RoomView.ChangeRoomState(RoomState.Built);
+				OnRoomBuilt();
+				return;
+			}
+			
+			ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Player can't afford room {RoomName}");
 		}
 
 		public void SetUpRoomViewUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
@@ -94,17 +98,28 @@ namespace Editor.Scripts.HubLocation.Rooms
 
 		private void SetUpCommonUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
 		{
-			//{ROOMKEY}
+			var commonUIRootVisualElement = uiDocumentDictionary[RoomViewUIType.Common].rootVisualElement;
 			
-			var returnButton = uiDocumentDictionary[RoomViewUIType.Common].rootVisualElement.Q<Button>(RETURN_BUTTON_KEY);
+			var returnButton = commonUIRootVisualElement.Q<Button>(RETURN_BUTTON_KEY);
 			returnButton.clicked += OnRoomUnfocused;
+
+			var resourceReactiveData = ResourceController.Instance.GetResourceReactiveData();
+			var label = commonUIRootVisualElement.Q<Label>(resourceCountKey);
+			label.text = resourceReactiveData.GoldCount.Value.ToString();
+			resourceReactiveData.GoldCount.onValueChanged += (value) => label.text = value.ToString();
 		}
 
 		private void SetUpBuildUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
 		{
+			
+
 			var rootVisualElement = uiDocumentDictionary[RoomViewUIType.ForBuilding].rootVisualElement;
+			
 			var buildButton = rootVisualElement.Q<Button>(BUILD_BUTTON_KEY);
-			buildButton.clicked += UpgradeRoomState;
+			buildButton.clicked += TryUpgradeRoomState;
+			
+			var labelResourceCost = rootVisualElement.Q<Label>(RESOURCE_COST_KEY);
+			labelResourceCost.text = Cost.ToString();
 		}
 	}
 
