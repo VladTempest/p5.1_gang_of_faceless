@@ -65,7 +65,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 
 		private void TryUpgradeRoomState()
 		{
-			//if (ResourceController.Instance.HasEnoughGold(Cost))
+			if (ResourceController.Instance.HasEnoughGold(Cost))
 			{
 				ResourceController.Instance.DecreaseGold(Cost);
 				RoomView.ChangeRoomState(RoomState.Built);
