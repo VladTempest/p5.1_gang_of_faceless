@@ -16,6 +16,7 @@ public class MeleeAttackAction : BaseAction
     [SerializeField] private Transform _swordDamageSource;
 
     protected MeleeAttackState _currentState;
+    public Unit TargetUnit => _targetUnit;
     protected Unit _targetUnit;
     protected float _timeToRotateToEnemy = 0.5f;
     protected float _timeForEnemyToRotate = 0.3f;

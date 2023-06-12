@@ -14,8 +14,7 @@ public class BaseShootAction : BaseAction
 
 { 
     public static event EventHandler OnShootHit;
-
-    public Unit ActiveUnit => _unit;
+    
     public Unit TargetUnit => _targetUnit;
     
     protected enum State

@@ -37,6 +37,9 @@ public class CameraManager : MonoBehaviour
             case BaseShootAction shootAction:
                 HideActionCamera();
                 break;
+            case MeleeAttackAction meleeAttackAction:
+                HideActionCamera();
+                break;
         }
     }
 
@@ -46,24 +49,36 @@ public class CameraManager : MonoBehaviour
         {
             case BaseShootAction shootAction:
                 if (!IfWillTurnOnByRandom()) break;
-                Unit shooterUnit = shootAction.ActiveUnit;
+                Unit shooterUnit = shootAction.Unit;
                 Unit targetUnit = shootAction.TargetUnit;
-                Vector3 cameraCharacterHeight = Vector3.up * 1.7f;
-                Vector3 shootDirection = (targetUnit.WorldPosition - shooterUnit.WorldPosition).normalized;
-                float shoulderOffsetAmount = 0.5f;
-                Vector3 shoulderOffset = Quaternion.Euler(0, 90, 0) * shootDirection * shoulderOffsetAmount;
-
-                Vector3 positionForActionCamera = shooterUnit.WorldPosition + cameraCharacterHeight + shoulderOffset + shootDirection * (-1);
-
-                _actionCameraGameObject.transform.position = positionForActionCamera;
-                _actionCameraGameObject.transform.LookAt(targetUnit.transform.position + cameraCharacterHeight);
-                ShowActionCamera();
+                TurnOnActionCamera(targetUnit, shooterUnit);
+                break;
+            case MeleeAttackAction meleeAttackAction:
+                if (!IfWillTurnOnByRandom()) break;
+                Unit attackerUnit = meleeAttackAction.Unit;
+                Unit attackedUnit = meleeAttackAction.TargetUnit;
+                TurnOnActionCamera(attackedUnit, attackerUnit);
                 break;
         }
     }
 
+    private void TurnOnActionCamera(Unit targetUnit, Unit shooterUnit)
+    {
+        Vector3 cameraCharacterHeight = Vector3.up * 1.7f;
+        Vector3 shootDirection = (targetUnit.WorldPosition - shooterUnit.WorldPosition).normalized;
+        float shoulderOffsetAmount = 0.5f;
+        Vector3 shoulderOffset = Quaternion.Euler(0, 90, 0) * shootDirection * shoulderOffsetAmount;
+
+        Vector3 positionForActionCamera =
+            shooterUnit.WorldPosition + cameraCharacterHeight + shoulderOffset + shootDirection * (-1);
+
+        _actionCameraGameObject.transform.position = positionForActionCamera;
+        _actionCameraGameObject.transform.LookAt(targetUnit.transform.position + cameraCharacterHeight);
+        ShowActionCamera();
+    }
+
     private static bool IfWillTurnOnByRandom()
     {
-        return Random.Range(0, 10) < 3;
+        return true; //Random.Range(0, 10) < 3;
     }
 }
