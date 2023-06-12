@@ -65,15 +65,16 @@ namespace Editor.Scripts.HubLocation.Rooms
 
 		private void TryUpgradeRoomState()
 		{
-			if (ResourceController.Instance.HasEnoughGold(Cost))
+			if (!ResourceController.Instance.HasEnoughGold(Cost))
 			{
-				ResourceController.Instance.DecreaseGold(Cost);
-				RoomView.ChangeRoomState(RoomState.Built);
-				OnRoomBuilt();
+				ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled,
+					$"Player can't afford room {RoomName}");
 				return;
 			}
 			
-			ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Player can't afford room {RoomName}");
+			ResourceController.Instance.DecreaseGold(Cost);
+			RoomView.ChangeRoomState(RoomState.Built);
+			OnRoomBuilt();
 		}
 
 		public void SetUpRoomViewUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)

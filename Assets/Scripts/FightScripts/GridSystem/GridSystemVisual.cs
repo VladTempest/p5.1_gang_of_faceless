@@ -23,6 +23,8 @@ public class GridSystemVisual : MonoBehaviour
 
     [SerializeField] private GridVisualizerFactory _gridVisualizerFactory;
 
+    [SerializeField] private GameObject _gridPreview;
+
     private IGridVisualizer _gridVisualizer;
 
 
@@ -42,6 +44,7 @@ public class GridSystemVisual : MonoBehaviour
     private void Start()
     {
         _gridVisualizer = _gridVisualizerFactory.GetGridVisualizer(_typeOfGridVisual);
+        _gridPreview.gameObject.SetActive(false);
 
         UnitActionSystem.Instance.OnBusyChanged += UnitActionSystem_OnBusyChanged;
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
