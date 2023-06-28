@@ -3,10 +3,10 @@ using Editor.Scripts.HubLocation.ReactiveData;
 
 public class ResourceReactiveData
 {
-	public ReactiveInt GoldCount;
+	public ReactiveInt Amount;
 
-	public ResourceReactiveData(int goldCount)
+	public ResourceReactiveData(int resourceAmount)
 	{
-		GoldCount = new ReactiveInt(goldCount);
+		Amount = new ReactiveInt(resourceAmount);
 	}
 }

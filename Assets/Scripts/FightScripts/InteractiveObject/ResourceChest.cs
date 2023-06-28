@@ -19,7 +19,7 @@ namespace FightScripts.InteractiveObject
 		}
 		public void Interact(Action onActionComplete)
 		{
-			ResourceController.Instance.IncreaseGold(_goldAmount);
+			ResourceController.Instance.IncreaseResource(ResourceTypes.Gold, _goldAmount);
 			_chestCover.SetActive(false);
 			LevelGrid.Instance.ClearInteractableAtGridPosition(GridPosition);
 			onActionComplete.Invoke();

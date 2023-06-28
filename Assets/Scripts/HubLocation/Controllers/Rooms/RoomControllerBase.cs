@@ -43,7 +43,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 		private bool CanAffordRoom()
 		{
 			ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Check if player can afford room {RoomName}");
-			return ResourceController.Instance.HasEnoughGold(Cost);
+			return ResourceController.Instance.HasEnoughResource(ResourceTypes.Gold, Cost);
 		}
 		protected virtual void OnRoomBuilt()
 		{
@@ -65,14 +65,14 @@ namespace Editor.Scripts.HubLocation.Rooms
 
 		private void TryUpgradeRoomState()
 		{
-			if (!ResourceController.Instance.HasEnoughGold(Cost))
+			if (!ResourceController.Instance.HasEnoughResource(ResourceTypes.Gold,Cost))
 			{
 				ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled,
 					$"Player can't afford room {RoomName}");
 				return;
 			}
 			
-			ResourceController.Instance.DecreaseGold(Cost);
+			ResourceController.Instance.DecreaseResource(ResourceTypes.Gold, Cost);
 			RoomView.ChangeRoomState(RoomState.Built);
 			OnRoomBuilt();
 		}
@@ -104,10 +104,10 @@ namespace Editor.Scripts.HubLocation.Rooms
 			var returnButton = commonUIRootVisualElement.Q<Button>(RETURN_BUTTON_KEY);
 			returnButton.clicked += OnRoomUnfocused;
 
-			var resourceReactiveData = ResourceController.Instance.GetResourceReactiveData();
+			var resourceReactiveData = ResourceController.Instance.GetResourceReactiveData(ResourceTypes.Gold);
 			var label = commonUIRootVisualElement.Q<Label>(resourceCountKey);
-			label.text = resourceReactiveData.GoldCount.Value.ToString();
-			resourceReactiveData.GoldCount.onValueChanged += (value) => label.text = value.ToString();
+			label.text = resourceReactiveData.Amount.Value.ToString();
+			resourceReactiveData.Amount.onValueChanged += (value) => label.text = value.ToString();
 		}
 
 		private void SetUpBuildUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)

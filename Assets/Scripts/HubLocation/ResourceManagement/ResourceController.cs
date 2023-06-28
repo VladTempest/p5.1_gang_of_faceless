@@ -1,11 +1,12 @@
-﻿using Editor.Scripts.GlobalUtils;
+﻿using System.Collections.Generic;
+using Editor.Scripts.GlobalUtils;
 using UnityEngine;
 
 namespace Editor.Scripts.HubLocation
 {
 	public class ResourceController : MonoBehaviour
 	{
-		private ResourceReactiveData _resourceReactiveData;
+		private Dictionary<ResourceTypes, ResourceReactiveData> _resourcesDictionary;
 		public static ResourceController Instance { get; private set; }
 
 		private void Awake()
@@ -20,31 +21,35 @@ namespace Editor.Scripts.HubLocation
 			Instance = this;
 			DontDestroyOnLoad(Instance);
 			
-			_resourceReactiveData = new ResourceReactiveData(InputResourceData.GoldCount);
+			_resourcesDictionary = new Dictionary<ResourceTypes, ResourceReactiveData>
+			{
+				{ResourceTypes.Gold, new ResourceReactiveData(InputResourceData.GoldCount)},
+				{ResourceTypes.ParalyzingArrows, new ResourceReactiveData(InputResourceData.ParalyzingArrows)}
+			};
 		}
 		
-		public bool HasEnoughGold(int roomDataCost)
+		public bool HasEnoughResource(ResourceTypes resourceType, int resourceCost)
 		{
-			ConvenientLogger.Log(nameof(ResourceController), GlobalLogConstant.IsResourceControllerLogEnabled, $"Has enough gold: {roomDataCost} against {_resourceReactiveData.GoldCount.Value}: {_resourceReactiveData.GoldCount.Value >= roomDataCost}");
-			return _resourceReactiveData.GoldCount.Value >= roomDataCost;
+			ConvenientLogger.Log(nameof(ResourceController), GlobalLogConstant.IsResourceControllerLogEnabled, $"Has enough {resourceType} resource: {resourceCost} against {_resourcesDictionary[resourceType].Amount.Value}: {_resourcesDictionary[resourceType].Amount.Value >= resourceCost}");
+			return _resourcesDictionary[resourceType].Amount.Value >= resourceCost;
 		}
 
-		public void DecreaseGold(int goldAmount)
+		public void DecreaseResource(ResourceTypes resourceType, int resourceAmount)
 		{
-			ConvenientLogger.Log(nameof(ResourceController), GlobalLogConstant.IsResourceControllerLogEnabled, $"Decrease gold amount: {goldAmount}. Now: {_resourceReactiveData.GoldCount.Value - goldAmount}");
-			_resourceReactiveData.GoldCount.Value -= goldAmount;
+			ConvenientLogger.Log(nameof(ResourceController), GlobalLogConstant.IsResourceControllerLogEnabled, $"Decrease {resourceType} amount: {resourceAmount}. Now: {_resourcesDictionary[resourceType].Amount.Value - resourceAmount}");
+			_resourcesDictionary[resourceType].Amount.Value -= resourceAmount;
 		}
 
-		public ResourceReactiveData GetResourceReactiveData()
+		public ResourceReactiveData GetResourceReactiveData(ResourceTypes resourceType)
 		{
-			ConvenientLogger.Log(nameof(ResourceController), GlobalLogConstant.IsResourceControllerLogEnabled, $"Get resource reactive data");
-			return _resourceReactiveData;
+			ConvenientLogger.Log(nameof(ResourceController), GlobalLogConstant.IsResourceControllerLogEnabled, $"Get {resourceType} resource reactive data");
+			return _resourcesDictionary[resourceType];
 		}
 
-		public void IncreaseGold(int goldAmount)
+		public void IncreaseResource(ResourceTypes resourceType, int resourceAmount)
 		{
-			ConvenientLogger.Log(nameof(ResourceController), GlobalLogConstant.IsResourceControllerLogEnabled, $"Increase gold amount: {goldAmount}. Now: {_resourceReactiveData.GoldCount.Value + goldAmount}");
-			_resourceReactiveData.GoldCount.Value += goldAmount;
+			ConvenientLogger.Log(nameof(ResourceController), GlobalLogConstant.IsResourceControllerLogEnabled, $"Increase {resourceType} resource amount: {resourceAmount}. Now: {_resourcesDictionary[resourceType].Amount.Value + resourceAmount}");
+			_resourcesDictionary[resourceType].Amount.Value += resourceAmount;
 		}
 	}
 }

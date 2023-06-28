@@ -10,9 +10,9 @@ namespace Editor.Scripts.HubLocation.ReactiveData
 
 		private int _value;
 
-		public ReactiveInt(int goldCount)
+		public ReactiveInt(int resourceAmount)
 		{
-			_value = goldCount;
+			_value = resourceAmount;
 		}
 
 		public int Value
