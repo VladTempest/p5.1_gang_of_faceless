@@ -1,4 +1,5 @@
 ﻿using System;
+using Editor.Scripts.HubLocation;
 
 namespace Editor.Scripts.Utils
 {
@@ -10,6 +11,7 @@ namespace Editor.Scripts.Utils
         public int ActionPoints;
         public float CoolDown;
         public int Charges;
+        public ResourceTypes ConnectedResourceType;
         public int MinRange;
         public int MaxRange;
         public string Description;

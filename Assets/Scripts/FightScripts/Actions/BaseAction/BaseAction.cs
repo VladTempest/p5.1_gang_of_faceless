@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Editor.Scripts.Actions.BaseAction;
+using Editor.Scripts.HubLocation;
 using Editor.Scripts.Utils;
 using FightScripts.GridSystem;
 using GridSystems;
@@ -70,15 +71,18 @@ public abstract class BaseAction : MonoBehaviour
     protected string _description;
     
     protected List<GridPosition> _cachedAvailablePositions = new List<GridPosition>();
+    private ResourceTypes _connectedResourceType;
 
     protected virtual void Awake()
     {
         if (!enabled) return;
 
+        _unit = GetComponent<Unit>();
+        
         SetUpActionParameters();
-        
+
         _chargesLeft = _maxCharges;
-        
+
         if (_coolDownTurnsLeft == 0)
         {
             _currentStatus = ActionStatus.ReadyToUse;
@@ -87,7 +91,6 @@ public abstract class BaseAction : MonoBehaviour
         {
             _currentStatus = ActionStatus.OnCoolDown;
         }
-        _unit = GetComponent<Unit>();
     }
 
     private void SetUpActionParameters()
@@ -97,7 +100,17 @@ public abstract class BaseAction : MonoBehaviour
         {
             _actionName = actionsParameters.Name;
             MaxActionRange = actionsParameters.MaxRange;
-            _maxCharges = actionsParameters.Charges;
+            if (actionsParameters.ConnectedResourceType != ResourceTypes.None && !_unit.IsUnitAnEnemy)
+            {
+                _connectedResourceType = actionsParameters.ConnectedResourceType;
+                var resourceReactiveData = ResourceController.Instance.GetResourceReactiveData(actionsParameters.ConnectedResourceType);
+                _maxCharges = resourceReactiveData.Amount.Value;
+                resourceReactiveData.Amount.onValueChanged += (value) => _maxCharges = value;
+            }
+            else
+            {
+                _maxCharges = actionsParameters.Charges;
+            }
             _cooldownValue = actionsParameters.CoolDown;
             _damage = actionsParameters.Damage;
             _minActionRange = actionsParameters.MinRange;
@@ -307,7 +320,14 @@ public abstract class BaseAction : MonoBehaviour
 
     private void InvokeOnActionStart(object sender, EventArgs eventArgs)
     {
-        if (_maxCharges != 0) _chargesLeft--;
+        if (_maxCharges != 0)
+        {
+            _chargesLeft--;
+            if (_connectedResourceType != ResourceTypes.None  && !_unit.IsUnitAnEnemy)
+            {
+                ResourceController.Instance.DecreaseResource(_connectedResourceType, 1);
+            }
+        }
         if (HasCoolDown) _coolDownTurnsLeft = FullCoolDownValue;
         UpdateActionStatus();
         OnActionStart?.Invoke(sender, eventArgs);

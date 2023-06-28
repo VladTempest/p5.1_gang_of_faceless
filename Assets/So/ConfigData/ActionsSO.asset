@@ -20,6 +20,7 @@ MonoBehaviour:
       ActionPoints: 0
       CoolDown: 0
       Charges: 0
+      ConnectedResourceType: 0
       MinRange: 0
       MaxRange: 7
       Description: action_move_desc
@@ -29,6 +30,7 @@ MonoBehaviour:
       ActionPoints: 4
       CoolDown: 0
       Charges: 0
+      ConnectedResourceType: 0
       MinRange: 2
       MaxRange: 5
       Description: action_default_shot_desc
@@ -38,6 +40,7 @@ MonoBehaviour:
       ActionPoints: 6
       CoolDown: 2
       Charges: 0
+      ConnectedResourceType: 0
       MinRange: 3
       MaxRange: 6
       Description: action_long_shot_desc
@@ -46,7 +49,8 @@ MonoBehaviour:
       Damage: 1
       ActionPoints: 6
       CoolDown: 0
-      Charges: 3
+      Charges: 1
+      ConnectedResourceType: 2
       MinRange: 2
       MaxRange: 6
       Description: action_parallyze_desc
@@ -56,6 +60,7 @@ MonoBehaviour:
       ActionPoints: 3
       CoolDown: 0
       Charges: 0
+      ConnectedResourceType: 0
       MinRange: 0
       MaxRange: 1
       Description: action_sword_attack_desc
@@ -65,6 +70,7 @@ MonoBehaviour:
       ActionPoints: 3
       CoolDown: 2
       Charges: 0
+      ConnectedResourceType: 0
       MinRange: 0
       MaxRange: 1
       Description: action_push_desc
@@ -74,6 +80,7 @@ MonoBehaviour:
       ActionPoints: 6
       CoolDown: 3
       Charges: 0
+      ConnectedResourceType: 0
       MinRange: 0
       MaxRange: 1
       Description: action_knockdown_desc
@@ -83,6 +90,7 @@ MonoBehaviour:
       ActionPoints: 3
       CoolDown: 0
       Charges: 0
+      ConnectedResourceType: 0
       MinRange: 0
       MaxRange: 1
       Description: action_dual_sword_desc
@@ -92,6 +100,7 @@ MonoBehaviour:
       ActionPoints: 6
       CoolDown: 2
       Charges: 0
+      ConnectedResourceType: 0
       MinRange: 0
       MaxRange: 4
       Description: action_backstab_desc
@@ -101,6 +110,7 @@ MonoBehaviour:
       ActionPoints: 10
       CoolDown: 0
       Charges: 2
+      ConnectedResourceType: 3
       MinRange: 0
       MaxRange: 6
       Description: action_explosion_potion_desc
@@ -110,6 +120,7 @@ MonoBehaviour:
       ActionPoints: 2
       CoolDown: 0
       Charges: 0
+      ConnectedResourceType: 0
       MinRange: 0
       MaxRange: 1
       Description: action_interact_desc

@@ -2,7 +2,9 @@
 {
 	public enum ResourceTypes
 	{
-		Gold = 0,
-		ParalyzingArrows = 1
+		None = 0,
+		Gold = 1,
+		ParalyzingArrows = 2,
+		ExplosionPotion = 3,
 	}
 }
