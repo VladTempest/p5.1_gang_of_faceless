@@ -50,7 +50,7 @@ public abstract class BaseAction : MonoBehaviour
     
     private float _coolDownTurnsLeft = 0;
 
-    public bool IsChargeable => (_maxCharges != 0);
+    public bool IsChargeable;
     public int MaxCharges => _maxCharges;
     [SerializeField] private int _maxCharges = 0;
     public int ChargesLeft => _chargesLeft;
@@ -111,6 +111,7 @@ public abstract class BaseAction : MonoBehaviour
             {
                 _maxCharges = actionsParameters.Charges;
             }
+            IsChargeable = actionsParameters.IsChargeable;
             _cooldownValue = actionsParameters.CoolDown;
             _damage = actionsParameters.Damage;
             _minActionRange = actionsParameters.MinRange;
@@ -361,7 +362,7 @@ public abstract class BaseAction : MonoBehaviour
             case ActionStatus.Discharged:
                 break;
             case ActionStatus.InProgress:
-                if (_maxCharges != 0 && _chargesLeft <= 0)
+                if (IsChargeable && _chargesLeft <= 0)
                 {
                     _currentStatus = ActionStatus.Discharged;
                     OnActionStatusUpdate?.Invoke(this, EventArgs.Empty);

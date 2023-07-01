@@ -19,6 +19,7 @@ MonoBehaviour:
       Damage: 0
       ActionPoints: 0
       CoolDown: 0
+      IsChargable: 0
       Charges: 0
       ConnectedResourceType: 0
       MinRange: 0
@@ -29,6 +30,7 @@ MonoBehaviour:
       Damage: 3
       ActionPoints: 4
       CoolDown: 0
+      IsChargable: 0
       Charges: 0
       ConnectedResourceType: 0
       MinRange: 2
@@ -39,6 +41,7 @@ MonoBehaviour:
       Damage: 2
       ActionPoints: 6
       CoolDown: 2
+      IsChargable: 0
       Charges: 0
       ConnectedResourceType: 0
       MinRange: 3
@@ -49,6 +52,7 @@ MonoBehaviour:
       Damage: 1
       ActionPoints: 6
       CoolDown: 0
+      IsChargable: 0
       Charges: 1
       ConnectedResourceType: 2
       MinRange: 2
@@ -59,6 +63,7 @@ MonoBehaviour:
       Damage: 6
       ActionPoints: 3
       CoolDown: 0
+      IsChargable: 0
       Charges: 0
       ConnectedResourceType: 0
       MinRange: 0
@@ -69,6 +74,7 @@ MonoBehaviour:
       Damage: 1
       ActionPoints: 3
       CoolDown: 2
+      IsChargable: 0
       Charges: 0
       ConnectedResourceType: 0
       MinRange: 0
@@ -79,6 +85,7 @@ MonoBehaviour:
       Damage: 2
       ActionPoints: 6
       CoolDown: 3
+      IsChargable: 0
       Charges: 0
       ConnectedResourceType: 0
       MinRange: 0
@@ -89,6 +96,7 @@ MonoBehaviour:
       Damage: 3
       ActionPoints: 3
       CoolDown: 0
+      IsChargable: 0
       Charges: 0
       ConnectedResourceType: 0
       MinRange: 0
@@ -99,6 +107,7 @@ MonoBehaviour:
       Damage: 3
       ActionPoints: 6
       CoolDown: 2
+      IsChargable: 0
       Charges: 0
       ConnectedResourceType: 0
       MinRange: 0
@@ -109,6 +118,7 @@ MonoBehaviour:
       Damage: 6
       ActionPoints: 10
       CoolDown: 0
+      IsChargable: 0
       Charges: 2
       ConnectedResourceType: 3
       MinRange: 0
@@ -119,6 +129,7 @@ MonoBehaviour:
       Damage: 0
       ActionPoints: 2
       CoolDown: 0
+      IsChargable: 0
       Charges: 0
       ConnectedResourceType: 0
       MinRange: 0

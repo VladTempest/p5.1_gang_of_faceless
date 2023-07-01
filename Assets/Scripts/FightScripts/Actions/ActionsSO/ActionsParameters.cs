@@ -10,6 +10,7 @@ namespace Editor.Scripts.Utils
         public float Damage;
         public int ActionPoints;
         public float CoolDown;
+        public bool IsChargeable => Charges > 0;
         public int Charges;
         public ResourceTypes ConnectedResourceType;
         public int MinRange;

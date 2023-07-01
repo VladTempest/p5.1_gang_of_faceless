@@ -17,6 +17,7 @@ using UnityEngine.UI;
 public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     [FormerlySerializedAs("_textMeshPro")] [SerializeField] private TextMeshProUGUI _actionButtonText;
+    [SerializeField] private TextMeshProUGUI _chargesLeftActionButtonText;
     [SerializeField] private LocalizeStringEvent _actionNameStringEvent;
     [SerializeField] private Button _button;
     [SerializeField] private GameObject _selectedVisual;
@@ -84,6 +85,7 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             {_descriptionString, new Tuple<LocalizedString, TextMeshProUGUI>(_descriptionStringReference = _descriptionString.StringReference, _descriptionStringText = _descriptionString.GetComponent<TextMeshProUGUI>())},
         };
     }
+    
 
     private void BaseAction_OnActionStatusUpdate(object sender, EventArgs e)
     {
@@ -223,6 +225,11 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private void UpdateChargesVisuals()
     {
+        if (_chargesLeftActionButtonText != null)
+        {
+            _chargesLeftActionButtonText.text = _baseAction.ChargesLeft.ToString();
+        }
+        
         if (_chargesLeftStringrReference == null) return;
         _chargesLeftStringrReference.Arguments[0] = _baseAction.ChargesLeft;
         ConvenientLogger.Log(nameof(ActionButtonUI), GlobalLogConstant.IsActionLogEnabled, "Charges left: " + _chargesLeftStringrReference.Arguments[0].ToString());
