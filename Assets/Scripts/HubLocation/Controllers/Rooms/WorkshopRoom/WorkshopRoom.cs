@@ -66,8 +66,9 @@ namespace Editor.Scripts.HubLocation.Rooms
 						$"Trying to decreasing {pair.Key} by {pair.Value}");
 					if (!ResourceController.Instance.HasEnoughResource(pair.Key, pair.Value)) return;
 					ResourceController.Instance.DecreaseResource(pair.Key, pair.Value);
-					ResourceController.Instance.IncreaseResource(item.ResourceType, 1);
 				}
+				
+				ResourceController.Instance.IncreaseResource(item.ResourceType, 1);
 			}
 		}
 
