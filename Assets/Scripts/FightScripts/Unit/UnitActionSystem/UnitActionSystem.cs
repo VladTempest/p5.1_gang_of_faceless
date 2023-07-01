@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.Utils;
 using GridSystems;
 using Scripts.Unit;
@@ -99,7 +100,7 @@ public class UnitActionSystem : MonoBehaviour
     {
         if (Instance != null)
         {
-            Debug.LogError("There are many singletonss");
+            ConvenientLogger.Log(name, GlobalLogConstant.IsSingltonsLogEnabled, $"There are many singletonss");
             Destroy(gameObject);
             return;
         }

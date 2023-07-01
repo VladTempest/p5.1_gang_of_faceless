@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Actions;
 using Editor.Scripts.Actions;
+using Editor.Scripts.GlobalUtils;
 using FightScripts.GridSystem;
 using GridSystems;
 using Scripts.Unit;
@@ -32,7 +33,7 @@ public class GridSystemVisual : MonoBehaviour
     {
         if (Instance != null)
         {
-            Debug.LogError("There are many singletonss");
+            ConvenientLogger.Log(name, GlobalLogConstant.IsSingltonsLogEnabled, $"There are many singletonss");
             Destroy(gameObject);
             return;
         }

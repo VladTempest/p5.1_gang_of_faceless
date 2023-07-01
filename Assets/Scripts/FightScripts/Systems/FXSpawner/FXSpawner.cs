@@ -1,4 +1,5 @@
 ﻿using System;
+using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.Utils;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace Editor.Scripts
         {
             if (Instance != null)
             {
-                Debug.LogError("There are many singletonss");
+                ConvenientLogger.Log(name, GlobalLogConstant.IsSingltonsLogEnabled, $"There are many singletonss");
                 Destroy(gameObject);
                 return;
             }

@@ -18,7 +18,7 @@ namespace Editor.Scripts.Utils.PoolScripts
 		{
 			if (Instance != null)
 			{
-				Debug.LogError("There are many singletonss");
+				ConvenientLogger.Log(name, GlobalLogConstant.IsSingltonsLogEnabled, $"There are many singletonss");
 				Destroy(gameObject);
 				return;
 			}

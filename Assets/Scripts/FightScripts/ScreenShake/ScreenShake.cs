@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using Editor.Scripts.GlobalUtils;
 using UnityEngine;
 
 public class ScreenShake : MonoBehaviour
@@ -14,7 +15,7 @@ public class ScreenShake : MonoBehaviour
     {
         if (Instance != null)
         {
-            Debug.LogError("There are many singletonss");
+            ConvenientLogger.Log(name, GlobalLogConstant.IsSingltonsLogEnabled, $"There are many singletonss");
             Destroy(gameObject);
             return;
         }

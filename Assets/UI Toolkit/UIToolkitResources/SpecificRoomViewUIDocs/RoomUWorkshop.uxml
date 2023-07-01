@@ -4,12 +4,12 @@
         <ui:VisualElement name="LeftPanel" picking-mode="Ignore" style="background-color: rgba(0, 0, 0, 0); align-items: center; height: 100%; width: 56%;" />
         <ui:VisualElement name="RightPanel" picking-mode="Ignore" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 100%; align-items: flex-start; justify-content: flex-end;">
             <ui:VisualElement name="Description" class="styleBGPanel" style="height: 63%; width: 96%; margin-left: 2%; margin-right: 0; margin-top: 1%; align-items: center; justify-content: center;">
-                <ui:VisualElement name="ReceiptContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; align-items: center; height: 5%;">
-                    <ui:Foldout text="Foldout" name="StuffFoldout" class="styleText" />
-                    <ui:Label tabindex="-1" text="Cost: 100 goldov" display-tooltip-when-elided="true" name="ResourcesCosts" class="styleText" style="align-items: center;" />
+                <ui:VisualElement name="ReceiptContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: column; align-items: center; height: 36%; justify-content: center; width: 80%;">
+                    <ui:DropdownField name="ResourceDropdown" index="1" class="styleText" style="height: 27%; width: 99%;" />
+                    <ui:Label tabindex="-1" text="Choose resource" display-tooltip-when-elided="true" name="ResourcesCosts" class="styleText" style="align-items: center;" />
                 </ui:VisualElement>
-                <ui:VisualElement name="ButtonContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
-                    <ui:Button text="Create!" display-tooltip-when-elided="true" name="CreateStuff" class="styleText" />
+                <ui:VisualElement name="CraftButtonContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+                    <ui:Button text="Craft!" display-tooltip-when-elided="true" name="CraftButton" class="styleText" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

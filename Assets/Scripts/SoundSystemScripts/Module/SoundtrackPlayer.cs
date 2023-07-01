@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Editor.Scripts.GlobalUtils;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -30,7 +31,7 @@ namespace SoundSystemScripts
         {
             if (Instance != null)
             {
-                Debug.LogError("There are many singletonss");
+                ConvenientLogger.Log(name, GlobalLogConstant.IsSingltonsLogEnabled, $"There are many singletonss");
                 Destroy(gameObject);
                 return;
             }

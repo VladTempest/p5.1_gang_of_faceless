@@ -13,7 +13,7 @@ namespace Editor.Scripts.HubLocation
 		{
 			if (Instance != null)
 			{
-				Debug.LogError("There are many singletonss");
+				ConvenientLogger.Log(name, GlobalLogConstant.IsSingltonsLogEnabled, $"There are many singletonss");
 				Destroy(gameObject);
 				return;
 			}
@@ -23,9 +23,11 @@ namespace Editor.Scripts.HubLocation
 			
 			_resourcesDictionary = new Dictionary<ResourceTypes, ResourceReactiveData>
 			{
-				{ResourceTypes.Gold, new ResourceReactiveData(InputResourceData.GoldCount)},
+				{ResourceTypes.Gold, new ResourceReactiveData(InputResourceData.Gold)},
 				{ResourceTypes.ParalyzingArrows, new ResourceReactiveData(InputResourceData.ParalyzingArrows)},
-				{ResourceTypes.ExplosionPotion, new ResourceReactiveData(InputResourceData.ExplosionPotion)}
+				{ResourceTypes.ExplosionPotion, new ResourceReactiveData(InputResourceData.ExplosionPotion)},
+				{ResourceTypes.Metal, new ResourceReactiveData(InputResourceData.Metal)},
+				{ResourceTypes.Wood, new ResourceReactiveData(InputResourceData.Wood)}
 			};
 
 			LogResourceDictionaryContent(_resourcesDictionary);

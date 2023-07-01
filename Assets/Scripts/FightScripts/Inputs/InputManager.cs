@@ -1,6 +1,7 @@
 #define USE_NEW_INPUT_SYSTEM
 using System.Collections;
 using System.Collections.Generic;
+using Editor.Scripts.GlobalUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +14,7 @@ public class InputManager : MonoBehaviour
    {
       if (Instance != null)
       {
-         Debug.LogError("There are many singletonss");
+         ConvenientLogger.Log(name, GlobalLogConstant.IsSingltonsLogEnabled, $"There are many singletonss");
          Destroy(gameObject);
          return;
       }

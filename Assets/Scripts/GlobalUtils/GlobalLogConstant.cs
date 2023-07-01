@@ -4,6 +4,7 @@ namespace Editor.Scripts.GlobalUtils
 {
 	public static class GlobalLogConstant
 	{
+		public const bool IsSingltonsLogEnabled = false;
 		public const bool IsAllLogEnabled = true;
 		public const bool IsPoolLogEnabled = false;
 		public const bool IsPathFindingLogEnabled = false;
