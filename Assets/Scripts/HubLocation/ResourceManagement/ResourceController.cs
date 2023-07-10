@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Editor.Scripts.GlobalUtils;
+using Editor.Scripts.HubLocation.ResourcesSO;
 using UnityEngine;
 
 namespace Editor.Scripts.HubLocation
@@ -8,6 +9,8 @@ namespace Editor.Scripts.HubLocation
 	{
 		private Dictionary<ResourceTypes, ResourceReactiveData> _resourcesDictionary;
 		public static ResourceController Instance { get; private set; }
+
+		public ResourceCraftPropertySO ResourceCraftPropertySo;
 
 		private void Awake()
 		{

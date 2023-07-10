@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Editor.Scripts.HubLocation.CameraController;
 using Editor.Scripts.HubLocation.RoomDataSO;
 using UnityEngine;
@@ -12,7 +13,8 @@ namespace Editor.Scripts.HubLocation.Rooms
 			switch (roomType)
 			{
 				case RoomType.Workshop:
-					return new Workshop(roomData, transformForBuilding, hubCameraController);
+					var resourcesProperties = ResourceController.Instance.ResourceCraftPropertySo.ResourceCraftPropertyDictionary.Values.ToList();
+					return new Workshop(roomData, transformForBuilding, hubCameraController, resourcesProperties);
 				case RoomType.ContractBoard:
 					return new ContractBoard(roomData, transformForBuilding, hubCameraController);
 				/*case RoomType.Library:

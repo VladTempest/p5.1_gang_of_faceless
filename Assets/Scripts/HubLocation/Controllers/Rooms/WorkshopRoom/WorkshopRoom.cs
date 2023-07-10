@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.HubLocation.CameraController;
+using Editor.Scripts.HubLocation.ResourcesSO;
 using Editor.Scripts.HubLocation.RoomDataSO;
 using Editor.Scripts.HubLocation.Views.Rooms;
 using UnityEngine;
@@ -17,24 +19,19 @@ namespace Editor.Scripts.HubLocation.Rooms
 		private const string DROPDOWN_KEY = "ResourceDropdown";
 		private const string RESOURCES_COSTS_KEY = "ResourcesCosts";
 		private const string CRAFT_BUTTON_KEY = "CraftButton";
-
-		//ToDo: Create a scriptable object for this
-		public List<CraftableItem> _craftableItems = new()
-		{
-			new($"{ResourceTypes.ParalyzingArrows}", ResourceTypes.ParalyzingArrows,
-				new Dictionary<ResourceTypes, int>() {{ResourceTypes.Wood, 1}, {ResourceTypes.Metal, 2}}),
-			new ($"{ResourceTypes.ExplosionPotion}", ResourceTypes.ExplosionPotion,
-				new Dictionary<ResourceTypes, int>() {{ResourceTypes.Wood, 3}, {ResourceTypes.Metal, 4}})
-		};
+        
+		public List<ResourceCraftProperty> _craftableItems;
 
 		private VisualElement _root;
 		private DropdownField _stuffDropdown;
 		private Label _resourcesCosts;
 		private Button _craftButton;
 		
-		public Workshop(RoomData roomData, Transform transformForBuilding, HubCameraController hubCameraController) :
+		public Workshop(RoomData roomData, Transform transformForBuilding, HubCameraController hubCameraController, List<ResourceCraftProperty> craftableItems) :
 			base(roomData, transformForBuilding, hubCameraController)
 		{
+			_craftableItems = craftableItems;
+			PopulateDropdown(_stuffDropdown, _craftableItems);
 		}
 
 		protected override void SetUpRoomFunctionalityUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
@@ -44,9 +41,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 			_resourcesCosts = _root.Q<Label>(RESOURCES_COSTS_KEY);
 			_stuffDropdown = _root.Q<DropdownField>(DROPDOWN_KEY);
 			_craftButton = _root.Q<Button>(CRAFT_BUTTON_KEY);
-			
-			PopulateDropdown(_stuffDropdown, _craftableItems);
-
+            
 			SetUpCraftButton(_craftButton);
 		}
 
@@ -58,7 +53,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 		private void TryToCraftItem()
 		{
 			var item = _craftableItems.Find(i => i.Name == _stuffDropdown.value);
-			if (item != null)
+			try
 			{
 				foreach (var pair in item.Cost)
 				{
@@ -70,9 +65,13 @@ namespace Editor.Scripts.HubLocation.Rooms
 				
 				ResourceController.Instance.IncreaseResource(item.ResourceType, 1);
 			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+			}
 		}
 
-		private void PopulateDropdown(DropdownField stuffDropdown, List<CraftableItem> craftableItems)
+		private void PopulateDropdown(DropdownField stuffDropdown, List<ResourceCraftProperty> craftableItems)
 		{
 			var choices = new List<string>();
 			foreach (var item in craftableItems)
@@ -86,7 +85,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 		private void UpdateCosts(string itemName)
 		{
 			var item = _craftableItems.Find(i => i.Name == itemName);
-			if (item != null)
+			try
 			{
 				StringBuilder costsStringBuilder = new StringBuilder();
 				costsStringBuilder.Append("Cost: ");
@@ -103,6 +102,10 @@ namespace Editor.Scripts.HubLocation.Rooms
 				}
 
 				_resourcesCosts.text = costsStringBuilder.ToString();
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
 			}
 		}
 		}
