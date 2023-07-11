@@ -13,7 +13,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 			switch (roomType)
 			{
 				case RoomType.Workshop:
-					var resourcesProperties = ResourceController.Instance.ResourceCraftPropertySo.ResourceCraftPropertyDictionary.Values.ToList();
+					var resourcesProperties = ResourceController.Instance.GetCraftCostList();
 					return new Workshop(roomType, roomData, transformForBuilding, hubCameraController, resourcesProperties);
 				case RoomType.ContractBoard:
 					return new ContractBoard(roomType, roomData, transformForBuilding, hubCameraController);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.HubLocation.ResourcesSO;
 using UnityEngine;
@@ -11,7 +12,8 @@ namespace Editor.Scripts.HubLocation
 		
 		public static ResourceController Instance { get; private set; }
 
-		public ResourceCraftPropertySO ResourceCraftPropertySo;
+		[SerializeField]
+		private ResourceCraftPropertySO ResourceCraftPropertySo;
 		[SerializeField]
 		private ResourceRoomBuildPropertySO _resourceRoomBuildPropertySo; 
 
@@ -77,6 +79,11 @@ namespace Editor.Scripts.HubLocation
 		public SerializableDictionary<ResourceTypes, int> GetRoomCost(RoomType roomType)
 		{
 			return _resourceRoomBuildPropertySo.ResourceRoomBuildPropertyDictionary[roomType].Cost;
+		}
+		
+		public List<ResourceCraftProperty> GetCraftCostList()
+		{
+			return ResourceCraftPropertySo.ResourceCraftPropertyDictionary.Values.ToList();
 		}
 	}
 }
