@@ -7,6 +7,8 @@
 		ParalyzingArrows = 2,
 		ExplosionPotion = 3,
 		Wood = 4,
-		Metal = 5
+		Metal = 5,
+		GoldenOre = 6,
+		Stone = 7,
 	}
 }

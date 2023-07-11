@@ -63,7 +63,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 					ResourceController.Instance.DecreaseResource(pair.Key, pair.Value);
 				}
 				
-				ResourceController.Instance.IncreaseResource(item.ResourceType, 1);
+				ResourceController.Instance.IncreaseResource(item.ResourceType, item.Quantity);
 			}
 			catch (Exception e)
 			{

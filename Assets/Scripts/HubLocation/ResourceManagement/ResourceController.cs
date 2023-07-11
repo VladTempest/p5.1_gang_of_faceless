@@ -30,7 +30,8 @@ namespace Editor.Scripts.HubLocation
 				{ResourceTypes.ParalyzingArrows, new ResourceReactiveData(InputResourceData.ParalyzingArrows)},
 				{ResourceTypes.ExplosionPotion, new ResourceReactiveData(InputResourceData.ExplosionPotion)},
 				{ResourceTypes.Metal, new ResourceReactiveData(InputResourceData.Metal)},
-				{ResourceTypes.Wood, new ResourceReactiveData(InputResourceData.Wood)}
+				{ResourceTypes.Wood, new ResourceReactiveData(InputResourceData.Wood)},
+				{ResourceTypes.GoldenOre, new ResourceReactiveData(InputResourceData.GoldenOre)},
 			};
 
 			LogResourceDictionaryContent(_resourcesDictionary);
