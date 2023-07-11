@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.HubLocation.CameraController;
 using Editor.Scripts.HubLocation.RoomDataSO;
@@ -15,7 +16,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 		public event Action OnRoomUnfocusedEvent;
 		private RoomView RoomView { get; set; }
 		public string RoomName { get; }
-		public int Cost { get; set; }
+		public SerializableDictionary<ResourceTypes, int> Cost { get; set; }
 		public bool IsBuilt { get; private set; }
 		
 		const string RETURN_BUTTON_KEY = "ReturnButton";
@@ -28,23 +29,18 @@ namespace Editor.Scripts.HubLocation.Rooms
 		public bool IsFocused => !_hubCameraController.IsFreeLook;
 		private HubCameraController _hubCameraController;
 		
-		protected RoomControllerBase(RoomData roomData, Transform transformForBuilding, HubCameraController hubCameraController)
+		protected RoomControllerBase(RoomType roomType, RoomData roomData, Transform transformForBuilding, HubCameraController hubCameraController)
 		{
 			OnRoomFocusedEvent += hubCameraController.FocusOnRoom;
 			OnRoomUnfocusedEvent += hubCameraController.UnfocusOnRoom;
 			_hubCameraController = hubCameraController;
-			Cost = roomData.Cost;
+			Cost = ResourceController.Instance.GetRoomCost(roomType);
 			RoomName = roomData.RoomName;
 			RoomView = GameObject.Instantiate(roomData.RoomViewPrefab, transformForBuilding);
 			RoomView.Initialize(this, transformForBuilding, roomData);
 			IsBuilt = false;
 		}
-		
-		private bool CanAffordRoom()
-		{
-			ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled, $"Check if player can afford room {RoomName}");
-			return ResourceController.Instance.HasEnoughResource(ResourceTypes.Gold, Cost);
-		}
+        
 		protected virtual void OnRoomBuilt()
 		{
 			// Do something when the room is built
@@ -65,14 +61,24 @@ namespace Editor.Scripts.HubLocation.Rooms
 
 		private void TryUpgradeRoomState()
 		{
-			if (!ResourceController.Instance.HasEnoughResource(ResourceTypes.Gold,Cost))
+			foreach (var pair in Cost)
 			{
 				ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled,
-					$"Player can't afford room {RoomName}");
-				return;
+					$"Checking for decreasing {pair.Key} by {pair.Value}");
+				if (!ResourceController.Instance.HasEnoughResource(pair.Key, pair.Value))
+				{
+					ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled,
+						$"Player can't afford room {RoomName}");
+					return;
+				}
 			}
-			
-			ResourceController.Instance.DecreaseResource(ResourceTypes.Gold, Cost);
+			foreach (var pair in Cost)
+			{
+				ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled,
+					$"Decreasing {pair.Key} by {pair.Value}");
+				ResourceController.Instance.DecreaseResource(pair.Key, pair.Value);
+			}
+            
 			RoomView.ChangeRoomState(RoomState.Built);
 			OnRoomBuilt();
 		}
@@ -120,7 +126,22 @@ namespace Editor.Scripts.HubLocation.Rooms
 			buildButton.clicked += TryUpgradeRoomState;
 			
 			var labelResourceCost = rootVisualElement.Q<Label>(RESOURCE_COST_KEY);
-			labelResourceCost.text = Cost.ToString();
+			
+			StringBuilder costsStringBuilder = new StringBuilder();
+			costsStringBuilder.Append("Cost: ");
+        
+			foreach (var pair in Cost)
+			{
+				costsStringBuilder.Append($"{pair.Value} {pair.Key}, ");
+			}
+
+			// Remove the last comma and space
+			if (costsStringBuilder.Length > 2)
+			{
+				costsStringBuilder.Remove(costsStringBuilder.Length - 2, 2);
+			}
+
+			labelResourceCost.text = costsStringBuilder.ToString();
 		}
 	}
 

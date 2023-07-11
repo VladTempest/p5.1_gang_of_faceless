@@ -27,8 +27,8 @@ namespace Editor.Scripts.HubLocation.Rooms
 		private Label _resourcesCosts;
 		private Button _craftButton;
 		
-		public Workshop(RoomData roomData, Transform transformForBuilding, HubCameraController hubCameraController, List<ResourceCraftProperty> craftableItems) :
-			base(roomData, transformForBuilding, hubCameraController)
+		public Workshop(RoomType roomType, RoomData roomData, Transform transformForBuilding, HubCameraController hubCameraController, List<ResourceCraftProperty> craftableItems) :
+			base(roomType, roomData, transformForBuilding, hubCameraController)
 		{
 			_craftableItems = craftableItems;
 			PopulateDropdown(_stuffDropdown, _craftableItems);
@@ -58,8 +58,13 @@ namespace Editor.Scripts.HubLocation.Rooms
 				foreach (var pair in item.Cost)
 				{
 					ConvenientLogger.Log(nameof(Workshop), GlobalLogConstant.IsResourceControllerLogEnabled,
-						$"Trying to decreasing {pair.Key} by {pair.Value}");
+						$"Checking if can decrease {pair.Key} by {pair.Value}");
 					if (!ResourceController.Instance.HasEnoughResource(pair.Key, pair.Value)) return;
+				}
+				foreach (var pair in item.Cost)
+				{
+					ConvenientLogger.Log(nameof(Workshop), GlobalLogConstant.IsResourceControllerLogEnabled,
+						$"Decreasing {pair.Key} by {pair.Value}");
 					ResourceController.Instance.DecreaseResource(pair.Key, pair.Value);
 				}
 				

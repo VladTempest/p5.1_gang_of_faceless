@@ -8,9 +8,12 @@ namespace Editor.Scripts.HubLocation
 	public class ResourceController : MonoBehaviour
 	{
 		private Dictionary<ResourceTypes, ResourceReactiveData> _resourcesDictionary;
+		
 		public static ResourceController Instance { get; private set; }
 
 		public ResourceCraftPropertySO ResourceCraftPropertySo;
+		[SerializeField]
+		private ResourceRoomBuildPropertySO _resourceRoomBuildPropertySo; 
 
 		private void Awake()
 		{
@@ -32,6 +35,7 @@ namespace Editor.Scripts.HubLocation
 				{ResourceTypes.Metal, new ResourceReactiveData(InputResourceData.Metal)},
 				{ResourceTypes.Wood, new ResourceReactiveData(InputResourceData.Wood)},
 				{ResourceTypes.GoldenOre, new ResourceReactiveData(InputResourceData.GoldenOre)},
+				{ResourceTypes.Stone, new ResourceReactiveData(InputResourceData.Stone)}
 			};
 
 			LogResourceDictionaryContent(_resourcesDictionary);
@@ -68,6 +72,11 @@ namespace Editor.Scripts.HubLocation
 		{
 			ConvenientLogger.Log(nameof(ResourceController), GlobalLogConstant.IsResourceControllerLogEnabled, $"Increase {resourceType} resource amount: {resourceAmount}. Now: {_resourcesDictionary[resourceType].Amount.Value + resourceAmount}");
 			_resourcesDictionary[resourceType].Amount.Value += resourceAmount;
+		}
+
+		public SerializableDictionary<ResourceTypes, int> GetRoomCost(RoomType roomType)
+		{
+			return _resourceRoomBuildPropertySo.ResourceRoomBuildPropertyDictionary[roomType].Cost;
 		}
 	}
 }

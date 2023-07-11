@@ -14,9 +14,9 @@ namespace Editor.Scripts.HubLocation.Rooms
 			{
 				case RoomType.Workshop:
 					var resourcesProperties = ResourceController.Instance.ResourceCraftPropertySo.ResourceCraftPropertyDictionary.Values.ToList();
-					return new Workshop(roomData, transformForBuilding, hubCameraController, resourcesProperties);
+					return new Workshop(roomType, roomData, transformForBuilding, hubCameraController, resourcesProperties);
 				case RoomType.ContractBoard:
-					return new ContractBoard(roomData, transformForBuilding, hubCameraController);
+					return new ContractBoard(roomType, roomData, transformForBuilding, hubCameraController);
 				/*case RoomType.Library:
 				case RoomType.TrainingGround:
 				case RoomType.Armory:

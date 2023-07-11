@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfe5db7d25bec5e41a412416e0c3f6bf, type: 3}
+  m_Name: ResourceRoomBuildPropertySO
+  m_EditorClassIdentifier: 
+  ResourceRoomBuildPropertyDictionary:
+    keys: 010000000d000000
+    values:
+    - Name: Workshop
+      RoomType: 1
+      Quantity: 1
+      Cost:
+        keys: 010000000400000007000000
+        values: 14000000050000000a000000
+    - Name: ContractBoard
+      RoomType: 13
+      Quantity: 1
+      Cost:
+        keys: 0100000004000000
+        values: 320000000b000000

@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3070984041662131809
 MonoBehaviour:
@@ -44,5 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c176cfeca7884839abd1a7eff1b34874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _resourceScriptableObject: {fileID: 11400000, guid: cd25f2536cd7760468651186ffae407c,
+  ResourceCraftPropertySo: {fileID: 11400000, guid: 9a09dbd0005a72d4088c119b47dc2fb8,
+    type: 2}
+  _resourceRoomBuildPropertySo: {fileID: 11400000, guid: f13107098d839ba4da292f44681f0e97,
     type: 2}

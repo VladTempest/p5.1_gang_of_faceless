@@ -5,9 +5,7 @@
         <ui:VisualElement name="RightPanel" picking-mode="Ignore" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 100%; align-items: flex-start; justify-content: flex-end;">
             <ui:VisualElement name="Description" class="styleBGPanel" style="height: 63%; width: 96%; margin-left: 2%; margin-right: 0; margin-top: 1%; align-items: center; justify-content: center;">
                 <ui:VisualElement name="ResourcesBlock" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-around; align-items: flex-end; align-self: center;">
-                    <ui:Label tabindex="-1" text="Cost: " display-tooltip-when-elided="true" name="Title" class="styleText" style="align-items: center;" />
                     <ui:Label tabindex="-1" text="100" display-tooltip-when-elided="true" name="ResourceCost" class="styleText" style="align-items: center;" />
-                    <ui:Label tabindex="-1" text="goldov" display-tooltip-when-elided="true" name="ResourceName" class="styleText" style="align-items: center;" />
                 </ui:VisualElement>
                 <ui:Button text="#button_build" display-tooltip-when-elided="true" name="BuildButton" view-data-key="BuildButton" class="styleText" style="width: 30%; margin-left: 51px; margin-right: 51px; margin-top: auto; margin-bottom: 51px;" />
             </ui:VisualElement>
