@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.HubLocation.ResourcesSO;
+using SaveSystem;
 using UnityEngine;
 
 namespace Editor.Scripts.HubLocation
@@ -28,16 +30,25 @@ namespace Editor.Scripts.HubLocation
 
 			Instance = this;
 			DontDestroyOnLoad(Instance);
-			
+		}
+
+		private void Start()
+		{
+			InitAndLogResources();
+		}
+
+		private void InitAndLogResources()
+		{
+			var dataPersistenceManager = DataPersistenceManager.Instance;
 			_resourcesDictionary = new Dictionary<ResourceTypes, ResourceReactiveData>
 			{
-				{ResourceTypes.Gold, new ResourceReactiveData(InputResourceData.Gold)},
-				{ResourceTypes.ParalyzingArrows, new ResourceReactiveData(InputResourceData.ParalyzingArrows)},
-				{ResourceTypes.ExplosionPotion, new ResourceReactiveData(InputResourceData.ExplosionPotion)},
-				{ResourceTypes.Metal, new ResourceReactiveData(InputResourceData.Metal)},
-				{ResourceTypes.Wood, new ResourceReactiveData(InputResourceData.Wood)},
-				{ResourceTypes.GoldenOre, new ResourceReactiveData(InputResourceData.GoldenOre)},
-				{ResourceTypes.Stone, new ResourceReactiveData(InputResourceData.Stone)}
+				{ResourceTypes.Gold, new ResourceReactiveData(InputResourceData.Gold, dataPersistenceManager)},
+				{ResourceTypes.ParalyzingArrows, new ResourceReactiveData(InputResourceData.ParalyzingArrows, dataPersistenceManager)},
+				{ResourceTypes.ExplosionPotion, new ResourceReactiveData(InputResourceData.ExplosionPotion, dataPersistenceManager)},
+				{ResourceTypes.Metal, new ResourceReactiveData(InputResourceData.Metal, dataPersistenceManager)},
+				{ResourceTypes.Wood, new ResourceReactiveData(InputResourceData.Wood, dataPersistenceManager)},
+				{ResourceTypes.GoldenOre, new ResourceReactiveData(InputResourceData.GoldenOre, dataPersistenceManager)},
+				{ResourceTypes.Stone, new ResourceReactiveData(InputResourceData.Stone, dataPersistenceManager)}
 			};
 
 			LogResourceDictionaryContent(_resourcesDictionary);

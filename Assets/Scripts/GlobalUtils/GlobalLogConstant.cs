@@ -13,6 +13,7 @@ namespace Editor.Scripts.GlobalUtils
 		public const bool IsHubRoomControllLogEnabled = false;
 		public const bool IsTouchLogEnabled = false;
 		public const bool IsLocalizeLogEnabled = false;
-		public const bool IsResourceControllerLogEnabled = true;
+		public const bool IsResourceControllerLogEnabled = false;
+		public const bool IsSaveLoadLogEnabled = true;
 	}
 }
