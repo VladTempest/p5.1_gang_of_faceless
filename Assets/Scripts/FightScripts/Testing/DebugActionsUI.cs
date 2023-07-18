@@ -24,7 +24,7 @@ public class DebugActionsUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F1))
         {
             ResourceController.Instance.IncreaseResource(ResourceTypes.ParalyzingArrows,10);
-            Debug.Log($"Increase ParalyzingArrows resource amount: 10. Now: {ResourceController.Instance.GetResourceReactiveData(ResourceTypes.ParalyzingArrows).Amount.Value}");
+            Debug.Log($"Increase ParalyzingArrows resource amount: 10. Now: {ResourceController.Instance.GetResourceReactiveData(ResourceTypes.ParalyzingArrows)?.Amount.Value}");
         }
        
     }

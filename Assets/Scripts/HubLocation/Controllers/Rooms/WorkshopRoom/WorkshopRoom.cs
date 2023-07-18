@@ -14,6 +14,7 @@ using Button = UnityEngine.UIElements.Button;
 
 namespace Editor.Scripts.HubLocation.Rooms
 {
+	[Serializable]
 	public class Workshop : RoomControllerBase
 	{
 		private const string DROPDOWN_KEY = "ResourceDropdown";

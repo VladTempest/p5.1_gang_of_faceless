@@ -10,6 +10,7 @@ using UnityEngine.UIElements;
 
 namespace Editor.Scripts.HubLocation.Rooms
 {
+	[Serializable]
 	public class ContractBoard : RoomControllerBase
 	{
 		private const string CONTRACTS_CONTAINER_KEY = "ContarctsContainer";

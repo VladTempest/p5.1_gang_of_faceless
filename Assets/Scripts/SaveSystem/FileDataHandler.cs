@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using Editor.Scripts.GlobalUtils;
 using UnityEngine;
 
@@ -16,55 +18,47 @@ namespace SaveSystem
 			_dataFileName = dataFileName;
 		}
 
-		public GameData Load()
+		public Dictionary<Type, object> Load()
 		{
 			string dataFilePath = Path.Combine(_dataDirectoryPath, _dataFileName);
-			GameData loadedData = null;
-
-			if (File.Exists(dataFilePath))
+			
+			if (!File.Exists(dataFilePath))
+            {
+                ConvenientLogger.LogError(nameof(FileDataHandler), GlobalLogConstant.IsSaveLoadLogEnabled, $"File {dataFilePath} does not exist");
+                return new Dictionary<Type, object>();
+            }
+			
+			using (FileStream stream = File.Open(dataFilePath, FileMode.Open))
 			{
 				try
 				{
-					string dataAsJson = "";
-					using (FileStream fs = new FileStream(dataFilePath, FileMode.Open))
-					{
-						using (StreamReader reader = new StreamReader(fs))
-						{
-							dataAsJson = reader.ReadToEnd();
-						}
-					}
-					
-					loadedData = JsonUtility.FromJson<GameData>(dataAsJson);
+					var formatter = new BinaryFormatter();
+					return (Dictionary<Type, object>)formatter.Deserialize(stream);
 				}
 				catch (Exception e)
 				{
-					Console.WriteLine(e);
+					ConvenientLogger.LogError(nameof(FileDataHandler), GlobalLogConstant.IsSaveLoadLogEnabled, $"Error loading data from file {dataFilePath} {e}");
 					throw;
 				}
 			}
 
-			return loadedData;
 		}
 		
-		public void Save(GameData data)
+		public void Save(object state)
 		{
 			string dataFilePath = Path.Combine(_dataDirectoryPath, _dataFileName);
+			if (!File.Exists(dataFilePath))
+			{
+				File.Create(dataFilePath).Dispose();
+			}
 			try
 			{
-				//create the directory if it doesn't exist
-				Directory.CreateDirectory(_dataDirectoryPath);
-				
-				//serialize the data into a json string
-				string dataAsJson = JsonUtility.ToJson(data, true);
-				
-				//write the json string to the file
-				using (FileStream fs = new FileStream(dataFilePath, FileMode.Create))
+				using (var stream = File.Open(Path.Combine(_dataDirectoryPath,_dataFileName),FileMode.Open))
 				{
-					using (StreamWriter writer = new StreamWriter(fs))
-					{
-						writer.Write(dataAsJson);
-					}
+					var formatter = new BinaryFormatter();
+					formatter.Serialize(stream, state);
 				}
+				
 			}
 			catch (Exception e)
 			{

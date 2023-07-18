@@ -12,14 +12,15 @@ namespace SaveSystem
 		[Header("File Storage Config")]
 		[SerializeField]
 		[Tooltip("The name of file where the data will be stored")]
-		private string fileName = "gameData.game";
+		private string fileName = "gameData.save";
 		
-		private GameData _gameData;
+		//private GameData _gameData;
 		public static DataPersistenceManager Instance { get; set; }
 		
 		private FileDataHandler _fileDataHandler; 
 		
-		private List<IDataPersistence> _dataPersistenceList;
+		private List<ISaveable> _dataPersistenceList;
+		private Dictionary<Type, object> _savedData;
 		
 		private void Awake()
 		{
@@ -36,60 +37,63 @@ namespace SaveSystem
 		private void Start()
 		{
 			_fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+			ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"Start DataPersistenceManager with path {Path.Combine(Application.persistentDataPath, fileName)}");
+			_savedData = new Dictionary<Type, object>();
 			LoadGame();
 		}
         
 
 		public void NewGame()
 		{
-			this._gameData = new GameData();
+			_savedData = new Dictionary<Type, object>();
 		}
 		
-		public void RegisterDataPersistence(IDataPersistence dataPersistence)
+		public void RegisterDataPersistence(ISaveable saveable)
 		{
 			if (_dataPersistenceList == null)
 			{
-				_dataPersistenceList = new List<IDataPersistence>();
+				_dataPersistenceList = new List<ISaveable>();
 			}
-			_dataPersistenceList.Add(dataPersistence);
+			_dataPersistenceList.Add(saveable);
 		}
 
+		[ContextMenu("Save Game")]
 		void SaveGame()
 		{
 			//ToDo - pass the data to other scripts so they can update it
 			foreach (var dataPersistence in _dataPersistenceList)
 			{
-				dataPersistence.SaveData(ref _gameData);
+				var saveData = dataPersistence.SaveData();
+
+				_savedData[saveData.Item1] = saveData.Item2;
 			}
 			
-			ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"Save game data {_gameData.goldCount}");
+			ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"Save game data {_savedData.Count} to path {Application.persistentDataPath}");
 			
-			_fileDataHandler.Save(_gameData);
+			_fileDataHandler.Save(_savedData);
 		}
 
 		void LoadGame()
 		{
-			_gameData = _fileDataHandler.Load();
+			_savedData = _fileDataHandler.Load();
 			// Load any saved data from a file using tha data handler
 			// if the file doesn't exist, create a new game
-			if (_gameData == null)
+			if (_savedData == null)
 			{
-				ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"Load game data");
+				ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"Load game data at path {Application.persistentDataPath}");
 				NewGame();
 			}
-
-			foreach (var dataPersistence in _dataPersistenceList)
-			{
-				dataPersistence.LoadData(_gameData);
-			}
+            
 			//ToDo - push the loaded data to all other scripts that need it
 			
-			ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"Load game data {_gameData.goldCount}");
+			ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"Load game data {_savedData.Count}");
 		}
+        
 
-		private void OnApplicationQuit()
+		public object GetState(Type type)
 		{
-			SaveGame();
+			ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"GetState {type} from path {Application.persistentDataPath}");
+			return _savedData.TryGetValue(type, out var state) ? state : null;
 		}
 	}
 }

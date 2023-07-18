@@ -10,6 +10,7 @@ using UnityEngine.UIElements;
 
 namespace Editor.Scripts.HubLocation.Rooms
 {
+	[Serializable]
 	public abstract class RoomControllerBase
 	{
 		public event Action<Transform> OnRoomFocusedEvent;
@@ -112,8 +113,15 @@ namespace Editor.Scripts.HubLocation.Rooms
 
 			var resourceReactiveData = ResourceController.Instance.GetResourceReactiveData(ResourceTypes.Gold);
 			var label = commonUIRootVisualElement.Q<Label>(resourceCountKey);
-			label.text = resourceReactiveData.Amount.Value.ToString();
-			resourceReactiveData.Amount.onValueChanged += (value) => label.text = value.ToString();
+			label.text = resourceReactiveData?.Amount.Value.ToString();
+			if (resourceReactiveData?.Amount != null)
+			{
+				resourceReactiveData.Amount.onValueChanged += (value) => label.text = value.ToString();
+			}
+			else
+			{
+				ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled, $"resourceReactiveData {resourceCountKey} is null");
+			}
 		}
 
 		private void SetUpBuildUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)

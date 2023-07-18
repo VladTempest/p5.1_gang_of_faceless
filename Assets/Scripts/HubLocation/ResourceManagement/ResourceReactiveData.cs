@@ -1,24 +1,14 @@
-﻿
+﻿using System;
 using Editor.Scripts.HubLocation.ReactiveData;
 using SaveSystem;
 
-public class ResourceReactiveData : IDataPersistence
+[Serializable]
+public class ResourceReactiveData
 {
 	public ReactiveInt Amount;
 
-	public ResourceReactiveData(int resourceAmount, DataPersistenceManager dataPersistenceManager)
+	public ResourceReactiveData(int resourceAmount)
 	{
-		dataPersistenceManager.RegisterDataPersistence(this);
 		Amount = new ReactiveInt(resourceAmount);
-	}
-
-	public void LoadData(GameData data)
-	{
-		Amount.Value = data.goldCount;
-	}
-
-	public void SaveData(ref GameData data)
-	{
-		data.goldCount = Amount.Value;
 	}
 }
