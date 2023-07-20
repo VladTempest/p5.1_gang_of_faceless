@@ -5,6 +5,7 @@ using Editor.Scripts.GlobalUtils;
 using Editor.Scripts.HubLocation.ResourcesSO;
 using SaveSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Editor.Scripts.HubLocation
 {
@@ -14,8 +15,8 @@ namespace Editor.Scripts.HubLocation
 		
 		public static ResourceController Instance { get; private set; }
 
-		[SerializeField]
-		private ResourceCraftPropertySO ResourceCraftPropertySo;
+		[FormerlySerializedAs("ResourceCraftPropertySo")] [SerializeField]
+		private ResourceCraftPropertySO _resourceCraftPropertySo;
 		[SerializeField]
 		private ResourceRoomBuildPropertySO _resourceRoomBuildPropertySo;
 
@@ -38,12 +39,12 @@ namespace Editor.Scripts.HubLocation
 		{
 			DataPersistenceManager.Instance.RegisterDataPersistence(this);
 			
-			InitializeResourcesDictionary();
+			LoadData();
 			
 			InitAndLogResources();
 		}
 
-		private void InitializeResourcesDictionary()
+		public void LoadData()
 		{
 			
 			_persistentData = (SaveData)DataPersistenceManager.Instance.GetState(GetType());
@@ -52,12 +53,25 @@ namespace Editor.Scripts.HubLocation
 				_persistentData = new SaveData(new Dictionary<ResourceTypes, ResourceReactiveData>());
 			}
 
-			_resourcesDictionary = new Dictionary<ResourceTypes, ResourceReactiveData>();
-			foreach (var pair in _persistentData.ResourcesDictionary.ToDictionary())
+			var convertedDictionary = _persistentData.ResourcesDictionary.ToDictionary().ToDictionary(pair => pair.Key, pair => new ResourceReactiveData(pair.Value));
+            
+			if (_resourcesDictionary != null && _resourcesDictionary.Count != 0)
 			{
-				_resourcesDictionary.Add(pair.Key, new ResourceReactiveData(pair.Value));
+				foreach (var pair in convertedDictionary)
+				{
+					if (_resourcesDictionary.TryGetValue(pair.Key, out var value))
+					{
+						value.Amount.Value = pair.Value.Amount.Value;
+					}
+					else
+					{
+						_resourcesDictionary.Add(pair.Key, pair.Value);
+					}
+				}
+				return;
 			}
-
+			
+			_resourcesDictionary = new Dictionary<ResourceTypes, ResourceReactiveData>(convertedDictionary);
 		}
 		
 		private void InitAndLogResources()
@@ -145,7 +159,7 @@ namespace Editor.Scripts.HubLocation
 		
 		public List<ResourceCraftProperty> GetCraftCostList()
 		{
-			return ResourceCraftPropertySo.ResourceCraftPropertyDictionary.Values.ToList();
+			return _resourceCraftPropertySo.ResourceCraftPropertyDictionary.Values.ToList();
 		}
         
 		public (Type, object) SaveData()
@@ -161,33 +175,9 @@ namespace Editor.Scripts.HubLocation
 		
 		public SaveData(Dictionary<ResourceTypes,ResourceReactiveData> resourcesDictionary)
 		{
-			ResourcesDictionary = new BinarySerializableDictionary<ResourceTypes, int>();
-			foreach (var pair in resourcesDictionary)
-			{
-				ResourcesDictionary.Add((pair.Key, pair.Value.Amount.Value));
-			}
-		}
-	}
-	
-	[System.Serializable]
-	public class BinarySerializableDictionary<TKey, TValue>
-	{
-		public List<TKey> keys=new List<TKey>();
-		public List<TValue> values=new List<TValue>();
-    
-		public Dictionary<TKey, TValue> ToDictionary()
-		{
-			Dictionary<TKey, TValue> dictionary = new Dictionary<TKey, TValue>();
-			for (var i = 0; i!= Math.Min(keys.Count, values.Count); i++)
-				dictionary.Add(keys[i], values[i]);
-            
-			return dictionary;
-		}
-		
-		public void Add((TKey,TValue) item)
-		{
-			keys.Add(item.Item1);
-			values.Add(item.Item2);
+			var convertedDictionary = resourcesDictionary.ToDictionary(pair => pair.Key, pair => pair.Value.Amount.Value);
+			
+			ResourcesDictionary = new BinarySerializableDictionary<ResourceTypes, int>(convertedDictionary);
 		}
 	}
 }

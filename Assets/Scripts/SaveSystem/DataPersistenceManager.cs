@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Editor.Scripts.GlobalUtils;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace SaveSystem
@@ -13,10 +14,11 @@ namespace SaveSystem
 		[SerializeField]
 		[Tooltip("The name of file where the data will be stored")]
 		private string fileName = "gameData.save";
-		
-		//private GameData _gameData;
+        
 		public static DataPersistenceManager Instance { get; set; }
-		
+
+		[SerializeField]
+		private bool _isAutosaveActive = false;
 		private FileDataHandler _fileDataHandler; 
 		
 		private List<ISaveable> _dataPersistenceList;
@@ -56,8 +58,8 @@ namespace SaveSystem
 			}
 			_dataPersistenceList.Add(saveable);
 		}
-
-		[ContextMenu("Save Game")]
+        
+		[Button("Save Game")]
 		void SaveGame()
 		{
 			//ToDo - pass the data to other scripts so they can update it
@@ -73,22 +75,38 @@ namespace SaveSystem
 			_fileDataHandler.Save(_savedData);
 		}
 
+		[Button("Load Game")]
 		void LoadGame()
 		{
 			_savedData = _fileDataHandler.Load();
-			// Load any saved data from a file using tha data handler
-			// if the file doesn't exist, create a new game
+
 			if (_savedData == null)
 			{
 				ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"Load game data at path {Application.persistentDataPath}");
 				NewGame();
 			}
-            
-			//ToDo - push the loaded data to all other scripts that need it
+
+			if (_dataPersistenceList == null)
+			{
+				_dataPersistenceList = new List<ISaveable>();
+			}
+			foreach (var saveable in _dataPersistenceList)
+			{
+				saveable.LoadData();
+			}
 			
 			ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"Load game data {_savedData.Count}");
 		}
-        
+
+		private void OnApplicationQuit()
+		{
+			if (_isAutosaveActive)
+			{
+				ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled,
+					$"Autosaved on Application quit");
+				SaveGame();
+			}
+		}
 
 		public object GetState(Type type)
 		{
