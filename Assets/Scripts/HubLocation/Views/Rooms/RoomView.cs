@@ -13,7 +13,6 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 	{
 		[SerializeField]
 		private SerializableDictionary<RoomState, GameObject> _roomStateDictionary;
-		private RoomState _roomState = RoomState.Locked;
 		private Dictionary<RoomViewUIType,UIDocument> _uiDocumentDictionary = new();
 		private RoomControllerBase RoomController { get; set; }
 		
@@ -37,10 +36,9 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 			StartSetUpUI();
 			RoomController.SetUpRoomViewUI(_uiDocumentDictionary);
 
-			//ToDo: this is a temporary solution, need to be changed with adding Save/Load system and Conditional Room Availability
-			_roomState = RoomState.Unlocked;
+
 			UpdateUI();
-			UpdateVisuals(_roomState);
+			UpdateVisuals(roomController.RoomState);
 			
 			return this;
 		}
@@ -53,33 +51,7 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 
 		public void ChangeRoomState(RoomState roomState)
 		{
-			switch (roomState)
-			{
-				case RoomState.Locked:
-					ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomController.RoomName} can't be locked yet");
-					return;
-				case RoomState.Unlocked:
-					if (_roomState == RoomState.Locked)
-					{
-						ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomController.RoomName} is unlocked");
-						_roomState = roomState;
-						UpdateUI();
-						break;
-					}
-					return;
-				case RoomState.Built:
-					if (_roomState == RoomState.Unlocked)
-					{
-						ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomController.RoomName} is built");
-						_roomState = roomState;
-						UpdateUI();
-						break;
-					}
-					return;
-				default:
-					throw new ArgumentOutOfRangeException(nameof(roomState), roomState, null);
-			}
-
+			UpdateUI();
 			UpdateVisuals(roomState);
 		}
 
@@ -125,10 +97,10 @@ namespace Editor.Scripts.HubLocation.Views.Rooms
 					uiDocument.Value.rootVisualElement.visible = true;
 					break;
 				case RoomViewUIType.ForBuilding:
-					uiDocument.Value.rootVisualElement.visible = _roomState == RoomState.Unlocked;
+					uiDocument.Value.rootVisualElement.visible = RoomController.RoomState == RoomState.Unlocked;
 					break;
 				case RoomViewUIType.ForFunctionality:
-					uiDocument.Value.rootVisualElement.visible = _roomState == RoomState.Built;
+					uiDocument.Value.rootVisualElement.visible = RoomController.RoomState == RoomState.Built;
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

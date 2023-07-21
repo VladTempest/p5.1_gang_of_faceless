@@ -14,7 +14,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 	public class ContractBoard : RoomControllerBase
 	{
 		private const string CONTRACTS_CONTAINER_KEY = "ContarctsContainer";
-		public ContractBoard(RoomType roomType, RoomData roomData, Transform transformForBuilding, HubCameraController hubCameraController) : base(roomType, roomData, transformForBuilding, hubCameraController)
+		public ContractBoard(RoomType roomType, RoomData roomData, RoomState roomState, Transform transformForBuilding, HubCameraController hubCameraController) : base(roomType, roomData, roomState, transformForBuilding, hubCameraController)
 		{
 			
 		}

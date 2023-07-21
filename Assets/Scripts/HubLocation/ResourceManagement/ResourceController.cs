@@ -39,21 +39,23 @@ namespace Editor.Scripts.HubLocation
 		{
 			DataPersistenceManager.Instance.RegisterDataPersistence(this);
 			
-			LoadData();
+			RestoreData();
 			
 			InitAndLogResources();
 		}
 
-		public void LoadData()
+		public void RestoreData()
 		{
 			
-			_persistentData = (SaveData)DataPersistenceManager.Instance.GetState(GetType());
+			var _persistentDataDict = DataPersistenceManager.Instance.GetState(GetType());
+
+			_persistentData = (SaveData) _persistentDataDict;
 			if (_persistentData == null)
 			{
 				_persistentData = new SaveData(new Dictionary<ResourceTypes, ResourceReactiveData>());
 			}
 
-			var convertedDictionary = _persistentData.ResourcesDictionary.ToDictionary().ToDictionary(pair => pair.Key, pair => new ResourceReactiveData(pair.Value));
+			var convertedDictionary = _persistentData.ResourcesDictionary.ToDictionary(pair => pair.Key, pair => new ResourceReactiveData(pair.Value));
             
 			if (_resourcesDictionary != null && _resourcesDictionary.Count != 0)
 			{
@@ -162,22 +164,22 @@ namespace Editor.Scripts.HubLocation
 			return _resourceCraftPropertySo.ResourceCraftPropertyDictionary.Values.ToList();
 		}
         
-		public (Type, object) SaveData()
+		public (Type, object) CaptureData()
 		{
 			return (GetType(), new SaveData(_resourcesDictionary));
 		}
-	}
-
-	[Serializable]
-	class SaveData
-	{
-		public BinarySerializableDictionary<ResourceTypes,int> ResourcesDictionary;
 		
-		public SaveData(Dictionary<ResourceTypes,ResourceReactiveData> resourcesDictionary)
+		[Serializable]
+		class SaveData
 		{
-			var convertedDictionary = resourcesDictionary.ToDictionary(pair => pair.Key, pair => pair.Value.Amount.Value);
+			public Dictionary<ResourceTypes,int> ResourcesDictionary;
+		
+			public SaveData(Dictionary<ResourceTypes,ResourceReactiveData> resourcesDictionary)
+			{
+				var convertedDictionary = resourcesDictionary.ToDictionary(pair => pair.Key, pair => pair.Value.Amount.Value);
 			
-			ResourcesDictionary = new BinarySerializableDictionary<ResourceTypes, int>(convertedDictionary);
+				ResourcesDictionary = new Dictionary<ResourceTypes, int>(convertedDictionary);
+			}
 		}
 	}
 }

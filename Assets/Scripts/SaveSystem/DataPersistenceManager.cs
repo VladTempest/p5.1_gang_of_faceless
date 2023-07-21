@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Editor.Scripts.GlobalUtils;
+using SaveSystem.FileDataHandlers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -17,9 +18,11 @@ namespace SaveSystem
         
 		public static DataPersistenceManager Instance { get; set; }
 
+		[SerializeField] private FileHandlerType _fileHandlerType = FileHandlerType.Binary;
+		
 		[SerializeField]
 		private bool _isAutosaveActive = false;
-		private FileDataHandler _fileDataHandler; 
+		private IFileDataHandler _fileDataHandler; 
 		
 		private List<ISaveable> _dataPersistenceList;
 		private Dictionary<Type, object> _savedData;
@@ -38,12 +41,26 @@ namespace SaveSystem
 
 		private void Start()
 		{
-			_fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+			
+			_fileDataHandler = GetFileDataHandler(_fileHandlerType);
 			ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"Start DataPersistenceManager with path {Path.Combine(Application.persistentDataPath, fileName)}");
 			_savedData = new Dictionary<Type, object>();
 			LoadGame();
 		}
-        
+
+		private IFileDataHandler GetFileDataHandler(FileHandlerType fileHandlerType)
+		{
+			switch (fileHandlerType)
+			{
+				case FileHandlerType.Binary:
+					return new BinaryFileDataHandler(Application.persistentDataPath, fileName);
+				case FileHandlerType.JSON:
+					return new JSONFileDataHandler(Application.persistentDataPath, fileName);
+				default:
+					throw new ArgumentOutOfRangeException(nameof(fileHandlerType), fileHandlerType, null);
+			}
+		}
+
 
 		public void NewGame()
 		{
@@ -60,12 +77,11 @@ namespace SaveSystem
 		}
         
 		[Button("Save Game")]
-		void SaveGame()
+		private void SaveGame()
 		{
-			//ToDo - pass the data to other scripts so they can update it
 			foreach (var dataPersistence in _dataPersistenceList)
 			{
-				var saveData = dataPersistence.SaveData();
+				var saveData = dataPersistence.CaptureData();
 
 				_savedData[saveData.Item1] = saveData.Item2;
 			}
@@ -76,7 +92,7 @@ namespace SaveSystem
 		}
 
 		[Button("Load Game")]
-		void LoadGame()
+		private void LoadGame()
 		{
 			_savedData = _fileDataHandler.Load();
 
@@ -92,10 +108,20 @@ namespace SaveSystem
 			}
 			foreach (var saveable in _dataPersistenceList)
 			{
-				saveable.LoadData();
+				saveable.RestoreData();
 			}
 			
 			ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"Load game data {_savedData.Count}");
+		}
+
+		[Button("Delete Save File")]
+		private void DeleteSaveFile()
+		{
+			if (_fileDataHandler == null)
+			{
+				_fileDataHandler = GetFileDataHandler(_fileHandlerType);
+			}
+			_fileDataHandler.DeleteSaveFile();
 		}
 
 		private void OnApplicationQuit()

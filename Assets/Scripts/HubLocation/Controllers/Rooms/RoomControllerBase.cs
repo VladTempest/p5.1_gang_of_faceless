@@ -15,6 +15,14 @@ namespace Editor.Scripts.HubLocation.Rooms
 	{
 		public event Action<Transform> OnRoomFocusedEvent;
 		public event Action OnRoomUnfocusedEvent;
+
+		public RoomState RoomState
+		{
+			get => _roomState;
+			set => ChangeRoomState(value);
+		}
+
+		private RoomState _roomState = RoomState.Locked;
 		private RoomView RoomView { get; set; }
 		public string RoomName { get; }
 		public SerializableDictionary<ResourceTypes, int> Cost { get; set; }
@@ -30,11 +38,12 @@ namespace Editor.Scripts.HubLocation.Rooms
 		public bool IsFocused => !_hubCameraController.IsFreeLook;
 		private HubCameraController _hubCameraController;
 		
-		protected RoomControllerBase(RoomType roomType, RoomData roomData, Transform transformForBuilding, HubCameraController hubCameraController)
+		protected RoomControllerBase(RoomType roomType, RoomData roomData, RoomState roomState, Transform transformForBuilding, HubCameraController hubCameraController)
 		{
 			OnRoomFocusedEvent += hubCameraController.FocusOnRoom;
 			OnRoomUnfocusedEvent += hubCameraController.UnfocusOnRoom;
 			_hubCameraController = hubCameraController;
+			_roomState = roomState;
 			Cost = ResourceController.Instance.GetRoomCost(roomType);
 			RoomName = roomData.RoomName;
 			RoomView = GameObject.Instantiate(roomData.RoomViewPrefab, transformForBuilding);
@@ -60,7 +69,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 			ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomName} is unfocused");
 		}
 
-		private void TryUpgradeRoomState()
+		private bool TryUpgradeRoomState()
 		{
 			foreach (var pair in Cost)
 			{
@@ -70,7 +79,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 				{
 					ConvenientLogger.Log(nameof(RoomControllerBase), GlobalLogConstant.IsHubRoomControllLogEnabled,
 						$"Player can't afford room {RoomName}");
-					return;
+					return false;
 				}
 			}
 			foreach (var pair in Cost)
@@ -80,8 +89,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 				ResourceController.Instance.DecreaseResource(pair.Key, pair.Value);
 			}
             
-			RoomView.ChangeRoomState(RoomState.Built);
-			OnRoomBuilt();
+			return true;
 		}
 
 		public void SetUpRoomViewUI(Dictionary<RoomViewUIType, UIDocument> uiDocumentDictionary)
@@ -131,7 +139,7 @@ namespace Editor.Scripts.HubLocation.Rooms
 			var rootVisualElement = uiDocumentDictionary[RoomViewUIType.ForBuilding].rootVisualElement;
 			
 			var buildButton = rootVisualElement.Q<Button>(BUILD_BUTTON_KEY);
-			buildButton.clicked += TryUpgradeRoomState;
+			buildButton.clicked += () => RoomState = RoomState.Built ;
 			
 			var labelResourceCost = rootVisualElement.Q<Label>(RESOURCE_COST_KEY);
 			
@@ -150,6 +158,35 @@ namespace Editor.Scripts.HubLocation.Rooms
 			}
 
 			labelResourceCost.text = costsStringBuilder.ToString();
+		}
+
+		private void ChangeRoomState(RoomState roomState)
+		{
+			switch (roomState)
+			{
+				case RoomState.Locked:
+					ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomName} can't be locked yet");
+					return;
+				case RoomState.Unlocked:
+					if (_roomState == RoomState.Locked)
+					{
+						ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomName} is unlocked");
+						_roomState = roomState;
+						RoomView.ChangeRoomState(roomState);
+					}
+					break;
+				case RoomState.Built:
+					if (_roomState == RoomState.Unlocked && TryUpgradeRoomState())
+					{
+						ConvenientLogger.Log(nameof(RoomView), GlobalLogConstant.IsHubRoomControllLogEnabled, $"roomController {RoomName} is built");
+						_roomState = roomState;
+						RoomView.ChangeRoomState(roomState);
+						OnRoomBuilt();
+					}
+					break;
+				default:
+					throw new ArgumentOutOfRangeException(nameof(roomState), roomState, null);
+			}
 		}
 	}
 

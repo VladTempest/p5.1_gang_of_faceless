@@ -28,8 +28,8 @@ namespace Editor.Scripts.HubLocation.Rooms
 		private Label _resourcesCosts;
 		private Button _craftButton;
 		
-		public Workshop(RoomType roomType, RoomData roomData, Transform transformForBuilding, HubCameraController hubCameraController, List<ResourceCraftProperty> craftableItems) :
-			base(roomType, roomData, transformForBuilding, hubCameraController)
+		public Workshop(RoomType roomType, RoomData roomData, RoomState roomState, Transform transformForBuilding, HubCameraController hubCameraController, List<ResourceCraftProperty> craftableItems) :
+			base(roomType, roomData, roomState, transformForBuilding, hubCameraController)
 		{
 			_craftableItems = craftableItems;
 			PopulateDropdown(_stuffDropdown, _craftableItems);

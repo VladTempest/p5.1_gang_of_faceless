@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -6,7 +7,7 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
 {
 	[SerializeField] private List<TKey> keys = new List<TKey>();
 	[SerializeField] private List<TValue> values = new List<TValue>();
-
+    
 	// OnBeforeSerialize is called immediately before Unity serializes your object
 	public void OnBeforeSerialize()
 	{

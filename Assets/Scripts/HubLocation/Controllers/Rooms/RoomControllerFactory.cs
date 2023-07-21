@@ -2,21 +2,22 @@
 using System.Linq;
 using Editor.Scripts.HubLocation.CameraController;
 using Editor.Scripts.HubLocation.RoomDataSO;
+using Editor.Scripts.HubLocation.Views.Rooms;
 using UnityEngine;
 
 namespace Editor.Scripts.HubLocation.Rooms
 {
 	public static class RoomControllerFactory
 	{
-		public static RoomControllerBase CreateRoomControllerByRoomType(RoomType roomType, RoomData roomData, Transform transformForBuilding, HubCameraController hubCameraController)
+		public static RoomControllerBase CreateRoomControllerByRoomType(RoomType roomType, RoomData roomData, RoomState roomState, Transform transformForBuilding, HubCameraController hubCameraController)
 		{
 			switch (roomType)
 			{
 				case RoomType.Workshop:
 					var resourcesProperties = ResourceController.Instance.GetCraftCostList();
-					return new Workshop(roomType, roomData, transformForBuilding, hubCameraController, resourcesProperties);
+					return new Workshop(roomType, roomData, roomState, transformForBuilding, hubCameraController, resourcesProperties);
 				case RoomType.ContractBoard:
-					return new ContractBoard(roomType, roomData, transformForBuilding, hubCameraController);
+					return new ContractBoard(roomType, roomData, roomState, transformForBuilding, hubCameraController);
 				/*case RoomType.Library:
 				case RoomType.TrainingGround:
 				case RoomType.Armory:
