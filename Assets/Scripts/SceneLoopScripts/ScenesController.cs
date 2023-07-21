@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +8,7 @@ namespace Editor.Scripts.SceneLoopScripts
 {
     public class ScenesController : MonoBehaviour
     {
+        public event Action OnLoadingSceneStarted;
         public static ScenesController Instance { get; set; }
         
         [SerializeField] private List<SceneWithEnum> _sceneWithEnums;
@@ -36,12 +38,14 @@ namespace Editor.Scripts.SceneLoopScripts
 
         public void LoadScene(ScenesEnum sceneEnumToLoad)
         {
+            OnLoadingSceneStarted?.Invoke();
             string sceneToLoad = GetSceneNameFromSceneEnum(sceneEnumToLoad);
             LoadWithLoadingScreen(sceneToLoad);
         }
 
         public void LoadScene(string sceneName)
         {
+            OnLoadingSceneStarted?.Invoke();
             LoadWithLoadingScreen(sceneName);
         }
 

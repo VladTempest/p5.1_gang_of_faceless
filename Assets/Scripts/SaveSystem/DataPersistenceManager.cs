@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Editor.Scripts.GlobalUtils;
+using Editor.Scripts.SceneLoopScripts;
 using SaveSystem.FileDataHandlers;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -41,11 +42,22 @@ namespace SaveSystem
 
 		private void Start()
 		{
+			ScenesController.Instance.OnLoadingSceneStarted += SceneController_OnLoadingSceneStarted;
 			
 			_fileDataHandler = GetFileDataHandler(_fileHandlerType);
 			ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"Start DataPersistenceManager with path {Path.Combine(Application.persistentDataPath, fileName)}");
 			_savedData = new Dictionary<Type, object>();
 			LoadGame();
+		}
+
+		private void OnDestroy()
+		{
+			ScenesController.Instance.OnLoadingSceneStarted -= SceneController_OnLoadingSceneStarted;
+		}
+
+		private void SceneController_OnLoadingSceneStarted()
+		{
+			AutoSave();
 		}
 
 		private IFileDataHandler GetFileDataHandler(FileHandlerType fileHandlerType)
@@ -66,7 +78,7 @@ namespace SaveSystem
 		{
 			_savedData = new Dictionary<Type, object>();
 		}
-		
+
 		public void RegisterDataPersistence(ISaveable saveable)
 		{
 			if (_dataPersistenceList == null)
@@ -75,7 +87,7 @@ namespace SaveSystem
 			}
 			_dataPersistenceList.Add(saveable);
 		}
-        
+
 		[Button("Save Game")]
 		private void SaveGame()
 		{
@@ -126,6 +138,11 @@ namespace SaveSystem
 
 		private void OnApplicationQuit()
 		{
+			AutoSave();
+		}
+
+		public void AutoSave()
+		{
 			if (_isAutosaveActive)
 			{
 				ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled,
@@ -133,6 +150,7 @@ namespace SaveSystem
 				SaveGame();
 			}
 		}
+
 
 		public object GetState(Type type)
 		{

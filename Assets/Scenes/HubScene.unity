@@ -10035,21 +10035,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2503975849727444933, guid: 01381f11d9baf274fae674a032441908,
-        type: 3}
-      propertyPath: fileName
-      value: game_save
-      objectReference: {fileID: 0}
-    - target: {fileID: 2503975849727444933, guid: 01381f11d9baf274fae674a032441908,
-        type: 3}
-      propertyPath: _fileHandlerType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2503975849727444933, guid: 01381f11d9baf274fae674a032441908,
-        type: 3}
-      propertyPath: _isAutosaveActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5272924773005473065, guid: 01381f11d9baf274fae674a032441908,
         type: 3}
       propertyPath: m_RootOrder
