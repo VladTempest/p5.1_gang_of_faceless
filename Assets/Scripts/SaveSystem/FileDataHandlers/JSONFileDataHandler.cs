@@ -13,7 +13,7 @@ namespace SaveSystem
 {
     public class JSONFileDataHandler : IFileDataHandler
     {
-        
+        //Didn't find a way to serialize Dictionary<Type, object> with TypeNameHandling.All
         private string _dataDirectoryPath;
         private string _dataFileName;
         
@@ -29,23 +29,26 @@ namespace SaveSystem
         {
             if (!File.Exists(_dataFilePath))
             {
-                ConvenientLogger.LogError(nameof(JSONFileDataHandler), GlobalLogConstant.IsSaveLoadLogEnabled, $"File {_dataFilePath} does not exist");
+                Debug.LogError($"File {_dataFilePath} does not exist");
                 return new Dictionary<Type, object>();
             }
 
+            JsonSerializer serializer = new JsonSerializer
+            {
+                TypeNameHandling = TypeNameHandling.All // Add this setting
+            };
+
             try
             {
-                var jsonString = File.ReadAllText(_dataFilePath);
-                JsonReader reader = new JsonTextReader(new StringReader(jsonString));
-                var serializer = new JsonSerializer();
-                var result = serializer.Deserialize<Dictionary<Type, JToken>>(reader)
-                    .ToDictionary(k => k.Key, v => (object)v.Value.ToObject<object>());
-
-                return result;
+                using (StreamReader sr = new StreamReader(_dataFilePath))
+                using (JsonTextReader reader = new JsonTextReader(sr))
+                {
+                    return serializer.Deserialize<Dictionary<Type, object>>(reader);
+                }
             }
             catch (Exception e)
             {
-                ConvenientLogger.LogError(nameof(JSONFileDataHandler), GlobalLogConstant.IsSaveLoadLogEnabled, $"Error loading data from file {_dataFilePath} {e}");
+                Debug.LogError($"Error loading data from file {_dataFilePath} {e}");
                 throw;
             }
         }
@@ -58,14 +61,21 @@ namespace SaveSystem
             }
             try
             {
-                Dictionary<Type, object> stateDictionary = (Dictionary<Type, object>) state;
-                Dictionary<Type, object> serializableDictionary = new Dictionary<Type, object>(stateDictionary);
-                var jsonString = JsonConvert.SerializeObject(serializableDictionary, Formatting.Indented);
-                File.WriteAllText(_dataFilePath, jsonString);
+                JsonSerializer serializer = new JsonSerializer
+                {
+                    Formatting = Formatting.Indented,
+                    TypeNameHandling = TypeNameHandling.All // Add this setting
+                };
+
+                using (StreamWriter sw = new StreamWriter(_dataFilePath))
+                using (JsonTextWriter writer = new JsonTextWriter(sw))
+                {
+                    serializer.Serialize(writer, state);
+                }
             }
             catch (Exception e)
             {
-                ConvenientLogger.LogError(nameof(JSONFileDataHandler), GlobalLogConstant.IsSaveLoadLogEnabled, $"Error saving data to file {_dataFilePath} {e}");
+                Debug.LogError($"Error saving data to file {_dataFilePath} {e}");
                 throw;
             }
         }
