@@ -164,7 +164,7 @@ namespace Editor.Scripts.HubLocation
 			return _resourceCraftPropertySo.ResourceCraftPropertyDictionary.Values.ToList();
 		}
         
-		public (Type, object) CaptureData()
+		public (object, object) CaptureData()
 		{
 			return (GetType(), new SaveData(_resourcesDictionary));
 		}

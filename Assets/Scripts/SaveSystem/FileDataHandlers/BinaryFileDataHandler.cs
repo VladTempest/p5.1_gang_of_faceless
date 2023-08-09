@@ -20,13 +20,13 @@ namespace SaveSystem
 			_dataFileName = dataFileName;
 		}
 
-		public Dictionary<Type, object> Load()
+		public Dictionary<object, object> Load()
 		{
             
 			if (!File.Exists(_dataFilePath))
             {
                 ConvenientLogger.LogError(nameof(BinaryFileDataHandler), GlobalLogConstant.IsSaveLoadLogEnabled, $"File {_dataFilePath} does not exist");
-                return new Dictionary<Type, object>();
+                return new Dictionary<object, object>();
             }
 			
 			using (FileStream stream = File.Open(_dataFilePath, FileMode.Open))
@@ -34,7 +34,7 @@ namespace SaveSystem
 				try
 				{
 					var formatter = new BinaryFormatter();
-					return (Dictionary<Type, object>)formatter.Deserialize(stream);
+					return (Dictionary<object, object>)formatter.Deserialize(stream);
 				}
 				catch (Exception e)
 				{

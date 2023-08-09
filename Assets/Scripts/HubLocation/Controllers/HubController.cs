@@ -81,7 +81,7 @@ namespace Editor.Scripts.HubLocation
 			}
 		}
 
-		public (Type, object) CaptureData()
+		public (object, object) CaptureData()
 		{
 			Dictionary<RoomType, RoomState> roomStateDictionary = new Dictionary<RoomType, RoomState>();
 			foreach (var pair in _roomControllerDictionary)

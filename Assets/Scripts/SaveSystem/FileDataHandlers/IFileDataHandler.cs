@@ -5,7 +5,7 @@ namespace SaveSystem.FileDataHandlers
 {
 	public interface IFileDataHandler
 	{
-		Dictionary<Type, object> Load();
+		Dictionary<object, object> Load();
 		void Save(object state);
 		void DeleteSaveFile();
 	}

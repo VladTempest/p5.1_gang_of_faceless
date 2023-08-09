@@ -26,7 +26,7 @@ namespace SaveSystem
 		private IFileDataHandler _fileDataHandler; 
 		
 		private List<ISaveable> _dataPersistenceList;
-		private Dictionary<Type, object> _savedData;
+		private Dictionary<object, object> _savedData;
 		
 		private void Awake()
 		{
@@ -46,7 +46,7 @@ namespace SaveSystem
 			
 			_fileDataHandler = GetFileDataHandler(_fileHandlerType);
 			ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"Start DataPersistenceManager with path {Path.Combine(Application.persistentDataPath, fileName)}");
-			_savedData = new Dictionary<Type, object>();
+			_savedData = new Dictionary<object, object>();
 			LoadGame();
 		}
 
@@ -66,8 +66,6 @@ namespace SaveSystem
 			{
 				case FileHandlerType.Binary:
 					return new BinaryFileDataHandler(Application.persistentDataPath, fileName);
-				case FileHandlerType.JSON:
-					return new JSONFileDataHandler(Application.persistentDataPath, fileName);
 				default:
 					throw new ArgumentOutOfRangeException(nameof(fileHandlerType), fileHandlerType, null);
 			}
@@ -76,7 +74,7 @@ namespace SaveSystem
 
 		public void NewGame()
 		{
-			_savedData = new Dictionary<Type, object>();
+			_savedData = new Dictionary<object, object>();
 		}
 
 		public void RegisterDataPersistence(ISaveable saveable)
@@ -152,10 +150,10 @@ namespace SaveSystem
 		}
 
 
-		public object GetState(Type type)
+		public object GetState(object key)
 		{
-			ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"GetState {type} from path {Application.persistentDataPath}");
-			return _savedData.TryGetValue(type, out var state) ? state : null;
+			ConvenientLogger.Log(nameof(DataPersistenceManager), GlobalLogConstant.IsSaveLoadLogEnabled, $"GetState {key} from path {Application.persistentDataPath}");
+			return _savedData.TryGetValue(key, out var state) ? state : null;
 		}
 	}
 }

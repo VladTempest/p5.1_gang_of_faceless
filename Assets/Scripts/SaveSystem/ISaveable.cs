@@ -4,7 +4,7 @@ namespace SaveSystem
 {
 	public interface ISaveable
 	{
-		(Type, object) CaptureData();
+		(object, object) CaptureData();
 		void RestoreData();
 	}
 }
