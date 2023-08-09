@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using SaveSystem;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
@@ -10,6 +12,8 @@ namespace Editor.Scripts.MainMenuScripts.UI
 	{
 		private List<Locale> _locale;
 		private List<Locale> Locale => _locale ??= LocalizationSettings.AvailableLocales.Locales;
+        
+
 		public void ChooseNextLanguage()
 		{
 			int index = Locale.IndexOf(LocalizationSettings.SelectedLocale);

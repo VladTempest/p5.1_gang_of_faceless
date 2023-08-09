@@ -125,13 +125,14 @@ namespace SaveSystem
 		}
 
 		[Button("Delete Save File")]
-		private void DeleteSaveFile()
+		public void DeleteSaveFile()
 		{
 			if (_fileDataHandler == null)
 			{
 				_fileDataHandler = GetFileDataHandler(_fileHandlerType);
 			}
 			_fileDataHandler.DeleteSaveFile();
+			_savedData = null;
 		}
 
 		private void OnApplicationQuit()
