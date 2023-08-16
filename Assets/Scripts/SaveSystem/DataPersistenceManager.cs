@@ -134,12 +134,7 @@ namespace SaveSystem
 			_fileDataHandler.DeleteSaveFile();
 			_savedData = null;
 		}
-
-		private void OnApplicationQuit()
-		{
-			AutoSave();
-		}
-
+        
 		public void AutoSave()
 		{
 			if (_isAutosaveActive)

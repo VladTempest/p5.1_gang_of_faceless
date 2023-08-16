@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fileName: game_save
   _fileHandlerType: 0
-  _isAutosaveActive: 0
+  _isAutosaveActive: 1
