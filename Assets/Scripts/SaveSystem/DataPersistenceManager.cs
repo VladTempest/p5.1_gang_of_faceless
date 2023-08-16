@@ -87,7 +87,7 @@ namespace SaveSystem
 		}
 
 		[Button("Save Game")]
-		private void SaveGame()
+		public void SaveGame()
 		{
 			foreach (var dataPersistence in _dataPersistenceList)
 			{
